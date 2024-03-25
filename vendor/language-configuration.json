@@ -1,0 +1,105 @@
+{
+	"author": "Rowe Wilson Frederisk Holme",
+	"license": "MIT",
+	"source": "https://github.com/Frederisk/Wikitext-VSCode-Extension/blob/master/language-configuration.yaml",
+	"comments": {
+		"blockComment": [
+			"<!--",
+			"-->"
+		]
+	},
+	"brackets": [
+		[
+			"[",
+			"]"
+		],
+		[
+			"-{",
+			"}-"
+		],
+		[
+			"{|",
+			"|}"
+		],
+		[
+			"{{",
+			"}}"
+		],
+		[
+			"{{{",
+			"}}}"
+		]
+	],
+	"autoClosingPairs": [
+		[
+			"{",
+			"}"
+		],
+		[
+			"[",
+			"]"
+		],
+		[
+			"-{",
+			"}-"
+		],
+		[
+			"<!--",
+			"-->"
+		],
+		[
+			"<nowiki>",
+			"</nowiki>"
+		],
+		[
+			"<pre>",
+			"</pre>"
+		],
+		[
+			"<gallery>",
+			"</gallery>"
+		],
+		[
+			"<poem>",
+			"</poem>"
+		],
+		[
+			"<ref>",
+			"</ref>"
+		],
+		[
+			"<charinsert>",
+			"</charinsert>"
+		],
+		[
+			"<imagemap>",
+			"</imagemap>"
+		],
+		[
+			"<inputbox>",
+			"</inputbox>"
+		],
+		[
+			"<score>",
+			"</score>"
+		]
+	],
+	"surroundingPairs": [
+		[
+			"{",
+			"}"
+		],
+		[
+			"[",
+			"]"
+		],
+		[
+			"(",
+			")"
+		],
+		[
+			"'",
+			"'"
+		]
+	]
+}
