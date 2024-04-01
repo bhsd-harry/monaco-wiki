@@ -7,7 +7,7 @@ import type * as Monaco from 'monaco-editor';
 const wikitext = require('../vendor/wikitext.tmLanguage.json'),
 	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
-export const registerWiki = async (monaco: typeof Monaco): Promise<void> => {
+const registerWiki = async (monaco: typeof Monaco): Promise<void> => {
 	const highlighter = await getHighlighterCore({
 		langs: [wikitext],
 		themes: [monokai],
@@ -17,3 +17,5 @@ export const registerWiki = async (monaco: typeof Monaco): Promise<void> => {
 	shikiToMonaco(highlighter, monaco);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 };
+
+export default registerWiki;
