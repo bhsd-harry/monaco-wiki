@@ -31,75 +31,75 @@
 		]
 	],
 	"autoClosingPairs": [
-		[
-			"{",
-			"}"
-		],
-		[
-			"[",
-			"]"
-		],
-		[
-			"-{",
-			"}-"
-		],
-		[
-			"<!--",
-			"-->"
-		],
-		[
-			"<nowiki>",
-			"</nowiki>"
-		],
-		[
-			"<pre>",
-			"</pre>"
-		],
-		[
-			"<gallery>",
-			"</gallery>"
-		],
-		[
-			"<poem>",
-			"</poem>"
-		],
-		[
-			"<ref>",
-			"</ref>"
-		],
-		[
-			"<charinsert>",
-			"</charinsert>"
-		],
-		[
-			"<imagemap>",
-			"</imagemap>"
-		],
-		[
-			"<inputbox>",
-			"</inputbox>"
-		],
-		[
-			"<score>",
-			"</score>"
-		]
+		{
+			"open": "{",
+			"close": "}"
+		},
+		{
+			"open": "[",
+			"close": "]"
+		},
+		{
+			"open": "-{",
+			"close": "}-"
+		},
+		{
+			"open": "<!--",
+			"close": "-->"
+		},
+		{
+			"open": "<nowiki>",
+			"close": "</nowiki>"
+		},
+		{
+			"open": "<pre>",
+			"close": "</pre>"
+		},
+		{
+			"open": "<gallery>",
+			"close": "</gallery>"
+		},
+		{
+			"open": "<poem>",
+			"close": "</poem>"
+		},
+		{
+			"open": "<ref>",
+			"close": "</ref>"
+		},
+		{
+			"open": "<charinsert>",
+			"close": "</charinsert>"
+		},
+		{
+			"open": "<imagemap>",
+			"close": "</imagemap>"
+		},
+		{
+			"open": "<inputbox>",
+			"close": "</inputbox>"
+		},
+		{
+			"open": "<score>",
+			"close": "</score>"
+		}
 	],
 	"surroundingPairs": [
-		[
-			"{",
-			"}"
-		],
-		[
-			"[",
-			"]"
-		],
-		[
-			"(",
-			")"
-		],
-		[
-			"'",
-			"'"
-		]
+		{
+			"open": "{",
+			"close": "}"
+		},
+		{
+			"open": "[",
+			"close": "]"
+		},
+		{
+			"open": "(",
+			"close": ")"
+		},
+		{
+			"open": "'",
+			"close": "'"
+		}
 	]
 }
