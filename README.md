@@ -22,6 +22,11 @@ registerWiki(monaco);
 
 ## Themes
 
-A list of themes can be found [here](https://shiki.style/themes).
+|Name|ID|
+|:-:|:-:|
+|Monokai|`monokai`|
+|Nord|`nord`|
+
+If you wish to use other themes listed [here](https://shiki.style/themes), please [submit a feature request](https://github.com/bhsd-harry/monaco-wiki/issues/new).
 
 [GNU General Public License 3.0](https://www.gnu.org/licenses/gpl-3.0-standalone.html)
