@@ -15,7 +15,7 @@
 	"author": "Bhsd",
 	"type": "module",
 	"files": [
-		"/dist/"
+		"/dist/main.min.js"
 	],
 	"browser": "/dist/main.min.js",
 	"repository": {
@@ -24,7 +24,9 @@
 	},
 	"scripts": {
 		"lint": "tsc --noEmit && eslint --cache .",
-		"build": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js"
+		"build": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
+		"server": "npm run test:end; http-server .. -c-1 --cors &",
+		"test:end": "pkill -x http-server"
 	},
 	"dependencies": {
 		"@shikijs/monaco": "^1.2.0",
@@ -43,6 +45,7 @@
 		"eslint-plugin-promise": "^6.1.1",
 		"eslint-plugin-regexp": "^2.2.0",
 		"eslint-plugin-unicorn": "^51.0.1",
+		"http-server": "^14.1.0",
 		"monaco-editor": "^0.47.0",
 		"typescript": "^5.3.3"
 	}

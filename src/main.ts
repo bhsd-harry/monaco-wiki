@@ -1,4 +1,7 @@
 import {getHighlighterCore} from 'shiki/core';
+import javascript from 'shiki/langs/javascript.mjs';
+import css from 'shiki/langs/css.mjs';
+import html from 'shiki/langs/html.mjs';
 import loadWasm from 'shiki/wasm';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
@@ -10,7 +13,12 @@ const wikitext = require('../vendor/wikitext.tmLanguage.json'),
 
 const registerWiki = async (monaco: typeof Monaco): Promise<void> => {
 	const highlighter = await getHighlighterCore({
-		langs: [wikitext],
+		langs: [
+			wikitext,
+			javascript,
+			css,
+			html,
+		],
 		themes: [
 			monokai,
 			nord,
