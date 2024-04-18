@@ -6,13 +6,16 @@ import loadWasm from 'shiki/wasm';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import {shikiToMonaco} from '@shikijs/monaco';
+// @ts-expect-error ESM
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
 import 'wikiparser-node/extensions/typings.d.ts';
+import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 
 const wikitext = require('../vendor/wikitext.tmLanguage.json'),
 	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
-const registerWiki = async (monaco: typeof Monaco): Promise<void> => {
+const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const highlighter = await getHighlighterCore({
 		langs: [
 			wikitext,
@@ -34,16 +37,24 @@ const registerWiki = async (monaco: typeof Monaco): Promise<void> => {
 		if (model.getLanguageId() === 'wikitext') {
 			(async () => {
 				if (!('wikiparse' in window)) {
+					const CDN = '//testingcf.jsdelivr.net',
+						REPO = 'npm/wikiparser-node@1.7.0-beta.1',
+						DIR = 'extensions/dist';
 					await new Promise(resolve => {
 						const script = document.createElement('script');
-						script.src = '//testingcf.jsdelivr.net/combine/'
-						+ 'npm/wikiparser-node@1.7.0-beta.1/extensions/dist/base.min.js,'
-						+ 'npm/wikiparser-node@1.7.0-beta.1/extensions/dist/lint.min.js';
+						script.src = `${CDN}/combine/${REPO}/${DIR}/base.min.js,${REPO}/${DIR}/lint.min.js`;
 						script.addEventListener('load', resolve);
 						document.body.append(script);
 					});
+					if (!parserConfig || typeof parserConfig !== 'object') {
+						// eslint-disable-next-line require-atomic-updates, no-param-reassign
+						parserConfig = parserConfig
+							? getParserConfig(await wikiparse.getConfig(), await getMwConfig())
+							: await (await fetch(`${CDN}/${REPO}/config/default.json`)).json();
+					}
+					wikiparse.setConfig(parserConfig as Config);
 				}
-				const linter = new wikiparse.Linter!();
+				const linter = new wikiparse.Linter!(true);
 				let timer: NodeJS.Timeout;
 				model.onDidChangeContent(() => {
 					clearTimeout(timer);

@@ -11,7 +11,10 @@
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor/+esm';
 import registerWiki from 'https://cdn.jsdelivr.net/npm/monaco-wiki';
 
-registerWiki(monaco);
+registerWiki(
+	monaco,
+	false, // Set to `true` if used in a MediaWiki site
+);
 ```
 
 ## Language Aliases
