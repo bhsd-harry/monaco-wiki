@@ -1,3 +1,11 @@
+## v0.1.0
+
+*2024-04-18*
+
+**Added**
+
+- [WikiLint](https://github.com/bhsd-harry/wikiparser-node) integration
+
 ## v0.0.2
 
 *2024-04-04*
