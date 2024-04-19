@@ -1,3 +1,15 @@
+## v0.2.2
+
+*2024-04-19*
+
+**Added**
+
+- Glyphs for the linter
+
+**Fixed**
+
+- Perform linting on initialization
+
 ## v0.2.1
 
 *2024-04-19*

@@ -14,6 +14,10 @@ const CDN = '//testingcf.jsdelivr.net/npm',
 
 void registerWiki(monaco, true);
 mw.loader.load(`${CDN}/monaco-editor/esm/vs/base/browser/ui/codicons/codicon/codicon.min.css`, 'text/css');
+mw.loader.addStyleTag(
+	'.monaco-editor .glyph-margin-widgets>.codicon-warning::before{color:var(--vscode-problemsWarningIcon-foreground)}'
+	+ '.monaco-editor .glyph-margin-widgets>.codicon-error::before{color:var(--vscode-problemsErrorIcon-foreground)}',
+);
 
 class MonacoWikiEditor {
 	readonly #textarea;
@@ -60,6 +64,7 @@ class MonacoWikiEditor {
 			wordWrap: lang === 'wikitext' || lang === 'html' || lang === 'plaintext' ? 'on' : 'off',
 			wordBreak: 'keepAll',
 			multiCursorModifier: 'ctrlCmd',
+			glyphMargin: true,
 			unicodeHighlight: {
 				ambiguousCharacters: lang !== 'wikitext' && lang !== 'html' && lang !== 'plaintext',
 			},

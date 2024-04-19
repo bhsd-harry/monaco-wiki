@@ -9,12 +9,24 @@ import nord from 'shiki/themes/nord.mjs';
 import {shikiToMonaco} from '@shikijs/monaco';
 // @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
+// @ts-expect-error ESM
+import {getObject} from '@bhsd/codemirror-mediawiki/mw/util';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 
+declare interface ITextModelLinter {
+	lint(text: string): Promise<Monaco.editor.IMarkerData[]>;
+	glyphs: string[];
+	timer?: number;
+}
+declare interface IWikitextModel extends Monaco.editor.ITextModel {
+	linter?: ITextModelLinter;
+}
+
 const wikitext = require('../vendor/wikitext.tmLanguage.json'),
-	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json');
+	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
+	storageKey = 'codemirror-mediawiki-addons';
 
 const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const highlighter = await getHighlighterCore({
@@ -39,8 +51,34 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	shikiToMonaco(highlighter, monaco);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 
-	monaco.editor.onDidCreateModel(model => {
-		if (model.getLanguageId() === 'wikitext') {
+	/**
+	 * 更新诊断信息
+	 * @param model 文本模型
+	 */
+	const update = (model: IWikitextModel): void => {
+		const linter = model.linter!;
+		clearTimeout(linter.timer);
+		linter.timer = window.setTimeout(() => {
+			(async () => {
+				const diagnostics = await linter.lint(model.getValue());
+				monaco.editor.setModelMarkers(model, 'WikiLint', diagnostics);
+				linter.glyphs = model.deltaDecorations(
+					linter.glyphs,
+					diagnostics.map(({startLineNumber, severity}) => ({
+						range: new monaco.Range(startLineNumber, 1, startLineNumber, 1),
+						options: {
+							glyphMarginClassName: `codicon codicon-${
+								severity === 8 as Monaco.MarkerSeverity ? 'error' : 'warning'
+							}`,
+						},
+					})),
+				);
+			})();
+		}, 750);
+	};
+
+	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
+		if (model.getLanguageId() === 'wikitext' && (getObject(storageKey) as string[] | null)?.includes('lint')) {
 			(async () => {
 				if (!('wikiparse' in window)) {
 					const CDN = '//testingcf.jsdelivr.net',
@@ -60,16 +98,18 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 					}
 					wikiparse.setConfig(parserConfig as Config);
 				}
-				const linter = new wikiparse.Linter!(true);
-				let timer: number;
+				const wikilint = new wikiparse.Linter!(true),
+					linter: ITextModelLinter = {
+						glyphs: [],
+						lint(text) {
+							return wikilint.monaco(text);
+						},
+					};
+				model.linter = linter;
 				model.onDidChangeContent(() => {
-					clearTimeout(timer);
-					timer = window.setTimeout(() => {
-						(async () => {
-							monaco.editor.setModelMarkers(model, 'WikiLint', await linter.monaco(model.getValue()));
-						})();
-					}, 750);
+					update(model);
 				});
+				update(model);
 			})();
 		}
 	});
