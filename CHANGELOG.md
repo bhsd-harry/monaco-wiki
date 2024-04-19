@@ -1,3 +1,12 @@
+## v0.2.0
+
+*2024-04-19*
+
+**Added**
+
+- First integration with [MediaWiki environment](https://doc.wikimedia.org/mediawiki-core/master/js/)
+- New TextMate languages: JSON
+
 ## v0.1.1
 
 *2024-04-18*

@@ -24,7 +24,9 @@
 	},
 	"scripts": {
 		"lint": "tsc --noEmit && eslint --cache .",
-		"build": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
+		"build:core": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
+		"build:mw": "esbuild mw/base.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/mw.min.js",
+		"build": "npm run build:core && npm run build:mw",
 		"server": "npm run test:end; http-server .. -c-1 --cors &",
 		"test:end": "pkill -x http-server"
 	},
@@ -49,6 +51,7 @@
 		"http-server": "^14.1.0",
 		"monaco-editor": "^0.47.0",
 		"wikiparser-node": "^1.6.2",
+		"types-mediawiki": "^1.4.0",
 		"typescript": "^5.3.3"
 	}
 }

@@ -638,19 +638,6 @@
 			1,
 			"never"
 		],
-		"jsdoc/require-jsdoc": [
-			1,
-			{
-				"contexts": [
-					"FunctionDeclaration:not(TSDeclareFunction + FunctionDeclaration)",
-					"TSDeclareFunction:not(TSDeclareFunction + TSDeclareFunction)",
-					"MethodDefinition:not(MethodDefinition:has(TSEmptyBodyFunctionExpression) + MethodDefinition, [kind='get'] + [kind='set'])"
-				],
-				"exemptEmptyConstructors": true,
-				"checkGetters": true,
-				"checkSetters": "no-getter"
-			}
-		],
 		"jsdoc/require-param-description": 1,
 		"jsdoc/require-param-name": 1,
 		"jsdoc/require-param": [
@@ -922,6 +909,19 @@
 				"@typescript-eslint/unified-signatures": 2,
 				"@stylistic/type-generic-spacing": 2,
 				"jsdoc/check-types": 0
+			}
+		},
+		{
+			"files": "mw/*.ts",
+			"env": {
+				"jquery": true
+			},
+			"globals": {
+				"mw": "readonly",
+				"OO": "readonly"
+			},
+			"parserOptions": {
+				"project": "./mw/tsconfig.json"
 			}
 		}
 	],
