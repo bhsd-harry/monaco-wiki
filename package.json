@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "0.1.1",
+	"version": "0.2.1",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -15,7 +15,8 @@
 	"author": "Bhsd",
 	"type": "module",
 	"files": [
-		"/dist/main.min.js"
+		"/dist/",
+		"!/dist/main.min.js.map"
 	],
 	"browser": "/dist/main.min.js",
 	"repository": {

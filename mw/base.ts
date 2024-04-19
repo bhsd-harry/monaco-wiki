@@ -116,3 +116,5 @@ document.body.addEventListener('click', e => {
 });
 
 Object.assign(window, {MonacoWikiEditor});
+
+export type {MonacoWikiEditor};
