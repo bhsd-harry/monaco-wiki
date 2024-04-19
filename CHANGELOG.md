@@ -5,6 +5,7 @@
 **Added**
 
 - Glyphs for the linter
+- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://github.com/fstirlitz/luaparse)
 
 **Fixed**
 
