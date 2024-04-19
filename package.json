@@ -26,7 +26,7 @@
 	"scripts": {
 		"lint": "tsc --noEmit && eslint --cache .",
 		"build:core": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
-		"build:mw": "esbuild mw/base.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/mw.min.js",
+		"build:mw": "tsc --emitDeclarationOnly --project mw/tsconfig.json && esbuild mw/base.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/mw.min.js",
 		"build": "npm run build:core && npm run build:mw",
 		"server": "npm run test:end; http-server .. -c-1 --cors &",
 		"test:end": "pkill -x http-server"

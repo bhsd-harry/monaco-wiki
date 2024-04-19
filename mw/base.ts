@@ -6,8 +6,10 @@ const CDN = '//testingcf.jsdelivr.net/npm',
 	langMap: Record<string, string> = {
 		'sanitized-css': 'css',
 		js: 'javascript',
+		gadget: 'javascript',
 		scribunto: 'lua',
 		mediawiki: 'wikitext',
+		template: 'wikitext',
 	};
 
 void registerWiki(monaco, true);
@@ -79,8 +81,8 @@ class MonacoWikiEditor {
 	 * @param lang 语言
 	 */
 	static async fromTextArea(textarea: HTMLTextAreaElement, lang?: string): Promise<MonacoWikiEditor> {
+		/* eslint-disable no-param-reassign */
 		if (!lang) {
-			/* eslint-disable no-param-reassign */
 			const {wgAction, wgNamespaceNumber, wgPageContentModel} = mw.config.get();
 			if (wgAction === 'edit' || wgAction === 'submit') {
 				lang = wgNamespaceNumber === 274 ? 'html' : wgPageContentModel.toLowerCase();
@@ -88,11 +90,11 @@ class MonacoWikiEditor {
 				await mw.loader.using('oojs-ui-windows');
 				lang = (await OO.ui.prompt('Please indicate the content model:') || undefined)?.toLowerCase();
 			}
-			if (lang && lang in langMap) {
-				lang = langMap[lang];
-			}
-			/* eslint-enable no-param-reassign */
 		}
+		if (lang && lang in langMap) {
+			lang = langMap[lang];
+		}
+		/* eslint-enable no-param-reassign */
 		if (
 			lang === 'wikitext'
 			&& mw.config.get('wgServerName').endsWith('.moegirl.org.cn')
