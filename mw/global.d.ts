@@ -7,7 +7,7 @@ declare global {
 		export = Monaco;
 	}
 
-	module 'https://testingcf.jsdelivr.net/npm/monaco-wiki/*' {
+	module 'https://testingcf.jsdelivr.net/npm/monaco-wiki*' {
 		const registerWiki: typeof register;
 		export default registerWiki;
 	}

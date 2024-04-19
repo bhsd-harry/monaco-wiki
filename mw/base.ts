@@ -1,5 +1,5 @@
 import * as monaco from 'https://testingcf.jsdelivr.net/npm/monaco-editor/+esm';
-import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki/dist/main.min.js';
+import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.2.2/dist/main.min.js';
 import type * as Monaco from 'monaco-editor';
 
 const CDN = '//testingcf.jsdelivr.net/npm',
