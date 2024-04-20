@@ -1,3 +1,11 @@
+## v0.2.3
+
+*2024-04-20*
+
+**Added**
+
+- Load ESLint and Stylelint configuration from [CodeMirror-MediaWiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) settings
+
 ## v0.2.2
 
 *2024-04-19*
@@ -5,7 +13,7 @@
 **Added**
 
 - Glyphs for the linter
-- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://github.com/fstirlitz/luaparse)
+- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://npmjs.com/package/luaparse)
 
 **Fixed**
 
