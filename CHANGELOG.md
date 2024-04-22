@@ -1,10 +1,14 @@
 ## v0.2.3
 
-*2024-04-20*
+*2024-04-22*
 
 **Added**
 
 - Load ESLint and Stylelint configuration from [CodeMirror-MediaWiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) settings
+
+**Fixed**
+
+- Font color for the `<code>` tag when hovering
 
 ## v0.2.2
 
