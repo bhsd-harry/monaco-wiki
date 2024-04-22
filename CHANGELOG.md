@@ -5,6 +5,7 @@
 **Added**
 
 - Load ESLint and Stylelint configuration from [CodeMirror-MediaWiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) settings
+- Support for `jquery.textSelection`
 
 **Fixed**
 

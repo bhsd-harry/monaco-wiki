@@ -2,6 +2,7 @@ import * as monaco from 'https://testingcf.jsdelivr.net/npm/monaco-editor/+esm';
 import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.2.2/dist/main.min.js';
 // @ts-expect-error ESM
 import {wikiEditor} from '@bhsd/codemirror-mediawiki/mw/wikiEditor';
+import {instances, textSelection} from './textSelection.ts';
 import type * as Monaco from 'monaco-editor';
 
 const CDN = '//testingcf.jsdelivr.net/npm',
@@ -80,6 +81,10 @@ class MonacoWikiEditor {
 				textarea.value = model.getValue();
 			}, 400);
 		});
+		instances.set(textarea, this);
+		if (mw.loader.getState('jquery.textSelection') === 'ready') {
+			$(textarea).data('jquery.textSelection', textSelection);
+		}
 		mw.hook('wiki-monaco').fire(this);
 	}
 
