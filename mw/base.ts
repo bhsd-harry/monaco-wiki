@@ -1,5 +1,7 @@
 import * as monaco from 'https://testingcf.jsdelivr.net/npm/monaco-editor/+esm';
 import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.2.2/dist/main.min.js';
+// @ts-expect-error ESM
+import {wikiEditor} from '@bhsd/codemirror-mediawiki/mw/wikiEditor';
 import type * as Monaco from 'monaco-editor';
 
 const CDN = '//testingcf.jsdelivr.net/npm',
@@ -87,6 +89,9 @@ class MonacoWikiEditor {
 	 * @param lang 语言
 	 */
 	static async fromTextArea(textarea: HTMLTextAreaElement, lang?: string): Promise<MonacoWikiEditor> {
+		try {
+			await wikiEditor($(textarea));
+		} catch {}
 		/* eslint-disable no-param-reassign */
 		if (!lang) {
 			const {wgAction, wgNamespaceNumber, wgPageContentModel} = mw.config.get();
