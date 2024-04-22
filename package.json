@@ -54,7 +54,7 @@
 		"http-server": "^14.1.0",
 		"shiki": "^1.2.0",
 		"stylelint": "^16.1.0",
-		"types-mediawiki": "^1.4.0",
+		"types-mediawiki": "^1.6.0",
 		"typescript": "^5.3.3"
 	}
 }
