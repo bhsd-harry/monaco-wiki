@@ -4,7 +4,7 @@
 
 **Added**
 
-- Load ESLint and Stylelint configuration from [CodeMirror-MediaWiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) settings
+- Load WikiLint, ESLint and Stylelint configuration from [CodeMirror-MediaWiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) settings
 - Support for `jquery.textSelection`
 - Support for `JSON.parse`
 
