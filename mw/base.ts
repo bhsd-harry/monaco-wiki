@@ -1,5 +1,5 @@
 import * as monaco from 'https://testingcf.jsdelivr.net/npm/monaco-editor/+esm';
-import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.2.2/dist/main.min.js';
+import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.3.0/dist/main.min.js';
 // @ts-expect-error ESM
 import {wikiEditor} from '@bhsd/codemirror-mediawiki/mw/wikiEditor';
 // @ts-expect-error ESM

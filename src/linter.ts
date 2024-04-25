@@ -26,6 +26,14 @@ declare interface ITextModelLinter {
 	timer?: number;
 }
 
+declare interface JsonError {
+	message: string;
+	severity: 'error';
+	line: string | undefined;
+	column: string | undefined;
+	position: string | undefined;
+}
+
 export interface IWikitextModel extends Monaco.editor.ITextModel {
 	linter?: ITextModelLinter;
 }
