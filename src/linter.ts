@@ -4,8 +4,14 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 import {getObject} from '@bhsd/codemirror-mediawiki/mw/util';
 // @ts-expect-error ESM
 import {CDN} from '@bhsd/codemirror-mediawiki/src/util';
-// @ts-expect-error ESM
-import {getWikiLinter, getJsLinter, getCssLinter, getLuaLinter} from '@bhsd/codemirror-mediawiki/src/linter';
+import {
+	getWikiLinter,
+	getJsLinter,
+	getCssLinter,
+	getLuaLinter,
+	getJsonLinter,
+	// @ts-expect-error ESM
+} from '@bhsd/codemirror-mediawiki/src/linter';
 import type * as Monaco from 'monaco-editor';
 import type {Config} from 'wikiparser-node';
 import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
@@ -135,6 +141,34 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 							};
 						});
 					break;
+				}
+				case 'json': {
+					const jsonLint: (text: string) => JsonError[] = getJsonLinter();
+					linter.lint = (text): Monaco.editor.IMarkerData[] => {
+						const [e] = jsonLint(text);
+						if (e) {
+							const {message, line, column, position} = e;
+							let lineNumber = 1,
+								endColumn = 1;
+							if (position) {
+								({lineNumber, column: endColumn} = model.getPositionAt(Number(position)));
+							} else if (line && column) {
+								lineNumber = Number(line);
+								endColumn = Number(column);
+							}
+							return [
+								{
+									startLineNumber: lineNumber,
+									startColumn: endColumn,
+									endLineNumber: lineNumber,
+									endColumn,
+									severity: 8,
+									message,
+								},
+							];
+						}
+						return [];
+					};
 				}
 				// no default
 			}

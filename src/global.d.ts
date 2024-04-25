@@ -13,4 +13,12 @@ declare global {
 	};
 	const stylelint: PublicApi;
 	const luaparse: luaparse;
+
+	interface JsonError {
+		message: string;
+		severity: 'error';
+		line: string | undefined;
+		column: string | undefined;
+		position: string | undefined;
+	}
 }

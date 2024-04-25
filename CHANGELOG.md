@@ -1,11 +1,12 @@
-## v0.2.3
+## v0.3.0
 
-*2024-04-22*
+*2024-04-25*
 
 **Added**
 
 - Load ESLint and Stylelint configuration from [CodeMirror-MediaWiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) settings
 - Support for `jquery.textSelection`
+- Support for `JSON.parse`
 
 **Fixed**
 
