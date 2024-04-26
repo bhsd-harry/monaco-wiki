@@ -12,6 +12,7 @@ import {
 	getJsonLinter,
 	// @ts-expect-error ESM
 } from '@bhsd/codemirror-mediawiki/src/linter';
+import '@types/requirejs';
 import type * as Monaco from 'monaco-editor';
 import type {Config} from 'wikiparser-node';
 import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
@@ -101,25 +102,26 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 							.filter(({rule, severity}) => Number(config?.[rule]) > Number(severity as number < 8));
 					break;
 				}
-				case 'javascript': {
-					const opt = {
-							env: {browser: true, es2024: true, jquery: true},
-							globals: {mw: 'readonly', mediaWiki: 'readonly', OO: 'readonly'},
-							...getCmObject('ESLint'),
-						} as Linter.Config as Record<string, unknown>,
-						esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
-					linter.lint = (text): Monaco.editor.IMarkerData[] =>
-						esLint(text).map(({ruleId, message, severity, line, column, endLine, endColumn}) => ({
-							source: `ESLint(${ruleId})`,
-							startLineNumber: line,
-							startColumn: column,
-							endLineNumber: endLine ?? line,
-							endColumn: endColumn ?? column,
-							severity: severity === 2 ? 8 : 4,
-							message,
-						}));
+				case 'javascript':
+					if (typeof define !== 'function' || !('amd' in define)) {
+						const opt = {
+								env: {browser: true, es2024: true, jquery: true},
+								globals: {mw: 'readonly', mediaWiki: 'readonly', OO: 'readonly'},
+								...getCmObject('ESLint'),
+							} as Linter.Config as Record<string, unknown>,
+							esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
+						linter.lint = (text): Monaco.editor.IMarkerData[] =>
+							esLint(text).map(({ruleId, message, severity, line, column, endLine, endColumn}) => ({
+								source: `ESLint(${ruleId})`,
+								startLineNumber: line,
+								startColumn: column,
+								endLineNumber: endLine ?? line,
+								endColumn: endColumn ?? column,
+								severity: severity === 2 ? 8 : 4,
+								message,
+							}));
+					}
 					break;
-				}
 				case 'css': {
 					const opt: Record<string, unknown> | null = getCmObject('Stylelint'),
 						styleLint: (code: string) => Promise<Warning[]> = await getCssLinter(opt);
@@ -135,23 +137,24 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 						}));
 					break;
 				}
-				case 'lua': {
-					const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
-					linter.lint = (text): Monaco.editor.IMarkerData[] => luaLint(text)
-						.map(({source, from, message}) => {
-							const {lineNumber, column} = model.getPositionAt(from);
-							return {
-								source: source!,
-								startLineNumber: lineNumber,
-								startColumn: column,
-								endLineNumber: lineNumber,
-								endColumn: column,
-								severity: 8,
-								message,
-							};
-						});
+				case 'lua':
+					if (typeof define !== 'function' || !('amd' in define)) {
+						const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
+						linter.lint = (text): Monaco.editor.IMarkerData[] => luaLint(text)
+							.map(({source, from, message}) => {
+								const {lineNumber, column} = model.getPositionAt(from);
+								return {
+									source: source!,
+									startLineNumber: lineNumber,
+									startColumn: column,
+									endLineNumber: lineNumber,
+									endColumn: column,
+									severity: 8,
+									message,
+								};
+							});
+					}
 					break;
-				}
 				case 'json': {
 					const jsonLint: (text: string) => JsonError[] = getJsonLinter();
 					linter.lint = (text): Monaco.editor.IMarkerData[] => {

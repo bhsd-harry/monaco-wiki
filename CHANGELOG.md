@@ -1,3 +1,11 @@
+## v0.3.1
+
+*2024-04-26*
+
+**Fixed**
+
+- Compatibility with AMD modules
+
 ## v0.3.0
 
 *2024-04-25*
