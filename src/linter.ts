@@ -12,7 +12,8 @@ import {
 	getJsonLinter,
 	// @ts-expect-error ESM
 } from '@bhsd/codemirror-mediawiki/src/linter';
-import '@types/requirejs';
+// @ts-expect-error not module
+import type {} from 'requirejs';
 import type * as Monaco from 'monaco-editor';
 import type {Config} from 'wikiparser-node';
 import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
