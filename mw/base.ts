@@ -1,4 +1,3 @@
-import * as monaco from 'https://testingcf.jsdelivr.net/npm/monaco-editor/+esm';
 import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.3.1/dist/main.min.js';
 // @ts-expect-error ESM
 import {wikiEditor} from '@bhsd/codemirror-mediawiki/mw/wikiEditor';
@@ -17,8 +16,6 @@ const CDN = '//testingcf.jsdelivr.net/npm',
 		template: 'wikitext',
 	};
 
-void registerWiki(monaco, true);
-mw.loader.load(`${CDN}/monaco-editor/esm/vs/base/browser/ui/codicons/codicon/codicon.min.css`, 'text/css');
 mw.loader.addStyleTag(
 	'.monaco-editor .glyph-margin-widgets>.codicon-warning::before{color:var(--vscode-problemsWarningIcon-foreground)}'
 	+ '.monaco-editor .glyph-margin-widgets>.codicon-error::before{color:var(--vscode-problemsErrorIcon-foreground)}'
@@ -50,7 +47,6 @@ class MonacoWikiEditor {
 	/**
 	 * @param textarea 文本框
 	 * @param lang 语言
-	 * @see https://github.com/inpageedit/Plugins/blob/master/src/plugins/monaco/script.js
 	 */
 	constructor(textarea: HTMLTextAreaElement, lang = 'plaintext') {
 		this.#textarea = textarea;
@@ -69,7 +65,6 @@ class MonacoWikiEditor {
 			readOnly: textarea.readOnly,
 			wordWrap: lang === 'wikitext' || lang === 'html' || lang === 'plaintext' ? 'on' : 'off',
 			wordBreak: 'keepAll',
-			multiCursorModifier: 'ctrlCmd',
 			glyphMargin: true,
 			unicodeHighlight: {
 				ambiguousCharacters: lang !== 'wikitext' && lang !== 'html' && lang !== 'plaintext',
@@ -130,13 +125,23 @@ class MonacoWikiEditor {
 	}
 }
 
-document.body.addEventListener('click', e => {
-	if (e.target instanceof HTMLTextAreaElement && e.shiftKey) {
-		e.preventDefault();
-		void MonacoWikiEditor.fromTextArea(e.target);
-	}
-});
-
 Object.assign(window, {MonacoWikiEditor});
+
+(async () => {
+	if (typeof define !== 'function' || !('amd' in define)) {
+		await $.ajax(`${CDN}/monaco-editor/min/vs/loader.js`, {dataType: 'script', cache: true});
+	}
+	require.config({paths: {vs: `${CDN}/monaco-editor/min/vs`}});
+	require(['vs/editor/editor.main'], () => {
+		void registerWiki(monaco, true);
+
+		document.body.addEventListener('click', e => {
+			if (e.target instanceof HTMLTextAreaElement && e.shiftKey) {
+				e.preventDefault();
+				void MonacoWikiEditor.fromTextArea(e.target);
+			}
+		});
+	});
+})();
 
 export type {MonacoWikiEditor};

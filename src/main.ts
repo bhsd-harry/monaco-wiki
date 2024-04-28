@@ -2,7 +2,6 @@ import {getHighlighterCore} from 'shiki/core';
 import javascript from 'shiki/langs/javascript.mjs';
 import css from 'shiki/langs/css.mjs';
 import html from 'shiki/langs/html.mjs';
-import json from 'shiki/langs/json.mjs';
 import loadWasm from 'shiki/wasm';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
@@ -23,7 +22,6 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 			javascript,
 			css,
 			html,
-			json,
 		],
 		themes: [
 			monokai,
@@ -35,7 +33,6 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	monaco.languages.register({id: 'javascript', aliases: ['JavaScript', 'js']});
 	monaco.languages.register({id: 'css', aliases: ['CSS']});
 	monaco.languages.register({id: 'html', aliases: ['HTML', 'htm', 'xhtml']});
-	monaco.languages.register({id: 'json', aliases: ['JSON']});
 	shikiToMonaco(highlighter, monaco);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 

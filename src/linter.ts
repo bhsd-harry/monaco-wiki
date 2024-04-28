@@ -9,7 +9,6 @@ import {
 	getJsLinter,
 	getCssLinter,
 	getLuaLinter,
-	getJsonLinter,
 	// @ts-expect-error ESM
 } from '@bhsd/codemirror-mediawiki/src/linter';
 // @ts-expect-error not module
@@ -26,14 +25,6 @@ declare interface ITextModelLinter {
 	lint?: (text: string) => Monaco.editor.IMarkerData[] | Promise<Monaco.editor.IMarkerData[]>;
 	glyphs: string[];
 	timer?: number;
-}
-
-declare interface JsonError {
-	message: string;
-	severity: 'error';
-	line: string | undefined;
-	column: string | undefined;
-	position: string | undefined;
 }
 
 export interface IWikitextModel extends Monaco.editor.ITextModel {
@@ -103,26 +94,25 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 							.filter(({rule, severity}) => Number(config?.[rule]) > Number(severity as number < 8));
 					break;
 				}
-				case 'javascript':
-					if (typeof define !== 'function' || !('amd' in define)) {
-						const opt = {
-								env: {browser: true, es2024: true, jquery: true},
-								globals: {mw: 'readonly', mediaWiki: 'readonly', OO: 'readonly'},
-								...getCmObject('ESLint'),
-							} as Linter.Config as Record<string, unknown>,
-							esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
-						linter.lint = (text): Monaco.editor.IMarkerData[] =>
-							esLint(text).map(({ruleId, message, severity, line, column, endLine, endColumn}) => ({
-								source: `ESLint(${ruleId})`,
-								startLineNumber: line,
-								startColumn: column,
-								endLineNumber: endLine ?? line,
-								endColumn: endColumn ?? column,
-								severity: severity === 2 ? 8 : 4,
-								message,
-							}));
-					}
+				case 'javascript': {
+					const opt = {
+							env: {browser: true, es2024: true, jquery: true},
+							globals: {mw: 'readonly', mediaWiki: 'readonly', OO: 'readonly'},
+							...getCmObject('ESLint'),
+						} as Linter.Config as Record<string, unknown>,
+						esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
+					linter.lint = (text): Monaco.editor.IMarkerData[] =>
+						esLint(text).map(({ruleId, message, severity, line, column, endLine, endColumn}) => ({
+							source: `ESLint(${ruleId})`,
+							startLineNumber: line,
+							startColumn: column,
+							endLineNumber: endLine ?? line,
+							endColumn: endColumn ?? column,
+							severity: severity === 2 ? 8 : 4,
+							message,
+						}));
 					break;
+				}
 				case 'css': {
 					const opt: Record<string, unknown> | null = getCmObject('Stylelint'),
 						styleLint: (code: string) => Promise<Warning[]> = await getCssLinter(opt);
@@ -138,51 +128,21 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 						}));
 					break;
 				}
-				case 'lua':
-					if (typeof define !== 'function' || !('amd' in define)) {
-						const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
-						linter.lint = (text): Monaco.editor.IMarkerData[] => luaLint(text)
-							.map(({source, from, message}) => {
-								const {lineNumber, column} = model.getPositionAt(from);
-								return {
-									source: source!,
-									startLineNumber: lineNumber,
-									startColumn: column,
-									endLineNumber: lineNumber,
-									endColumn: column,
-									severity: 8,
-									message,
-								};
-							});
-					}
-					break;
-				case 'json': {
-					const jsonLint: (text: string) => JsonError[] = getJsonLinter();
-					linter.lint = (text): Monaco.editor.IMarkerData[] => {
-						const [e] = jsonLint(text);
-						if (e) {
-							const {message, line, column, position} = e;
-							let lineNumber = 1,
-								endColumn = 1;
-							if (position) {
-								({lineNumber, column: endColumn} = model.getPositionAt(Number(position)));
-							} else if (line && column) {
-								lineNumber = Number(line);
-								endColumn = Number(column);
-							}
-							return [
-								{
-									startLineNumber: lineNumber,
-									startColumn: endColumn,
-									endLineNumber: lineNumber,
-									endColumn,
-									severity: 8,
-									message,
-								},
-							];
-						}
-						return [];
-					};
+				case 'lua': {
+					const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
+					linter.lint = (text): Monaco.editor.IMarkerData[] => luaLint(text)
+						.map(({source, from, message}) => {
+							const {lineNumber, column} = model.getPositionAt(from);
+							return {
+								source: source!,
+								startLineNumber: lineNumber,
+								startColumn: column,
+								endLineNumber: lineNumber,
+								endColumn: column,
+								severity: 8,
+								message,
+							};
+						});
 				}
 				// no default
 			}
