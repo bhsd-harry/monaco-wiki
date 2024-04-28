@@ -1,10 +1,20 @@
-import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@0.3.1/dist/main.min.js';
+import registerWiki from 'https://testingcf.jsdelivr.net/npm/monaco-wiki@1.0.0/dist/main.min.js';
 // @ts-expect-error ESM
 import {wikiEditor} from '@bhsd/codemirror-mediawiki/mw/wikiEditor';
 // @ts-expect-error ESM
 import {getObject} from '@bhsd/codemirror-mediawiki/mw/util';
 import {instances, textSelection} from './textSelection.ts';
 import type * as Monaco from 'monaco-editor';
+
+declare interface Require {
+	config(config: {paths?: Record<string, string>}): void;
+
+	(modules: string[], ready: () => unknown): void;
+}
+
+declare global {
+	const define: unknown;
+}
 
 const CDN = 'https://testingcf.jsdelivr.net/npm',
 	vs = `${CDN}/monaco-editor/min/vs`,
@@ -151,9 +161,10 @@ window.MonacoEnvironment = {
 	if (typeof define !== 'function' || !('amd' in define)) {
 		await $.ajax(`${vs}/loader.js`, {dataType: 'script', cache: true});
 	}
-	require.config({paths: {vs}});
-	require(['vs/editor/editor.main'], () => {
-		void registerWiki(monaco, true);
+	const requirejs = window.require as unknown as Require;
+	requirejs.config({paths: {vs}});
+	requirejs(['vs/editor/editor.main'], async () => {
+		await registerWiki(monaco, true);
 
 		document.body.addEventListener('click', e => {
 			if (e.target instanceof HTMLTextAreaElement && e.shiftKey) {
