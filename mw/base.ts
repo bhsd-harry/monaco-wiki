@@ -6,7 +6,8 @@ import {getObject} from '@bhsd/codemirror-mediawiki/mw/util';
 import {instances, textSelection} from './textSelection.ts';
 import type * as Monaco from 'monaco-editor';
 
-const CDN = '//testingcf.jsdelivr.net/npm',
+const CDN = 'https://testingcf.jsdelivr.net/npm',
+	vs = `${CDN}/monaco-editor/min/vs`,
 	langMap: Record<string, string> = {
 		'sanitized-css': 'css',
 		js: 'javascript',
@@ -127,11 +128,30 @@ class MonacoWikiEditor {
 
 Object.assign(window, {MonacoWikiEditor});
 
+window.MonacoEnvironment = {
+	getWorker(_, label): Worker {
+		const paths: Record<string, string> = {
+				css: 'css',
+				javascript: 'ts',
+				json: 'json',
+			},
+			path = paths[label] || 'editor',
+			blob = new Blob(
+				[`importScripts('${CDN}/@bhsd/monaco-editor-es/workers/${path}.worker.js')`],
+				{type: 'text/javascript'},
+			),
+			url = URL.createObjectURL(blob),
+			worker = new Worker(url);
+		URL.revokeObjectURL(url);
+		return worker;
+	},
+};
+
 (async () => {
 	if (typeof define !== 'function' || !('amd' in define)) {
-		await $.ajax(`${CDN}/monaco-editor/min/vs/loader.js`, {dataType: 'script', cache: true});
+		await $.ajax(`${vs}/loader.js`, {dataType: 'script', cache: true});
 	}
-	require.config({paths: {vs: `${CDN}/monaco-editor/min/vs`}});
+	require.config({paths: {vs}});
 	require(['vs/editor/editor.main'], () => {
 		void registerWiki(monaco, true);
 

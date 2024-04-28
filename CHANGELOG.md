@@ -1,3 +1,15 @@
+## v1.0.0
+
+*2024-04-28*
+
+**Fixed**
+
+- Default workers for CSS, JavaScript, and JSON
+
+**Changed**
+
+- Load [Monaco Editor](https://microsoft.github.io/monaco-editor/) as an AMD module
+
 ## v0.3.1
 
 *2024-04-26*
