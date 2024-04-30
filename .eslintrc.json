@@ -910,19 +910,6 @@
 				"@stylistic/type-generic-spacing": 2,
 				"jsdoc/check-types": 0
 			}
-		},
-		{
-			"files": "mw/*.ts",
-			"env": {
-				"jquery": true
-			},
-			"globals": {
-				"mw": "readonly",
-				"OO": "readonly"
-			},
-			"parserOptions": {
-				"project": "./mw/tsconfig.json"
-			}
 		}
 	],
 	"settings": {

@@ -81,7 +81,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 						config: Record<string, string> | null = getCmObject('wikilint'),
 						wikilint: LinterBase = await getWikiLinter({include: true});
 					if (!loaded) {
-						if (!parserConfig || typeof parserConfig !== 'object') {
+						if (typeof parserConfig !== 'object') {
 							// eslint-disable-next-line require-atomic-updates, no-param-reassign
 							parserConfig = parserConfig
 								? getParserConfig(await wikiparse.getConfig(), await getMwConfig())
@@ -91,7 +91,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 					}
 					linter.lint = async (text): Promise<Monaco.editor.IMarkerData[]> =>
 						((await wikilint.monaco(text)) as (Monaco.editor.IMarkerData & {rule: string})[])
-							.filter(({rule, severity}) => Number(config?.[rule]) > Number(severity as number < 8));
+							.filter(({rule, severity}) => Number(config?.[rule] || 1) > Number(severity as number < 8));
 					break;
 				}
 				case 'javascript': {

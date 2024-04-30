@@ -16,7 +16,7 @@
 	"type": "module",
 	"files": [
 		"/dist/",
-		"!/dist/main.min.js.map"
+		"!/dist/*.map"
 	],
 	"browser": "/dist/main.min.js",
 	"repository": {
@@ -24,16 +24,12 @@
 		"url": "git+https://github.com/bhsd-harry/monaco-wiki.git"
 	},
 	"scripts": {
-		"lint": "tsc --noEmit --emitDeclarationOnly false && eslint --cache .",
+		"lint": "tsc && eslint --cache .",
 		"build:core": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
-		"build:mw": "tsc --project mw/tsconfig.json && esbuild mw/base.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/mw.min.js",
-		"build": "npm run build:core && npm run build:mw",
+		"build:all": "esbuild src/all.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/all.min.js",
+		"build": "npm run build:core && npm run build:all",
 		"server": "npm run test:end; http-server .. -c-1 --cors &",
 		"test:end": "pkill -x http-server"
-	},
-	"dependencies": {
-		"monaco-editor": "^0.47.0",
-		"wikiparser-node": "^1.6.2"
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.9.4",
@@ -52,9 +48,10 @@
 		"eslint-plugin-regexp": "^2.2.0",
 		"eslint-plugin-unicorn": "^51.0.1",
 		"http-server": "^14.1.0",
+		"monaco-editor": "^0.47.0",
 		"shiki": "^1.2.0",
 		"stylelint": "^16.1.0",
-		"types-mediawiki": "^1.6.0",
-		"typescript": "^5.3.3"
+		"typescript": "^5.3.3",
+		"wikiparser-node": "^1.6.2"
 	}
 }

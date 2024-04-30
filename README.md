@@ -7,14 +7,25 @@
 
 ## Usage
 
+You may load the Monaco Editor on your own:
+
 ```js
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor/+esm';
 import registerWiki from 'https://cdn.jsdelivr.net/npm/monaco-wiki';
 
-registerWiki(
+await registerWiki(
 	monaco,
 	false, // Set to `true` if used in a MediaWiki site
 );
+```
+
+or simply:
+
+```js
+// Automatically loads the Monaco Editor's core and relevant workers
+import 'https://cdn.jsdelivr.net/npm/monaco-wiki/dist/all.min.js';
+
+await monaco; // The global `monaco` is a promise that resolves to the Monaco editor
 ```
 
 ## Language Aliases

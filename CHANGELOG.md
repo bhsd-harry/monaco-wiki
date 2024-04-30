@@ -1,3 +1,15 @@
+## v1.1.0
+
+*2024-05-01*
+
+**Added**
+
+- An alternative entry point for auto-loading the Monaco Editor's core and workers
+
+**Removed**
+
+- `MonacoWikiEditor` class
+
 ## v1.0.0
 
 *2024-04-28*
