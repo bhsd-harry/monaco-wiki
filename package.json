@@ -32,7 +32,7 @@
 		"test:end": "pkill -x http-server"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.9.4",
+		"@bhsd/codemirror-mediawiki": "^2.10.0",
 		"@codemirror/lint": "^6.5.0",
 		"@shikijs/monaco": "^1.2.0",
 		"@stylistic/eslint-plugin": "^1.5.4",
@@ -46,9 +46,9 @@
 		"eslint-plugin-json-es": "^1.5.7",
 		"eslint-plugin-promise": "^6.1.1",
 		"eslint-plugin-regexp": "^2.2.0",
-		"eslint-plugin-unicorn": "^51.0.1",
+		"eslint-plugin-unicorn": "^52.0.0",
 		"http-server": "^14.1.0",
-		"monaco-editor": "^0.47.0",
+		"monaco-editor": "^0.48.0",
 		"shiki": "^1.2.0",
 		"stylelint": "^16.1.0",
 		"typescript": "^5.3.3",
