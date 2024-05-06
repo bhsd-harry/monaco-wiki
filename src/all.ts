@@ -13,7 +13,8 @@ declare global {
 }
 
 const CDN = 'https://testingcf.jsdelivr.net/npm',
-	vs = `${CDN}/monaco-editor/min/vs`;
+	version = '0.48.0',
+	vs = `${CDN}/monaco-editor@${version}/min/vs`;
 
 const style = document.createElement('style');
 style.textContent
@@ -37,7 +38,7 @@ window.MonacoEnvironment = {
 			},
 			path = paths[label] || 'editor',
 			blob = new Blob(
-				[`importScripts('${CDN}/@bhsd/monaco-editor-es/workers/${path}.worker.js')`],
+				[`importScripts('${CDN}/@bhsd/monaco-editor-es@${version}/workers/${path}.worker.js')`],
 				{type: 'text/javascript'},
 			),
 			url = URL.createObjectURL(blob),

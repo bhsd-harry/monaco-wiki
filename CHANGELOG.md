@@ -6,6 +6,10 @@
 
 - Additional auto-close tag pairs
 
+**Fixed**
+
+- Always specify compatible versions of [monaco-editor](https://www.npmjs.com/package/monaco-editor) and [@bhsd/monaco-editor-es](https://www.npmjs.com/package/@bhsd/monaco-editor-es)
+
 ## v1.1.0
 
 *2024-05-01*
