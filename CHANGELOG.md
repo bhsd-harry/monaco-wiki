@@ -9,6 +9,7 @@
 **Fixed**
 
 - Always specify compatible versions of [monaco-editor](https://www.npmjs.com/package/monaco-editor) and [@bhsd/monaco-editor-es](https://www.npmjs.com/package/@bhsd/monaco-editor-es)
+- Improve TextMate syntax for Wikitext
 
 ## v1.1.0
 

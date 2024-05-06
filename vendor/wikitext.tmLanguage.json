@@ -57,70 +57,9 @@
 				},
 				{
 					"include": "#wikixml"
-				},
-				{
-					"include": "#extension-comments"
 				}
 			],
 			"repository": {
-				"extension-comments": {
-					"name": "comment.block.documentation.special.extension.wikitext",
-					"begin": "(<%--)\\s*(\\[)([A-Z_]*)(\\])",
-					"end": "(\\[)([A-Z_]*)(\\])\\s*(--%>)",
-					"beginCaptures": {
-						"1": {
-							"name": "punctuation.definition.comment.extension.wikitext"
-						},
-						"2": {
-							"name": "punctuation.definition.tag.extension.wikitext"
-						},
-						"3": {
-							"name": "storage.type.extension.wikitext"
-						},
-						"4": {
-							"name": "punctuation.definition.tag.extension.wikitext"
-						}
-					},
-					"endCaptures": {
-						"1": {
-							"name": "punctuation.definition.tag.extension.wikitext"
-						},
-						"2": {
-							"name": "storage.type.extension.wikitext"
-						},
-						"3": {
-							"name": "punctuation.definition.tag.extension.wikitext"
-						},
-						"4": {
-							"name": "punctuation.definition.comment.extension.wikitext"
-						}
-					},
-					"patterns": [
-						{
-							"match": "(\\w*)\\s*(=)\\s*(#)(.*?)(#)",
-							"captures": {
-								"0": {
-									"name": "meta.object.member.extension.wikitext"
-								},
-								"1": {
-									"name": "meta.object-literal.key.extension.wikitext"
-								},
-								"2": {
-									"name": "punctuation.separator.dictionary.key-value.extension.wikitext"
-								},
-								"3": {
-									"name": "punctuation.definition.string.begin.extension.wikitext"
-								},
-								"4": {
-									"name": "string.quoted.other.extension.wikitext"
-								},
-								"5": {
-									"name": "punctuation.definition.string.end.extension.wikitext"
-								}
-							}
-						}
-					]
-				},
 				"convert": {
 					"begin": "(-\\{(?!\\{))([a-zA-Z](\\|))?",
 					"end": "(\\}-)",
@@ -270,7 +209,7 @@
 				"redirect": {
 					"patterns": [
 						{
-							"match": "(?i)(^\\s*?#REDIRECT)\\s*(\\[\\[)(([^#:\\|\\[\\]\\{\\}]*?:)*)?([^\\|\\[\\]]*)?(\\|[^\\[\\]]*?)?(\\]\\])",
+							"match": "(?i)(^\\s*#REDIRECT)\\s*((?::\\s*)?\\[\\[)((?:[^#:\\|\\[\\]\\{\\}<>]*:){1,2})?([^\\|\\]]*)?(\\|.*?)?(\\]\\])",
 							"captures": {
 								"1": {
 									"name": "keyword.control.redirect.wikitext"
@@ -281,14 +220,13 @@
 								"3": {
 									"name": "entity.name.tag.namespace.wikitext"
 								},
-								"4": null,
-								"5": {
+								"4": {
 									"name": "entity.other.attribute-name.wikitext"
 								},
-								"6": {
+								"5": {
 									"name": "invalid.deprecated.ineffective.wikitext"
 								},
-								"7": {
+								"6": {
 									"name": "punctuation.definition.tag.link.internal.end.wikitext"
 								}
 							}
@@ -311,10 +249,6 @@
 						"behavior-switches": {
 							"name": "constant.language.behavior-switcher.wikitext",
 							"match": "(?x)    # turn on extended mode\n(?i)    # ignore case\n  (__)  # start: __\n    (\n      NOTOC|FORCETOC|TOC|NOEDITSECTION|NEWSECTIONLINK|NOGALLERY|\n      HIDDENCAT|EXPECTUNUSEDCATEGORY|NOCONTENTCONVERT|NOCC|\n      NOTITLECONVERT|NOTC|INDEX|NOINDEX|STATICREDIRECT|NOGLOBAL|\n      DISAMBIG\n    )\n  (__)"
-						},
-						"outdated-behavior-switches": {
-							"name": "invalid.deprecated.behavior-switcher.wikitext",
-							"match": "(?x)\n(?i)\n  (__)\n    (\n      START|END\n    )\n  (__)"
 						},
 						"variables": {
 							"patterns": [
@@ -613,6 +547,9 @@
 				"wikixml": {
 					"patterns": [
 						{
+							"include": "#onlyinclude"
+						},
+						{
 							"include": "#wiki-self-closed-tags"
 						},
 						{
@@ -639,11 +576,14 @@
 								},
 								{
 									"include": "#hl-js"
+								},
+								{
+									"include": "#hl-plain"
 								}
 							],
 							"repository": {
 								"hl-css": {
-									"begin": "(?i)(<)(syntaxhighlight)((?:\\s+[^>]+)?(?:\\s+lang=(?:(['\"]?)css\\4))(?:\\s+[^>]+)?)\\s*(>)",
+									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]+)?(?:\\slang\\s*=\\s*(?:(['\"]?)css\\4))(?:\\s[^>]+)?)(>)",
 									"beginCaptures": {
 										"0": {
 											"name": "meta.tag.metadata.start.wikitext"
@@ -658,9 +598,6 @@
 											"patterns": [
 												{
 													"include": "text.html.basic#attribute"
-												},
-												{
-													"include": "$self"
 												}
 											]
 										},
@@ -697,7 +634,7 @@
 									]
 								},
 								"hl-html": {
-									"begin": "(?i)(<)(syntaxhighlight)((?:\\s+[^>]+)?(?:\\s+lang=(?:(['\"]?)html\\4))(?:\\s+[^>]+)?)\\s*(>)",
+									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]+)?(?:\\slang\\s*=\\s*(?:(['\"]?)html\\4))(?:\\s[^>]+)?)(>)",
 									"beginCaptures": {
 										"0": {
 											"name": "meta.tag.metadata.start.wikitext"
@@ -712,9 +649,6 @@
 											"patterns": [
 												{
 													"include": "text.html.basic#attribute"
-												},
-												{
-													"include": "$self"
 												}
 											]
 										},
@@ -751,7 +685,7 @@
 									]
 								},
 								"hl-js": {
-									"begin": "(?i)(<)(syntaxhighlight)((?:\\s+[^>]+)?(?:\\s+lang=(?:(['\"]?)(?:javascript|js)\\4))(?:\\s+[^>]+)?)\\s*(>)",
+									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]+)?(?:\\slang\\s*=\\s*(?:(['\"]?)(?:javascript|js)\\4))(?:\\s[^>]+)?)(>)",
 									"beginCaptures": {
 										"0": {
 											"name": "meta.tag.metadata.start.wikitext"
@@ -766,9 +700,6 @@
 											"patterns": [
 												{
 													"include": "text.html.basic#attribute"
-												},
-												{
-													"include": "$self"
 												}
 											]
 										},
@@ -803,12 +734,52 @@
 											]
 										}
 									]
+								},
+								"hl-plain": {
+									"contentName": "meta.embedded.block.plaintext",
+									"begin": "(?i)(<)(syntaxhighlight)(\\s(?:(?!lang\\s*=\\s*(['\"]?)(?:css|html|javascript|js)\\4)[^>])+)?(>)",
+									"beginCaptures": {
+										"0": {
+											"name": "meta.tag.metadata.nowiki.start.wikitext"
+										},
+										"1": {
+											"name": "punctuation.definition.tag.begin.wikitext"
+										},
+										"2": {
+											"name": "entity.name.tag.wikitext"
+										},
+										"3": {
+											"patterns": [
+												{
+													"include": "text.html.basic#attribute"
+												}
+											]
+										},
+										"5": {
+											"name": "punctuation.definition.tag.end.wikitext"
+										}
+									},
+									"end": "(?i)(</)(syntaxhighlight)\\s*(>)",
+									"endCaptures": {
+										"0": {
+											"name": "meta.tag.metadata.nowiki.end.wikitext"
+										},
+										"1": {
+											"name": "punctuation.definition.tag.begin.wikitext"
+										},
+										"2": {
+											"name": "entity.name.tag.wikitext"
+										},
+										"3": {
+											"name": "punctuation.definition.tag.end.wikitext"
+										}
+									}
 								}
 							}
 						},
 						"nowiki": {
 							"contentName": "meta.embedded.block.plaintext",
-							"begin": "(?i)(<)(nowiki|graph|templatedata|math|chem|ce)(\\s+[^>]+)?\\s*(>)",
+							"begin": "(?i)(<)(nowiki|pre|charinsert|imagemap|inputbox|score|graph|templatedata|math|chem|ce|timeline)(\\s[^>]+)?(>)",
 							"beginCaptures": {
 								"0": {
 									"name": "meta.tag.metadata.nowiki.start.wikitext"
@@ -823,9 +794,6 @@
 									"patterns": [
 										{
 											"include": "text.html.basic#attribute"
-										},
-										{
-											"include": "$self"
 										}
 									]
 								},
@@ -850,7 +818,7 @@
 							}
 						},
 						"wiki-self-closed-tags": {
-							"match": "(?i)(<)(templatestyles|ref|nowiki|onlyinclude|includeonly)(\\s+[^>]+)?\\s*(/>)",
+							"match": "(?i)(<)(templatestyles|ref|references|nowiki|mapframe|maplink)(\\s[^>]+)?(/>)",
 							"captures": {
 								"1": {
 									"name": "punctuation.definition.tag.begin.wikitext"
@@ -862,9 +830,6 @@
 									"patterns": [
 										{
 											"include": "text.html.basic#attribute"
-										},
-										{
-											"include": "$self"
 										}
 									]
 								},
@@ -874,8 +839,23 @@
 							},
 							"name": "meta.tag.metedata.void.wikitext"
 						},
+						"onlyinclude": {
+							"match": "(</?)(onlyinclude)(>)",
+							"captures": {
+								"1": {
+									"name": "punctuation.definition.tag.begin.wikitext"
+								},
+								"2": {
+									"name": "entity.name.tag.wikitext"
+								},
+								"3": {
+									"name": "punctuation.definition.tag.end.wikitext"
+								}
+							},
+							"name": "meta.tag.metedata.normal.wikitext"
+						},
 						"normal-wiki-tags": {
-							"match": "(?i)(</?)(includeonly|onlyinclude|noinclude)(\\s+[^>]+)?\\s*(>)",
+							"match": "(?i)(</?)(includeonly|noinclude)(\\s[^>]+)?(/?>)",
 							"captures": {
 								"1": {
 									"name": "punctuation.definition.tag.begin.wikitext"
@@ -887,9 +867,6 @@
 									"patterns": [
 										{
 											"include": "text.html.basic#attribute"
-										},
-										{
-											"include": "$self"
 										}
 									]
 								},
@@ -901,7 +878,7 @@
 						},
 						"ref": {
 							"contentName": "meta.block.ref.wikitext",
-							"begin": "(?i)(<)(ref)(\\s+[^>]+)?\\s*(>)",
+							"begin": "(?i)(<)(ref|references|indicator|poem|gallery)(\\s[^>]+)?(>)",
 							"beginCaptures": {
 								"0": {
 									"name": "meta.tag.metadata.ref.start.wikitext"
@@ -916,9 +893,6 @@
 									"patterns": [
 										{
 											"include": "text.html.basic#attribute"
-										},
-										{
-											"include": "$self"
 										}
 									]
 								},
@@ -926,7 +900,7 @@
 									"name": "punctuation.definition.tag.end.wikitext"
 								}
 							},
-							"end": "(?i)(</)(ref)\\s*(>)",
+							"end": "(?i)(</)(\\2)\\s*(>)",
 							"endCaptures": {
 								"0": {
 									"name": "meta.tag.metadata.ref.end.wikitext"
