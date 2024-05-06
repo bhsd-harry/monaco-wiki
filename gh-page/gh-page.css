@@ -1,0 +1,102 @@
+html, body, div, span, label, article, main, input {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+}
+:root {
+	font-size: 14px;
+	font-family: sans-serif;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #f0f0f0;
+	line-height: 1.6;
+}
+main {
+	display: flex;
+	width: 90vw;
+	max-width: 1200px;
+	margin: 3rem 0;
+	background-color: #fff;
+	box-shadow: 0 0 .5rem rgba(0, 0, 0, .1);
+	border-radius: .5rem;
+}
+article {
+	display: block;
+	width: 100%;
+	padding: 1rem 2rem 2rem;
+}
+h2 {
+	font-size: 1.3em;
+	margin: .5rem 0;
+	font-weight: bold;
+}
+.fieldLayout {
+	display: table;
+	padding: .1em 0;
+}
+.field, .header {
+	display: table-cell;
+	vertical-align: middle;
+}
+.field, .header, input, input + span, label {
+	cursor: pointer;
+}
+.field {
+	position: relative;
+}
+input[type="radio"] {
+	position: relative;
+	z-index: 1;
+	opacity: 0;
+}
+input + span {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-block;
+	width: 1.3em;
+	height: 1.3em;
+	background-color: #fff;
+	border: 1px solid #72777d;
+	box-sizing: border-box;
+}
+input[type="radio"] + span {
+	border-radius: 50%;
+}
+input:checked + span {
+	border-color: #36c;
+}
+input[type="radio"]:checked + span {
+	border-width: 6px;
+}
+input[type="radio"]:hover + span {
+	border-color: #447ff5;
+}
+input[type="radio"]:active + span {
+	background-color: #2a4b8d;
+	border-color: #2a4b8d;
+}
+.header > label {
+	padding: 0 .7em;
+	display: inline-block;
+}
+#container {
+	height: 400px;
+}
+
+@media screen and (max-width: 720px) {
+	main {
+		width: 100%;
+		margin: 0;
+		border-radius: 0;
+	}
+	article {
+		padding: 1rem;
+	}
+}

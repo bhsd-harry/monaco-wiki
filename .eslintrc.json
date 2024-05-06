@@ -23,6 +23,7 @@
 		"ecmaVersion": 13
 	},
 	"ignorePatterns": [
+		"gh-page/gh-page.js",
 		"dist/"
 	],
 	"rules": {
@@ -911,6 +912,12 @@
 				"@typescript-eslint/unified-signatures": 2,
 				"@stylistic/type-generic-spacing": 2,
 				"jsdoc/check-types": 0
+			}
+		},
+		{
+			"files": "gh-page/*.ts",
+			"parserOptions": {
+				"project": "gh-page/tsconfig.json"
 			}
 		}
 	],

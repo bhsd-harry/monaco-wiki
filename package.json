@@ -24,9 +24,12 @@
 		"url": "git+https://github.com/bhsd-harry/monaco-wiki.git"
 	},
 	"scripts": {
-		"lint": "tsc && eslint --cache .",
+		"lint:ts": "tsc && tsc --project gh-page/tsconfig.json --noEmit && eslint --cache .",
+		"lint:css": "stylelint gh-page/*.css",
+		"lint": "npm run lint:ts && npm run lint:css",
 		"build:core": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
 		"build:all": "esbuild src/all.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/all.min.js",
+		"build:gh-page": "tsc --project gh-page/tsconfig.json",
 		"build": "npm run build:core && npm run build:all",
 		"server": "npm run test:end; http-server .. -c-1 --cors &",
 		"test:end": "pkill -x http-server"

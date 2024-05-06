@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfig",
+	"include": [
+		"*.ts"
+	],
+	"exclude": [],
+	"compilerOptions": {
+		"noEmit": false,
+		"allowImportingTsExtensions": false,
+		"outDir": "./",
+		"removeComments": true
+	}
+}
