@@ -36,6 +36,74 @@
 			"close": "-->"
 		},
 		{
+			"open": "<b>",
+			"close": "</b>"
+		},
+		{
+			"open": "<big>",
+			"close": "</big>"
+		},
+		{
+			"open": "<center>",
+			"close": "</center>"
+		},
+		{
+			"open": "<code>",
+			"close": "</code>"
+		},
+		{
+			"open": "<del>",
+			"close": "</del>"
+		},
+		{
+			"open": "<em>",
+			"close": "</em>"
+		},
+		{
+			"open": "<i>",
+			"close": "</i>"
+		},
+		{
+			"open": "<ins>",
+			"close": "</ins>"
+		},
+		{
+			"open": "<kbd>",
+			"close": "</kbd>"
+		},
+		{
+			"open": "<q>",
+			"close": "</q>"
+		},
+		{
+			"open": "<s>",
+			"close": "</s>"
+		},
+		{
+			"open": "<small>",
+			"close": "</small>"
+		},
+		{
+			"open": "<strike>",
+			"close": "</strike>"
+		},
+		{
+			"open": "<strong>",
+			"close": "</strong>"
+		},
+		{
+			"open": "<sub>",
+			"close": "</sub>"
+		},
+		{
+			"open": "<sup>",
+			"close": "</sup>"
+		},
+		{
+			"open": "<u>",
+			"close": "</u>"
+		},
+		{
 			"open": "<nowiki>",
 			"close": "</nowiki>"
 		},
@@ -68,8 +136,24 @@
 			"close": "</inputbox>"
 		},
 		{
-			"open": "<score>",
-			"close": "</score>"
+			"open": "<chem>",
+			"close": "</chem>"
+		},
+		{
+			"open": "<math>",
+			"close": "</math>"
+		},
+		{
+			"open": "<graph>",
+			"close": "</graph>"
+		},
+		{
+			"open": "<templatedata>",
+			"close": "</templatedata>"
+		},
+		{
+			"open": "<timeline>",
+			"close": "</timeline>"
 		}
 	],
 	"surroundingPairs": [

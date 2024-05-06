@@ -1,3 +1,11 @@
+## v1.1.1
+
+*2024-05-06*
+
+**Added**
+
+- Additional auto-close tag pairs
+
 ## v1.1.0
 
 *2024-05-01*
