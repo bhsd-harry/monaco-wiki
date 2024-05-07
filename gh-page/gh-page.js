@@ -1,4 +1,3 @@
-import '/monaco-wiki/dist/all.min.js';
 (async () => {
     await window.monaco;
     const container = document.querySelector('#container'), languages = document.querySelectorAll('input[name="language"]'), editor = monaco.editor.create(container, {
@@ -33,3 +32,4 @@ import '/monaco-wiki/dist/all.min.js';
     }
     Object.assign(window, { editor });
 })();
+export {};

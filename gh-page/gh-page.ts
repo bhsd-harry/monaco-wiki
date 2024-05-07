@@ -1,5 +1,3 @@
-import '/monaco-wiki/dist/all.min.js';
-
 (async () => {
 	await window.monaco;
 	const container = document.querySelector<HTMLTextAreaElement>('#container')!,
