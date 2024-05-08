@@ -1,3 +1,4 @@
+"use strict";
 (async () => {
     await window.monaco;
     const container = document.querySelector('#container'), languages = document.querySelectorAll('input[name="language"]'), editor = monaco.editor.create(container, {
@@ -32,4 +33,3 @@
     }
     Object.assign(window, { editor });
 })();
-export {};

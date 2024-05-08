@@ -5,6 +5,8 @@
 	],
 	"exclude": [],
 	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "Node",
 		"noEmit": false,
 		"allowImportingTsExtensions": false,
 		"outDir": "./",
