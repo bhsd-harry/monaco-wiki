@@ -1,3 +1,11 @@
+## v1.2.2
+
+*2024-05-09*
+
+**Added**
+
+- JavaScript, CSS and HTML code blocks wrapped in `<pre>` tags are now syntax highlighted
+
 ## v1.2.1
 
 *2024-05-08*

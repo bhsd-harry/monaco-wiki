@@ -85,7 +85,8 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 							// eslint-disable-next-line require-atomic-updates, no-param-reassign
 							parserConfig = parserConfig
 								? getParserConfig(await wikiparse.getConfig(), await getMwConfig())
-								: await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/default.json`)).json();
+								: await (await fetch(`${CDN}/npm/wikiparser-node@1.7.0-beta.3/config/default.json`))
+									.json();
 						}
 						wikiparse.setConfig(parserConfig as Config);
 					}
