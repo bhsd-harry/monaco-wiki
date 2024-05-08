@@ -1,7 +1,10 @@
 {
-	"author": "Rowe Wilson Frederisk Holme",
+	"author": [
+		"Rowe Wilson Frederisk Holme",
+		"Bhsd"
+	],
 	"license": "MIT",
-	"source": "https://github.com/Frederisk/Wikitext-VSCode-Extension/blob/master/syntaxes/wikitext.tmLanguage.yaml",
+	"originalSource": "https://github.com/Frederisk/Wikitext-VSCode-Extension/blob/master/syntaxes/wikitext.tmLanguage.yaml",
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "wikitext",
 	"scopeName": "source.wikitext",
@@ -23,526 +26,75 @@
 					"include": "#redirect"
 				},
 				{
+					"include": "#wikixml"
+				},
+				{
 					"include": "#magic-words"
 				},
 				{
 					"include": "#argument"
 				},
 				{
+					"include": "#parser-function"
+				},
+				{
 					"include": "#template"
-				},
-				{
-					"include": "#convert"
-				},
-				{
-					"include": "#list"
-				},
-				{
-					"include": "#table"
-				},
-				{
-					"include": "#font-style"
-				},
-				{
-					"include": "#internal-link"
-				},
-				{
-					"include": "#external-link"
 				},
 				{
 					"include": "#heading"
 				},
 				{
+					"include": "#table"
+				},
+				{
 					"include": "#break"
 				},
 				{
-					"include": "#wikixml"
+					"include": "#file-link"
+				},
+				{
+					"include": "#internal-link"
+				},
+				{
+					"include": "#font-style"
+				},
+				{
+					"include": "#external-link"
+				},
+				{
+					"include": "#list"
+				},
+				{
+					"include": "#convert"
 				}
 			],
 			"repository": {
-				"convert": {
-					"begin": "(-\\{(?!\\{))([a-zA-Z](\\|))?",
-					"end": "(\\}-)",
-					"captures": {
-						"1": {
-							"name": "punctuation.definition.tag.template.wikitext"
-						},
-						"2": {
-							"name": "entity.name.function.type.wikitext"
-						},
-						"3": {
-							"name": "keyword.operator.wikitext"
-						}
-					},
-					"patterns": [
-						{
-							"include": "$self"
-						},
-						{
-							"match": "(?:([a-zA-Z\\-]*)(:))?(.*?)(?:(;)|(?=\\}-))",
-							"captures": {
-								"1": {
-									"name": "entity.name.tag.language.wikitext"
-								},
-								"2": {
-									"name": "punctuation.separator.key-value.wikitext"
-								},
-								"3": {
-									"name": "string.unquoted.text.wikitext",
-									"patterns": [
-										{
-											"include": "$self"
-										}
-									]
-								},
-								"4": {
-									"name": "punctuation.terminator.rule.wikitext"
-								}
-							}
-						}
-					]
-				},
-				"break": {
-					"match": "^-{4,}",
-					"name": "markup.changed.wikitext"
-				},
-				"template": {
-					"begin": "(\\{\\{)\\s*(([^#:\\|\\[\\]\\{\\}]*(:))*)\\s*((#[^#:\\|\\[\\]\\{\\}]+(:))*)([^#:\\|\\[\\]\\{\\}]*)",
-					"end": "(\\}\\})",
-					"captures": {
-						"1": {
-							"name": "punctuation.definition.tag.template.wikitext"
-						},
-						"2": {
-							"name": "entity.name.tag.local-name.wikitext"
-						},
-						"4": {
-							"name": "punctuation.separator.namespace.wikitext"
-						},
-						"5": {
-							"name": "entity.name.function.wikitext"
-						},
-						"7": {
-							"name": "punctuation.separator.namespace.wikitext"
-						},
-						"8": {
-							"name": "entity.name.tag.local-name.wikitext"
-						}
-					},
-					"patterns": [
-						{
-							"include": "$self"
-						},
-						{
-							"match": "(\\|)",
-							"name": "keyword.operator.wikitext"
-						},
-						{
-							"match": "(?<=\\|)\\s*(?:([-\\w.]+)(:))?([-\\w\\s\\.:]+)\\s*(=)",
-							"captures": {
-								"1": {
-									"name": "entity.other.attribute-name.namespace.wikitext"
-								},
-								"2": {
-									"name": "punctuation.separator.namespace.wikitext"
-								},
-								"3": {
-									"name": "entity.other.attribute-name.local-name.wikitext"
-								},
-								"4": {
-									"name": "keyword.operator.equal.wikitext"
-								}
-							}
-						}
-					]
-				},
-				"external-link": {
-					"patterns": [
-						{
-							"name": "meta.link.external.wikitext",
-							"match": "(\\[)((?:(?:(?:http(?:s)?)|(?:ftp(?:s)?)):\\/\\/)[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\.~:\\/?#%@!\\$&'\\(\\)\\*\\+,;=.]+)\\s*?([^\\]]*)(\\])",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.tag.link.external.wikitext"
-								},
-								"2": {
-									"name": "entity.name.tag.url.wikitext"
-								},
-								"3": {
-									"name": "string.other.link.external.title.wikitext",
-									"patterns": [
-										{
-											"include": "$self"
-										}
-									]
-								},
-								"4": {
-									"name": "punctuation.definition.tag.link.external.wikitext"
-								}
-							}
-						},
-						{
-							"name": "invalid.illegal.bad-link.wikitext",
-							"match": "(\\[)([\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\.~:\\/?#%@!\\$&'\\(\\)\\*\\+,;=.]+)\\s*?([^\\]]*)(\\])",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.tag.link.external.wikitext"
-								},
-								"2": {
-									"name": "invalid.illegal.bad-url.wikitext"
-								},
-								"3": {
-									"name": "string.other.link.external.title.wikitext",
-									"patterns": [
-										{
-											"include": "$self"
-										}
-									]
-								},
-								"4": {
-									"name": "punctuation.definition.tag.link.external.wikitext"
-								}
-							}
-						}
-					]
+				"signature": {
+					"name": "keyword.other.signature.wikitext",
+					"match": "~{3,5}"
 				},
 				"redirect": {
-					"patterns": [
-						{
-							"match": "(?i)(^\\s*#REDIRECT)\\s*((?::\\s*)?\\[\\[)((?:[^#:\\|\\[\\]\\{\\}<>]*:){1,2})?([^\\|\\]]*)?(\\|.*?)?(\\]\\])",
-							"captures": {
-								"1": {
-									"name": "keyword.control.redirect.wikitext"
-								},
-								"2": {
-									"name": "punctuation.definition.tag.link.internal.begin.wikitext"
-								},
-								"3": {
-									"name": "entity.name.tag.namespace.wikitext"
-								},
-								"4": {
-									"name": "entity.other.attribute-name.wikitext"
-								},
-								"5": {
-									"name": "invalid.deprecated.ineffective.wikitext"
-								},
-								"6": {
-									"name": "punctuation.definition.tag.link.internal.end.wikitext"
-								}
-							}
-						}
-					]
-				},
-				"magic-words": {
-					"patterns": [
-						{
-							"include": "#behavior-switches"
-						},
-						{
-							"include": "#outdated-behavior-switches"
-						},
-						{
-							"include": "#variables"
-						}
-					],
-					"repository": {
-						"behavior-switches": {
-							"name": "constant.language.behavior-switcher.wikitext",
-							"match": "(?x)    # turn on extended mode\n(?i)    # ignore case\n  (__)  # start: __\n    (\n      NOTOC|FORCETOC|TOC|NOEDITSECTION|NEWSECTIONLINK|NOGALLERY|\n      HIDDENCAT|EXPECTUNUSEDCATEGORY|NOCONTENTCONVERT|NOCC|\n      NOTITLECONVERT|NOTC|INDEX|NOINDEX|STATICREDIRECT|NOGLOBAL|\n      DISAMBIG\n    )\n  (__)"
-						},
-						"variables": {
-							"patterns": [
-								{
-									"name": "constant.language.variables.time.wikitext",
-									"match": "(?x)\n(?i)\n  (\\{\\{)\n    (\n      CURRENTYEAR|CURRENTMONTH|CURRENTMONTH1|CURRENTMONTHNAME|\n      CURRENTMONTHNAMEGEN|CURRENTMONTHABBREV|CURRENTDAY|\n      CURRENTDAY2|CURRENTDOW|CURRENTDAYNAME|CURRENTTIME|\n      CURRENTHOUR|CURRENTWEEK|CURRENTTIMESTAMP|LOCALYEAR|\n      LOCALMONTH|LOCALMONTH1|LOCALMONTHNAME|LOCALMONTHNAMEGEN|\n      LOCALMONTHABBREV|LOCALDAY|LOCALDAY2|LOCALDOW|\n      LOCALDAYNAME|LOCALTIME|LOCALHOUR|LOCALWEEK|\n      LOCALTIMESTAMP\n    )\n  (\\}\\})"
-								},
-								{
-									"name": "constant.language.variables.metadata.wikitext",
-									"match": "(?x)\n(?i)\n  (\\{\\{)\n    (\n      SITENAME|SERVER|SERVERNAME|DIRMARK|DIRECTIONMARK|\n      SCRIPTPATH|STYLEPATH|CURRENTVERSION|CONTENTLANGUAGE|\n      CONTENTLANG|PAGEID|PAGELANGUAGE|CASCADINGSOURCES|\n      REVISIONID|REVISIONDAY|REVISIONDAY2|REVISIONMONTH|\n      REVISIONMONTH1|REVISIONYEAR|REVISIONTIMESTAMP|\n      REVISIONUSER|REVISIONSIZE\n    )\n  (\\}\\})"
-								},
-								{
-									"name": "constant.language.variables.isbn.wikitext",
-									"match": "ISBN\\s+((9[\\-\\s]?7[\\-\\s]?[89][\\-\\s]?)?([0-9][\\-\\s]?){10})"
-								},
-								{
-									"name": "constant.language.variables.rfc.wikitext",
-									"match": "RFC\\s+[0-9]+"
-								},
-								{
-									"name": "constant.language.variables.pmid.wikitext",
-									"match": "PMID\\s+[0-9]+"
-								}
-							]
-						}
-					}
-				},
-				"signature": {
-					"patterns": [
-						{
-							"name": "keyword.other.signature.wikitext",
-							"match": "~{3,5}"
-						}
-					]
-				},
-				"list": {
-					"name": "markup.list.wikitext",
-					"patterns": [
-						{
-							"match": "^([#*;:]+)",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.list.begin.markdown.wikitext"
-								}
-							}
-						}
-					]
-				},
-				"argument": {
-					"name": "variable.parameter.wikitext",
-					"begin": "({{{)",
-					"end": "(}}})",
-					"patterns": [
-						{
-							"match": "(?:^|\\G)([^#:\\|\\[\\]\\{\\}\\|]*)(\\|)",
-							"captures": {
-								"1": {
-									"name": "variable.other.wikitext"
-								},
-								"2": {
-									"name": "keyword.operator.wikitext"
-								}
-							}
-						},
-						{
-							"include": "$self"
-						}
-					]
-				},
-				"heading": {
-					"name": "markup.heading.wikitext",
-					"match": "^(={1,6})\\s*(.+?)\\s*(\\1)$",
-					"captures": {
-						"2": {
-							"name": "string.quoted.other.heading.wikitext",
-							"patterns": [
-								{
-									"include": "$self"
-								}
-							]
-						}
-					}
-				},
-				"font-style": {
-					"patterns": [
-						{
-							"include": "#bold"
-						},
-						{
-							"include": "#italic"
-						}
-					],
-					"repository": {
-						"bold": {
-							"begin": "(''')",
-							"end": "(''')|$",
-							"name": "markup.bold.wikitext",
-							"patterns": [
-								{
-									"include": "#italic"
-								},
-								{
-									"include": "$self"
-								}
-							]
-						},
-						"italic": {
-							"begin": "('')",
-							"end": "((?=[^'])|(?=''))''((?=[^'])|(?=''))|$",
-							"name": "markup.italic.wikitext",
-							"patterns": [
-								{
-									"include": "#bold"
-								},
-								{
-									"include": "$self"
-								}
-							]
-						}
-					}
-				},
-				"internal-link": {
-					"TODO": "SINGLE LINE",
-					"name": "string.quoted.internal-link.wikitext",
-					"begin": "(\\[\\[)(([^#:\\|\\[\\]\\{\\}]*:)*)?([^\\|\\[\\]]*)?",
-					"end": "(\\]\\])",
+					"match": "(?i)(^\\s*#REDIRECT)\\s*((?::\\s*)?\\[\\[)((?:[^#:\\|\\[\\]\\{\\}<>]*:){1,2})?([^\\|\\[\\]\\{\\}<>]*)?(\\|.*?)?(\\]\\])",
 					"captures": {
 						"1": {
-							"name": "punctuation.definition.tag.link.internal.wikitext"
+							"name": "keyword.control.redirect.wikitext"
 						},
 						"2": {
+							"name": "punctuation.definition.tag.link.internal.begin.wikitext"
+						},
+						"3": {
 							"name": "entity.name.tag.namespace.wikitext"
 						},
 						"4": {
 							"name": "entity.other.attribute-name.wikitext"
-						}
-					},
-					"patterns": [
-						{
-							"include": "$self"
 						},
-						{
-							"match": "(\\|)|(?:\\s*)(?:([-\\w.]+)((:)))?([-\\w.:]+)\\s*(=)",
-							"captures": {
-								"1": {
-									"name": "keyword.operator.wikitext"
-								},
-								"5": {
-									"name": "entity.other.attribute-name.localname.wikitext"
-								}
-							}
+						"5": {
+							"name": "invalid.deprecated.ineffective.wikitext"
+						},
+						"6": {
+							"name": "punctuation.definition.tag.link.internal.end.wikitext"
 						}
-					]
-				},
-				"table": {
-					"patterns": [
-						{
-							"name": "meta.tag.block.table.wikitext",
-							"begin": "^\\s*(\\{\\|)(.*)$",
-							"end": "^\\s*(\\|\\})",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.tag.table.wikitext"
-								},
-								"2": {
-									"patterns": [
-										{
-											"include": "text.html.basic#attribute"
-										}
-									]
-								}
-							},
-							"patterns": [
-								{
-									"include": "$self"
-								},
-								{
-									"name": "meta.tag.block.table-row.wikitext",
-									"begin": "^\\s*(\\|-)\\s*",
-									"end": "$",
-									"beginCaptures": {
-										"1": {
-											"name": "punctuation.definition.tag.begin.wikitext"
-										}
-									},
-									"patterns": [
-										{
-											"include": "$self"
-										},
-										{
-											"include": "text.html.basic#attribute"
-										},
-										{
-											"name": "invalid.illegal.bad-table-context.wikitext",
-											"match": "\\|.*"
-										}
-									]
-								},
-								{
-									"name": "meta.tag.block.th.heading",
-									"begin": "^\\s*(!)(([^\\[]*?)(\\|))?(.*?)(?=(!!)|$)",
-									"end": "$",
-									"beginCaptures": {
-										"1": {
-											"name": "punctuation.definition.tag.begin.wikitext"
-										},
-										"2": null,
-										"3": {
-											"patterns": [
-												{
-													"include": "$self"
-												},
-												{
-													"include": "text.html.basic#attribute"
-												}
-											]
-										},
-										"4": {
-											"name": "punctuation.definition.tag.wikitext"
-										},
-										"5": {
-											"name": "markup.bold.style.wikitext"
-										}
-									},
-									"patterns": [
-										{
-											"name": "meta.tag.block.th.inline.wikitext",
-											"match": "(!!)(([^\\[]*?)(\\|))?(.*?)(?=(!!)|$)",
-											"captures": {
-												"1": {
-													"name": "punctuation.definition.tag.begin.wikitext"
-												},
-												"3": {
-													"patterns": [
-														{
-															"include": "text.html.basic#attribute"
-														},
-														{
-															"include": "$self"
-														}
-													]
-												},
-												"4": {
-													"name": "punctuation.definition.tag.wikitext"
-												},
-												"5": {
-													"name": "markup.bold.style.wikitext"
-												}
-											}
-										},
-										{
-											"include": "$self"
-										}
-									]
-								},
-								{
-									"name": "meta.tag.block.caption.wikitext",
-									"match": "^\\s*(\\|\\+)(.*?)$",
-									"captures": {
-										"1": {
-											"name": "punctuation.definition.tag.begin.wikitext"
-										},
-										"2": {
-											"name": "string.unquoted.caption.wikitext"
-										}
-									},
-									"end": "$",
-									"patterns": [
-										{
-											"include": "$self"
-										}
-									]
-								},
-								{
-									"begin": "^\\s*(\\|)",
-									"end": "$",
-									"beginCaptures": {
-										"1": {
-											"name": "punctuation.definition.tag.wikitext"
-										}
-									},
-									"patterns": [
-										{
-											"include": "$self"
-										},
-										{
-											"match": "\\|\\|",
-											"name": "keyword.operator.wikitext"
-										}
-									]
-								}
-							]
-						}
-					]
+					}
 				},
 				"wikixml": {
 					"patterns": [
@@ -550,22 +102,124 @@
 							"include": "#onlyinclude"
 						},
 						{
-							"include": "#wiki-self-closed-tags"
-						},
-						{
 							"include": "#normal-wiki-tags"
 						},
 						{
-							"include": "#nowiki"
+							"include": "#wiki-self-closed-tags"
 						},
 						{
 							"include": "#ref"
 						},
 						{
 							"include": "#syntax-highlight"
+						},
+						{
+							"include": "#nowiki"
 						}
 					],
 					"repository": {
+						"onlyinclude": {
+							"contentName": "meta.block.onlyinclude.wikitext",
+							"begin": "(<)(onlyinclude)(>)",
+							"end": "(</)(onlyinclude)(>)",
+							"captures": {
+								"1": {
+									"name": "punctuation.definition.tag.begin.wikitext"
+								},
+								"2": {
+									"name": "entity.name.tag.wikitext"
+								},
+								"3": {
+									"name": "punctuation.definition.tag.end.wikitext"
+								}
+							},
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						},
+						"normal-wiki-tags": {
+							"match": "(?i)(</?)(includeonly|noinclude)(\\s[^>]*)?(/?>)",
+							"captures": {
+								"1": {
+									"name": "punctuation.definition.tag.begin.wikitext"
+								},
+								"2": {
+									"name": "entity.name.tag.wikitext"
+								},
+								"3": {
+									"patterns": [
+										{
+											"include": "text.html.basic#attribute"
+										}
+									]
+								},
+								"4": {
+									"name": "punctuation.definition.tag.end.wikitext"
+								}
+							}
+						},
+						"wiki-self-closed-tags": {
+							"match": "(?i)(<)(templatestyles|ref|references|nowiki|mapframe|maplink)(\\s[^>]*)?(/>)",
+							"captures": {
+								"1": {
+									"name": "punctuation.definition.tag.begin.wikitext"
+								},
+								"2": {
+									"name": "entity.name.tag.wikitext"
+								},
+								"3": {
+									"patterns": [
+										{
+											"include": "text.html.basic#attribute"
+										}
+									]
+								},
+								"4": {
+									"name": "punctuation.definition.tag.end.wikitext"
+								}
+							}
+						},
+						"ref": {
+							"contentName": "meta.block.ref.wikitext",
+							"begin": "(?i)(<)(ref|references|indicator|poem|gallery)(\\s[^>]*)?(>)",
+							"beginCaptures": {
+								"1": {
+									"name": "punctuation.definition.tag.begin.wikitext"
+								},
+								"2": {
+									"name": "entity.name.tag.wikitext"
+								},
+								"3": {
+									"patterns": [
+										{
+											"include": "text.html.basic#attribute"
+										}
+									]
+								},
+								"4": {
+									"name": "punctuation.definition.tag.end.wikitext"
+								}
+							},
+							"end": "(?i)(</)(\\2)\\s*(>)",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.tag.begin.wikitext"
+								},
+								"2": {
+									"name": "entity.name.tag.wikitext"
+								},
+								"3": {
+									"name": "punctuation.definition.tag.end.wikitext"
+								}
+							},
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						},
 						"syntax-highlight": {
 							"patterns": [
 								{
@@ -576,18 +230,12 @@
 								},
 								{
 									"include": "#hl-js"
-								},
-								{
-									"include": "#hl-plain"
 								}
 							],
 							"repository": {
 								"hl-css": {
-									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]+)?(?:\\slang\\s*=\\s*(?:(['\"]?)css\\4))(?:\\s[^>]+)?)(>)",
+									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]*)?(?:\\slang\\s*=\\s*(?:(['\"]?)css\\4))(?:\\s[^>]*)?)(>)",
 									"beginCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.start.wikitext"
-										},
 										"1": {
 											"name": "punctuation.definition.tag.begin.wikitext"
 										},
@@ -607,9 +255,6 @@
 									},
 									"end": "(?i)(</)(syntaxhighlight)\\s*(>)",
 									"endCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.end.wikitext"
-										},
 										"1": {
 											"name": "punctuation.definition.tag.begin.wikitext"
 										},
@@ -634,11 +279,8 @@
 									]
 								},
 								"hl-html": {
-									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]+)?(?:\\slang\\s*=\\s*(?:(['\"]?)html\\4))(?:\\s[^>]+)?)(>)",
+									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]*)?(?:\\slang\\s*=\\s*(?:(['\"]?)html\\4))(?:\\s[^>]*)?)(>)",
 									"beginCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.start.wikitext"
-										},
 										"1": {
 											"name": "punctuation.definition.tag.begin.wikitext"
 										},
@@ -658,9 +300,6 @@
 									},
 									"end": "(?i)(</)(syntaxhighlight)\\s*(>)",
 									"endCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.end.wikitext"
-										},
 										"1": {
 											"name": "punctuation.definition.tag.begin.wikitext"
 										},
@@ -685,11 +324,8 @@
 									]
 								},
 								"hl-js": {
-									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]+)?(?:\\slang\\s*=\\s*(?:(['\"]?)(?:javascript|js)\\4))(?:\\s[^>]+)?)(>)",
+									"begin": "(?i)(<)(syntaxhighlight)((?:\\s[^>]*)?(?:\\slang\\s*=\\s*(?:(['\"]?)(?:javascript|js)\\4))(?:\\s[^>]*)?)(>)",
 									"beginCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.start.wikitext"
-										},
 										"1": {
 											"name": "punctuation.definition.tag.begin.wikitext"
 										},
@@ -709,9 +345,6 @@
 									},
 									"end": "(?i)(</)(syntaxhighlight)\\s*(>)",
 									"endCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.end.wikitext"
-										},
 										"1": {
 											"name": "punctuation.definition.tag.begin.wikitext"
 										},
@@ -734,56 +367,13 @@
 											]
 										}
 									]
-								},
-								"hl-plain": {
-									"contentName": "meta.embedded.block.plaintext",
-									"begin": "(?i)(<)(syntaxhighlight)(\\s(?:(?!lang\\s*=\\s*(['\"]?)(?:css|html|javascript|js)\\4)[^>])+)?(>)",
-									"beginCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.nowiki.start.wikitext"
-										},
-										"1": {
-											"name": "punctuation.definition.tag.begin.wikitext"
-										},
-										"2": {
-											"name": "entity.name.tag.wikitext"
-										},
-										"3": {
-											"patterns": [
-												{
-													"include": "text.html.basic#attribute"
-												}
-											]
-										},
-										"5": {
-											"name": "punctuation.definition.tag.end.wikitext"
-										}
-									},
-									"end": "(?i)(</)(syntaxhighlight)\\s*(>)",
-									"endCaptures": {
-										"0": {
-											"name": "meta.tag.metadata.nowiki.end.wikitext"
-										},
-										"1": {
-											"name": "punctuation.definition.tag.begin.wikitext"
-										},
-										"2": {
-											"name": "entity.name.tag.wikitext"
-										},
-										"3": {
-											"name": "punctuation.definition.tag.end.wikitext"
-										}
-									}
 								}
 							}
 						},
 						"nowiki": {
 							"contentName": "meta.embedded.block.plaintext",
-							"begin": "(?i)(<)(nowiki|pre|charinsert|imagemap|inputbox|score|graph|templatedata|math|chem|ce|timeline)(\\s[^>]+)?(>)",
+							"begin": "(?i)(<)(nowiki|pre|charinsert|imagemap|inputbox|score|graph|templatedata|math|chem|ce|timeline|syntaxhighlight)(\\s[^>]*)?(>)",
 							"beginCaptures": {
-								"0": {
-									"name": "meta.tag.metadata.nowiki.start.wikitext"
-								},
 								"1": {
 									"name": "punctuation.definition.tag.begin.wikitext"
 								},
@@ -803,9 +393,6 @@
 							},
 							"end": "(?i)(</)(\\2)\\s*(>)",
 							"endCaptures": {
-								"0": {
-									"name": "meta.tag.metadata.nowiki.end.wikitext"
-								},
 								"1": {
 									"name": "punctuation.definition.tag.begin.wikitext"
 								},
@@ -816,103 +403,232 @@
 									"name": "punctuation.definition.tag.end.wikitext"
 								}
 							}
+						}
+					}
+				},
+				"magic-words": {
+					"patterns": [
+						{
+							"include": "#variables"
 						},
-						"wiki-self-closed-tags": {
-							"match": "(?i)(<)(templatestyles|ref|references|nowiki|mapframe|maplink)(\\s[^>]+)?(/>)",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.tag.begin.wikitext"
+						{
+							"include": "#behavior-switches"
+						}
+					],
+					"repository": {
+						"variables": {
+							"patterns": [
+								{
+									"name": "constant.language.variables.time.wikitext",
+									"match": "\\{\\{\\s*(?:CURRENTYEAR|CURRENTMONTH|CURRENTMONTH1|CURRENTMONTH2|CURRENTMONTHNAME|CURRENTMONTHNAMEGEN|CURRENTMONTHABBREV|CURRENTDAY|CURRENTDAY2|CURRENTDAYNAME|CURRENTTIME|CURRENTHOUR|CURRENTWEEK|CURRENTDOW|CURRENTTIMESTAMP|LOCALYEAR|LOCALMONTH|LOCALMONTH1|LOCALMONTH2|LOCALMONTHNAME|LOCALMONTHNAMEGEN|LOCALMONTHABBREV|LOCALDAY|LOCALDAY2|LOCALDAYNAME|LOCALTIME|LOCALHOUR|LOCALWEEK|LOCALDOW|LOCALTIMESTAMP)\\s*\\}\\}"
 								},
-								"2": {
-									"name": "entity.name.tag.wikitext"
+								{
+									"name": "constant.language.variables.metadata.wikitext",
+									"match": "\\{\\{\\s*(?:SITENAME|NUMBEROFACTIVEUSERS|NUMBEROFADMINS|NUMBEROFARTICLES|NUMBEROFEDITS|NUMBEROFFILES|NUMBEROFPAGES|NUMBEROFUSERS|CURRENTVERSION|ARTICLEPAGENAME|ARTICLEPAGENAMEE|ARTICLESPACE|ARTICLESPACEE|BASEPAGENAME|BASEPAGENAMEE|FULLPAGENAME|FULLPAGENAMEE|PAGENAME|PAGENAMEE|ROOTPAGENAME|ROOTPAGENAMEE|SUBJECTPAGENAME|SUBJECTPAGENAMEE|SUBJECTSPACE|SUBJECTSPACEE|SUBPAGENAME|SUBPAGENAMEE|TALKPAGENAME|TALKPAGENAMEE|TALKSPACE|TALKSPACEE|NAMESPACENUMBER|CONTENTLANG|PAGELANGUAGE|PAGESIZE|PROTECTIONEXPRIRY|PROTECTIONLEVEL|CASCADINGSOURCES|CURRENTVERSION|REVISIONID|REVISIONDAY|REVISIONDAY2|REVISIONMONTH|REVISIONMONTH1|REVISIONYEAR|REVISIONTIMESTAMP|REVISIONUSER|REVISIONSIZE|!)\\s*\\}\\}"
 								},
-								"3": {
-									"patterns": [
-										{
-											"include": "text.html.basic#attribute"
-										}
-									]
+								{
+									"name": "constant.language.variables.query.wikitext",
+									"match": "(?i)\\{\\{\\s*(?:server|servername|articlepath|scriptpath|stylepath|numberofwikis|pageid)\\s*\\}\\}"
 								},
-								"4": {
-									"name": "punctuation.definition.tag.end.wikitext"
+								{
+									"name": "constant.language.variables.isbn.wikitext",
+									"match": "ISBN\\s+(?:97[89][\\-\\s]?)?(?:\\d[\\-\\s]?){9}[\\dXx]"
+								},
+								{
+									"name": "constant.language.variables.rfc.wikitext",
+									"match": "RFC\\s+\\d+"
+								},
+								{
+									"name": "constant.language.variables.pmid.wikitext",
+									"match": "PMID\\s+\\d+"
 								}
-							},
-							"name": "meta.tag.metedata.void.wikitext"
+							]
 						},
-						"onlyinclude": {
-							"match": "(</?)(onlyinclude)(>)",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.tag.begin.wikitext"
+						"behavior-switches": {
+							"patterns": [
+								{
+									"name": "constant.language.behavior.wikitext",
+									"match": "(?i)__(?:NOTOC|FORCETOC|TOC|NOEDITSECTION|NOGALLERY|NOCONTENTCONVERT|NOCC|NOTITLECONVERT|NOTC)__"
 								},
-								"2": {
-									"name": "entity.name.tag.wikitext"
-								},
-								"3": {
-									"name": "punctuation.definition.tag.end.wikitext"
+								{
+									"name": "constant.language.switcher.wikitext",
+									"match": "__(?:NEWSECTIONLINK|NONEWSECTIONLINK|HIDDENCAT|EXPECTUNUSEDCATEGORY|INDEX|NOINDEX|STATICREDIRECT|NOGLOBAL|DISAMBIG)__"
 								}
-							},
-							"name": "meta.tag.metedata.normal.wikitext"
-						},
-						"normal-wiki-tags": {
-							"match": "(?i)(</?)(includeonly|noinclude)(\\s[^>]+)?(/?>)",
-							"captures": {
-								"1": {
-									"name": "punctuation.definition.tag.begin.wikitext"
-								},
-								"2": {
-									"name": "entity.name.tag.wikitext"
-								},
-								"3": {
-									"patterns": [
-										{
-											"include": "text.html.basic#attribute"
-										}
-									]
-								},
-								"4": {
-									"name": "punctuation.definition.tag.end.wikitext"
-								}
-							},
-							"name": "meta.tag.metedata.normal.wikitext"
-						},
-						"ref": {
-							"contentName": "meta.block.ref.wikitext",
-							"begin": "(?i)(<)(ref|references|indicator|poem|gallery)(\\s[^>]+)?(>)",
+							]
+						}
+					}
+				},
+				"argument": {
+					"name": "variable.parameter.wikitext",
+					"begin": "\\{\\{\\{(?!\\{)([^\\{\\}\\|]*)",
+					"beginCaptures": {
+						"1": {
+							"name": "variable.other.wikitext"
+						}
+					},
+					"end": "\\}\\}\\}",
+					"patterns": [
+						{
+							"begin": "(?:^|\\G)\\|",
 							"beginCaptures": {
 								"0": {
-									"name": "meta.tag.metadata.ref.start.wikitext"
-								},
-								"1": {
-									"name": "punctuation.definition.tag.begin.wikitext"
-								},
-								"2": {
-									"name": "entity.name.tag.wikitext"
-								},
-								"3": {
-									"patterns": [
-										{
-											"include": "text.html.basic#attribute"
-										}
-									]
-								},
-								"4": {
-									"name": "punctuation.definition.tag.end.wikitext"
+									"name": "keyword.operator.wikitext"
 								}
 							},
-							"end": "(?i)(</)(\\2)\\s*(>)",
-							"endCaptures": {
-								"0": {
-									"name": "meta.tag.metadata.ref.end.wikitext"
+							"patterns": [
+								{
+									"name": "invalid.deprecated.ineffective.wikitext",
+									"begin": "\\|"
 								},
+								{
+									"include": "$self"
+								}
+							]
+						}
+					]
+				},
+				"parser-function": {
+					"begin": "(\\{\\{)\\s*(#[^#:\\|\\[\\]\\{\\}]*[^#:\\|\\[\\]\\{\\}\\s])(:)",
+					"end": "(\\}\\})",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.tag.function.wikitext"
+						},
+						"2": {
+							"name": "entity.name.function.wikitext"
+						},
+						"3": {
+							"name": "keyword.operator.function.wikitext"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						},
+						{
+							"match": "(\\|)",
+							"name": "keyword.operator.wikitext"
+						}
+					]
+				},
+				"template": {
+					"begin": "(\\{\\{)([^#:\\|\\[\\]\\{\\}<>]*(:))?([^#\\|\\[\\]\\{\\}<>]*)",
+					"end": "(\\}\\})",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.tag.template.wikitext"
+						},
+						"2": {
+							"name": "entity.name.tag.local-name.wikitext"
+						},
+						"3": {
+							"name": "punctuation.separator.namespace.wikitext"
+						},
+						"4": {
+							"name": "entity.name.tag.local-name.wikitext"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						},
+						{
+							"match": "(\\|)([^\\|=\\{\\}\\[\\]<>]*[^\\|=\\{\\}\\[\\]<>\\s])\\s*(=)",
+							"captures": {
 								"1": {
-									"name": "punctuation.definition.tag.begin.wikitext"
+									"name": "keyword.operator.wikitext"
 								},
 								"2": {
-									"name": "entity.name.tag.wikitext"
+									"name": "entity.other.attribute-name.local-name.wikitext"
 								},
 								"3": {
-									"name": "punctuation.definition.tag.end.wikitext"
+									"name": "keyword.operator.equal.wikitext"
+								}
+							}
+						},
+						{
+							"match": "(\\|)",
+							"name": "keyword.operator.wikitext"
+						}
+					]
+				},
+				"heading": {
+					"name": "markup.heading.wikitext",
+					"match": "^(={1,6})(.+)(\\1)\\s*$",
+					"captures": {
+						"2": {
+							"name": "string.quoted.other.heading.wikitext",
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						}
+					}
+				},
+				"break": {
+					"match": "^-{4,}",
+					"name": "markup.changed.wikitext"
+				},
+				"file-link": {
+					"name": "string.quoted.internal-link.wikitext",
+					"begin": "(?i)(\\[\\[)[^\\S\\n]*((?:file|image)[^\\S\\n]*:)[^\\S\\n]*([^\\n\\|\\[\\]\\{\\}<>#]*)(#[^\\n\\|\\[\\]\\{\\}]*)?",
+					"end": "(\\]\\])",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.tag.link.internal.wikitext"
+						},
+						"2": {
+							"name": "entity.name.tag.namespace.wikitext"
+						},
+						"3": {
+							"name": "entity.other.attribute-name.wikitext"
+						},
+						"4": {
+							"name": "invalid.deprecated.ineffective.wikitext"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						},
+						{
+							"match": "(\\|)([\\w\\s]*\\w=)?",
+							"captures": {
+								"1": {
+									"name": "keyword.operator.wikitext"
+								},
+								"2": {
+									"name": "entity.other.attribute-name.localname.wikitext"
+								}
+							}
+						}
+					]
+				},
+				"internal-link": {
+					"name": "string.quoted.internal-link.wikitext",
+					"begin": "(\\[\\[)((?:[^#:\\n\\|\\[\\]\\{\\}<>]*:){1,2})?([^\\n\\|\\[\\]\\{\\}<>]*)",
+					"end": "(\\]\\])",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.tag.link.internal.wikitext"
+						},
+						"2": {
+							"name": "entity.name.tag.namespace.wikitext"
+						},
+						"3": {
+							"name": "entity.other.attribute-name.wikitext"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						},
+						{
+							"begin": "\\|",
+							"captures": {
+								"0": {
+									"name": "keyword.operator.wikitext"
 								}
 							},
 							"patterns": [
@@ -921,7 +637,234 @@
 								}
 							]
 						}
+					]
+				},
+				"font-style": {
+					"patterns": [
+						{
+							"match": "'{5}(?!')",
+							"name": "markup.bold.italic.wikitext"
+						},
+						{
+							"match": "'''(?!')",
+							"name": "markup.bold.wikitext"
+						},
+						{
+							"match": "''(?!')",
+							"name": "markup.italic.wikitext"
+						}
+					]
+				},
+				"external-link": {
+					"match": "(\\[)((?:bitcoin:|ftp:\\/\\/|ftps:\\/\\/|geo:|git:\\/\\/|gopher:\\/\\/|http:\\/\\/|https:\\/\\/|irc:\\/\\/|ircs:\\/\\/|magnet:|mailto:|matrix:|mms:\\/\\/|news:|nntp:\\/\\/|redis:\\/\\/|sftp:\\/\\/|sip:|sips:|sms:|ssh:\\/\\/|svn:\\/\\/|tel:|telnet:\\/\\/|urn:|worldwind:\\/\\/|xmpp:|\\/\\/)[^\\[\\]<>\"\\s]*)(?=[\\[\\]<>\"\\s])([^\\]\\n]*)(\\])",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.tag.link.external.wikitext"
+						},
+						"2": {
+							"name": "entity.name.tag.url.wikitext"
+						},
+						"3": {
+							"name": "string.other.link.external.title.wikitext",
+							"patterns": [
+								{
+									"include": "$self"
+								}
+							]
+						},
+						"4": {
+							"name": "punctuation.definition.tag.link.external.wikitext"
+						}
 					}
+				},
+				"list": {
+					"name": "punctuation.definition.list.begin.markdown.wikitext",
+					"match": "^[#*;:]+"
+				},
+				"convert": {
+					"begin": "(-\\{)(?!\\{)(?:([^\\|\\{\\}\\[\\]]*)(\\|))?",
+					"end": "(\\}-)",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.tag.template.wikitext"
+						},
+						"2": {
+							"name": "entity.name.function.type.wikitext",
+							"patterns": [
+								{
+									"match": ";",
+									"name": "punctuation.terminator.flag.wikitext"
+								}
+							]
+						},
+						"3": {
+							"name": "keyword.operator.wikitext"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						},
+						{
+							"match": "(?<=[|;]\\s*)([a-z\\-]+)(:)(.*?)(?:(;)|(?=\\}-))",
+							"captures": {
+								"1": {
+									"name": "entity.name.tag.language.wikitext"
+								},
+								"2": {
+									"name": "punctuation.separator.key-value.wikitext"
+								},
+								"3": {
+									"patterns": [
+										{
+											"include": "$self"
+										}
+									]
+								},
+								"4": {
+									"name": "punctuation.terminator.rule.wikitext"
+								}
+							}
+						}
+					]
+				},
+				"table": {
+					"patterns": [
+						{
+							"name": "meta.tag.block.table.wikitext",
+							"begin": "(?<=^\\s*(?::+\\s*)?)(\\{\\|)(.*)$",
+							"end": "^\\s*(\\|\\})",
+							"captures": {
+								"1": {
+									"name": "punctuation.definition.tag.table.wikitext"
+								},
+								"2": {
+									"patterns": [
+										{
+											"include": "$self"
+										},
+										{
+											"include": "text.html.basic#attribute"
+										}
+									]
+								}
+							},
+							"patterns": [
+								{
+									"include": "$self"
+								},
+								{
+									"name": "meta.tag.block.table-row.wikitext",
+									"match": "^\\s*(\\|-+)(.*)$",
+									"captures": {
+										"1": {
+											"name": "punctuation.definition.tag.begin.wikitext"
+										},
+										"2": {
+											"patterns": [
+												{
+													"include": "$self"
+												},
+												{
+													"include": "text.html.basic#attribute"
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "meta.tag.block.th.heading",
+									"begin": "^\\s*!",
+									"end": "$",
+									"beginCaptures": {
+										"0": {
+											"name": "punctuation.definition.tag.begin.wikitext"
+										}
+									},
+									"patterns": [
+										{
+											"name": "meta.tag.block.th.inline.wikitext",
+											"match": "(?:([^\\[\\]\\{\\}]*?)(\\|))?(.*?)(!!|\\|\\||$)",
+											"captures": {
+												"1": {
+													"patterns": [
+														{
+															"include": "text.html.basic#attribute"
+														},
+														{
+															"include": "$self"
+														}
+													]
+												},
+												"2": {
+													"name": "punctuation.definition.tag.wikitext"
+												},
+												"3": {
+													"name": "markup.bold.style.wikitext",
+													"patterns": [
+														{
+															"include": "$self"
+														}
+													]
+												},
+												"4": {
+													"name": "punctuation.definition.tag.begin.wikitext"
+												}
+											}
+										},
+										{
+											"include": "$self"
+										}
+									]
+								},
+								{
+									"name": "meta.tag.block.td.wikitext",
+									"begin": "^\\s*\\|\\+?",
+									"end": "$",
+									"beginCaptures": {
+										"0": {
+											"name": "punctuation.definition.tag.begin.wikitext"
+										}
+									},
+									"patterns": [
+										{
+											"name": "meta.tag.block.td.inline.wikitext",
+											"match": "(?:([^\\[\\]\\{\\}]*?)(\\|))?(.*?)(\\|\\||$)",
+											"captures": {
+												"1": {
+													"patterns": [
+														{
+															"include": "text.html.basic#attribute"
+														},
+														{
+															"include": "$self"
+														}
+													]
+												},
+												"2": {
+													"name": "punctuation.definition.tag.wikitext"
+												},
+												"3": {
+													"name": "markup.style.wikitext",
+													"patterns": [
+														{
+															"include": "$self"
+														}
+													]
+												},
+												"4": {
+													"name": "punctuation.definition.tag.begin.wikitext"
+												}
+											}
+										},
+										{
+											"include": "$self"
+										}
+									]
+								}
+							]
+						}
+					]
 				}
 			}
 		}
