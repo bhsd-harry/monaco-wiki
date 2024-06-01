@@ -17,8 +17,8 @@ const CDN = 'https://testingcf.jsdelivr.net/npm',
 	vs = `${CDN}/monaco-editor@${version}/min/vs`;
 
 const style = document.createElement('style');
-style.textContent
-= '.monaco-editor .glyph-margin-widgets>.codicon-warning::before{color:var(--vscode-problemsWarningIcon-foreground)}'
+style.textContent =
+'.monaco-editor .glyph-margin-widgets>.codicon-warning::before{color:var(--vscode-problemsWarningIcon-foreground)}'
 + '.monaco-editor .glyph-margin-widgets>.codicon-error::before{color:var(--vscode-problemsErrorIcon-foreground)}'
 + '.monaco-hover-content code{color:inherit}';
 document.head.append(style);
