@@ -1,4 +1,4 @@
-import {getHighlighterCore} from 'shiki/core';
+import {createHighlighterCore} from 'shiki/core';
 import javascript from 'shiki/langs/javascript.mjs';
 import css from 'shiki/langs/css.mjs';
 import html from 'shiki/langs/html.mjs';
@@ -16,7 +16,7 @@ const wikitext = require('../vendor/wikitext.tmLanguage.json'),
 	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
 const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
-	const highlighter = await getHighlighterCore({
+	const highlighter = await createHighlighterCore({
 		langs: [
 			wikitext,
 			javascript,

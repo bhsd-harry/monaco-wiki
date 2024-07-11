@@ -13,7 +13,7 @@ declare global {
 }
 
 const CDN = 'https://testingcf.jsdelivr.net/npm',
-	version = '0.48.0',
+	version = '0.50.0',
 	vs = `${CDN}/monaco-editor@${version}/min/vs`;
 
 const style = document.createElement('style');

@@ -72,7 +72,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 		}, 750);
 	};
 
-	if ((getCmObject('addons') as string[] | null)?.includes('lint')) {
+	if ((getCmObject('addons') as string[] | null)?.includes('lint') !== false) {
 		const linter: ITextModelLinter = {glyphs: []};
 		(async () => {
 			switch (model.getLanguageId()) {
