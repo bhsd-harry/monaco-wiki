@@ -25,10 +25,13 @@ declare interface ITextModelLinter {
 	lint?: (text: string) => Monaco.editor.IMarkerData[] | Promise<Monaco.editor.IMarkerData[]>;
 	glyphs: string[];
 	timer?: number;
+	disabled?: boolean;
 }
 
 export interface IWikitextModel extends Monaco.editor.ITextModel {
 	linter?: ITextModelLinter;
+	// eslint-disable-next-line @typescript-eslint/method-signature-style
+	lint?: (this: IWikitextModel, on?: boolean) => void;
 }
 
 /**
@@ -47,14 +50,17 @@ const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}
 const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Config | boolean): void => {
 	/**
 	 * 更新诊断信息
-	 * @param model 文本模型
+	 * @param clear 是否清除诊断信息
 	 */
-	const update = (): void => {
+	const update = (clear?: boolean): void => {
 		const linter = model.linter!;
+		if (!clear && linter.disabled) {
+			return;
+		}
 		clearTimeout(linter.timer);
 		linter.timer = window.setTimeout(() => {
 			(async () => {
-				const diagnostics = await linter.lint!(model.getValue());
+				const diagnostics = clear ? [] : await linter.lint!(model.getValue());
 				monaco.editor.setModelMarkers(model, 'Linter', diagnostics);
 				linter.glyphs = model.deltaDecorations(
 					linter.glyphs,
@@ -69,13 +75,20 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 					})),
 				);
 			})();
-		}, 750);
+		}, clear ? 0 : 750);
 	};
 
-	if ((getCmObject('addons') as string[] | null)?.includes('lint') !== false) {
+	model.lint = function(on = true): void {
+		if (this.linter) {
+			this.linter.disabled = !on;
+			update(!on);
+			return;
+		} else if (!on) {
+			return;
+		}
 		const linter: ITextModelLinter = {glyphs: []};
 		(async () => {
-			switch (model.getLanguageId()) {
+			switch (this.getLanguageId()) {
 				case 'wikitext': {
 					const loaded = 'wikiparse' in window,
 						config: Record<string, string> | null = getCmObject('wikilint'),
@@ -133,7 +146,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 					const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
 					linter.lint = (text): Monaco.editor.IMarkerData[] => luaLint(text)
 						.map(({source, from, message}) => {
-							const {lineNumber, column} = model.getPositionAt(from);
+							const {lineNumber, column} = this.getPositionAt(from);
 							return {
 								source: source!,
 								startLineNumber: lineNumber,
@@ -148,12 +161,16 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 				// no default
 			}
 			if ('lint' in linter) {
-				model.linter = linter;
-				model.onDidChangeContent(update);
+				this.linter = linter;
+				this.onDidChangeContent(() => {
+					update();
+				});
 				update();
 			}
 		})();
-	}
+	};
+
+	model.lint((getCmObject('addons') as string[] | null)?.includes('lint'));
 };
 
 export default getLinter;
