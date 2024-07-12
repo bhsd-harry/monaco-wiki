@@ -81,7 +81,9 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 	model.lint = function(on = true): void {
 		if (this.linter) {
 			this.linter.disabled = !on;
-			update(!on);
+			if (this.linter.lint) {
+				update(!on);
+			}
 			return;
 		} else if (!on) {
 			return;
@@ -161,7 +163,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 				}
 				// no default
 			}
-			if ('lint' in linter) {
+			if (linter.lint) {
 				this.onDidChangeContent(() => {
 					update();
 				});
