@@ -87,6 +87,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 			return;
 		}
 		const linter: ITextModelLinter = {glyphs: []};
+		this.linter = linter;
 		(async () => {
 			switch (this.getLanguageId()) {
 				case 'wikitext': {
@@ -161,7 +162,6 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 				// no default
 			}
 			if ('lint' in linter) {
-				this.linter = linter;
 				this.onDidChangeContent(() => {
 					update();
 				});
