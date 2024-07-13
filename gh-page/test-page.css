@@ -1,0 +1,25 @@
+#compare h2 {
+	font-size: 1.3em;
+	margin: .5rem 0;
+	font-weight: bold;
+}
+.monaco-editor {
+	margin-top: .5em;
+	height: 75vh !important;
+}
+
+@media screen and (min-width: 1200px) {
+	#compare {
+		column-count: 2;
+		column-gap: 1rem;
+	}
+	#compare > div {
+		display: inline-block;
+		width: 100%;
+	}
+}
+@media screen and (max-width: 720px) {
+	.monaco-editor {
+		font-size: 16px;
+	}
+}

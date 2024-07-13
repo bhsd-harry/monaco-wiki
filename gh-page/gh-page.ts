@@ -1,6 +1,6 @@
 (async () => {
 	await window.monaco;
-	const container = document.querySelector<HTMLTextAreaElement>('#container')!,
+	const container = document.querySelector<HTMLDivElement>('#container')!,
 		languages = document.querySelectorAll<HTMLInputElement>('input[name="language"]'),
 		editor = monaco.editor.create(container, {
 			automaticLayout: true,
