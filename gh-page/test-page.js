@@ -1,9 +1,9 @@
 "use strict";
 (async () => {
-    const tests = await (await fetch('/wikiparser-node/test/parserTests.json')).json(), select = document.querySelector('select'), container = document.querySelector('#container'), pre = document.querySelector('pre');
+    const tests = await (await fetch('/wikiparser-node/test/parserTests.json')).json(), key = 'monaco-wiki-done', dones = new Set(JSON.parse(localStorage.getItem(key))), select = document.querySelector('select'), btn = document.querySelector('button'), container = document.querySelector('#container'), pre = document.querySelector('pre');
     Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json();
     localStorage.setItem('codemirror-mediawiki-addons', '[]');
-    const model = monaco.editor.createModel('', 'wikitext'), editor = monaco.editor.create(container, {
+    const model = (await monaco).editor.createModel('', 'wikitext'), editor = (await monaco).editor.create(container, {
         model,
         automaticLayout: true,
         theme: 'monokai',
@@ -21,6 +21,7 @@
         return Promise.resolve([[stage !== null && stage !== void 0 ? stage : Infinity, wikitext, printed]]);
     };
     void wikiparse.highlight(pre, false, true);
+    btn.disabled = !select.value;
     let optgroup;
     for (const [i, { desc, wikitext }] of tests.entries()) {
         if (wikitext === undefined) {
@@ -28,7 +29,7 @@
             optgroup.label = desc;
             select.append(optgroup);
         }
-        else {
+        else if (!dones.has(desc)) {
             const option = document.createElement('option');
             option.value = String(i);
             option.textContent = desc;
@@ -42,5 +43,12 @@
         pre.classList.remove('wikiparser');
         void wikiparse.highlight(pre, false, true);
         select.selectedOptions[0].disabled = true;
+        btn.disabled = false;
+    });
+    btn.addEventListener('click', () => {
+        dones.add(tests[Number(select.value)].desc);
+        localStorage.setItem(key, JSON.stringify([...dones]));
+        select.selectedIndex++;
+        select.dispatchEvent(new Event('change'));
     });
 })();

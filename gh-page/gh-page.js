@@ -1,7 +1,6 @@
 "use strict";
 (async () => {
-    await window.monaco;
-    const container = document.querySelector('#container'), languages = document.querySelectorAll('input[name="language"]'), editor = monaco.editor.create(container, {
+    const container = document.querySelector('#container'), languages = document.querySelectorAll('input[name="language"]'), editor = (await monaco).editor.create(container, {
         automaticLayout: true,
         theme: 'monokai',
         wordWrap: 'on',

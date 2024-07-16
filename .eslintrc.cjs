@@ -11,7 +11,7 @@ module.exports = {
 	},
 	ignorePatterns: [
 		...config.ignorePatterns,
-		'gh-page/gh-page.js',
+		'gh-page/*.js',
 	],
 	overrides: [
 		...config.overrides,

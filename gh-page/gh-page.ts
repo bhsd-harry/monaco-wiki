@@ -1,8 +1,7 @@
 (async () => {
-	await window.monaco;
 	const container = document.querySelector<HTMLDivElement>('#container')!,
 		languages = document.querySelectorAll<HTMLInputElement>('input[name="language"]'),
-		editor = monaco.editor.create(container, {
+		editor = (await monaco).editor.create(container, {
 			automaticLayout: true,
 			theme: 'monokai',
 			wordWrap: 'on',
@@ -19,7 +18,7 @@
 	const init = (lang: string): void => {
 		if (editor.getModel()?.getLanguageId() !== lang) {
 			const isMediaWiki = lang === 'wikitext';
-			editor.setModel(monaco.editor.createModel(editor.getValue(), lang));
+			editor.setModel((monaco as unknown as Awaited<typeof monaco>).editor.createModel(editor.getValue(), lang));
 			editor.updateOptions({
 				wordWrap: isMediaWiki ? 'on' : 'off',
 				unicodeHighlight: {
