@@ -7,6 +7,7 @@ import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import {shikiToMonaco} from '@shikijs/monaco';
 import getLinter from './linter.ts';
+import completion from './completion.ts';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
@@ -35,6 +36,7 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	monaco.languages.register({id: 'html', aliases: ['HTML', 'htm', 'xhtml']});
 	shikiToMonaco(highlighter, monaco);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
+	monaco.languages.registerCompletionItemProvider('wikitext', completion(monaco));
 
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
 		getLinter(monaco, model, parserConfig);

@@ -1,3 +1,11 @@
+## v1.3.0
+
+*2024-07-31*
+
+**Added**
+
+- Completion for Wikitext
+
 ## v1.2.5
 
 *2024-07-13*
