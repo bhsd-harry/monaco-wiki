@@ -21,7 +21,7 @@ const wikitext: LanguageInput = require('../vendor/wikitext.tmLanguage.json'),
 const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig;
 	config.autoClosingPairs!.push(
-		...[tempConfig.ext, tempConfig.html].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
+		...[tempConfig.ext, tempConfig.html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
 	);
 	const highlighter = await createHighlighterCore({
 		langs: [
