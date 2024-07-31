@@ -2,8 +2,6 @@
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
 // @ts-expect-error ESM
 import {getObject} from '@bhsd/codemirror-mediawiki/mw/util';
-// @ts-expect-error ESM
-import {CDN} from '@bhsd/codemirror-mediawiki/src/util';
 import {
 	getWikiLinter,
 	getJsLinter,
@@ -47,7 +45,7 @@ const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}
  * @param model 文本模型
  * @param parserConfig 解析器配置
  */
-const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Config | boolean): void => {
+const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Config | true): void => {
 	/**
 	 * 更新诊断信息
 	 * @param clear 是否清除诊断信息
@@ -97,12 +95,9 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 						config: Record<string, string> | null = getCmObject('wikilint'),
 						wikilint: LinterBase = await getWikiLinter({include: true});
 					if (!loaded) {
-						if (typeof parserConfig !== 'object') {
+						if (parserConfig === true) {
 							// eslint-disable-next-line require-atomic-updates, no-param-reassign
-							parserConfig = parserConfig
-								? getParserConfig(await wikiparse.getConfig(), await getMwConfig())
-								: await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/default.json`))
-									.json();
+							parserConfig = getParserConfig(await wikiparse.getConfig(), await getMwConfig());
 						}
 						wikiparse.setConfig(parserConfig as Config);
 					}

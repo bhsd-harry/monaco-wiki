@@ -11,12 +11,18 @@ import completion from './completion.ts';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
+import type {LanguageInput} from 'shiki/core';
 import type {IWikitextModel} from './linter.ts';
 
-const wikitext = require('../vendor/wikitext.tmLanguage.json'),
-	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json');
+const wikitext: LanguageInput = require('../vendor/wikitext.tmLanguage.json'),
+	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
+	defaultConfig: Config = require('wikiparser-node/config/default.json');
 
 const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
+	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig;
+	config.autoClosingPairs!.push(
+		...[tempConfig.ext, tempConfig.html].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
+	);
 	const highlighter = await createHighlighterCore({
 		langs: [
 			wikitext,
@@ -39,7 +45,7 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	monaco.languages.registerCompletionItemProvider('wikitext', completion(monaco));
 
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
-		getLinter(monaco, model, parserConfig);
+		getLinter(monaco, model, parserConfig || defaultConfig);
 	});
 };
 
