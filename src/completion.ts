@@ -1,5 +1,5 @@
 import type * as Monaco from 'monaco-editor';
-import type {languages} from 'monaco-editor';
+import type {languages, Position} from 'monaco-editor';
 import type {Config} from 'wikiparser-node';
 
 const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => {
@@ -21,7 +21,7 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 		words: string[],
 		kind: keyof typeof languages.CompletionItemKind,
 		mt: string,
-		{lineNumber, column}: Monaco.Position,
+		{lineNumber, column}: Position,
 	): languages.CompletionList => ({
 		suggestions: words.map(w => ({
 			label: w,

@@ -12,6 +12,7 @@ import {
 // @ts-expect-error not module
 import type {} from 'requirejs';
 import type * as Monaco from 'monaco-editor';
+import type {editor, MarkerSeverity} from 'monaco-editor';
 import type {Config} from 'wikiparser-node';
 import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
 import type {Linter} from 'eslint';
@@ -20,13 +21,13 @@ import type {Diagnostic} from '@codemirror/lint';
 
 declare interface ITextModelLinter {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
-	lint?: (text: string) => Monaco.editor.IMarkerData[] | Promise<Monaco.editor.IMarkerData[]>;
+	lint?: (text: string) => editor.IMarkerData[] | Promise<editor.IMarkerData[]>;
 	glyphs: string[];
 	timer?: number;
 	disabled?: boolean;
 }
 
-export interface IWikitextModel extends Monaco.editor.ITextModel {
+export interface IWikitextModel extends editor.ITextModel {
 	linter?: ITextModelLinter;
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	lint?: (this: IWikitextModel, on?: boolean) => void;
@@ -66,7 +67,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 						range: new monaco.Range(startLineNumber, 1, startLineNumber, 1),
 						options: {
 							glyphMarginClassName: `codicon codicon-${
-								severity === 8 as Monaco.MarkerSeverity ? 'error' : 'warning'
+								severity === 8 as MarkerSeverity ? 'error' : 'warning'
 							}`,
 							glyphMarginHoverMessage: {value: message},
 						},
@@ -101,8 +102,8 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 						}
 						wikiparse.setConfig(parserConfig as Config);
 					}
-					linter.lint = async (text): Promise<Monaco.editor.IMarkerData[]> =>
-						((await wikilint.monaco(text)) as (Monaco.editor.IMarkerData & {rule: string})[])
+					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
+						((await wikilint.monaco(text)) as (editor.IMarkerData & {rule: string})[])
 							.filter(({rule, severity}) => Number(config?.[rule] || 1) > Number(severity as number < 8));
 					break;
 				}
@@ -113,7 +114,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 							...getCmObject('ESLint'),
 						} as Linter.Config as Record<string, unknown>,
 						esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
-					linter.lint = (text): Monaco.editor.IMarkerData[] =>
+					linter.lint = (text): editor.IMarkerData[] =>
 						esLint(text).map(({ruleId, message, severity, line, column, endLine, endColumn}) => ({
 							source: `ESLint(${ruleId})`,
 							startLineNumber: line,
@@ -128,7 +129,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 				case 'css': {
 					const opt: Record<string, unknown> | null = getCmObject('Stylelint'),
 						styleLint: (code: string) => Promise<Warning[]> = await getCssLinter(opt);
-					linter.lint = async (code): Promise<Monaco.editor.IMarkerData[]> =>
+					linter.lint = async (code): Promise<editor.IMarkerData[]> =>
 						(await styleLint(code)).map(({text, severity, line, column, endLine, endColumn}) => ({
 							source: 'Stylelint',
 							startLineNumber: line,
@@ -142,19 +143,18 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 				}
 				case 'lua': {
 					const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
-					linter.lint = (text): Monaco.editor.IMarkerData[] => luaLint(text)
-						.map(({source, from, message}) => {
-							const {lineNumber, column} = this.getPositionAt(from);
-							return {
-								source: source!,
-								startLineNumber: lineNumber,
-								startColumn: column,
-								endLineNumber: lineNumber,
-								endColumn: column,
-								severity: 8,
-								message,
-							};
-						});
+					linter.lint = (text): editor.IMarkerData[] => luaLint(text).map(({source, from, message}) => {
+						const {lineNumber, column} = this.getPositionAt(from);
+						return {
+							source: source!,
+							startLineNumber: lineNumber,
+							startColumn: column,
+							endLineNumber: lineNumber,
+							endColumn: column,
+							severity: 8,
+							message,
+						};
+					});
 				}
 				// no default
 			}
