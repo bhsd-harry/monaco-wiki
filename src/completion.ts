@@ -3,6 +3,11 @@ import type {languages} from 'monaco-editor';
 import type {Config} from 'wikiparser-node';
 
 const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => {
+	monaco.editor.addKeybindingRule({
+		keybinding: monaco.KeyMod.Shift | monaco.KeyCode.Enter, // eslint-disable-line no-bitwise
+		command: 'editor.action.triggerSuggest',
+	});
+
 	/**
 	 * 生成建议列表
 	 * @param words 建议词
@@ -27,6 +32,8 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 	});
 	let config: Config | undefined;
 	return {
+		triggerCharacters: ['#'],
+
 		async provideCompletionItems(model, pos): Promise<languages.CompletionList | null> {
 			if (!('wikiparse' in window)) {
 				return null;
@@ -42,6 +49,10 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 			} else if (mt[1]) {
 				return getCompletion(Object.keys(config.parserFunction[0]), 'Function', mt[1], pos);
 			} else if (mt[2]) {
+				const {doubleUnderscore: [insensitive,, obj]} = config;
+				if (obj && insensitive.length === 0) {
+					insensitive.push(...Object.keys(obj));
+				}
 				return getCompletion((config.doubleUnderscore.slice(0, 2) as string[][]).flat(), 'Keyword', mt[2], pos);
 			} else if (mt[3]) {
 				return getCompletion([config.ext, config.html].flat(2), 'Property', mt[3], pos);
