@@ -59,6 +59,7 @@ const load = async (): Promise<typeof Monaco> => {
 	requirejs.config({paths: {vs}});
 	return new Promise(resolve => {
 		requirejs(['vs/editor/editor.main'], async () => {
+			Object.assign(monaco, {version});
 			await registerWiki(monaco, typeof mediaWiki === 'object');
 			resolve(monaco);
 		});
