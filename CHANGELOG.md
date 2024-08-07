@@ -1,3 +1,11 @@
+## v1.3.1
+
+*2024-08-07*
+
+**Added**
+
+- Reference provider for Wikitext, including extension tags
+
 ## v1.3.0
 
 *2024-08-02*

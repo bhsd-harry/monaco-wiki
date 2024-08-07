@@ -1,5 +1,6 @@
 "use strict";
 (async () => {
+    wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json());
     const container = document.querySelector('#container'), languages = document.querySelectorAll('input[name="language"]'), editor = (await monaco).editor.create(container, {
         automaticLayout: true,
         theme: 'monokai',

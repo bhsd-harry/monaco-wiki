@@ -36,7 +36,7 @@ window.MonacoEnvironment = {
 				handlebars: 'html',
 				razor: 'html',
 			},
-			path = paths[label] || 'editor',
+			path = paths[label] ?? 'editor',
 			blob = new Blob(
 				[`importScripts('${CDN}/@bhsd/monaco-editor-es@${version}/workers/${path}.worker.js')`],
 				{type: 'text/javascript'},

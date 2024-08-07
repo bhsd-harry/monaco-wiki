@@ -1,4 +1,6 @@
 (async () => {
+	wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json() as Config);
+
 	const container = document.querySelector<HTMLDivElement>('#container')!,
 		languages = document.querySelectorAll<HTMLInputElement>('input[name="language"]'),
 		editor = (await monaco).editor.create(container, {

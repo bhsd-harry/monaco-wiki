@@ -104,7 +104,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 					}
 					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
 						((await wikilint.monaco(text)) as (editor.IMarkerData & {rule: string})[])
-							.filter(({rule, severity}) => Number(config?.[rule] || 1) > Number(severity as number < 8));
+							.filter(({rule, severity}) => Number(config?.[rule] ?? 1) > Number(severity as number < 8));
 					break;
 				}
 				case 'javascript': {

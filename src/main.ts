@@ -8,6 +8,7 @@ import nord from 'shiki/themes/nord.mjs';
 import {shikiToMonaco} from '@shikijs/monaco';
 import getLinter from './linter.ts';
 import completion from './completion.ts';
+import {referenceProvider, listen} from './reference.ts';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
@@ -43,9 +44,11 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	shikiToMonaco(highlighter, monaco);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 	monaco.languages.registerCompletionItemProvider('wikitext', completion(monaco));
+	monaco.languages.registerReferenceProvider('wikitext', referenceProvider);
 
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
 		getLinter(monaco, model, parserConfig || defaultConfig);
+		listen(model);
 	});
 };
 
