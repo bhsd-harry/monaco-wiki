@@ -1,10 +1,10 @@
 ## v1.3.1
 
-*2024-08-07*
+*2024-08-17*
 
 **Added**
 
-- Reference provider for Wikitext, including extension tags
+- Reference provider for Wikitext, including extension tags, parser functions, templates, and arguments
 
 ## v1.3.0
 

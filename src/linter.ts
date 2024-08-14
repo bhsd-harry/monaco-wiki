@@ -1,7 +1,6 @@
+import {getObject} from '@bhsd/common';
 // @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
-// @ts-expect-error ESM
-import {getObject} from '@bhsd/codemirror-mediawiki/mw/util';
 import {
 	getWikiLinter,
 	getJsLinter,

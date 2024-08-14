@@ -1,3 +1,4 @@
+import {CDN as baseCDN} from '@bhsd/common';
 import registerWiki from './main.ts';
 import type * as Monaco from 'monaco-editor';
 
@@ -12,7 +13,7 @@ declare global {
 	const mediaWiki: object;
 }
 
-const CDN = 'https://testingcf.jsdelivr.net/npm',
+const CDN = `${baseCDN}/npm`,
 	version = '0.50.0',
 	vs = `${CDN}/monaco-editor@${version}/min/vs`;
 
