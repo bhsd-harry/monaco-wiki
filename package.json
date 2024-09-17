@@ -30,17 +30,17 @@
 		"build:core": "esbuild src/main.ts --bundle --minify --target=es2018 --format=esm --sourcemap --outfile=dist/main.min.js",
 		"build:all": "esbuild src/all.ts --bundle --minify --target=es2018 --sourcemap --outfile=dist/all.min.js",
 		"build:gh-page": "tsc --project gh-page/tsconfig.json",
-		"build": "npm run build:core && npm run build:all",
+		"build": "npm run build:core && npm run build:all && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js",
 		"server": "npm run test:end; http-server .. -c-1 --cors &",
 		"test:end": "pkill -x http-server"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.17.2",
-		"@bhsd/common": "^0.1.0",
+		"@bhsd/codemirror-mediawiki": "^2.17.4",
+		"@bhsd/common": "^0.1.1",
 		"@codemirror/lint": "^6.8.0",
 		"@shikijs/monaco": "^1.10.3",
 		"monaco-editor": "^0.51.0",
 		"shiki": "^1.10.3",
-		"wikiparser-node": "^1.12.5"
+		"wikiparser-node": "^1.12.7"
 	}
 }
