@@ -39,7 +39,7 @@
 		"@bhsd/common": "^0.1.1",
 		"@codemirror/lint": "^6.8.0",
 		"@shikijs/monaco": "^1.10.3",
-		"monaco-editor": "^0.51.0",
+		"monaco-editor": "^0.52.0",
 		"shiki": "^1.10.3",
 		"wikiparser-node": "^1.12.7"
 	}
