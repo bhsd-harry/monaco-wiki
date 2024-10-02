@@ -11,7 +11,6 @@ module.exports = {
 	},
 	rules: {
 		...config.rules,
-		'es-x/no-object-fromentries': 0,
 		'es-x/no-resizable-and-growable-arraybuffers': 0,
 	},
 };

@@ -14,7 +14,7 @@ declare global {
 }
 
 const CDN = `${baseCDN}/npm`,
-	version = '0.50.0',
+	version = '0.51.0',
 	vs = `${CDN}/monaco-editor@${version}/min/vs`;
 
 const style = document.createElement('style');
