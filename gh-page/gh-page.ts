@@ -11,6 +11,7 @@
 			glyphMargin: true,
 			fontSize: 14,
 			insertSpaces: false,
+			renderLineHighlight: 'gutter',
 		});
 
 	/**

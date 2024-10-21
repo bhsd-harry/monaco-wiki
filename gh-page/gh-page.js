@@ -9,6 +9,7 @@
         glyphMargin: true,
         fontSize: 14,
         insertSpaces: false,
+        renderLineHighlight: 'gutter',
     });
     const init = (lang) => {
         var _a;
