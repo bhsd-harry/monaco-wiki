@@ -1,10 +1,8 @@
-import type {languages, editor, IDisposable, Position} from 'monaco-editor';
+import {getTree} from './tree.ts';
+import type {languages, editor, Position} from 'monaco-editor';
 import type {AST, TokenTypes} from 'wikiparser-node/base.ts';
 
 declare type Ranges = [number, number][];
-declare type Tree = Promise<AST> & {docChanged?: boolean};
-
-const trees = new WeakMap<editor.ITextModel, Tree>();
 
 /**
  * 查找引用
@@ -46,7 +44,7 @@ const findRef = (
 		: [];
 };
 
-export const referenceProvider: languages.ReferenceProvider = {
+const referenceProvider: languages.ReferenceProvider = {
 	async provideReferences(model, pos) {
 		if (!('wikiparse' in window)) {
 			return null;
@@ -58,11 +56,7 @@ export const referenceProvider: languages.ReferenceProvider = {
 		if (!mt1) {
 			return null;
 		}
-		const tree = trees.get(model);
-		if (!tree || tree.docChanged) {
-			trees.set(model, wikiparse.json(model.getValue(), true, -6, 2) as Tree);
-		}
-		const refs = findRef(model, await (tree ?? trees.get(model)!), mt1[1]?.toLowerCase() ?? model.getOffsetAt(pos));
+		const refs = findRef(model, await getTree(model), mt1[1]?.toLowerCase() ?? model.getOffsetAt(pos));
 		return refs.length === 0
 			? null
 			: refs.map(ref => ({
@@ -72,9 +66,4 @@ export const referenceProvider: languages.ReferenceProvider = {
 	},
 };
 
-export const listen = (model: editor.ITextModel): IDisposable => model.onDidChangeContent(() => {
-	const tree = trees.get(model);
-	if (tree) {
-		tree.docChanged = true;
-	}
-});
+export default referenceProvider;

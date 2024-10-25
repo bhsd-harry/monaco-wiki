@@ -1,3 +1,11 @@
+## v1.4.0
+
+*2024-10-25*
+
+**Added**
+
+- Color provider for attribute values in Wikitext
+
 ## v1.3.1
 
 *2024-08-17*
