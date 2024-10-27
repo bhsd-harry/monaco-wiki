@@ -5,6 +5,7 @@
 **Changed**
 
 - Color provider for parameter values in Wikitext
+- Dynamic definition of Wikitext grammar
 
 ## v1.4.0
 
