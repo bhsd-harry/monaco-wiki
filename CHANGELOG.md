@@ -1,3 +1,11 @@
+## v1.4.1
+
+*2024-10-28*
+
+**Changed**
+
+- Color provider for parameter values in Wikitext
+
 ## v1.4.0
 
 *2024-10-25*
