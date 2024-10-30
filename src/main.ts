@@ -11,17 +11,14 @@ import completion from './completion.ts';
 import referenceProvider from './reference.ts';
 import colorProvider from './color.ts';
 import {listen} from './tree.ts';
+import wikitext from './wikitext.tmLanguage.ts';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
-import type {LanguageInput} from 'shiki/core';
-import type {IRawGrammar} from '@shikijs/core/textmate';
 import type {IWikitextModel} from './linter.ts';
+import type {IRawRule} from './wikitext.tmLanguage.ts';
 
-declare type IRawRule = IRawGrammar['repository'][string];
-
-const wikitext: LanguageInput & IRawGrammar = require('../vendor/wikitext.tmLanguage.json'),
-	config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
+const config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
 	defaultConfig: Config = require('wikiparser-node/config/default.json');
 const repository = wikitext.repository['wikitext']!.repository!,
 	magicWords = repository['magic-words']!.repository!,
