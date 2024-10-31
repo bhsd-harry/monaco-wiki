@@ -1,4 +1,3 @@
-import type {LanguageInput} from 'shiki/core';
 import type {IRawGrammar} from '@shikijs/core/textmate';
 
 export type IRawRule = IRawGrammar['repository']['$self'];
@@ -133,42 +132,6 @@ const signature = {
 			3: {name: 'punctuation.definition.tag.end.wikitext'},
 		},
 	},
-	variables = {
-		patterns: [
-			{
-				name: 'constant.language.variables.query.wikitext',
-				match: String.raw`(?i)\{\{\s*(?:$1)\s*\}\}`,
-			},
-			{
-				name: 'constant.language.variables.metadata.wikitext',
-				match: String.raw`\{\{\s*(?:$1)\s*\}\}`,
-			},
-			{
-				name: 'constant.language.variables.isbn.wikitext',
-				match: String.raw`ISBN\s+(?:97[89][\-\s]?)?(?:\d[\-\s]?){9}[\dXx]`,
-			},
-			{
-				name: 'constant.language.variables.rfc.wikitext',
-				match: String.raw`RFC\s+\d+`,
-			},
-			{
-				name: 'constant.language.variables.pmid.wikitext',
-				match: String.raw`PMID\s+\d+`,
-			},
-		],
-	},
-	behaviorSwitches = {
-		patterns: [
-			{
-				name: 'constant.language.behavior.wikitext',
-				match: '(?i)__(?:$1)__',
-			},
-			{
-				name: 'constant.language.switcher.wikitext',
-				match: '__(?:$1)__',
-			},
-		],
-	},
 	argument = {
 		name: 'variable.parameter.wikitext',
 		begin: String.raw`\{\{\{(?!\{)([^\{\}\|]*)`,
@@ -191,6 +154,18 @@ const signature = {
 					},
 					{include: '$self'},
 				],
+			},
+		],
+	},
+	variables = {
+		patterns: [
+			{
+				name: 'constant.language.variables.query.wikitext',
+				match: String.raw`(?i)\{\{\s*(?:$1)\s*\}\}`,
+			},
+			{
+				name: 'constant.language.variables.metadata.wikitext',
+				match: String.raw`\{\{\s*(?:$1)\s*\}\}`,
 			},
 		],
 	},
@@ -337,6 +312,18 @@ const signature = {
 			},
 		],
 	},
+	behaviorSwitches = {
+		patterns: [
+			{
+				name: 'constant.language.behavior.wikitext',
+				match: '(?i)__(?:$1)__',
+			},
+			{
+				name: 'constant.language.switcher.wikitext',
+				match: '__(?:$1)__',
+			},
+		],
+	},
 	hr = {
 		match: '^-{4,}',
 		name: 'markup.changed.wikitext',
@@ -413,6 +400,22 @@ const signature = {
 			4: {name: 'punctuation.definition.tag.link.external.wikitext'},
 		},
 	},
+	magicLink = {
+		patterns: [
+			{
+				name: 'constant.language.variables.isbn.wikitext',
+				match: String.raw`ISBN\s+(?:97[89][\-\s]?)?(?:\d[\-\s]?){9}[\dXx]`,
+			},
+			{
+				name: 'constant.language.variables.rfc.wikitext',
+				match: String.raw`RFC\s+\d+`,
+			},
+			{
+				name: 'constant.language.variables.pmid.wikitext',
+				match: String.raw`PMID\s+\d+`,
+			},
+		],
+	},
 	list = {
 		name: 'punctuation.definition.list.begin.markdown.wikitext',
 		match: '^[#*;:]+',
@@ -457,73 +460,75 @@ export default {
 	name: 'wikitext',
 	scopeName: 'source.wikitext',
 	patterns: [
-		{include: '#wikitext'},
+		{include: '#signature'},
+		{include: '#redirect'},
+		{include: '#wikixml'},
+		{include: '#argument'},
+		{include: '#magic-words'},
+		{include: '#template'},
+		{include: '#heading'},
 		{include: 'text.html.basic'},
+		{include: '#table'},
+		{include: '#behavior-switches'},
+		{include: '#break'},
+		{include: '#wiki-link'},
+		{include: '#font-style'},
+		{include: '#external-link'},
+		{include: '#magic-link'},
+		{include: '#list'},
+		{include: '#convert'},
 	],
 	repository: {
-		wikitext: {
+		signature,
+		redirect,
+		wikixml: {
 			patterns: [
-				{include: '#signature'},
-				{include: '#redirect'},
-				{include: '#wikixml'},
-				{include: '#magic-words'},
-				{include: '#argument'},
-				{include: '#parser-function'},
-				{include: '#template'},
-				{include: '#heading'},
-				{include: '#table'},
-				{include: '#break'},
-				{include: '#file-link'},
-				{include: '#internal-link'},
-				{include: '#font-style'},
-				{include: '#external-link'},
-				{include: '#list'},
-				{include: '#convert'},
+				{include: '#onlyinclude'},
+				{include: '#normal-wiki-tags'},
+				{include: '#wiki-self-closed-tags'},
+				{include: '#ref'},
+				{include: '#syntax-highlight'},
+				{include: '#nowiki'},
 			],
 			repository: {
-				signature,
-				redirect,
-				wikixml: {
-					patterns: [
-						{include: '#onlyinclude'},
-						{include: '#normal-wiki-tags'},
-						{include: '#wiki-self-closed-tags'},
-						{include: '#ref'},
-						{include: '#syntax-highlight'},
-						{include: '#nowiki'},
-					],
-					repository: {
-						onlyinclude,
-						'normal-wiki-tags': normalWikiTags,
-						'wiki-self-closed-tags': wikiSelfClosedTags,
-						ref,
-						'syntax-highlight': syntaxHighlight,
-						nowiki,
-					},
-				},
-				'magic-words': {
-					patterns: [
-						{include: '#variables'},
-						{include: '#behavior-switches'},
-					],
-					repository: {
-						variables,
-						'behavior-switches': behaviorSwitches,
-					},
-				},
-				argument,
-				'parser-function': parserFunction,
-				template,
-				heading,
-				table,
-				hr,
-				'file-link': fileLink,
-				'internal-link': internalLink,
-				'font-style': fontStyle,
-				'external-link': externalLink,
-				list,
-				convert,
+				onlyinclude,
+				'normal-wiki-tags': normalWikiTags,
+				'wiki-self-closed-tags': wikiSelfClosedTags,
+				ref,
+				'syntax-highlight': syntaxHighlight,
+				nowiki,
 			},
 		},
+		argument,
+		'magic-words': {
+			patterns: [
+				{include: '#variables'},
+				{include: '#parser-function'},
+			],
+			repository: {
+				variables,
+				'parser-function': parserFunction,
+			},
+		},
+		template,
+		heading,
+		table,
+		'behavior-switches': behaviorSwitches,
+		break: hr,
+		'wiki-link': {
+			patterns: [
+				{include: '#file-link'},
+				{include: '#internal-link'},
+			],
+			repository: {
+				'file-link': fileLink,
+				'internal-link': internalLink,
+			},
+		},
+		'font-style': fontStyle,
+		'external-link': externalLink,
+		'magic-link': magicLink,
+		list,
+		convert,
 	},
-} as unknown as LanguageInput & IRawGrammar;
+};
