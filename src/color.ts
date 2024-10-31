@@ -14,7 +14,10 @@ const findColors = (monaco: typeof Monaco, model: editor.ITextModel, tree: AST):
 	const {type, childNodes} = tree;
 	if (!childNodes) {
 		return [];
-	} else if (type !== 'attr-value' && (type !== 'parameter-value' || childNodes.length !== 1)) {
+	} else if (
+		type !== 'attr-value'
+		&& (type !== 'parameter-value' && type !== 'arg-default' || childNodes.length !== 1)
+	) {
 		return childNodes.flatMap(child => findColors(monaco, model, child));
 	}
 	return childNodes.flatMap(
