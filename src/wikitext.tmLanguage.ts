@@ -1,27 +1,39 @@
 import type {IRawGrammar} from '@shikijs/core/textmate';
 
 export type IRawRule = IRawGrammar['repository']['$self'];
+declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
-const extEnd = String.raw`(?i)(</)(\2)\s*(>)`;
+const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
+	tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
+	tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
+	tagName = {name: 'entity.name.tag.wikitext'},
+	attribute = {include: 'text.html.basic#attribute'},
+	linkBracket = {name: 'punctuation.definition.tag.link.internal.wikitext'},
+	pageName = {name: 'entity.other.attribute-name.wikitext'},
+	invalid = 'invalid.deprecated.ineffective.wikitext',
+	$self = {include: '$self'},
+	pipe = 'keyword.operator.wikitext',
+	tagWithoutAttribute = {
+		1: tagBegin,
+		2: tagName,
+		3: tagEnd,
+	};
 
-const extBegin = (ext: string[], suffix = '>'): string => String.raw`(?i)(<)(${ext.join('|')})(\s[^>]*)?(${suffix})`,
+const tagWithAttribute = (pos = 4): IRawCaptures => ({
+		1: tagBegin,
+		2: tagName,
+		3: {patterns: [attribute]},
+		[pos]: tagEnd,
+	}),
+	extBegin = (exts: string[], suffix = '>'): string => String.raw`(?i)(<)(${exts.join('|')})(\s[^>]*)?(${suffix})`,
 	hl = (contentName: string, include: string, lang = contentName): IRawRule => ({
+		contentName: `meta.embedded.block.${contentName}`,
 		begin: `(?i)(<)(syntaxhighlight|pre)(${
 			String.raw`(?:\s[^>]*)?(?:\slang\s*=\s*(?:(['"]?)${lang}\4))(?:\s[^>]*)?`
 		})(>)`,
-		beginCaptures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {patterns: [{include: 'text.html.basic#attribute'}]},
-			5: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
+		beginCaptures: tagWithAttribute(5),
 		end: extEnd,
-		endCaptures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
-		contentName: `meta.embedded.block.${contentName}`,
+		endCaptures: tagWithoutAttribute,
 		patterns: [{include}],
 	});
 
@@ -30,66 +42,48 @@ const signature = {
 		match: '~{3,5}',
 	},
 	redirect = {
-		match: String.raw`(?i)(^\s*(?:$1))\s*((?::\s*)?\[\[)(${
-			String.raw`(?:[^#:\|\[\]\{\}<>]*:){1,2}`
-		})?([^\|\[\]\{\}<>]*)?(\|.*?)?(\]\])`,
+		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)([^\|\[\]\{\}<>]+)(\|.*?)?(\]\])`,
 		captures: {
 			1: {name: 'keyword.control.redirect.wikitext'},
-			2: {name: 'punctuation.definition.tag.link.internal.begin.wikitext'},
-			3: {name: 'entity.name.tag.namespace.wikitext'},
-			4: {name: 'entity.other.attribute-name.wikitext'},
-			5: {name: 'invalid.deprecated.ineffective.wikitext'},
-			6: {name: 'punctuation.definition.tag.link.internal.end.wikitext'},
+			2: linkBracket,
+			3: pageName,
+			4: {name: invalid},
+			5: linkBracket,
 		},
 	},
 	onlyinclude = {
 		contentName: 'meta.block.onlyinclude.wikitext',
 		begin: '(<)(onlyinclude)(>)',
 		end: '(</)(onlyinclude)(>)',
-		captures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
-		patterns: [{include: '$self'}],
+		captures: tagWithoutAttribute,
+		patterns: [$self],
 	},
 	normalWikiTags = {
-		match: String.raw`(?i)(</?)(includeonly|noinclude)(\s[^>]*)?(/?>)`,
-		captures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {patterns: [{include: 'text.html.basic#attribute'}]},
-			4: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
+		patterns: [
+			{
+				match: String.raw`(?i)(<)(includeonly|noinclude)(\s[^>]*)?(/?>)`,
+				captures: tagWithAttribute(),
+			},
+			{
+				match: String.raw`(?i)(</)(includeonly|noinclude)\s*(>)`,
+				captures: tagWithoutAttribute,
+			},
+		],
 	},
 	wikiSelfClosedTags = {
 		match: extBegin(
 			['templatestyles', 'ref', 'references', 'nowiki', 'mapframe', 'maplink'],
 			'/>',
 		),
-		captures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {patterns: [{include: 'text.html.basic#attribute'}]},
-			4: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
+		captures: tagWithAttribute(),
 	},
 	ref = {
 		contentName: 'meta.block.ref.wikitext',
 		begin: extBegin(['ref', 'references', 'indicator', 'poem', 'gallery']),
-		beginCaptures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {patterns: [{include: 'text.html.basic#attribute'}]},
-			4: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
+		beginCaptures: tagWithAttribute(),
 		end: extEnd,
-		endCaptures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
-		patterns: [{include: '$self'}],
+		endCaptures: tagWithoutAttribute,
+		patterns: [$self],
 	},
 	syntaxHighlight = {
 		patterns: [
@@ -119,40 +113,32 @@ const signature = {
 			'ce',
 			'timeline',
 		]),
-		beginCaptures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {patterns: [{include: 'text.html.basic#attribute'}]},
-			4: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
+		beginCaptures: tagWithAttribute(),
 		end: extEnd,
-		endCaptures: {
-			1: {name: 'punctuation.definition.tag.begin.wikitext'},
-			2: {name: 'entity.name.tag.wikitext'},
-			3: {name: 'punctuation.definition.tag.end.wikitext'},
-		},
+		endCaptures: tagWithoutAttribute,
 	},
 	argument = {
-		name: 'variable.parameter.wikitext',
-		begin: String.raw`\{\{\{(?!\{)([^\{\}\|]*)`,
-		beginCaptures: {
-			1: {name: 'variable.other.wikitext'},
+		contentName: 'variable.parameter.wikitext',
+		begin: String.raw`(\{\{\{)(?!\{)([^\{\}\|]*)`,
+		end: String.raw`(\}\}\})`,
+		captures: {
+			1: {name: 'punctuation.definition.tag.variable.wikitext'},
+			2: {name: 'variable.other.wikitext'},
 		},
-		end: String.raw`\}\}\}`,
 		patterns: [
 			{
 				begin: String.raw`\|`,
 				beginCaptures: {
-					0: {name: 'keyword.operator.wikitext'},
+					0: {name: pipe},
 				},
 				end: String.raw`(?=\}\}\})`,
 				patterns: [
 					{
-						name: 'invalid.deprecated.ineffective.wikitext',
+						name: invalid,
 						begin: String.raw`\|`,
 						end: String.raw`(?=\}\}\})`,
 					},
-					{include: '$self'},
+					$self,
 				],
 			},
 		],
@@ -178,11 +164,11 @@ const signature = {
 			3: {name: 'keyword.operator.function.wikitext'},
 		},
 		patterns: [
-			{include: '$self'},
 			{
 				match: String.raw`(\|)`,
-				name: 'keyword.operator.wikitext',
+				name: pipe,
 			},
+			$self,
 		],
 	},
 	template = {
@@ -195,19 +181,19 @@ const signature = {
 			4: {name: 'entity.name.tag.local-name.wikitext'},
 		},
 		patterns: [
-			{include: '$self'},
 			{
 				match: String.raw`(\|)([^\|=\{\}\[\]<>]*[^\|=\{\}\[\]<>\s])\s*(=)`,
 				captures: {
-					1: {name: 'keyword.operator.wikitext'},
+					1: {name: pipe},
 					2: {name: 'entity.other.attribute-name.local-name.wikitext'},
 					3: {name: 'keyword.operator.equal.wikitext'},
 				},
 			},
 			{
 				match: String.raw`(\|)`,
-				name: 'keyword.operator.wikitext',
+				name: pipe,
 			},
+			$self,
 		],
 	},
 	heading = {
@@ -216,7 +202,7 @@ const signature = {
 		captures: {
 			2: {
 				name: 'string.quoted.other.heading.wikitext',
-				patterns: [{include: '$self'}],
+				patterns: [$self],
 			},
 		},
 	},
@@ -227,25 +213,24 @@ const signature = {
 				begin: String.raw`(?<=^\s*(?::+\s*)?)(\{\|)(.*)$`,
 				end: String.raw`^\s*(\|\})`,
 				captures: {
-					1: {name: 'keyword.operator.wikitext'},
+					1: {name: pipe},
 					2: {
 						patterns: [
-							{include: '$self'},
-							{include: 'text.html.basic#attribute'},
+							$self,
+							attribute,
 						],
 					},
 				},
 				patterns: [
-					{include: '$self'},
 					{
 						name: 'meta.tag.block.table-row.wikitext',
 						match: String.raw`^\s*(\|-+)(.*)$`,
 						captures: {
-							1: {name: 'keyword.operator.wikitext'},
+							1: {name: pipe},
 							2: {
 								patterns: [
-									{include: '$self'},
-									{include: 'text.html.basic#attribute'},
+									$self,
+									attribute,
 								],
 							},
 						},
@@ -255,7 +240,7 @@ const signature = {
 						begin: String.raw`^\s*!`,
 						end: '$',
 						beginCaptures: {
-							0: {name: 'keyword.operator.wikitext'},
+							0: {name: pipe},
 						},
 						patterns: [
 							{
@@ -264,19 +249,19 @@ const signature = {
 								captures: {
 									1: {
 										patterns: [
-											{include: 'text.html.basic#attribute'},
-											{include: '$self'},
+											$self,
+											attribute,
 										],
 									},
-									2: {name: 'keyword.operator.wikitext'},
+									2: {name: pipe},
 									3: {
 										name: 'markup.bold.style.wikitext',
-										patterns: [{include: '$self'}],
+										patterns: [$self],
 									},
-									4: {name: 'keyword.operator.wikitext'},
+									4: {name: pipe},
 								},
 							},
-							{include: '$self'},
+							$self,
 						],
 					},
 					{
@@ -284,7 +269,7 @@ const signature = {
 						begin: String.raw`^\s*\|\+?`,
 						end: '$',
 						beginCaptures: {
-							0: {name: 'keyword.operator.wikitext'},
+							0: {name: pipe},
 						},
 						patterns: [
 							{
@@ -293,21 +278,22 @@ const signature = {
 								captures: {
 									1: {
 										patterns: [
-											{include: 'text.html.basic#attribute'},
-											{include: '$self'},
+											$self,
+											attribute,
 										],
 									},
-									2: {name: 'keyword.operator.wikitext'},
+									2: {name: pipe},
 									3: {
 										name: 'markup.style.wikitext',
-										patterns: [{include: '$self'}],
+										patterns: [$self],
 									},
-									4: {name: 'keyword.operator.wikitext'},
+									4: {name: pipe},
 								},
 							},
-							{include: '$self'},
+							$self,
 						],
 					},
+					$self,
 				],
 			},
 		],
@@ -335,20 +321,20 @@ const signature = {
 		})[^\S\n]*([^\n\|\[\]\{\}<>#]*)(#[^\n\|\[\]\{\}]*)?`,
 		end: String.raw`(\]\])`,
 		captures: {
-			1: {name: 'punctuation.definition.tag.link.internal.wikitext'},
+			1: linkBracket,
 			2: {name: 'entity.name.tag.namespace.wikitext'},
-			3: {name: 'entity.other.attribute-name.wikitext'},
-			4: {name: 'invalid.deprecated.ineffective.wikitext'},
+			3: pageName,
+			4: {name: invalid},
 		},
 		patterns: [
-			{include: '$self'},
 			{
 				match: String.raw`(\|)([\w\s]*\w=)?`,
 				captures: {
-					1: {name: 'keyword.operator.wikitext'},
+					1: {name: pipe},
 					2: {name: 'entity.other.attribute-name.localname.wikitext'},
 				},
 			},
+			$self,
 		],
 	},
 	internalLink = {
@@ -356,20 +342,20 @@ const signature = {
 		begin: String.raw`(\[\[)((?:[^#:\n\|\[\]\{\}<>]*:){1,2})?([^\n\|\[\]\{\}<>]*)`,
 		end: String.raw`(\]\])`,
 		captures: {
-			1: {name: 'punctuation.definition.tag.link.internal.wikitext'},
+			1: linkBracket,
 			2: {name: 'entity.name.tag.namespace.wikitext'},
-			3: {name: 'entity.other.attribute-name.wikitext'},
+			3: pageName,
 		},
 		patterns: [
-			{include: '$self'},
 			{
 				begin: String.raw`\|`,
 				end: String.raw`(?=\]\])`,
 				captures: {
-					0: {name: 'keyword.operator.wikitext'},
+					0: {name: pipe},
 				},
-				patterns: [{include: '$self'}],
+				patterns: [$self],
 			},
+			$self,
 		],
 	},
 	fontStyle = {
@@ -395,7 +381,7 @@ const signature = {
 			2: {name: 'entity.name.tag.url.wikitext'},
 			3: {
 				name: 'string.other.link.external.title.wikitext',
-				patterns: [{include: '$self'}],
+				patterns: [$self],
 			},
 			4: {name: 'punctuation.definition.tag.link.external.wikitext'},
 		},
@@ -434,19 +420,19 @@ const signature = {
 					},
 				],
 			},
-			3: {name: 'keyword.operator.wikitext'},
+			3: {name: pipe},
 		},
 		patterns: [
-			{include: '$self'},
 			{
 				match: String.raw`(?<=(?:[|;]|-\{|=>)\s*)([a-z\-]+)(:)(.*?)(?:(;)|(?=\}-))`,
 				captures: {
 					1: {name: 'entity.name.tag.language.wikitext'},
 					2: {name: 'punctuation.separator.key-value.wikitext'},
-					3: {patterns: [{include: '$self'}]},
+					3: {patterns: [$self]},
 					4: {name: 'punctuation.terminator.rule.wikitext'},
 				},
 			},
+			$self,
 		],
 	};
 
