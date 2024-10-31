@@ -1,6 +1,10 @@
 ## v1.4.3
 
-*2024-10-31*
+*2024-11-01*
+
+**Fixed**
+
+- Completion for Wikitext now includes `<onlyinclude>`, `<includeonly>` and `<noinclude>`
 
 **Changed**
 

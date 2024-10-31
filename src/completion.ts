@@ -55,7 +55,12 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 				}
 				return getCompletion((config.doubleUnderscore.slice(0, 2) as string[][]).flat(), 'Keyword', mt[2], pos);
 			} else if (mt[3]) {
-				return getCompletion([config.ext, config.html].flat(2), 'Property', mt[3], pos);
+				return getCompletion(
+					[config.ext, config.html, 'onlyinclude', 'includeonly', 'noinclude'].flat(2),
+					'Property',
+					mt[3],
+					pos,
+				);
 			} else if (mt[4]) {
 				return getCompletion(config.protocol.split('|'), 'File', mt[4], pos);
 			}
