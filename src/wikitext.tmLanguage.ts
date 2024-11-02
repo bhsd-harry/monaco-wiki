@@ -79,7 +79,7 @@ const signature = {
 	},
 	ref = {
 		contentName: 'meta.block.ref.wikitext',
-		begin: extBegin(['ref', 'references', 'indicator', 'poem', 'gallery']),
+		begin: extBegin(['ref', 'references', 'inputbox', 'indicator', 'poem', 'gallery']),
 		beginCaptures: tagWithAttribute(),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -90,29 +90,26 @@ const signature = {
 			{include: '#hl-css'},
 			{include: '#hl-html'},
 			{include: '#hl-js'},
+			{include: '#hl-json'},
 		],
 		repository: {
 			'hl-css': hl('css', 'source.css'),
 			'hl-html': hl('html', 'text.html.basic'),
 			'hl-js': hl('js', 'source.js', '(?:javascript|js)'),
+			'hl-json': hl('json', 'source.json'),
 		},
+	},
+	json = {
+		contentName: 'meta.embedded.block.json',
+		begin: extBegin(['graph', 'templatedata', 'mapframe', 'maplink']),
+		beginCaptures: tagWithAttribute(),
+		end: extEnd,
+		endCaptures: tagWithoutAttribute,
+		patterns: [{include: 'source.json'}],
 	},
 	nowiki = {
 		contentName: 'meta.embedded.block.plaintext',
-		begin: extBegin([
-			'nowiki',
-			'pre',
-			'charinsert',
-			'imagemap',
-			'inputbox',
-			'score',
-			'graph',
-			'templatedata',
-			'math',
-			'chem',
-			'ce',
-			'timeline',
-		]),
+		begin: extBegin(['nowiki', 'pre', 'charinsert', 'imagemap', 'score', 'math', 'chem', 'ce', 'timeline']),
 		beginCaptures: tagWithAttribute(),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -146,6 +143,7 @@ const signature = {
 	variables = {
 		patterns: [
 			{
+				/** @todo `{{uc:x}}` */
 				name: 'constant.language.variables.query.wikitext',
 				match: String.raw`(?i)\{\{\s*(?:$1)\s*\}\}`,
 			},
@@ -474,6 +472,7 @@ export default {
 				{include: '#wiki-self-closed-tags'},
 				{include: '#ref'},
 				{include: '#syntax-highlight'},
+				{include: '#json'},
 				{include: '#nowiki'},
 			],
 			repository: {
@@ -482,6 +481,7 @@ export default {
 				'wiki-self-closed-tags': wikiSelfClosedTags,
 				ref,
 				'syntax-highlight': syntaxHighlight,
+				json,
 				nowiki,
 			},
 		},

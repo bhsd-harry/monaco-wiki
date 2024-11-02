@@ -1,6 +1,10 @@
-## v1.4.3
+## v1.5.0
 
-*2024-11-01*
+*2024-11-02*
+
+**Added**
+
+- JSON wrapped in some extension tags is now syntax highlighted
 
 **Fixed**
 
