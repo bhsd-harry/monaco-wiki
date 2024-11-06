@@ -5,6 +5,7 @@
 **Added**
 
 - JSON wrapped in some extension tags is now syntax highlighted
+- Reference provider for Wikitext now also includes HTML tags and wiki links
 
 **Fixed**
 
