@@ -23,7 +23,7 @@ const findColors = (monaco: typeof Monaco, model: editor.ITextModel, tree: AST):
 	return childNodes.flatMap(
 		({childNodes: ch, data, range: [start]}) => ch
 			? ch.flatMap(child => findColors(monaco, model, child))
-			: splitColors(data!).filter(([,,, isColor]) => isColor)
+			: splitColors(data!, false).filter(([,,, isColor]) => isColor)
 				.map(([s, from, to]): languages.IColorInformation => {
 					const range = monaco.Range.fromPositions(
 						model.getPositionAt(start + from),

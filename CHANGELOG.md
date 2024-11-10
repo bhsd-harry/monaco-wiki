@@ -1,6 +1,6 @@
 ## v1.5.0
 
-*2024-11-02*
+*2024-11-11*
 
 **Added**
 
@@ -14,6 +14,7 @@
 **Changed**
 
 - Color provider for argument default values in Wikitext
+- Completion for behavior switches in Wikitext
 
 ## v1.4.2
 

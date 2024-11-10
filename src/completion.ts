@@ -30,39 +30,38 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 			range: new monaco.Range(lineNumber, column - mt.length, lineNumber, column),
 		})),
 	});
-	let config: Config | undefined;
+	let config: Config | undefined,
+		tags: string[],
+		functions: string[],
+		switches: string[],
+		protocols: string[];
 	return {
 		triggerCharacters: ['#'],
 
 		async provideCompletionItems(model, pos): Promise<languages.CompletionList | null> {
 			if (!('wikiparse' in window)) {
 				return null;
-			}
-			if (!config?.namespaces[1]) {
+			} else if (!config?.namespaces[1]) {
 				config = await wikiparse.getConfig(); // eslint-disable-line require-atomic-updates
+				const {ext, html, parserFunction, doubleUnderscore, protocol} = config;
+				tags = [ext, html, 'onlyinclude', 'includeonly', 'noinclude'].flat(2);
+				functions = [...Object.keys(parserFunction[0]), parserFunction.slice(1) as string[][]].flat(2);
+				switches = (doubleUnderscore.slice(0, 2) as string[][]).flat().map(w => `__${w}__`);
+				protocols = protocol.split('|');
 			}
 			const before = model.getValueInRange(new monaco.Range(pos.lineNumber, 1, pos.lineNumber, pos.column)),
-				mt = /(?:\{\{\s*(#[^|{}<>[\]#:]*)|__((?:(?!__)[\p{L}\d_])+)|<\/?([a-z\d]+)|(?:^|[^[])\[([a-z:/]+))$/iu
-					.exec(before);
+				re = /(?:<\/?(\w+)|\{\{\s*(#[^|{}<>[\]#]*)|(__(?:(?!__)[\p{L}\d_])+)|(?:^|[^[])\[([a-z:/]+))$/iu,
+				mt = re.exec(before);
 			if (!mt) {
 				return null;
-			} else if (mt[1]) {
-				return getCompletion(Object.keys(config.parserFunction[0]), 'Function', mt[1], pos);
-			} else if (mt[2]) {
-				const {doubleUnderscore: [insensitive,, obj]} = config;
-				if (obj && insensitive.length === 0) {
-					insensitive.push(...Object.keys(obj));
-				}
-				return getCompletion((config.doubleUnderscore.slice(0, 2) as string[][]).flat(), 'Keyword', mt[2], pos);
-			} else if (mt[3]) {
-				return getCompletion(
-					[config.ext, config.html, 'onlyinclude', 'includeonly', 'noinclude'].flat(2),
-					'Property',
-					mt[3],
-					pos,
-				);
-			} else if (mt[4]) {
-				return getCompletion(config.protocol.split('|'), 'File', mt[4], pos);
+			} else if (mt[1]) { // tag
+				return getCompletion(tags, 'Class', mt[1], pos);
+			} else if (mt[2]) { // parser function
+				return getCompletion(functions, 'Function', mt[2], pos);
+			} else if (mt[3]) { // behavior switch
+				return getCompletion(switches, 'Constant', mt[3], pos);
+			} else if (mt[4]) { // protocol
+				return getCompletion(protocols, 'Reference', mt[4], pos);
 			}
 			throw new Error('Unknown completion type!');
 		},
