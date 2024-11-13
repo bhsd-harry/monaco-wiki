@@ -9,7 +9,7 @@ import nord from 'shiki/themes/nord.mjs';
 import {shikiToMonaco} from '@shikijs/monaco';
 import getLinter from './linter.ts';
 import completion from './completion.ts';
-import {referenceProvider, highlightProvider} from './reference.ts';
+import {referenceProvider, highlightProvider, renameProvider} from './reference.ts';
 import colorProvider from './color.ts';
 import {listen} from './tree.ts';
 import wikitext from './wikitext.tmLanguage.ts';
@@ -78,9 +78,10 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	shikiToMonaco(highlighter, monaco);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 	monaco.languages.registerCompletionItemProvider('wikitext', completion(monaco));
-	monaco.languages.registerReferenceProvider('wikitext', referenceProvider);
-	monaco.languages.registerDocumentHighlightProvider('wikitext', highlightProvider);
+	monaco.languages.registerReferenceProvider('wikitext', referenceProvider(monaco));
+	monaco.languages.registerDocumentHighlightProvider('wikitext', highlightProvider(monaco));
 	monaco.languages.registerColorProvider('wikitext', colorProvider(monaco));
+	monaco.languages.registerRenameProvider('wikitext', renameProvider(monaco));
 
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
 		getLinter(monaco, model, parserConfig || defaultConfig);

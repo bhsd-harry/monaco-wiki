@@ -1,5 +1,5 @@
 import {splitColors} from '@bhsd/common';
-import {getTree} from './tree.ts';
+import {getTree, fromPositions} from './tree.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages, editor} from 'monaco-editor';
 import type {AST} from 'wikiparser-node/base.ts';
@@ -25,10 +25,7 @@ const findColors = (monaco: typeof Monaco, model: editor.ITextModel, tree: AST):
 			? ch.flatMap(child => findColors(monaco, model, child))
 			: splitColors(data!, false).filter(([,,, isColor]) => isColor)
 				.map(([s, from, to]): languages.IColorInformation => {
-					const range = monaco.Range.fromPositions(
-						model.getPositionAt(start + from),
-						model.getPositionAt(start + to),
-					);
+					const range = fromPositions(monaco, model, [start + from, start + to]);
 					if (s.startsWith('#')) {
 						const short = s.length < 7;
 						return {

@@ -1,4 +1,5 @@
-import type {editor, IDisposable} from 'monaco-editor';
+import type * as Monaco from 'monaco-editor';
+import type {editor, IDisposable, Range as R, Position} from 'monaco-editor';
 import type {AST} from 'wikiparser-node/base.ts';
 
 declare type Tree = Promise<AST> & {docChanged?: boolean};
@@ -20,3 +21,6 @@ export const listen = (model: editor.ITextModel): IDisposable => model.onDidChan
 		tree.docChanged = true;
 	}
 });
+
+export const fromPositions = (monaco: typeof Monaco, model: editor.ITextModel, ref: [number, number]): R =>
+	monaco.Range.fromPositions(...ref.map(i => model.getPositionAt(i)) as [Position, Position]);

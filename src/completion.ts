@@ -45,7 +45,7 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 				config = await wikiparse.getConfig(); // eslint-disable-line require-atomic-updates
 				const {ext, html, parserFunction, doubleUnderscore, protocol} = config;
 				tags = [ext, html, 'onlyinclude', 'includeonly', 'noinclude'].flat(2);
-				functions = [...Object.keys(parserFunction[0]), parserFunction.slice(1) as string[][]].flat(2);
+				functions = [Object.keys(parserFunction[0]), parserFunction.slice(1) as string[][]].flat(2);
 				switches = (doubleUnderscore.slice(0, 2) as string[][]).flat().map(w => `__${w}__`);
 				protocols = protocol.split('|');
 			}

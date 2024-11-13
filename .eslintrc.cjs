@@ -16,6 +16,16 @@ module.exports = {
 	overrides: [
 		...config.overrides,
 		{
+			files: 'src/*.ts',
+			excludedFiles: 'src/all.ts',
+			rules: {
+				'no-restricted-globals': [
+					2,
+					'monaco',
+				],
+			},
+		},
+		{
 			files: 'gh-page/*.ts',
 			parserOptions: {
 				project: 'gh-page/tsconfig.json',

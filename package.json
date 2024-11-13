@@ -36,11 +36,11 @@
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.18.8",
-		"@bhsd/common": "^0.4.2",
+		"@bhsd/common": "^0.4.3",
 		"@codemirror/lint": "^6.8.0",
 		"@shikijs/monaco": "^1.10.3",
 		"monaco-editor": "^0.52.0",
 		"shiki": "^1.10.3",
-		"wikiparser-node": "^1.13.2"
+		"wikiparser-node": "^1.13.4"
 	}
 }
