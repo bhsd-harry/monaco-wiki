@@ -7,6 +7,7 @@
 - JSON wrapped in some extension tags is now syntax highlighted
 - Reference provider for Wikitext now also includes HTML tags and wiki links
 - Rename provider for Wikitext, including parser functions, templates, arguments and wiki links
+- Completion for tag attribute keys in Wikitext
 
 **Fixed**
 
