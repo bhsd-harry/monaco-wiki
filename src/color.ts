@@ -1,4 +1,4 @@
-import {splitColors} from '@bhsd/common';
+import {splitColors, numToHex} from '@bhsd/common';
 import {getTree, fromPositions} from './tree.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages, editor} from 'monaco-editor';
@@ -52,8 +52,6 @@ const findColors = (monaco: typeof Monaco, model: editor.ITextModel, tree: AST):
 				}),
 	);
 };
-
-const numToHex = (d: number): string => Math.round(d * 255).toString(16).padStart(2, '0');
 
 const colorProvider = (monaco: typeof Monaco): languages.DocumentColorProvider => ({
 	async provideDocumentColors(model) {

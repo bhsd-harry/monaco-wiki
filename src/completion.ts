@@ -30,11 +30,13 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 			range: new monaco.Range(lineNumber, column - mt.length, lineNumber, column),
 		})),
 	});
+
 	let config: Config | undefined,
 		tags: string[],
 		functions: string[],
 		switches: string[],
 		protocols: string[];
+
 	return {
 		triggerCharacters: ['#'],
 
