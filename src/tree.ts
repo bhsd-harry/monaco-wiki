@@ -6,10 +6,15 @@ declare type Tree = Promise<AST> & {docChanged?: boolean};
 
 const trees = new WeakMap<editor.ITextModel, Tree>();
 
-export const getTree = (model: editor.ITextModel): Tree => {
+/**
+ * 获取语法树
+ * @param model 键
+ * @param stage 解析阶段，现仅用于CodeMirror
+ */
+export const getTree = (model: editor.ITextModel, stage = 8): Tree => {
 	let tree = trees.get(model);
 	if (!tree || tree.docChanged) {
-		tree = wikiparse.json(model.getValue(), true, -6, 8);
+		tree = wikiparse.json(model.getValue(), true, -6, stage);
 		trees.set(model, tree);
 	}
 	return tree;

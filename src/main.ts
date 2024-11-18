@@ -12,6 +12,7 @@ import completion from './completion.ts';
 import {referenceProvider, highlightProvider, renameProvider} from './reference.ts';
 import colorProvider from './color.ts';
 import {listen} from './tree.ts';
+import foldProvider from './fold.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
@@ -82,6 +83,7 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 	monaco.languages.registerDocumentHighlightProvider('wikitext', highlightProvider(monaco));
 	monaco.languages.registerColorProvider('wikitext', colorProvider(monaco));
 	monaco.languages.registerRenameProvider('wikitext', renameProvider(monaco));
+	monaco.languages.registerFoldingRangeProvider('wikitext', foldProvider);
 
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
 		getLinter(monaco, model, parserConfig || defaultConfig);
