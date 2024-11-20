@@ -40,4 +40,26 @@
 		}
 	}
 	Object.assign(window, {editor});
+
+	/** 切换语言 */
+	const hashMap = new Map<string, string>([
+		['wiki', 'wikitext'],
+		['wikitext', 'wikitext'],
+		['mediawiki', 'wikitext'],
+		['javascript', 'javascript'],
+		['js', 'javascript'],
+		['css', 'css'],
+		['lua', 'lua'],
+		['json', 'json'],
+	]);
+	window.addEventListener('hashchange', () => {
+		const element = document.getElementById(
+			hashMap.get(location.hash.slice(1).toLowerCase())!,
+		) as HTMLInputElement | null;
+		if (element) {
+			element.checked = true;
+			element.dispatchEvent(new Event('change'));
+		}
+	});
+	window.dispatchEvent(new Event('hashchange'));
 })();

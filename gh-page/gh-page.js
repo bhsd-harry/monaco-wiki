@@ -33,4 +33,22 @@
         }
     }
     Object.assign(window, { editor });
+    const hashMap = new Map([
+        ['wiki', 'wikitext'],
+        ['wikitext', 'wikitext'],
+        ['mediawiki', 'wikitext'],
+        ['javascript', 'javascript'],
+        ['js', 'javascript'],
+        ['css', 'css'],
+        ['lua', 'lua'],
+        ['json', 'json'],
+    ]);
+    window.addEventListener('hashchange', () => {
+        const element = document.getElementById(hashMap.get(location.hash.slice(1).toLowerCase()));
+        if (element) {
+            element.checked = true;
+            element.dispatchEvent(new Event('change'));
+        }
+    });
+    window.dispatchEvent(new Event('hashchange'));
 })();
