@@ -16,7 +16,7 @@ import type {Config} from 'wikiparser-node';
 import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
 import type {Linter} from 'eslint';
 import type {Warning} from 'stylelint';
-import type {Diagnostic} from '@codemirror/lint';
+import type {Diagnostic} from 'luacheck-browserify';
 
 declare interface ITextModelLinter {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
@@ -141,19 +141,17 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 					break;
 				}
 				case 'lua': {
-					const luaLint: (text: string) => Diagnostic[] = await getLuaLinter();
-					linter.lint = (text): editor.IMarkerData[] => luaLint(text).map(({source, from, message}) => {
-						const {lineNumber, column} = this.getPositionAt(from);
-						return {
-							source: source!,
-							startLineNumber: lineNumber,
+					const luaLint: (text: string) => Promise<Diagnostic[]> = await getLuaLinter();
+					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
+						(await luaLint(text)).map(({line, column, end_column: endColumn, msg, severity}) => ({
+							source: 'Luacheck',
+							startLineNumber: line,
 							startColumn: column,
-							endLineNumber: lineNumber,
-							endColumn: column,
-							severity: 8,
-							message,
-						};
-					});
+							endLineNumber: line,
+							endColumn: endColumn + 1,
+							severity: severity * 4,
+							message: msg,
+						}));
 				}
 				// no default
 			}
