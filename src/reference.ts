@@ -85,8 +85,8 @@ async function provider(
 	const {lineNumber} = pos,
 		column = model.getWordAtPosition(pos)?.endColumn ?? pos.column,
 		before = model.getValueInRange(new monaco.Range(lineNumber, 1, lineNumber, column)),
-		mt1 = /(?:<\/?(\w+)|(?:\{\{|\[\[)(?:[^|{}[\]<]|<!--)+)$/u.exec(before);
-	if (!mt1 || mt1[1] && newName !== undefined) {
+		mt1 = /(?:<\/?(\w+)|(\{\{|\[\[)(?:[^|{}[\]<]|<!--)+)$/u.exec(before);
+	if (!mt1 || mt1[2] !== '{{' && newName !== undefined) {
 		return null;
 	}
 	const refs = findRef(
