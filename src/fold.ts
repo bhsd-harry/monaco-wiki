@@ -11,7 +11,7 @@ const fold = (
 	levels: (number | undefined)[],
 ): void => {
 	const {lineNumber} = model.getPositionAt(from),
-		{lineNumber: end, column} = model.getPositionAt(to);
+		{lineNumber: end} = model.getPositionAt(to);
 	if (type === 'heading') {
 		for (let i = level! - 1; i < 6; i++) {
 			const start = levels[i];
@@ -19,7 +19,7 @@ const fold = (
 				ranges.push({start, end: lineNumber - 1});
 			}
 		}
-		levels[level! - 1] = end - (column === 1 ? 1 : 0);
+		levels[level! - 1] = model.getPositionAt(childNodes[0]!.range[1]).lineNumber;
 	} else if (types.has(type) && end - lineNumber > 1) {
 		ranges.push({start: lineNumber, end: end - 1});
 	}
