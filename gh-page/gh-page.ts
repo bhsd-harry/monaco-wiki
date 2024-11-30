@@ -39,7 +39,7 @@
 			init(input.id);
 		}
 	}
-	Object.assign(window, {editor});
+	Object.assign(globalThis, {editor});
 
 	/** 切换语言 */
 	const hashMap = new Map<string, string>([
@@ -52,7 +52,7 @@
 		['lua', 'lua'],
 		['json', 'json'],
 	]);
-	window.addEventListener('hashchange', () => {
+	addEventListener('hashchange', () => {
 		const element = document.getElementById(
 			hashMap.get(location.hash.slice(1).toLowerCase())!,
 		) as HTMLInputElement | null;
@@ -61,5 +61,5 @@
 			element.dispatchEvent(new Event('change'));
 		}
 	});
-	window.dispatchEvent(new Event('hashchange'));
+	dispatchEvent(new Event('hashchange'));
 })();

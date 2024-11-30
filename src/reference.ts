@@ -79,7 +79,7 @@ async function provider(
 	pos: Position,
 	newName?: string | true,
 ): Promise<Reference[] | languages.RenameLocation | languages.WorkspaceEdit | null> {
-	if (!('wikiparse' in window)) {
+	if (!('wikiparse' in globalThis)) {
 		return null;
 	}
 	const {lineNumber} = pos,

@@ -26,7 +26,7 @@ declare interface Test {
 			minimap: {enabled: false},
 			unicodeHighlight: {ambiguousCharacters: false},
 		});
-	Object.assign(window, {editor});
+	Object.assign(globalThis, {editor});
 	/** @implements */
 	wikiparse.print = (wikitext, include, stage): Promise<[number, string, string][]> => {
 		const printed = Parser.parse(wikitext, include, stage).print();

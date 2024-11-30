@@ -46,7 +46,7 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 		triggerCharacters: ['#'],
 
 		async provideCompletionItems(model, pos): Promise<languages.CompletionList | null> {
-			if (!('wikiparse' in window)) {
+			if (!('wikiparse' in globalThis)) {
 				return null;
 			} else if (!config?.namespaces[1]) {
 				config = await wikiparse.getConfig(); // eslint-disable-line require-atomic-updates

@@ -24,7 +24,7 @@ style.textContent =
 + '.monaco-hover-content code{color:inherit}';
 document.head.append(style);
 
-window.MonacoEnvironment = {
+const MonacoEnvironment: Monaco.Environment = {
 	getWorker(_, label): Worker {
 		const paths: Record<string, string> = {
 				css: 'css',
@@ -48,6 +48,7 @@ window.MonacoEnvironment = {
 		return worker;
 	},
 };
+Object.assign(globalThis, {MonacoEnvironment});
 
 const load = async (): Promise<typeof Monaco> => {
 	await new Promise(resolve => {
@@ -56,7 +57,7 @@ const load = async (): Promise<typeof Monaco> => {
 		script.addEventListener('load', resolve);
 		document.head.append(script);
 	});
-	const requirejs = window.require as unknown as Require;
+	const requirejs = globalThis.require as unknown as Require;
 	requirejs.config({paths: {vs}});
 	return new Promise(resolve => {
 		requirejs(['vs/editor/editor.main'], async () => {
@@ -66,4 +67,4 @@ const load = async (): Promise<typeof Monaco> => {
 		});
 	});
 };
-Object.assign(window, {monaco: load()});
+Object.assign(globalThis, {monaco: load()});

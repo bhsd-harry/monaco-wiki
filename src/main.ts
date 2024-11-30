@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import {createHighlighterCore} from 'shiki/core';
+import {createOnigurumaEngine} from 'shiki/engine/oniguruma';
 import javascript from 'shiki/langs/javascript.mjs';
 import css from 'shiki/langs/css.mjs';
 import htm from 'shiki/langs/html.mjs';
@@ -69,7 +71,7 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 			monokai,
 			nord,
 		],
-		loadWasm,
+		engine: createOnigurumaEngine(loadWasm),
 	});
 	monaco.languages.register({id: 'wikitext', aliases: ['Wikitext', 'mediawiki', 'MediaWiki', 'wiki']});
 	monaco.languages.register({id: 'javascript', aliases: ['JavaScript', 'js']});

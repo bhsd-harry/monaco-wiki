@@ -55,7 +55,7 @@ const findColors = (monaco: typeof Monaco, model: editor.ITextModel, tree: AST):
 
 const colorProvider = (monaco: typeof Monaco): languages.DocumentColorProvider => ({
 	async provideDocumentColors(model) {
-		return 'wikiparse' in window ? findColors(monaco, model, await getTree(model)) : null;
+		return 'wikiparse' in globalThis ? findColors(monaco, model, await getTree(model)) : null;
 	},
 	provideColorPresentations(_, {color, range}) {
 		const text = `#${numToHex(color.red)}${numToHex(color.green)}${numToHex(color.blue)}${

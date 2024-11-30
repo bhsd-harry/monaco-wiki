@@ -22,7 +22,7 @@ declare interface ITextModelLinter {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	lint?: (text: string) => editor.IMarkerData[] | Promise<editor.IMarkerData[]>;
 	glyphs: string[];
-	timer?: number;
+	timer?: NodeJS.Timeout;
 	disabled?: boolean;
 }
 
@@ -56,7 +56,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 			return;
 		}
 		clearTimeout(linter.timer);
-		linter.timer = window.setTimeout(() => {
+		linter.timer = setTimeout(() => {
 			(async () => {
 				const diagnostics = clear ? [] : await linter.lint!(model.getValue());
 				monaco.editor.setModelMarkers(model, 'Linter', diagnostics);
@@ -91,7 +91,7 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 		(async () => {
 			switch (this.getLanguageId()) {
 				case 'wikitext': {
-					const loaded = 'wikiparse' in window,
+					const loaded = 'wikiparse' in globalThis,
 						config: Record<string, string> | null = getCmObject('wikilint'),
 						wikilint: LinterBase = await getWikiLinter({include: true});
 					if (!loaded) {
