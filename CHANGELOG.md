@@ -1,10 +1,17 @@
-## v1.5.0
+## v1.6.0
 
-*2024-11-21*
+*2024-12-03*
 
 **Added**
 
 - JSON wrapped in some extension tags is now syntax highlighted
+
+## v1.5.0
+
+*2024-12-02*
+
+**Added**
+
 - Reference provider for Wikitext now also includes HTML tags and wiki links
 - Rename provider for Wikitext, including parser functions, templates and arguments
 - Completion for tag attribute keys in Wikitext
