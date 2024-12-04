@@ -17,6 +17,7 @@ const fold = (
 			if (start !== undefined && start < lineNumber - 1) {
 				ranges.push({start, end: lineNumber - 1});
 			}
+			levels[i] = undefined;
 		}
 		levels[level! - 1] = model.getPositionAt(childNodes[0]!.range[1]).lineNumber;
 	} else {

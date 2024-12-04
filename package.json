@@ -24,6 +24,7 @@
 		"url": "git+https://github.com/bhsd-harry/monaco-wiki.git"
 	},
 	"scripts": {
+		"prepublishOnly": "npm run build",
 		"lint:ts": "tsc && tsc --project gh-page/tsconfig.json --noEmit && eslint --cache .",
 		"lint:css": "stylelint gh-page/*.css",
 		"lint": "npm run lint:ts && npm run lint:css",
@@ -35,7 +36,7 @@
 		"test:end": "pkill -x http-server"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.18.9",
+		"@bhsd/codemirror-mediawiki": "^2.19.3",
 		"@bhsd/common": "^0.4.6",
 		"@codemirror/lint": "^6.8.4",
 		"@shikijs/monaco": "^1.24.0",
@@ -61,6 +62,6 @@
 		"stylelint": "^16.11.0",
 		"stylelint-config-recommended": "^14.0.0",
 		"typescript": "^5.7.2",
-		"wikiparser-node": "^1.13.8"
+		"wikiparser-node": "^1.14.0"
 	}
 }

@@ -32,7 +32,7 @@
             init(input.id);
         }
     }
-    Object.assign(window, { editor });
+    Object.assign(globalThis, { editor });
     const hashMap = new Map([
         ['wiki', 'wikitext'],
         ['wikitext', 'wikitext'],
@@ -43,12 +43,12 @@
         ['lua', 'lua'],
         ['json', 'json'],
     ]);
-    window.addEventListener('hashchange', () => {
+    addEventListener('hashchange', () => {
         const element = document.getElementById(hashMap.get(location.hash.slice(1).toLowerCase()));
         if (element) {
             element.checked = true;
             element.dispatchEvent(new Event('change'));
         }
     });
-    window.dispatchEvent(new Event('hashchange'));
+    dispatchEvent(new Event('hashchange'));
 })();

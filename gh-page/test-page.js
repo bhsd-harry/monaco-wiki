@@ -15,7 +15,7 @@
         minimap: { enabled: false },
         unicodeHighlight: { ambiguousCharacters: false },
     });
-    Object.assign(window, { editor });
+    Object.assign(globalThis, { editor });
     wikiparse.print = (wikitext, include, stage) => {
         const printed = Parser.parse(wikitext, include, stage).print();
         return Promise.resolve([[stage !== null && stage !== void 0 ? stage : Infinity, wikitext, printed]]);
