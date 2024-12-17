@@ -1,4 +1,4 @@
-import {commonHtmlAttrs, htmlAttrs, extAttrs} from 'wikiparser-node/util/sharable.ts';
+import {commonHtmlAttrs, htmlAttrs, extAttrs} from 'wikiparser-node/dist/util/sharable.mjs';
 import type * as Monaco from 'monaco-editor';
 import type {languages, Position} from 'monaco-editor';
 import type {Config} from 'wikiparser-node';

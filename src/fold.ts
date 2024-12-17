@@ -1,6 +1,6 @@
 import {getTree} from './tree.ts';
 import type {languages, editor} from 'monaco-editor';
-import type {AST} from 'wikiparser-node/base.ts';
+import type {AST} from 'wikiparser-node';
 
 const types = new Set<string | undefined>(['table', 'template', 'magic-word']);
 

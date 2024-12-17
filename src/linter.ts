@@ -1,13 +1,13 @@
 import {getObject} from '@bhsd/common';
 // @ts-expect-error ESM
-import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import {
 	getWikiLinter,
 	getJsLinter,
 	getCssLinter,
 	getLuaLinter,
-	// @ts-expect-error ESM
-} from '@bhsd/codemirror-mediawiki/src/linter';
+// @ts-expect-error ESM
+} from '@bhsd/codemirror-mediawiki/dist/linter.mjs';
 // @ts-expect-error not module
 import type {} from 'requirejs';
 import type * as Monaco from 'monaco-editor';

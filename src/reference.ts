@@ -2,7 +2,7 @@
 import {getTree, fromPositions} from './tree.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages, editor, Position, Range as R, Uri} from 'monaco-editor';
-import type {AST, TokenTypes} from 'wikiparser-node/base.ts';
+import type {AST, TokenTypes} from 'wikiparser-node';
 
 declare type Ranges = [number, number][];
 declare interface Reference {

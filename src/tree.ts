@@ -1,20 +1,21 @@
 import type * as Monaco from 'monaco-editor';
 import type {editor, IDisposable, Range as R, Position} from 'monaco-editor';
-import type {AST} from 'wikiparser-node/base.ts';
+import type {EditorView} from '@codemirror/view';
+import type {AST} from 'wikiparser-node';
 
 declare type Tree = Promise<AST> & {docChanged?: boolean};
 
-const trees = new WeakMap<editor.ITextModel, Tree>();
+export const trees = new WeakMap<editor.ITextModel | EditorView, Tree>();
 
 /**
  * 获取语法树
  * @param model 键
  * @param stage 解析阶段，现仅用于CodeMirror
  */
-export const getTree = (model: editor.ITextModel, stage = 8): Tree => {
+export const getTree = (model: editor.ITextModel | EditorView, stage = 8): Tree => {
 	let tree = trees.get(model);
 	if (!tree || tree.docChanged) {
-		tree = wikiparse.json(model.getValue(), true, -6, stage);
+		tree = wikiparse.json('state' in model ? String(model.state.doc) : model.getValue(), true, -5, stage);
 		trees.set(model, tree);
 	}
 	return tree;

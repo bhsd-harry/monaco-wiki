@@ -2,7 +2,7 @@ import {splitColors, numToHex} from '@bhsd/common';
 import {getTree, fromPositions} from './tree.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages, editor} from 'monaco-editor';
-import type {AST} from 'wikiparser-node/base.ts';
+import type {AST} from 'wikiparser-node';
 
 /**
  * 查找颜色
