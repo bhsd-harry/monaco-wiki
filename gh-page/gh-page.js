@@ -1,7 +1,7 @@
 "use strict";
 (async () => {
     wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json());
-    const container = document.querySelector('#container'), languages = document.querySelectorAll('input[name="language"]'), editor = (await monaco).editor.create(container, {
+    const container = document.querySelector('#container'), languages = [...document.querySelectorAll('input[name="language"]')], editor = (await monaco).editor.create(container, {
         automaticLayout: true,
         theme: 'monokai',
         wordWrap: 'on',
@@ -33,7 +33,6 @@
             init(input.id);
         }
     }
-    Object.assign(globalThis, { editor });
     const hashMap = new Map([
         ['wiki', 'wikitext'],
         ['wikitext', 'wikitext'],
@@ -45,11 +44,12 @@
         ['json', 'json'],
     ]);
     addEventListener('hashchange', () => {
-        const element = document.getElementById(hashMap.get(location.hash.slice(1).toLowerCase()));
+        const target = hashMap.get(location.hash.slice(1).toLowerCase()), element = languages.find(({ id }) => id === target);
         if (element) {
             element.checked = true;
             element.dispatchEvent(new Event('change'));
         }
     });
     dispatchEvent(new Event('hashchange'));
+    Object.assign(globalThis, { editor });
 })();

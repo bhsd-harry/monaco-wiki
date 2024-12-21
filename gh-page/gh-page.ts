@@ -2,7 +2,7 @@
 	wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json() as Config);
 
 	const container = document.querySelector<HTMLDivElement>('#container')!,
-		languages = document.querySelectorAll<HTMLInputElement>('input[name="language"]'),
+		languages = [...document.querySelectorAll<HTMLInputElement>('input[name="language"]')],
 		editor = (await monaco).editor.create(container, {
 			automaticLayout: true,
 			theme: 'monokai',
@@ -31,6 +31,7 @@
 		}
 	};
 
+	// 初始化语言
 	for (const input of languages) {
 		input.addEventListener('change', () => {
 			init(input.id);
@@ -40,9 +41,6 @@
 			init(input.id);
 		}
 	}
-	Object.assign(globalThis, {editor});
-
-	/** 切换语言 */
 	const hashMap = new Map<string, string>([
 		['wiki', 'wikitext'],
 		['wikitext', 'wikitext'],
@@ -54,13 +52,14 @@
 		['json', 'json'],
 	]);
 	addEventListener('hashchange', () => {
-		const element = document.getElementById(
-			hashMap.get(location.hash.slice(1).toLowerCase())!,
-		) as HTMLInputElement | null;
+		const target = hashMap.get(location.hash.slice(1).toLowerCase()),
+			element = languages.find(({id}) => id === target);
 		if (element) {
 			element.checked = true;
 			element.dispatchEvent(new Event('change'));
 		}
 	});
 	dispatchEvent(new Event('hashchange'));
+
+	Object.assign(globalThis, {editor});
 })();
