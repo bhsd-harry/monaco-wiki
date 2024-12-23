@@ -6,7 +6,7 @@ import type {Config} from 'wikiparser-node';
 // eslint-disable-next-line @stylistic/max-len
 const re = /(?:<\/?(\w+)|\{\{\s*(#[^|{}<>[\]#]*)|(__(?:(?!__)[\p{L}\d_])+)|(?:^|[^[])\[([a-z:/]+)|<(\w+)(?:\s(?:[^<>{}|=\s]+(?:\s*=\s*(?:[^\s"']\S*|(["']).*?\6))?(?=\s))*)?\s(\w+))$/iu;
 
-const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => {
+export default (monaco: typeof Monaco): languages.CompletionItemProvider => {
 	monaco.editor.addKeybindingRule({
 		keybinding: monaco.KeyMod.Shift | monaco.KeyCode.Enter, // eslint-disable-line no-bitwise
 		command: 'editor.action.triggerSuggest',
@@ -96,7 +96,5 @@ const completion = (monaco: typeof Monaco): languages.CompletionItemProvider => 
 			}
 			throw new Error('Unknown completion type!');
 		},
-	} as languages.CompletionItemProvider;
+	} satisfies languages.CompletionItemProvider;
 };
-
-export default completion;

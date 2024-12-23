@@ -42,7 +42,7 @@
 		"wikiparser-node": "^1.14.0"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.19.6",
+		"@bhsd/codemirror-mediawiki": "^2.19.7",
 		"@bhsd/common": "^0.5.0",
 		"@codemirror/lint": "^6.8.4",
 		"@shikijs/monaco": "^1.24.0",
@@ -65,7 +65,7 @@
 		"eslint-plugin-regexp": "^2.6.0",
 		"eslint-plugin-unicorn": "^56.0.1",
 		"http-server": "^14.1.0",
-		"luacheck-browserify": "^0.2.0",
+		"luacheck-browserify": "^0.2.1",
 		"mocha": "^10.8.2",
 		"shiki": "^1.24.0",
 		"stylelint": "^16.11.0",

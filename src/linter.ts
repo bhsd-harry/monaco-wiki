@@ -45,7 +45,7 @@ const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}
  * @param model 文本模型
  * @param parserConfig 解析器配置
  */
-const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Config | true): void => {
+export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Config | true): void => {
 	/**
 	 * 更新诊断信息
 	 * @param clear 是否清除诊断信息
@@ -166,5 +166,3 @@ const getLinter = (monaco: typeof Monaco, model: IWikitextModel, parserConfig: C
 
 	model.lint((getCmObject('addons') as string[] | null)?.includes('lint'));
 };
-
-export default getLinter;

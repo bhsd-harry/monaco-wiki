@@ -53,11 +53,11 @@ const findColors = (monaco: typeof Monaco, model: editor.ITextModel, tree: AST):
 	);
 };
 
-const colorProvider = (monaco: typeof Monaco): languages.DocumentColorProvider => ({
-	async provideDocumentColors(model) {
+export default (monaco: typeof Monaco): languages.DocumentColorProvider => ({
+	async provideDocumentColors(model): Promise<languages.IColorInformation[] | null> {
 		return 'wikiparse' in globalThis ? findColors(monaco, model, await getTree(model)) : null;
 	},
-	provideColorPresentations(_, {color, range}) {
+	provideColorPresentations(_, {color, range}): languages.IColorPresentation[] {
 		const text = `#${numToHex(color.red)}${numToHex(color.green)}${numToHex(color.blue)}${
 			color.alpha < 1 ? numToHex(color.alpha) : ''
 		}`;
@@ -68,6 +68,4 @@ const colorProvider = (monaco: typeof Monaco): languages.DocumentColorProvider =
 			},
 		];
 	},
-}) as languages.DocumentColorProvider;
-
-export default colorProvider;
+}) satisfies languages.DocumentColorProvider;

@@ -116,26 +116,26 @@ async function provider(
 }
 
 export const referenceProvider = (monaco: typeof Monaco): languages.ReferenceProvider => ({
-	provideReferences(model, pos) {
+	provideReferences(model, pos): Promise<Reference[] | null> {
 		return provider(monaco, model, pos);
 	},
-}) as languages.ReferenceProvider;
+}) satisfies languages.ReferenceProvider;
 
 export const highlightProvider = (monaco: typeof Monaco): languages.DocumentHighlightProvider => ({
-	provideDocumentHighlights(model, pos) {
+	provideDocumentHighlights(model, pos): Promise<Reference[] | null> {
 		return provider(monaco, model, pos);
 	},
-}) as languages.DocumentHighlightProvider;
+}) satisfies languages.DocumentHighlightProvider;
 
 export const renameProvider = (monaco: typeof Monaco): languages.RenameProvider => ({
-	provideRenameEdits(model, pos, newName) {
+	provideRenameEdits(model, pos, newName): Promise<languages.WorkspaceEdit | null> {
 		return provider(monaco, model, pos, newName);
 	},
-	async resolveRenameLocation(model, pos) {
+	async resolveRenameLocation(model, pos): Promise<languages.RenameLocation & languages.Rejection> {
 		return await provider(monaco, model, pos, true) ?? {
 			range: new monaco.Range(1, 1, 1, 1),
 			text: '',
 			rejectReason: 'You cannot rename this element.',
 		};
 	},
-}) as languages.RenameProvider;
+}) satisfies languages.RenameProvider;

@@ -46,7 +46,7 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 	Object.assign(rule, {[key]: rule[key]!.replace('$1', options.join('|'))});
 };
 
-const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
+export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
 		{doubleUnderscore, redirection, parserFunction, nsid, protocol, ext, html} = tempConfig;
 	if (doubleUnderscore[0].length === 0) {
@@ -110,5 +110,3 @@ const registerWiki = async (monaco: typeof Monaco, parserConfig: Config | boolea
 		listen(model);
 	});
 };
-
-export default registerWiki;

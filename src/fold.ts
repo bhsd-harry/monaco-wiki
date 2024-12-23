@@ -31,8 +31,8 @@ const fold = (
 	}
 };
 
-const foldProvider = {
-	async provideFoldingRanges(model) {
+export default {
+	async provideFoldingRanges(model): Promise<languages.FoldingRange[] | null> {
 		const ranges: languages.FoldingRange[] = [],
 			l = model.getLineCount(),
 			root = await getTree(model),
@@ -45,6 +45,4 @@ const foldProvider = {
 		}
 		return ranges.length > 0 ? ranges : null;
 	},
-} as languages.FoldingRangeProvider;
-
-export default foldProvider;
+} satisfies languages.FoldingRangeProvider;
