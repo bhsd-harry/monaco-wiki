@@ -5,6 +5,7 @@ declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
 const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	pipe = String.raw`\|`,
+	constants = String.raw`\{\{\s*(?:$1)\s*\}\}`,
 	tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
 	tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
 	tagName = {name: 'entity.name.tag.wikitext'},
@@ -36,6 +37,24 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
 		patterns: [{include}],
+	}),
+	parserFunctions = (caseSensitive?: boolean): IRawRule => ({
+		begin: String.raw`${caseSensitive ? '' : '(?i)'}(\{\{)\s*(${
+			caseSensitive ? String.raw`#[^#:\|\[\]\{\}]*[^#:\|\[\]\{\}\s]|` : ''
+		}$1)(:)`,
+		end: String.raw`(\}\})`,
+		captures: {
+			1: {name: 'punctuation.definition.tag.function.wikitext'},
+			2: {name: 'entity.name.function.wikitext'},
+			3: {name: 'keyword.operator.function.wikitext'},
+		},
+		patterns: [
+			{
+				match: String.raw`(\|)`,
+				name: pipeOp,
+			},
+			$self,
+		],
 	});
 
 const signature = {
@@ -144,44 +163,32 @@ const signature = {
 	variables = {
 		patterns: [
 			{
-				/** @todo `{{uc:x}}` */
 				name: 'constant.language.variables.query.wikitext',
-				match: String.raw`(?i)\{\{\s*(?:$1)\s*\}\}`,
+				match: `(?i)${constants}`,
 			},
 			{
 				name: 'constant.language.variables.metadata.wikitext',
-				match: String.raw`\{\{\s*(?:$1)\s*\}\}`,
+				match: constants,
 			},
 		],
 	},
 	parserFunction = {
-		begin: String.raw`(\{\{)\s*(#[^#:\|\[\]\{\}]*[^#:\|\[\]\{\}\s])(:)`,
-		end: String.raw`(\}\})`,
-		captures: {
-			1: {name: 'punctuation.definition.tag.function.wikitext'},
-			2: {name: 'entity.name.function.wikitext'},
-			3: {name: 'keyword.operator.function.wikitext'},
-		},
 		patterns: [
-			{
-				match: String.raw`(\|)`,
-				name: pipeOp,
-			},
-			$self,
+			parserFunctions(),
+			parserFunctions(true),
 		],
 	},
 	template = {
-		begin: String.raw`(\{\{)([^#:\|\[\]\{\}<>]*(:))?([^#\|\[\]\{\}<>]*)`,
+		begin: String.raw`(\{\{)\s*([^\s#\|\[\]\{\}<>][^#\|\[\]\{\}<>]*)(#[^\|\{\}<>]*)?`,
 		end: String.raw`(\}\})`,
 		captures: {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
 			2: {name: 'entity.name.tag.local-name.wikitext'},
-			3: {name: 'punctuation.separator.namespace.wikitext'},
-			4: {name: 'entity.name.tag.local-name.wikitext'},
+			3: {name: invalid},
 		},
 		patterns: [
 			{
-				match: String.raw`(\|)([^\|=\{\}\[\]<>]*[^\|=\{\}\[\]<>\s])\s*(=)`,
+				match: String.raw`(\|)([^\|=\{\}\[\]<>]*)(=)`,
 				captures: {
 					1: {name: pipeOp},
 					2: {name: 'entity.other.attribute-name.local-name.wikitext'},
@@ -409,7 +416,7 @@ const signature = {
 		begin: String.raw`(-\{)(?!\{)(?:([^\|\{\}\[\]]*)(\|))?`,
 		end: String.raw`(\}-)`,
 		captures: {
-			1: {name: 'punctuation.definition.tag.template.wikitext'},
+			1: {name: 'punctuation.definition.tag.convert.wikitext'},
 			2: {
 				name: 'entity.name.function.type.wikitext',
 				patterns: [

@@ -1,3 +1,12 @@
+## v1.6.1
+
+*2025-01-09*
+
+**Fixed**
+
+- Parser functions without a leading `#` are now correctly highlighted
+- Template parameter names can be empty
+
 ## v1.6.0
 
 *2024-12-03*

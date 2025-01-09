@@ -26,7 +26,9 @@ import type {IRawRule} from './wikitext.tmLanguage.ts';
 const config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
 	defaultConfig: Config = require('wikiparser-node/config/default.json');
 const {repository} = wikitext,
-	variables = repository['magic-words'].repository.variables.patterns,
+	magicWords = repository['magic-words'].repository,
+	variables = magicWords.variables.patterns,
+	parserFunctions = magicWords['parser-function'].patterns,
 	behaviorSwitches = repository['behavior-switches'].patterns;
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
@@ -35,19 +37,21 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
-		{doubleUnderscore, redirection, parserFunction, nsid, protocol, ext, html} = tempConfig;
+		{doubleUnderscore, redirection, parserFunction, nsid, protocol, ext, html} = tempConfig,
+		insensitive = Object.keys(parserFunction[0]).filter(s => !s.startsWith('#')),
+		sensitive = parserFunction[1].filter(s => !s.startsWith('#'));
 	if (doubleUnderscore[0].length === 0) {
 		doubleUnderscore[0] = Object.keys(doubleUnderscore[2]!);
 	}
 	defineGrammar(repository.redirect, redirection);
+	defineGrammar(variables[0]!, insensitive);
+	defineGrammar(variables[1]!, sensitive);
 	defineGrammar(
-		variables[0]!,
-		[
-			...Object.keys(parserFunction[0]).filter(s => !s.startsWith('#')),
-			...(parserFunction.slice(2) as string[][]).flat(),
-		],
+		parserFunctions[0]!,
+		[...insensitive, ...(parserFunction.slice(2) as string[][]).flat()],
+		'begin',
 	);
-	defineGrammar(variables[1]!, parserFunction[1].filter(s => !s.startsWith('#')));
+	defineGrammar(parserFunctions[1]!, sensitive, 'begin');
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
 	defineGrammar(

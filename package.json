@@ -33,13 +33,13 @@
 		"build:all": "esbuild src/all.ts --charset=utf8 --bundle --minify --target=es2019 --sourcemap --outfile=dist/all.min.js",
 		"build:gh-page": "tsc --project gh-page/tsconfig.json",
 		"build": "npm run build:core && npm run build:all && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js",
-		"server": "npm run test:end; http-server .. -c-1 --cors &",
+		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
 		"test:end": "pkill -x http-server"
 	},
 	"dependencies": {
 		"@codemirror/view": "^6.35.0",
 		"monaco-editor": "^0.52.0",
-		"wikiparser-node": "^1.14.0"
+		"wikiparser-node": "^1.15.0"
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.19.7",
