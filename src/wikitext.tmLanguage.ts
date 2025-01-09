@@ -4,6 +4,7 @@ export type IRawRule = IRawGrammar['repository']['$self'];
 declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
 const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
+	pipe = String.raw`\|`,
 	tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
 	tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
 	tagName = {name: 'entity.name.tag.wikitext'},
@@ -12,7 +13,7 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	pageName = {name: 'entity.other.attribute-name.wikitext'},
 	invalid = 'invalid.deprecated.ineffective.wikitext',
 	$self = {include: '$self'},
-	pipe = 'keyword.operator.wikitext',
+	pipeOp = 'keyword.operator.wikitext',
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
@@ -124,15 +125,15 @@ const signature = {
 		},
 		patterns: [
 			{
-				begin: String.raw`\|`,
+				begin: pipe,
 				beginCaptures: {
-					0: {name: pipe},
+					0: {name: pipeOp},
 				},
 				end: String.raw`(?=\}\}\})`,
 				patterns: [
 					{
 						name: invalid,
-						begin: String.raw`\|`,
+						begin: pipe,
 						end: String.raw`(?=\}\}\})`,
 					},
 					$self,
@@ -164,7 +165,7 @@ const signature = {
 		patterns: [
 			{
 				match: String.raw`(\|)`,
-				name: pipe,
+				name: pipeOp,
 			},
 			$self,
 		],
@@ -182,14 +183,14 @@ const signature = {
 			{
 				match: String.raw`(\|)([^\|=\{\}\[\]<>]*[^\|=\{\}\[\]<>\s])\s*(=)`,
 				captures: {
-					1: {name: pipe},
+					1: {name: pipeOp},
 					2: {name: 'entity.other.attribute-name.local-name.wikitext'},
 					3: {name: 'keyword.operator.equal.wikitext'},
 				},
 			},
 			{
 				match: String.raw`(\|)`,
-				name: pipe,
+				name: pipeOp,
 			},
 			$self,
 		],
@@ -211,7 +212,7 @@ const signature = {
 				begin: String.raw`(?<=^\s*(?::+\s*)?)(\{\|)(.*)$`,
 				end: String.raw`^\s*(\|\})`,
 				captures: {
-					1: {name: pipe},
+					1: {name: pipeOp},
 					2: {
 						patterns: [
 							$self,
@@ -224,7 +225,7 @@ const signature = {
 						name: 'meta.tag.block.table-row.wikitext',
 						match: String.raw`^\s*(\|-+)(.*)$`,
 						captures: {
-							1: {name: pipe},
+							1: {name: pipeOp},
 							2: {
 								patterns: [
 									$self,
@@ -238,7 +239,7 @@ const signature = {
 						begin: String.raw`^\s*!`,
 						end: '$',
 						beginCaptures: {
-							0: {name: pipe},
+							0: {name: pipeOp},
 						},
 						patterns: [
 							{
@@ -251,12 +252,12 @@ const signature = {
 											attribute,
 										],
 									},
-									2: {name: pipe},
+									2: {name: pipeOp},
 									3: {
 										name: 'markup.bold.style.wikitext',
 										patterns: [$self],
 									},
-									4: {name: pipe},
+									4: {name: pipeOp},
 								},
 							},
 							$self,
@@ -267,7 +268,7 @@ const signature = {
 						begin: String.raw`^\s*\|\+?`,
 						end: '$',
 						beginCaptures: {
-							0: {name: pipe},
+							0: {name: pipeOp},
 						},
 						patterns: [
 							{
@@ -280,12 +281,12 @@ const signature = {
 											attribute,
 										],
 									},
-									2: {name: pipe},
+									2: {name: pipeOp},
 									3: {
 										name: 'markup.style.wikitext',
 										patterns: [$self],
 									},
-									4: {name: pipe},
+									4: {name: pipeOp},
 								},
 							},
 							$self,
@@ -328,7 +329,7 @@ const signature = {
 			{
 				match: String.raw`(\|)([\w\s]*\w=)?`,
 				captures: {
-					1: {name: pipe},
+					1: {name: pipeOp},
 					2: {name: 'entity.other.attribute-name.localname.wikitext'},
 				},
 			},
@@ -346,10 +347,10 @@ const signature = {
 		},
 		patterns: [
 			{
-				begin: String.raw`\|`,
+				begin: pipe,
 				end: String.raw`(?=\]\])`,
 				captures: {
-					0: {name: pipe},
+					0: {name: pipeOp},
 				},
 				patterns: [$self],
 			},
@@ -418,7 +419,7 @@ const signature = {
 					},
 				],
 			},
-			3: {name: pipe},
+			3: {name: pipeOp},
 		},
 		patterns: [
 			{

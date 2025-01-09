@@ -1,9 +1,4 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-/* eslint-disable @stylistic/multiline-comment-style */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
-/* eslint-disable @typescript-eslint/dot-notation */
 import {createHighlighterCore} from 'shiki/core';
 import {createOnigurumaEngine} from 'shiki/engine/oniguruma';
 import javascript from 'shiki/langs/javascript.mjs';
@@ -20,7 +15,7 @@ import {referenceProvider, highlightProvider, renameProvider} from './reference.
 import colorProvider from './color.ts';
 import {listen} from './tree.ts';
 import foldProvider from './fold.ts';
-// import wikitext from './wikitext.tmLanguage.ts';
+import wikitext from './wikitext.tmLanguage.ts';
 import 'wikiparser-node/extensions/typings.d.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
@@ -29,18 +24,10 @@ import type {IWikitextModel} from './linter.ts';
 import type {IRawRule} from './wikitext.tmLanguage.ts';
 
 const config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
-	wikitext = require('../vendor/wikitext.tmLanguage.json'),
 	defaultConfig: Config = require('wikiparser-node/config/default.json');
-
-/*
 const {repository} = wikitext,
 	variables = repository['magic-words'].repository.variables.patterns,
 	behaviorSwitches = repository['behavior-switches'].patterns;
-*/
-const repository = wikitext.repository['wikitext']!.repository!,
-	magicWords = repository['magic-words']!.repository!,
-	variables = magicWords['variables']!.patterns!,
-	behaviorSwitches = magicWords['behavior-switches']!.patterns!;
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	Object.assign(rule, {[key]: rule[key]!.replace('$1', options.join('|'))});
@@ -52,7 +39,6 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	if (doubleUnderscore[0].length === 0) {
 		doubleUnderscore[0] = Object.keys(doubleUnderscore[2]!);
 	}
-
 	defineGrammar(repository.redirect, redirection);
 	defineGrammar(
 		variables[0]!,
@@ -64,15 +50,11 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	defineGrammar(variables[1]!, parserFunction[1].filter(s => !s.startsWith('#')));
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
-	defineGrammar(repository['file-link']!, Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k), 'begin');
-
-	/*
 	defineGrammar(
 		repository['wiki-link'].repository['file-link'],
 		Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k),
 		'begin',
 	);
-	*/
 	defineGrammar(repository['external-link'], [protocol.replace(/\//gu, String.raw`\/`), String.raw`\/\/`]);
 	config.autoClosingPairs!.push(
 		...[ext, html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
