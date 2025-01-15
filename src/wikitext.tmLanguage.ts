@@ -15,12 +15,26 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	invalid = 'invalid.deprecated.ineffective.wikitext',
 	$self = {include: '$self'},
 	pipeOp = 'keyword.operator.wikitext',
+	pipeRule = {name: pipeOp},
 	variable = 'constant.language.variables.query.wikitext',
 	namespace = {name: 'entity.name.tag.namespace.wikitext'},
+	indent = 'punctuation.definition.list.begin.markdown.wikitext',
+	delimiter = String.raw`\||\{\{\s*!\s*\}\}`,
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
 		3: tagEnd,
+	},
+	replaced = [
+		{include: '#wikixml'},
+		{include: '#argument'},
+		{include: '#magic-words'},
+		{include: '#template'},
+	],
+	attrs = [...replaced, attribute],
+	tdInner = {
+		name: 'markup.style.wikitext',
+		patterns: [$self],
 	};
 
 const tagWithAttribute = (pos = 4): IRawCaptures => ({
@@ -32,9 +46,7 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 	extBegin = (exts: string[], suffix = '>'): string => String.raw`(?i)(<)(${exts.join('|')})(\s[^>]*)?(${suffix})`,
 	hl = (contentName: string, include: string, lang = contentName): IRawRule => ({
 		contentName: `meta.embedded.block.${contentName}`,
-		begin: `(?i)(<)(syntaxhighlight|pre)(${
-			String.raw`(?:\s[^>]*)?(?:\slang\s*=\s*(?:(['"]?)${lang}\4))(?:\s[^>]*)?`
-		})(>)`,
+		begin: String.raw`(?i)(<)(syntaxhighlight|pre)((?:\s[^>]*)?\slang\s*=\s*(['"]?)${lang}\4(?:\s[^>]*)?)(>)`,
 		beginCaptures: tagWithAttribute(5),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -57,14 +69,41 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 			},
 			$self,
 		],
-	});
+	}),
+	td = (subtype: string, begin: string, pattern = ''): IRawRule => {
+		const match = String.raw`(.*?)((?:${delimiter}){2}|\{\{\s*!!\s*\}\}|$${pattern})`;
+		return {
+			name: `meta.tag.block.${subtype}.wikitext`,
+			begin: String.raw`^\s*${begin}`,
+			beginCaptures: {0: pipeRule},
+			end: '$',
+			patterns: [
+				{
+					match: String.raw`([^\|\[\]\{\}]*)(${delimiter})(?!${delimiter})${match}`,
+					captures: {
+						1: {patterns: attrs},
+						2: pipeRule,
+						3: tdInner,
+						4: pipeRule,
+					},
+				},
+				{
+					match,
+					captures: {
+						1: tdInner,
+						2: pipeRule,
+					},
+				},
+			],
+		};
+	};
 
 const signature = {
 		name: 'keyword.other.signature.wikitext',
 		match: '~{3,5}',
 	},
 	redirect = {
-		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)(\s*:?\s*(?:$2)\s*:)?([^\|\[\]\{\}<>]+)(\|.*?)?(\]\])`,
+		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)(\s*(?::\s*)?(?:$2)\s*:)?([^\|\[\]\{\}<>]+)(\|.*?)?(\]\])`,
 		captures: {
 			1: {name: 'keyword.control.redirect.wikitext'},
 			2: linkBracket,
@@ -148,9 +187,7 @@ const signature = {
 		patterns: [
 			{
 				begin: pipe,
-				beginCaptures: {
-					0: {name: pipeOp},
-				},
+				beginCaptures: {0: pipeRule},
 				end: String.raw`(?=\}\}\})`,
 				patterns: [
 					{
@@ -182,7 +219,7 @@ const signature = {
 		],
 	},
 	template = {
-		begin: String.raw`(\{\{)(\s*:?\s*(?:$1)\s*:)?([^#\|\[\]\{\}<>]+)(#[^\|\{\}<>]*)?`,
+		begin: String.raw`(\{\{)(\s*(?::\s*)?(?:$1)\s*:)?([^#\|\[\]\{\}<>]+)(#[^\|\{\}<>]*)?`,
 		end: String.raw`(\}\})`,
 		captures: {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
@@ -194,7 +231,7 @@ const signature = {
 			{
 				match: String.raw`(\|)([^\|=\{\}\[\]<>]*)(=)`,
 				captures: {
-					1: {name: pipeOp},
+					1: pipeRule,
 					2: {name: 'entity.other.attribute-name.local-name.wikitext'},
 					3: {name: 'keyword.operator.equal.wikitext'},
 				},
@@ -217,95 +254,26 @@ const signature = {
 		},
 	},
 	table = {
+		name: 'meta.tag.block.table.wikitext',
+		begin: String.raw`^(\s*(?::+\s*)?)(\{\||\{\{(?:\{\s*|\s*\()!\s*\}\})(.*)$`,
+		end: String.raw`^(\s*)(\|\}|\{\{\s*!(?:\s*\}|\)\s*)\}\})`,
+		captures: {
+			1: {name: indent},
+			2: pipeRule,
+			3: {patterns: attrs},
+		},
 		patterns: [
 			{
-				name: 'meta.tag.block.table.wikitext',
-				begin: String.raw`(?<=^\s*(?::+\s*)?)(\{\|)(.*)$`,
-				end: String.raw`^\s*(\|\})`,
+				name: 'meta.tag.block.table-row.wikitext',
+				match: String.raw`^\s*((?:${delimiter})-+(?!-))(.*)$`,
 				captures: {
-					1: {name: pipeOp},
-					2: {
-						patterns: [
-							$self,
-							attribute,
-						],
-					},
+					1: pipeRule,
+					2: {patterns: attrs},
 				},
-				patterns: [
-					{
-						name: 'meta.tag.block.table-row.wikitext',
-						match: String.raw`^\s*(\|-+)(.*)$`,
-						captures: {
-							1: {name: pipeOp},
-							2: {
-								patterns: [
-									$self,
-									attribute,
-								],
-							},
-						},
-					},
-					{
-						name: 'meta.tag.block.th.heading',
-						begin: String.raw`^\s*!`,
-						end: '$',
-						beginCaptures: {
-							0: {name: pipeOp},
-						},
-						patterns: [
-							{
-								name: 'meta.tag.block.th.inline.wikitext',
-								match: String.raw`(?:([^\|\[\]\{\}]*)(\|)(?!\|))?(.*?)(!!|\|\||$)`,
-								captures: {
-									1: {
-										patterns: [
-											$self,
-											attribute,
-										],
-									},
-									2: {name: pipeOp},
-									3: {
-										name: 'markup.bold.style.wikitext',
-										patterns: [$self],
-									},
-									4: {name: pipeOp},
-								},
-							},
-							$self,
-						],
-					},
-					{
-						name: 'meta.tag.block.td.wikitext',
-						begin: String.raw`^\s*\|\+?`,
-						end: '$',
-						beginCaptures: {
-							0: {name: pipeOp},
-						},
-						patterns: [
-							{
-								name: 'meta.tag.block.td.inline.wikitext',
-								match: String.raw`(?:([^\|\[\]\{\}]*)(\|)(?!\|))?(.*?)(\|\||$)`,
-								captures: {
-									1: {
-										patterns: [
-											$self,
-											attribute,
-										],
-									},
-									2: {name: pipeOp},
-									3: {
-										name: 'markup.style.wikitext',
-										patterns: [$self],
-									},
-									4: {name: pipeOp},
-								},
-							},
-							$self,
-						],
-					},
-					$self,
-				],
 			},
+			td('th', '!', '|!!'),
+			td('td', String.raw`(?:${delimiter})\+?`),
+			$self,
 		],
 	},
 	behaviorSwitches = {
@@ -340,7 +308,7 @@ const signature = {
 			{
 				match: String.raw`(\|)([\w\s]*\w=)?`,
 				captures: {
-					1: {name: pipeOp},
+					1: pipeRule,
 					2: {name: 'entity.other.attribute-name.localname.wikitext'},
 				},
 			},
@@ -360,9 +328,7 @@ const signature = {
 			{
 				begin: pipe,
 				end: String.raw`(?=\]\])`,
-				captures: {
-					0: {name: pipeOp},
-				},
+				captures: {0: pipeRule},
 				patterns: [$self],
 			},
 			$self,
@@ -413,7 +379,7 @@ const signature = {
 		],
 	},
 	list = {
-		name: 'punctuation.definition.list.begin.markdown.wikitext',
+		name: indent,
 		match: '^[#*;:]+',
 	},
 	convert = {
@@ -430,7 +396,7 @@ const signature = {
 					},
 				],
 			},
-			3: {name: pipeOp},
+			3: pipeRule,
 		},
 		patterns: [
 			{
@@ -458,10 +424,7 @@ export default {
 	patterns: [
 		{include: '#signature'},
 		{include: '#redirect'},
-		{include: '#wikixml'},
-		{include: '#argument'},
-		{include: '#magic-words'},
-		{include: '#template'},
+		...replaced,
 		{include: '#heading'},
 		{include: 'text.html.basic'},
 		{include: '#table'},

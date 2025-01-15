@@ -5,6 +5,7 @@
 **Added**
 
 - Highlight the namespace of a redirect link in Wikitext
+- Parse `{{{!}}` and `{{!}}}` as the start and end of a table in Wikitext
 
 **Fixed**
 
@@ -15,6 +16,7 @@
 **Changed**
 
 - Parser functions and variables are now highlighted with the same style
+- `caption`, `th` and `td` are now highlighted with the same style
 
 ## v1.6.0
 
