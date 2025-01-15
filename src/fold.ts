@@ -33,6 +33,9 @@ const fold = (
 
 export default {
 	async provideFoldingRanges(model): Promise<languages.FoldingRange[] | null> {
+		if (!('wikiparse' in globalThis)) {
+			return null;
+		}
 		const ranges: languages.FoldingRange[] = [],
 			l = model.getLineCount(),
 			root = await getTree(model),

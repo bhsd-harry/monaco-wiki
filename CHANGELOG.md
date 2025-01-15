@@ -1,11 +1,12 @@
 ## v1.6.1
 
-*2025-01-09*
+*2025-01-15*
 
 **Fixed**
 
 - Parser functions and variables without a leading `#` are now correctly highlighted
 - Template parameter names can be empty
+- Fatal error when [wikiparse](https://github.com/bhsd-harry/wikiparser-node/wiki/wikiparse) is not loaded
 
 **Changed**
 
