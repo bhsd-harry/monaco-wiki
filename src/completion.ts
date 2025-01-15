@@ -50,10 +50,14 @@ export default (monaco: typeof Monaco): languages.CompletionItemProvider => {
 				return null;
 			} else if (!config?.namespaces[1]) {
 				config = await wikiparse.getConfig(); // eslint-disable-line require-atomic-updates
-				const {ext, html, parserFunction, doubleUnderscore, protocol} = config;
+				const {ext, html, parserFunction: [p0, p1, ...p2], doubleUnderscore, protocol} = config;
 				tags = new Set([ext, html].flat(2));
 				allTags = [...tags, 'onlyinclude', 'includeonly', 'noinclude'];
-				functions = [Object.keys(parserFunction[0]), parserFunction.slice(1) as string[][]].flat(2);
+				functions = [
+					Object.keys(p0),
+					Array.isArray(p1) ? p1 : Object.keys(p1),
+					p2,
+				].flat(2);
 				switches = (doubleUnderscore.slice(0, 2) as string[][]).flat().map(w => `__${w}__`);
 				protocols = protocol.split('|');
 			}

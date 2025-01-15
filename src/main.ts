@@ -38,7 +38,7 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
 		{doubleUnderscore, redirection, parserFunction, variable, nsid, protocol, ext, html} = tempConfig,
-		[p0, p1] = parserFunction,
+		[p0, p1, ...p2] = parserFunction,
 		isOldSchema = Array.isArray(p1),
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
 		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#'));
@@ -55,11 +55,7 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		variable && !isOldSchema ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive,
 	);
-	defineGrammar(
-		parserFunctions[0]!,
-		[...insensitive, ...(parserFunction.slice(2) as string[][]).flat()],
-		'begin',
-	);
+	defineGrammar(parserFunctions[0]!, [insensitive, p2].flat(2), 'begin');
 	defineGrammar(parserFunctions[1]!, sensitive, 'begin');
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
