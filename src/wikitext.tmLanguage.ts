@@ -16,6 +16,7 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	$self = {include: '$self'},
 	pipeOp = 'keyword.operator.wikitext',
 	variable = 'constant.language.variables.query.wikitext',
+	namespace = {name: 'entity.name.tag.namespace.wikitext'},
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
@@ -63,13 +64,14 @@ const signature = {
 		match: '~{3,5}',
 	},
 	redirect = {
-		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)([^\|\[\]\{\}<>]+)(\|.*?)?(\]\])`,
+		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)(\s*:?\s*(?:$2)\s*:)?([^\|\[\]\{\}<>]+)(\|.*?)?(\]\])`,
 		captures: {
 			1: {name: 'keyword.control.redirect.wikitext'},
 			2: linkBracket,
-			3: pageName,
-			4: {name: invalid},
-			5: linkBracket,
+			3: namespace,
+			4: pageName,
+			5: {name: invalid},
+			6: linkBracket,
 		},
 	},
 	onlyinclude = {
@@ -180,12 +182,13 @@ const signature = {
 		],
 	},
 	template = {
-		begin: String.raw`(\{\{)\s*([^\s#\|\[\]\{\}<>][^#\|\[\]\{\}<>]*)(#[^\|\{\}<>]*)?`,
+		begin: String.raw`(\{\{)(\s*:?\s*(?:$1)\s*:)?([^#\|\[\]\{\}<>]+)(#[^\|\{\}<>]*)?`,
 		end: String.raw`(\}\})`,
 		captures: {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
-			2: {name: 'entity.name.tag.local-name.wikitext'},
-			3: {name: invalid},
+			2: namespace,
+			3: {name: 'entity.name.tag.local-name.wikitext'},
+			4: {name: invalid},
 		},
 		patterns: [
 			{
@@ -329,7 +332,7 @@ const signature = {
 		end: String.raw`(\]\])`,
 		captures: {
 			1: linkBracket,
-			2: {name: 'entity.name.tag.namespace.wikitext'},
+			2: namespace,
 			3: pageName,
 			4: {name: invalid},
 		},
@@ -350,7 +353,7 @@ const signature = {
 		end: String.raw`(\]\])`,
 		captures: {
 			1: linkBracket,
-			2: {name: 'entity.name.tag.namespace.wikitext'},
+			2: namespace,
 			3: pageName,
 		},
 		patterns: [

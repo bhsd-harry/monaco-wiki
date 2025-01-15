@@ -2,6 +2,10 @@
 
 *2025-01-15*
 
+**Added**
+
+- Highlight the namespace of a redirect link in Wikitext
+
 **Fixed**
 
 - Parser functions and variables without a leading `#` are now correctly highlighted

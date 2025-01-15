@@ -32,12 +32,18 @@ const {repository} = wikitext,
 	behaviorSwitches = repository['behavior-switches'].patterns;
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
-	Object.assign(rule, {[key]: rule[key]!.replace('$1', options.join('|'))});
+	for (let i = 1; i < 10; i++) {
+		if (rule[key]!.includes(`$${i}`)) {
+			Object.assign(rule, {[key]: rule[key]!.replace(`$${i}`, options.join('|'))});
+			break;
+		}
+	}
 };
 
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
 		{doubleUnderscore, redirection, parserFunction, variable, nsid, protocol, ext, html} = tempConfig,
+		namespaces = Object.keys(nsid).filter(Boolean).map(ns => ns.replace(/ /gu, '[_ ]')),
 		[p0, p1, ...p2] = parserFunction,
 		isOldSchema = Array.isArray(p1),
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
@@ -48,6 +54,7 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 		}
 	}
 	defineGrammar(repository.redirect, redirection);
+	defineGrammar(repository.redirect, namespaces);
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	defineGrammar(variables[0]!, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
 	defineGrammar(
@@ -57,6 +64,7 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	);
 	defineGrammar(parserFunctions[0]!, [insensitive, p2].flat(2), 'begin');
 	defineGrammar(parserFunctions[1]!, sensitive, 'begin');
+	defineGrammar(repository.template, namespaces, 'begin');
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
 	defineGrammar(
