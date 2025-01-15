@@ -15,6 +15,7 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	invalid = 'invalid.deprecated.ineffective.wikitext',
 	$self = {include: '$self'},
 	pipeOp = 'keyword.operator.wikitext',
+	variable = 'constant.language.variables.query.wikitext',
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
@@ -45,7 +46,7 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		end: String.raw`(\}\})`,
 		captures: {
 			1: {name: 'punctuation.definition.tag.function.wikitext'},
-			2: {name: 'entity.name.function.wikitext'},
+			2: {name: variable},
 			3: {name: 'keyword.operator.function.wikitext'},
 		},
 		patterns: [
@@ -163,7 +164,7 @@ const signature = {
 	variables = {
 		patterns: [
 			{
-				name: 'constant.language.variables.query.wikitext',
+				name: variable,
 				match: `(?i)${constants}`,
 			},
 			{

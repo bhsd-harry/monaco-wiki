@@ -37,15 +37,24 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
-		{doubleUnderscore, redirection, parserFunction, nsid, protocol, ext, html} = tempConfig,
-		insensitive = Object.keys(parserFunction[0]).filter(s => !s.startsWith('#')),
-		sensitive = parserFunction[1].filter(s => !s.startsWith('#'));
-	if (doubleUnderscore[0].length === 0) {
-		doubleUnderscore[0] = Object.keys(doubleUnderscore[2]!);
+		{doubleUnderscore, redirection, parserFunction, variable, nsid, protocol, ext, html} = tempConfig,
+		[p0, p1] = parserFunction,
+		isOldSchema = Array.isArray(p1),
+		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
+		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#'));
+	for (let i = 0; i < 2; i++) {
+		if (doubleUnderscore.length > i + 2 && doubleUnderscore[i]!.length === 0) {
+			doubleUnderscore[i] = Object.keys(doubleUnderscore[i + 2]!);
+		}
 	}
 	defineGrammar(repository.redirect, redirection);
-	defineGrammar(variables[0]!, insensitive);
-	defineGrammar(variables[1]!, sensitive);
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	defineGrammar(variables[0]!, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
+	defineGrammar(
+		variables[1]!,
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		variable && !isOldSchema ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive,
+	);
 	defineGrammar(
 		parserFunctions[0]!,
 		[...insensitive, ...(parserFunction.slice(2) as string[][]).flat()],

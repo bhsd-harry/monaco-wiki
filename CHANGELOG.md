@@ -4,8 +4,12 @@
 
 **Fixed**
 
-- Parser functions without a leading `#` are now correctly highlighted
+- Parser functions and variables without a leading `#` are now correctly highlighted
 - Template parameter names can be empty
+
+**Changed**
+
+- Parser functions and variables are now highlighted with the same style
 
 ## v1.6.0
 
