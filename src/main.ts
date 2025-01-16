@@ -68,6 +68,7 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	}
 	defineGrammar(repository.redirect, redirection);
 	defineGrammar(repository.redirect, namespaces);
+	defineGrammar(repository.wikixml.repository['wiki-self-closed-tags'], ext);
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	defineGrammar(variables[0]!, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
 	defineGrammar(

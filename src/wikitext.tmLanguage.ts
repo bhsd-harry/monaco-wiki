@@ -143,10 +143,7 @@ const signature = {
 		],
 	},
 	wikiSelfClosedTags = {
-		match: extBegin(
-			['templatestyles', 'ref', 'references', 'nowiki', 'mapframe', 'maplink'],
-			'/>',
-		),
+		match: extBegin(['$1'], '/>'),
 		captures: tagWithAttribute(),
 	},
 	ref = {
@@ -185,6 +182,7 @@ const signature = {
 		beginCaptures: tagWithAttribute(),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
+		patterns: [{include: 'text.html.basic#entities'}],
 	},
 	argument = {
 		contentName: 'variable.parameter.wikitext',
@@ -301,7 +299,7 @@ const signature = {
 	},
 	fileLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)[^\S\n]*((?:$1)[^\S\n]*:)([^\n\|\[\]\{\}<>#]*)(#[^\n\|\[\]\{\}]*)?`,
+		begin: String.raw`(?i)(\[\[)[^\S\n]*((?:$1)[^\S\n]*:)([^\n\|\[\]\{\}<>#]+)(#[^\n\|\[\]\{\}]*)?`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
@@ -330,7 +328,7 @@ const signature = {
 	},
 	internalLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)(\s*(?::\s*)?(?:$1)\s*:)?([^\n\|\[\]\{\}<>]*)`,
+		begin: String.raw`(?i)(\[\[)(\s*(?::\s*)?(?:$1)\s*:)?([^\n\|\[\]\{\}<>]+)`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
