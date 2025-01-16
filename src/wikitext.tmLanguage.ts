@@ -15,6 +15,7 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	linkBracket = {name: 'punctuation.definition.tag.link.internal.wikitext'},
 	pageName = {name: 'entity.other.attribute-name.wikitext'},
 	invalid = 'invalid.deprecated.ineffective.wikitext',
+	invalidRule = {name: invalid},
 	$self = {include: '$self'},
 	pipeOp = 'keyword.operator.wikitext',
 	pipeRule = {name: pipeOp},
@@ -24,6 +25,7 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	delimiter = String.raw`\||\{\{\s*!\s*\}\}`,
 	link = 'string.quoted.internal-link.wikitext',
 	linkEnd = String.raw`(\]\])`,
+	externalBracket = {name: 'punctuation.definition.tag.link.external.wikitext'},
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
@@ -117,7 +119,7 @@ const signature = {
 			2: linkBracket,
 			3: namespace,
 			4: pageName,
-			5: {name: invalid},
+			5: invalidRule,
 			6: linkBracket,
 		},
 	},
@@ -233,7 +235,7 @@ const signature = {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
 			2: namespace,
 			3: {name: 'entity.name.tag.local-name.wikitext'},
-			4: {name: invalid},
+			4: invalidRule,
 		},
 		patterns: [
 			{
@@ -305,7 +307,7 @@ const signature = {
 			1: linkBracket,
 			2: namespace,
 			3: pageName,
-			4: {name: invalid},
+			4: invalidRule,
 		},
 		patterns: [
 			{
@@ -362,15 +364,15 @@ const signature = {
 		],
 	},
 	externalLink = {
-		match: String.raw`(\[)((?:$1)[^\[\]<>"\s]*)(?=[\[\]<>"\s])([^\]\n]*)(\])`,
+		match: String.raw`(?i)(\[)((?:$1)[^\[\]<>"\s]+)(?=[\[\]<>"\s])([^\]\n]*)(\])`,
 		captures: {
-			1: {name: 'punctuation.definition.tag.link.external.wikitext'},
+			1: externalBracket,
 			2: {name: 'entity.name.tag.url.wikitext'},
 			3: {
 				name: 'string.other.link.external.title.wikitext',
 				patterns: [$self],
 			},
-			4: {name: 'punctuation.definition.tag.link.external.wikitext'},
+			4: externalBracket,
 		},
 	},
 	magicLink = {

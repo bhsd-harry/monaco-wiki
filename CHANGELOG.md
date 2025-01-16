@@ -1,6 +1,6 @@
-## v1.6.1
+## v1.7.0
 
-*2025-01-15*
+*2025-01-16*
 
 **Added**
 
@@ -13,6 +13,7 @@
 - Template parameter names can be empty
 - Fatal error when [wikiparse](https://github.com/bhsd-harry/wikiparser-node/wiki/wikiparse) is not loaded
 - Many image parameters (e.g., `thumb`, `link=`, and `1px`) are now correctly highlighted
+- URL protocols are case-insensitive
 
 **Changed**
 
