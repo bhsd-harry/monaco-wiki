@@ -1,9 +1,10 @@
-## v1.7.0
+## v1.6.0
 
 *2025-01-16*
 
 **Added**
 
+- JSON wrapped in some extension tags is now syntax highlighted
 - Highlight the namespace of a redirect link in Wikitext
 - Parse `{{{!}}` and `{{!}}}` as the start and end of a table in Wikitext
 
@@ -14,19 +15,12 @@
 - Fatal error when [wikiparse](https://github.com/bhsd-harry/wikiparser-node/wiki/wikiparse) is not loaded
 - Many image parameters (e.g., `thumb`, `link=`, and `1px`) are now correctly highlighted
 - URL protocols are case-insensitive
+- No illegal language code in the language conversion syntax
 
 **Changed**
 
 - Parser functions and variables are now highlighted with the same style
 - `caption`, `th` and `td` are now highlighted with the same style
-
-## v1.6.0
-
-*2024-12-03*
-
-**Added**
-
-- JSON wrapped in some extension tags is now syntax highlighted
 
 ## v1.5.0
 

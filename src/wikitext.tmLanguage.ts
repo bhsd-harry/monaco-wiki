@@ -413,7 +413,7 @@ const signature = {
 		},
 		patterns: [
 			{
-				match: String.raw`(?<=(?:[|;]|-\{|=>)\s*)([a-z\-]+)(:)(.*?)(?:(;)|(?=\}-))`,
+				match: String.raw`(?<=[\|;]|-\{|=>)\s*($1)(:)(.*?)(?:(;)|(?=\}-))`,
 				captures: {
 					1: {name: 'entity.name.tag.language.wikitext'},
 					2: {name: 'punctuation.separator.key-value.wikitext'},

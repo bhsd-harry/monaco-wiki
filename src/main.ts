@@ -43,7 +43,18 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
-		{doubleUnderscore, redirection, parserFunction, variable, nsid, protocol, ext, html, img} = tempConfig,
+		{
+			doubleUnderscore,
+			redirection,
+			parserFunction,
+			variable,
+			nsid,
+			protocol,
+			ext,
+			html,
+			img,
+			variants,
+		} = tempConfig,
 		namespaces = Object.keys(nsid).filter(Boolean).map(ns => ns.replace(/ /gu, '[_ ]')),
 		[p0, p1, ...p2] = parserFunction,
 		isOldSchema = Array.isArray(p1),
@@ -79,6 +90,7 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	defineGrammar(fileLink.patterns[1]!, imgKeys.filter(s => s.startsWith('$1')).map(s => s.slice(2)));
 	defineGrammar(repository['wiki-link'].repository['internal-link'], namespaces, 'begin');
 	defineGrammar(repository['external-link'], [protocol.replace(/\//gu, String.raw`\/`), String.raw`\/\/`]);
+	defineGrammar(repository.convert.patterns[0]!, variants);
 	config.autoClosingPairs!.push(
 		...[ext, html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
 	);
