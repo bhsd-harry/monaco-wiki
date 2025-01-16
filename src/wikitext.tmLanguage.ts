@@ -10,6 +10,8 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
 	tagName = {name: 'entity.name.tag.wikitext'},
 	attribute = {include: 'text.html.basic#attribute'},
+	templateEnd = String.raw`(\}\})`,
+	argEnd = String.raw`(?=\}\}\})`,
 	linkBracket = {name: 'punctuation.definition.tag.link.internal.wikitext'},
 	pageName = {name: 'entity.other.attribute-name.wikitext'},
 	invalid = 'invalid.deprecated.ineffective.wikitext',
@@ -20,6 +22,8 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	namespace = {name: 'entity.name.tag.namespace.wikitext'},
 	indent = 'punctuation.definition.list.begin.markdown.wikitext',
 	delimiter = String.raw`\||\{\{\s*!\s*\}\}`,
+	link = 'string.quoted.internal-link.wikitext',
+	linkEnd = String.raw`(\]\])`,
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
@@ -31,10 +35,17 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 		{include: '#magic-words'},
 		{include: '#template'},
 	],
-	attrs = [...replaced, attribute],
+	attrs = [
+		...replaced,
+		attribute,
+	],
 	tdInner = {
 		name: 'markup.style.wikitext',
 		patterns: [$self],
+	},
+	pipePattern = {
+		match: pipe,
+		name: pipeOp,
 	};
 
 const tagWithAttribute = (pos = 4): IRawCaptures => ({
@@ -56,17 +67,14 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		begin: String.raw`${caseSensitive ? '' : '(?i)'}(\{\{)\s*(${
 			caseSensitive ? String.raw`#[^#:\|\[\]\{\}]*[^#:\|\[\]\{\}\s]|` : ''
 		}$1)(:)`,
-		end: String.raw`(\}\})`,
+		end: templateEnd,
 		captures: {
 			1: {name: 'punctuation.definition.tag.function.wikitext'},
 			2: {name: variable},
 			3: {name: 'keyword.operator.function.wikitext'},
 		},
 		patterns: [
-			{
-				match: String.raw`(\|)`,
-				name: pipeOp,
-			},
+			pipePattern,
 			$self,
 		],
 	}),
@@ -188,12 +196,12 @@ const signature = {
 			{
 				begin: pipe,
 				beginCaptures: {0: pipeRule},
-				end: String.raw`(?=\}\}\})`,
+				end: argEnd,
 				patterns: [
 					{
 						name: invalid,
 						begin: pipe,
-						end: String.raw`(?=\}\}\})`,
+						end: argEnd,
 					},
 					$self,
 				],
@@ -220,7 +228,7 @@ const signature = {
 	},
 	template = {
 		begin: String.raw`(\{\{)(\s*(?::\s*)?(?:$1)\s*:)?([^#\|\[\]\{\}<>]+)(#[^\|\{\}<>]*)?`,
-		end: String.raw`(\}\})`,
+		end: templateEnd,
 		captures: {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
 			2: namespace,
@@ -236,10 +244,7 @@ const signature = {
 					3: {name: 'keyword.operator.equal.wikitext'},
 				},
 			},
-			{
-				match: String.raw`(\|)`,
-				name: pipeOp,
-			},
+			pipePattern,
 			$self,
 		],
 	},
@@ -293,11 +298,9 @@ const signature = {
 		name: 'markup.changed.wikitext',
 	},
 	fileLink = {
-		name: 'string.quoted.internal-link.wikitext',
-		begin: String.raw`(?i)(\[\[)[^\S\n]*(${
-			String.raw`(?:$1)[^\S\n]*:`
-		})[^\S\n]*([^\n\|\[\]\{\}<>#]*)(#[^\n\|\[\]\{\}]*)?`,
-		end: String.raw`(\]\])`,
+		name: link,
+		begin: String.raw`(?i)(\[\[)[^\S\n]*((?:$1)[^\S\n]*:)([^\n\|\[\]\{\}<>#]*)(#[^\n\|\[\]\{\}]*)?`,
+		end: linkEnd,
 		captures: {
 			1: linkBracket,
 			2: namespace,
@@ -306,19 +309,27 @@ const signature = {
 		},
 		patterns: [
 			{
-				match: String.raw`(\|)([\w\s]*\w=)?`,
+				match: String.raw`(\|)\s*((?:$1)\s*(?=\||\]\])|$2)`,
 				captures: {
 					1: pipeRule,
 					2: {name: 'entity.other.attribute-name.localname.wikitext'},
 				},
 			},
+			{
+				match: String.raw`(\|)\s*[\dx]+(?:px)?($1)\s*(?=\||\]\])`,
+				captures: {
+					1: pipeRule,
+					2: {name: 'entity.other.attribute-name.localname.wikitext'},
+				},
+			},
+			pipePattern,
 			$self,
 		],
 	},
 	internalLink = {
-		name: 'string.quoted.internal-link.wikitext',
-		begin: String.raw`(\[\[)((?:[^#:\n\|\[\]\{\}<>]*:){1,2})?([^\n\|\[\]\{\}<>]*)`,
-		end: String.raw`(\]\])`,
+		name: link,
+		begin: String.raw`(?i)(\[\[)(\s*(?::\s*)?(?:$1)\s*:)?([^\n\|\[\]\{\}<>]*)`,
+		end: linkEnd,
 		captures: {
 			1: linkBracket,
 			2: namespace,
@@ -327,8 +338,8 @@ const signature = {
 		patterns: [
 			{
 				begin: pipe,
+				beginCaptures: {0: pipeRule},
 				end: String.raw`(?=\]\])`,
-				captures: {0: pipeRule},
 				patterns: [$self],
 			},
 			$self,

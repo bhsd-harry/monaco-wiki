@@ -89,6 +89,9 @@ input[type="radio"]:active + span {
 #container {
 	height: 400px;
 }
+span.mtku {
+	text-decoration: none;
+}
 
 @media screen and (max-width: 720px) {
 	main {

@@ -12,6 +12,7 @@
 - Parser functions and variables without a leading `#` are now correctly highlighted
 - Template parameter names can be empty
 - Fatal error when [wikiparse](https://github.com/bhsd-harry/wikiparser-node/wiki/wikiparse) is not loaded
+- Many image parameters (e.g., `thumb`, `link=`, and `1px`) are now correctly highlighted
 
 **Changed**
 

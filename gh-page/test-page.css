@@ -39,6 +39,9 @@
 	border-color: #c8ccd1;
 	cursor: not-allowed;
 }
+span.mtku {
+	text-decoration: none;
+}
 
 @media screen and (min-width: 1200px) {
 	#compare {

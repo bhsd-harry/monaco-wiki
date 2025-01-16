@@ -29,7 +29,8 @@ const {repository} = wikitext,
 	magicWords = repository['magic-words'].repository,
 	variables = magicWords.variables.patterns,
 	parserFunctions = magicWords['parser-function'].patterns,
-	behaviorSwitches = repository['behavior-switches'].patterns;
+	behaviorSwitches = repository['behavior-switches'].patterns,
+	fileLink = repository['wiki-link'].repository['file-link'];
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	for (let i = 1; i < 10; i++) {
@@ -42,12 +43,13 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
 	const tempConfig = typeof parserConfig === 'object' ? parserConfig : defaultConfig,
-		{doubleUnderscore, redirection, parserFunction, variable, nsid, protocol, ext, html} = tempConfig,
+		{doubleUnderscore, redirection, parserFunction, variable, nsid, protocol, ext, html, img} = tempConfig,
 		namespaces = Object.keys(nsid).filter(Boolean).map(ns => ns.replace(/ /gu, '[_ ]')),
 		[p0, p1, ...p2] = parserFunction,
 		isOldSchema = Array.isArray(p1),
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
-		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#'));
+		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#')),
+		imgKeys = Object.keys(img);
 	for (let i = 0; i < 2; i++) {
 		if (doubleUnderscore.length > i + 2 && doubleUnderscore[i]!.length === 0) {
 			doubleUnderscore[i] = Object.keys(doubleUnderscore[i + 2]!);
@@ -68,10 +70,14 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
 	defineGrammar(
-		repository['wiki-link'].repository['file-link'],
-		Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k),
+		fileLink,
+		Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k.replace(/ /gu, '[_ ]')),
 		'begin',
 	);
+	defineGrammar(fileLink.patterns[0]!, imgKeys.filter(s => !s.includes('$1')));
+	defineGrammar(fileLink.patterns[0]!, imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)));
+	defineGrammar(fileLink.patterns[1]!, imgKeys.filter(s => s.startsWith('$1')).map(s => s.slice(2)));
+	defineGrammar(repository['wiki-link'].repository['internal-link'], namespaces, 'begin');
 	defineGrammar(repository['external-link'], [protocol.replace(/\//gu, String.raw`\/`), String.raw`\/\/`]);
 	config.autoClosingPairs!.push(
 		...[ext, html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
