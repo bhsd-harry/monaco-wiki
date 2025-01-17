@@ -22,8 +22,8 @@
     };
     void wikiparse.highlight(pre, false, true);
     btn.disabled = !select.value;
-    if (isGH) {
-        btn.style.display = 'none';
+    if (!isGH) {
+        btn.style.display = '';
     }
     let optgroup;
     for (const [i, { desc, wikitext }] of tests.entries()) {
@@ -47,7 +47,7 @@
         void wikiparse.highlight(pre, false, true);
         select.selectedOptions[0].disabled = true;
         btn.disabled = false;
-        location.hash = `#${encodeURIComponent(desc)}`;
+        history.replaceState(null, '', `#${encodeURIComponent(desc)}`);
     });
     btn.addEventListener('click', () => {
         dones.add(tests[Number(select.value)].desc);
