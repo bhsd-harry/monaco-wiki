@@ -27,7 +27,7 @@
     for (const input of languages) {
         input.addEventListener('change', () => {
             init(input.id);
-            location.hash = `#${input.id.slice(0, 1).toUpperCase()}${input.id.slice(1)}`;
+            location.hash = `#${input.id.charAt(0).toUpperCase()}${input.id.slice(1)}`;
         });
         if (input.checked) {
             init(input.id);
