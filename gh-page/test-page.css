@@ -52,6 +52,19 @@ span.mtku {
 		display: inline-block;
 		width: 100%;
 	}
+
+	/* Chromium */
+	@supports (not (-webkit-hyphens:none)) and (not (-moz-appearance:none)) and (list-style-type:"*") {
+		#compare {
+			padding-top: .5rem;
+		}
+		#compare > div {
+			display: block;
+		}
+		#compare h2 {
+			margin-top: 0;
+		}
+	}
 }
 @media screen and (max-width: 720px) {
 	.monaco-editor {

@@ -13,7 +13,6 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	templateEnd = String.raw`(\}\})`,
 	argEnd = String.raw`(?=\}\}\})`,
 	linkBracket = {name: 'punctuation.definition.tag.link.internal.wikitext'},
-	pageName = {name: 'entity.other.attribute-name.wikitext'},
 	invalid = 'invalid.deprecated.ineffective.wikitext',
 	invalidRule = {name: invalid},
 	$self = {include: '$self'},
@@ -41,6 +40,15 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 		...replaced,
 		attribute,
 	],
+	pageName = {
+		name: 'entity.other.attribute-name.wikitext',
+		patterns: [
+			{
+				match: '(?i)%(?:3[ce]|[57][bd])',
+				name: invalid,
+			},
+		],
+	},
 	tdInner = {
 		name: 'markup.style.wikitext',
 		patterns: [$self],
@@ -232,7 +240,15 @@ const signature = {
 		captures: {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
 			2: namespace,
-			3: {name: 'entity.name.tag.local-name.wikitext'},
+			3: {
+				name: 'entity.name.tag.local-name.wikitext',
+				patterns: [
+					{
+						match: String.raw`(?i)%[\da-f]{2}`,
+						name: invalid,
+					},
+				],
+			},
 			4: invalidRule,
 		},
 		patterns: [
@@ -328,7 +344,7 @@ const signature = {
 	},
 	internalLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)(\s*(?::\s*)?(?:$1)\s*:)?([^\n\|\[\]\{\}<>]+)`,
+		begin: String.raw`(?i)(\[\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^\n\|\[\]\{\}<>#]*(?:#[^\n\|\[\]\{\}]*)?)`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
@@ -342,7 +358,14 @@ const signature = {
 				end: String.raw`(?=\]\])`,
 				patterns: [$self],
 			},
-			$self,
+			{
+				match: String.raw`[\[\]\}>]`,
+				name: invalid,
+			},
+			{include: 'text.html.basic#comment'},
+			{include: '#argument'},
+			{include: '#magic-words'},
+			{include: '#template'},
 		],
 	},
 	fontStyle = {

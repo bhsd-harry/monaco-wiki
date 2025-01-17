@@ -16,6 +16,9 @@
 - Many image parameters (e.g., `thumb`, `link=`, and `1px`) are now correctly highlighted
 - URL protocols are case-insensitive
 - No illegal language code in the language conversion syntax
+- Allow HTML entities in `<nowiki>`
+- URL in double square brackets
+- Warn URI encoding in template names and URI-encoded illegal characters in link targets
 
 **Changed**
 

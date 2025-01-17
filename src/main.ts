@@ -30,7 +30,9 @@ const {repository} = wikitext,
 	variables = magicWords.variables.patterns,
 	parserFunctions = magicWords['parser-function'].patterns,
 	behaviorSwitches = repository['behavior-switches'].patterns,
-	fileLink = repository['wiki-link'].repository['file-link'];
+	link = repository['wiki-link'].repository,
+	plainLink = link['internal-link'],
+	fileLink = link['file-link'];
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	for (let i = 1; i < 10; i++) {
@@ -60,7 +62,8 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 		isOldSchema = Array.isArray(p1),
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
 		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#')),
-		imgKeys = Object.keys(img);
+		imgKeys = Object.keys(img),
+		protocols = [protocol.replace(/\//gu, String.raw`\/`), String.raw`\/\/`];
 	for (let i = 0; i < 2; i++) {
 		if (doubleUnderscore.length > i + 2 && doubleUnderscore[i]!.length === 0) {
 			doubleUnderscore[i] = Object.keys(doubleUnderscore[i + 2]!);
@@ -89,8 +92,9 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	defineGrammar(fileLink.patterns[0]!, imgKeys.filter(s => !s.includes('$1')));
 	defineGrammar(fileLink.patterns[0]!, imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)));
 	defineGrammar(fileLink.patterns[1]!, imgKeys.filter(s => s.startsWith('$1')).map(s => s.slice(2)));
-	defineGrammar(repository['wiki-link'].repository['internal-link'], namespaces, 'begin');
-	defineGrammar(repository['external-link'], [protocol.replace(/\//gu, String.raw`\/`), String.raw`\/\/`]);
+	defineGrammar(plainLink, protocols, 'begin');
+	defineGrammar(plainLink, namespaces, 'begin');
+	defineGrammar(repository['external-link'], protocols);
 	defineGrammar(repository.convert.patterns[0]!, variants);
 	config.autoClosingPairs!.push(
 		...[ext, html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),

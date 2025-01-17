@@ -58,7 +58,11 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 1. Template parameter names containing newlines or comments ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20parameter%20names%20(T69657))).
 1. Wikitext in template parameter names ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Other%20wikitext%20in%20parameter%20names%20(T69657))).
 1. HTML tag breaking template syntax (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20in%20template), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20name%20in%20template)).
-1. 3 consecutive brackets (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20with%203%20brackets), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%203%20brackets)).
+1. Bracket pair inside link text ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
+1. Double URI encoding in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20%25%20as%20a%20double%20hex%20sequence%20interpreted%20to%20hex%20sequence)).
+1. Double HTML escaping in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20an%20ampersand)).
+1. Nested internal link in internal/external links (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#Nested%20wikilink%20syntax%20in%20wikilink%20syntax%20that%20parses%20as%20wikilink%20in%20extlink), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilink%20in%20wikilink)).
+1. Interaction between external links and template parameters ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
 
 ## License
 
