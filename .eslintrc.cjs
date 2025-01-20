@@ -31,5 +31,17 @@ module.exports = {
 				project: 'gh-page/tsconfig.json',
 			},
 		},
+		{
+			files: 'test/*.ts',
+			parserOptions: {
+				project: 'test/tsconfig.json',
+			},
+		},
+		{
+			files: 'test/parserTests.json',
+			rules: {
+				'no-irregular-whitespace': 0,
+			},
+		},
 	],
 };

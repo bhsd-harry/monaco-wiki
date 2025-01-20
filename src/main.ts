@@ -29,9 +29,8 @@ export default async (monaco: typeof Monaco, parserConfig: Config | boolean = fa
 	shikiToMonaco(highlighter, monaco);
 
 	// 注册语言服务
-	const {ext, html} = typeof parserConfig === 'object' ? parserConfig : defaultConfig;
 	config.autoClosingPairs!.push(
-		...[ext, html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
+		...[tempConfig.ext, tempConfig.html.slice(0, 2)].flat(2).map(tag => ({open: `<${tag}>`, close: `</${tag}>`})),
 	);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 	monaco.languages.registerCompletionItemProvider('wikitext', completion(monaco));

@@ -49,6 +49,7 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 ### Syntax Highlighting
 
 1. Preformatted text with a leading space is not supported.
+1. Free external links are not supported.
 1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is imperfect for Wikitext ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Parsoid%20parameter%20escaping%20test%201), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20'%3D'%20char%20in%20nested%20transclusions%20should%20not%20trigger%20nowiki%20escapes%20or%20conversion%20to%20named%20param)).
 1. Not error-tolerant ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Target%20with%20an%20extension%20tag)).
 1. Interaction between table cells and `<nowiki>` ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
@@ -63,6 +64,11 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 1. Double HTML escaping in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20an%20ampersand)).
 1. Nested internal link in internal/external links (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#Nested%20wikilink%20syntax%20in%20wikilink%20syntax%20that%20parses%20as%20wikilink%20in%20extlink), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilink%20in%20wikilink)).
 1. Interaction between external links and template parameters ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
+1. 3 consecutive brackets (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20with%203%20brackets), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%203%20brackets)).
+1. 4 consecutive braces (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%3A%20Template-generated%20DISPLAYTITLE), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%20html2wt%20b%2Fc%20check%3A%20Cached%20Parsoid%20HTML%20for%20DISPLAYTITLE%20should%20be%20handled%20properly)).
+1. Incomplete external link syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Broken%20wikilinks%20(but%20not%20external%20links)%20prevent%20templates%20from%20closing)).
+1. Comments at the start of a line ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).
+1. Complex HTML tag attributes (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#2.%20includeonly%20in%20html%20attr%20value), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value)).
 
 ## License
 

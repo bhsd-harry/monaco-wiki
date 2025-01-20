@@ -56,6 +56,10 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	pipePattern = {
 		match: pipe,
 		name: pipeOp,
+	},
+	imgKey = {
+		1: pipeRule,
+		2: {name: 'entity.other.attribute-name.localname.wikitext'},
 	};
 
 const tagWithAttribute = (pos = 4): IRawCaptures => ({
@@ -194,7 +198,7 @@ const signature = {
 	},
 	argument = {
 		contentName: 'variable.parameter.wikitext',
-		begin: String.raw`(\{\{\{)(?!\{)([^\{\}\|]*)`,
+		begin: String.raw`(?<!(?<!\{)\{)(\{\{\{)(?!\{)([^\{\}\|]*)`,
 		end: String.raw`(\}\}\})`,
 		captures: {
 			1: {name: 'punctuation.definition.tag.variable.wikitext'},
@@ -315,7 +319,7 @@ const signature = {
 	},
 	fileLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)[^\S\n]*((?:$1)[^\S\n]*:)([^\n\|\[\]\{\}<>#]+)(#[^\n\|\[\]\{\}]*)?`,
+		begin: String.raw`(?i)(\[\[)(?!\[)[^\S\n]*((?:$1)[^\S\n]*:)([^\n\|\[\]\{\}<>#]+)(#[^\n\|\[\]\{\}]*)?`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
@@ -326,17 +330,11 @@ const signature = {
 		patterns: [
 			{
 				match: String.raw`(\|)\s*((?:$1)\s*(?=\||\]\])|$2)`,
-				captures: {
-					1: pipeRule,
-					2: {name: 'entity.other.attribute-name.localname.wikitext'},
-				},
+				captures: imgKey,
 			},
 			{
 				match: String.raw`(\|)\s*[\dx]+(?:px)?($1)\s*(?=\||\]\])`,
-				captures: {
-					1: pipeRule,
-					2: {name: 'entity.other.attribute-name.localname.wikitext'},
-				},
+				captures: imgKey,
 			},
 			pipePattern,
 			$self,
@@ -344,7 +342,7 @@ const signature = {
 	},
 	internalLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^\n\|\[\]\{\}<>#]*(?:#[^\n\|\[\]\{\}]*)?)`,
+		begin: String.raw`(?i)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^\n\|\[\]\{\}<>#]*(?:#[^\n\|\[\]\{\}]*)?)`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
@@ -363,6 +361,7 @@ const signature = {
 				name: invalid,
 			},
 			{include: 'text.html.basic#comment'},
+			{include: '#wikixml'},
 			{include: '#argument'},
 			{include: '#magic-words'},
 			{include: '#template'},
