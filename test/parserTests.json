@@ -1485,7 +1485,7 @@
 	{
 		"desc": "Orphaned table row wikitext with templated table for an attribute should not duplicate table",
 		"wikitext": "|-{{1x|\n{{{!}}\n{{!}}foo\n{{!}}}\n}}",
-		"parsed": "|-<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|\\n</><punctuation.definition.tag.variable>{{{</><variable.other>!</><variable.parameter>}}\\n{{!}}foo\\n{{!</><punctuation.definition.tag.variable>}}}\\n</><punctuation.definition.tag.template>}}</>"
+		"parsed": "|-<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|\\n</><meta.tag.block.table><keyword.operator>{{{!}}\\n</><meta.tag.block.td><keyword.operator>{{!}}</><markup.style>foo\\n</></><keyword.operator>{{!}}}\\n</></><punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "Templates: Template Name/Arg clash: 1. Use of positional param",
@@ -1680,7 +1680,7 @@
 	{
 		"desc": "Extension tag in templated tag attribute",
 		"wikitext": "{{1x|1=\n{{{!}} class=\"123\" <nowiki />\n{{!}} hi\n{{!}}}\n}}",
-		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>1</><keyword.operator.equal>=\\n</><punctuation.definition.tag.variable>{{{</><variable.other>!</><variable.parameter>}} class=\"123\" &lt;nowiki /&gt\\n{{!}} hi\\n{{!</><punctuation.definition.tag.variable>}}}\\n</><punctuation.definition.tag.template>}}</>"
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>1</><keyword.operator.equal>=\\n</><meta.tag.block.table><keyword.operator>{{{!}}</> <meta.attribute.class.html><entity.other.attribute-name.html>class</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>123<punctuation.definition.string.end.html>\"</></></> <punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</> <punctuation.definition.tag.end>/&gt\\n</><meta.tag.block.td><keyword.operator>{{!}}</><markup.style> hi\\n</></><keyword.operator>{{!}}}\\n</></><punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "Templates: HTML Tables: 1. Generating start of a HTML table",
@@ -4856,6 +4856,39 @@
 		"desc": "Preserve the order invalid attributes",
 		"wikitext": "<div width=\"95%\" style=\"border: 3px solid darkblue\">hi",
 		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.width.html><entity.other.attribute-name.html>width</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>95%<punctuation.definition.string.end.html>\"</></></> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>border: 3px solid darkblue</><punctuation.definition.string.end.html><source.css>\"</></></></></><punctuation.definition.tag.end.html>&gt</></>hi"
+	},
+	{
+		"desc": "additionalTests"
+	},
+	{
+		"desc": "Multiple <onlyinclude> being included",
+		"wikitext": "{{Includes4}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>Includes4</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "#vardefine at SOL",
+		"wikitext": "{{#vardefine:test|heading}}==Heading==\n{{#vardefine:test|hr}}----\n{{#vardefine:test|list}};dt:dd\n{{#vardefine:test|table}}{|\n|-\n! !!\n|}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#vardefine</><keyword.operator.function>:</>test<keyword.operator>|</>heading<punctuation.definition.tag.function>}}</>==Heading==\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#vardefine</><keyword.operator.function>:</>test<keyword.operator>|</>hr<punctuation.definition.tag.function>}}</>----\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#vardefine</><keyword.operator.function>:</>test<keyword.operator>|</>list<punctuation.definition.tag.function>}}</>;dt:dd\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#vardefine</><keyword.operator.function>:</>test<keyword.operator>|</>table<punctuation.definition.tag.function>}}</>{|\\n|-\\n! !!\\n|}"
+	},
+	{
+		"desc": "Case-sensitive behavior switches in lower cases",
+		"wikitext": "__index__",
+		"parsed": "__index__"
+	},
+	{
+		"desc": "Nested file links",
+		"wikitext": "[[file:thumb.jpg|[[file:thumb.png|Thumb|thumb]]|thumb]]\n[[file:thumb.jpg|[[file:thumb.png|[[T]]humb|thumb]]|thumb]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.jpg</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.png</><keyword.operator>|</>Thumb<keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]</></><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.jpg</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.png</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>T</><punctuation.definition.tag.link.internal>]]</></>humb<keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]</></><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "&lt; in an external link",
+		"wikitext": "[https://mediawiki.org/&LT;&lt;text]\n[https://mediawiki.org/&GT;&gt;text]",
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://mediawiki.org/&amp;LT;&amp;lt;text</><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>https://mediawiki.org/&amp;GT;&amp;gt;text</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Magic links in lower cases",
+		"wikitext": "pmid 1 PMID 1\nrfc 1 RFC 1\nisbn 1234567890 ISBN 1234567890",
+		"parsed": "pmid 1 <constant.language.variables.pmid>PMID 1\\n</>rfc 1 <constant.language.variables.rfc>RFC 1\\n</>isbn 1234567890 <constant.language.variables.isbn>ISBN 1234567890</>"
 	},
 	{
 		"desc": "badCharacters"
@@ -10971,7 +11004,7 @@
 	{
 		"desc": "Build table with {{!}}",
 		"wikitext": "{{{!}} class=\"wikitable\"\n!header\n!second header\n{{!}}- style=\"color:red;\"\n{{!}}data{{!}}{{!}} style=\"color:red;\" {{!}}second data\n{{!}}}",
-		"parsed": "<punctuation.definition.tag.variable>{{{</><variable.other>!</><variable.parameter>}} class=\"wikitable\"\\n!header\\n!second header\\n{{!}}- style=\"color:red;\"\\n{{!}}data{{!}}{{!}} style=\"color:red;\" {{!}}second data\\n{{!</><punctuation.definition.tag.variable>}}}</>"
+		"parsed": "<meta.tag.block.table><keyword.operator>{{{!}}</> <meta.attribute.class.html><entity.other.attribute-name.html>class</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>wikitable<punctuation.definition.string.end.html>\"\\n</></></><meta.tag.block.th><keyword.operator>!</><markup.style>header\\n</><keyword.operator>!</><markup.style>second header\\n</></><meta.tag.block.table-row><keyword.operator>{{!}}-</> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>color:red;</><punctuation.definition.string.end.html><source.css>\"\\n</></></></></></><meta.tag.block.td><keyword.operator>{{!}}</><markup.style>data</><keyword.operator>{{!}}{{!}}</> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>color:red;</><punctuation.definition.string.end.html><source.css>\"</></></></> </><keyword.operator>{{!}}</><markup.style>second data\\n</></><keyword.operator>{{!}}}</></>"
 	},
 	{
 		"desc": "Build table with pipe as data",
@@ -11519,6 +11552,6 @@
 	{
 		"desc": "Ensure that when a leading-whitespace-containing string is emitted on a newline, it is correctly escaped",
 		"wikitext": "<div>\nABC\n{{1x|\n{{{!}}\n{{!}} a\n{{!}}}}} b",
-		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n</></>ABC\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|\\n</><punctuation.definition.tag.variable>{{{</><variable.other>!</><variable.parameter>}}\\n{{!}} a\\n{{!</><punctuation.definition.tag.variable>}}}</><punctuation.definition.tag.template>}}</> b"
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n</></>ABC\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|\\n</><meta.tag.block.table><keyword.operator>{{{!}}\\n</><meta.tag.block.td><keyword.operator>{{!}}</><markup.style> a\\n</></><keyword.operator>{{!}}}</></><punctuation.definition.tag.template>}}</> b"
 	}
 ]

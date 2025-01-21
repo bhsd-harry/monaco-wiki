@@ -11,6 +11,7 @@
         wordWrap: 'on',
         wordBreak: 'keepAll',
         fontSize: 14,
+        renderLineHighlight: 'gutter',
         scrollBeyondLastLine: false,
         minimap: { enabled: false },
         unicodeHighlight: { ambiguousCharacters: false },

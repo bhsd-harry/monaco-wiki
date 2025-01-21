@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/monaco-wiki.svg)](https://www.npmjs.com/package/monaco-wiki)
 [![CodeQL](https://github.com/bhsd-harry/monaco-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/monaco-wiki/actions/workflows/github-code-scanning/codeql)
-[![codebeat badge](https://codebeat.co/badges/f4c13c9f-91c7-4cf8-a6f2-7c99e9209810)](https://codebeat.co/projects/github-com-bhsd-harry-monaco-wiki-main)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/18f690b061a64d40ad0d8bec1f5489e3)](https://app.codacy.com/gh/bhsd-harry/monaco-wiki/dashboard)
 
 **Monaco-Wiki** registers the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language in the [Monaco Editor](https://microsoft.github.io/monaco-editor/). It is a web version of the [Visual Studio Code](https://code.visualstudio.com/) extensions developed by [Rowe Wilson Frederisk Holme](https://github.com/Frederisk/Wikitext-VSCode-Extension) and [Bhsd](https://github.com/bhsd-harry/vscode-extension-wikiparser). The TextMate grammar is substantially revised to be site-specific and more accurate.
 
@@ -68,7 +68,7 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 1. 4 consecutive braces (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%3A%20Template-generated%20DISPLAYTITLE), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%20html2wt%20b%2Fc%20check%3A%20Cached%20Parsoid%20HTML%20for%20DISPLAYTITLE%20should%20be%20handled%20properly)).
 1. Incomplete external link syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Broken%20wikilinks%20(but%20not%20external%20links)%20prevent%20templates%20from%20closing)).
 1. Comments at the start of a line ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).
-1. Complex HTML tag attributes (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#2.%20includeonly%20in%20html%20attr%20value), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value)).
+1. Complex HTML tag attributes (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#2.%20includeonly%20in%20html%20attr%20value), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [3](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value)).
 
 ## License
 

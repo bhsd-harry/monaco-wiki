@@ -198,7 +198,7 @@ const signature = {
 	},
 	argument = {
 		contentName: 'variable.parameter.wikitext',
-		begin: String.raw`(?<!(?<!\{)\{)(\{\{\{)(?!\{)([^\{\}\|]*)`,
+		begin: String.raw`(?<!(?<!\{)\{)(\{\{\{)(?!\{|\s*!\s*\}\}(?!\}))([^\{\}\|]*)`,
 		end: String.raw`(\}\}\})`,
 		captures: {
 			1: {name: 'punctuation.definition.tag.variable.wikitext'},
