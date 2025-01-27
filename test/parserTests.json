@@ -4876,6 +4876,11 @@
 		"parsed": "__index__"
 	},
 	{
+		"desc": "Category / whitespace (newline and non-newline) interactions",
+		"wikitext": "x\n[[Category:A]] [[Category:B]]\ny",
+		"parsed": "x\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>A</><punctuation.definition.tag.link.internal>]]</></> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>B</><punctuation.definition.tag.link.internal>]]\\n</></>y"
+	},
+	{
 		"desc": "Nested file links",
 		"wikitext": "[[file:thumb.jpg|[[file:thumb.png|Thumb|thumb]]|thumb]]\n[[file:thumb.jpg|[[file:thumb.png|[[T]]humb|thumb]]|thumb]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.jpg</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.png</><keyword.operator>|</>Thumb<keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]</></><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.jpg</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>file:</><entity.other.attribute-name>thumb.png</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>T</><punctuation.definition.tag.link.internal>]]</></>humb<keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]</></><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]</></>"

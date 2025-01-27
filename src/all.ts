@@ -1,6 +1,7 @@
 import {CDN as baseCDN} from '@bhsd/common';
 import registerWiki from './main.ts';
 import type * as Monaco from 'monaco-editor';
+import type {Environment} from 'monaco-editor';
 
 declare interface Require {
 	config(config: {paths?: Record<string, string>}): void;
@@ -24,7 +25,7 @@ style.textContent =
 + '.monaco-hover-content code{color:inherit}';
 document.head.append(style);
 
-const MonacoEnvironment: Monaco.Environment = {
+const MonacoEnvironment: Environment = {
 	getWorker(_, label): Worker {
 		const paths: Record<string, string> = {
 				css: 'css',

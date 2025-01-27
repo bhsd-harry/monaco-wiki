@@ -12,9 +12,10 @@ import {listen} from './tree.ts';
 import foldProvider from './fold.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
+import type {languages} from 'monaco-editor';
 import type {IWikitextModel} from './linter.ts';
 
-const config: Monaco.languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
+const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
 	defaultConfig: Config = require('wikiparser-node/config/default.json');
 
 export default async (monaco: typeof Monaco, parserConfig: Config | boolean = false): Promise<void> => {
