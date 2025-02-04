@@ -1,6 +1,6 @@
-import type {IRawGrammar} from '@shikijs/core/textmate';
+import type {IRawGrammar} from '@shikijs/vscode-textmate';
 
-export type IRawRule = IRawGrammar['repository']['$self'];
+export type IRawRule = IRawGrammar['patterns'][0];
 declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
 const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,

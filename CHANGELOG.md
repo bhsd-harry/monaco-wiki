@@ -1,3 +1,15 @@
+## v1.7.0
+
+*2025-02-07*
+
+**Added**
+
+- Auto-linking for URLs in Wikitext
+
+**Fixed**
+
+- Language services for Wikitext are now provided directly by [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node), which is consistent with the [VSCode extension](https://github.com/bhsd-harry/vscode-extension-wikiparser)
+
 ## v1.6.0
 
 *2025-01-30*

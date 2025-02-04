@@ -12,8 +12,8 @@ import type {IRawRule} from './wikitext.tmLanguage.ts';
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	for (let i = 1; i < 10; i++) {
-		if (rule[key]!.includes(`$${i}`)) {
-			Object.assign(rule, {[key]: rule[key]!.replace(`$${i}`, options.join('|'))});
+		if ((rule[key] as string).includes(`$${i}`)) {
+			Object.assign(rule, {[key]: (rule[key] as string).replace(`$${i}`, options.join('|'))});
 			break;
 		}
 	}

@@ -11,7 +11,11 @@ declare interface Require {
 
 declare global {
 	const monaco: typeof Monaco;
-	const mediaWiki: object;
+	const mediaWiki: {
+		config: {
+			get(key: string): string;
+		};
+	};
 }
 
 const CDN = `${baseCDN}/npm`,
@@ -44,7 +48,7 @@ const MonacoEnvironment: Environment = {
 				{type: 'text/javascript'},
 			),
 			url = URL.createObjectURL(blob),
-			worker = new Worker(url);
+			worker = new Worker(url); // same-origin policy
 		URL.revokeObjectURL(url);
 		return worker;
 	},

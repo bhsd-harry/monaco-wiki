@@ -1,6 +1,4 @@
 import {getObject} from '@bhsd/common';
-// @ts-expect-error ESM
-import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import {
 	getWikiLinter,
 	getJsLinter,
@@ -8,11 +6,8 @@ import {
 	getLuaLinter,
 // @ts-expect-error ESM
 } from '@bhsd/codemirror-mediawiki/dist/linter.mjs';
-// @ts-expect-error not module
-import type {} from 'requirejs';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity} from 'monaco-editor';
-import type {Config} from 'wikiparser-node';
 import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
 import type {Linter} from 'eslint';
 import type {Warning} from 'stylelint';
@@ -43,9 +38,8 @@ const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}
  * 获取代码检查器
  * @param monaco Monaco
  * @param model 文本模型
- * @param parserConfig 解析器配置
  */
-export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Config | true): void => {
+export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 	/**
 	 * 更新诊断信息
 	 * @param clear 是否清除诊断信息
@@ -70,7 +64,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Conf
 							}`,
 							glyphMarginHoverMessage: {value: message},
 						},
-					})),
+					}) satisfies editor.IModelDeltaDecoration),
 				);
 			})();
 		}, clear ? 0 : 750);
@@ -91,16 +85,8 @@ export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Conf
 		(async () => {
 			switch (this.getLanguageId()) {
 				case 'wikitext': {
-					const loaded = 'wikiparse' in globalThis,
-						config: Record<string, string> | null = getCmObject('wikilint'),
+					const config: Record<string, string> | null = getCmObject('wikilint'),
 						wikilint: LinterBase = await getWikiLinter({include: true});
-					if (!loaded) {
-						if (parserConfig === true) {
-							// eslint-disable-next-line require-atomic-updates, no-param-reassign
-							parserConfig = getParserConfig(await wikiparse.getConfig(), await getMwConfig());
-						}
-						wikiparse.setConfig(parserConfig as Config);
-					}
 					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
 						((await wikilint.monaco(text)) as (editor.IMarkerData & {rule: string})[])
 							.filter(({rule, severity}) => Number(config?.[rule] ?? 1) > Number(severity as number < 8));
@@ -122,7 +108,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Conf
 							endColumn: endColumn ?? column,
 							severity: severity === 2 ? 8 : 4,
 							message,
-						}));
+						}) satisfies editor.IMarkerData);
 					break;
 				}
 				case 'css': {
@@ -137,7 +123,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Conf
 							endColumn: endColumn ?? column,
 							severity: severity === 'error' ? 8 : 4,
 							message: text,
-						}));
+						}) satisfies editor.IMarkerData);
 					break;
 				}
 				case 'lua': {
@@ -151,7 +137,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel, parserConfig: Conf
 							endColumn: endColumn + 1,
 							severity: severity * 4,
 							message: msg,
-						}));
+						}) satisfies editor.IMarkerData);
 				}
 				// no default
 			}
