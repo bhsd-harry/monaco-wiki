@@ -8,11 +8,17 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwCo
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import getLinter from './linter.ts';
-import completion from './completion.ts';
-import {referenceProvider, highlightProvider, definitionProvider, renameProvider} from './reference.ts';
-import colorProvider from './color.ts';
-import foldProvider from './fold.ts';
-import linkProvider from './link.ts';
+import {
+	documentColorProvider,
+	completionItemProvider,
+	foldingRangeProvider,
+	linkProvider,
+	referenceProvider,
+	documentHighlightProvider,
+	definitionProvider,
+	renameProvider,
+	hoverProvider,
+} from './lsp.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
@@ -60,14 +66,15 @@ export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): P
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 
 	// 注册语言服务
-	monaco.languages.registerCompletionItemProvider('wikitext', completion(monaco));
+	monaco.languages.registerCompletionItemProvider('wikitext', completionItemProvider(monaco));
 	monaco.languages.registerReferenceProvider('wikitext', referenceProvider);
-	monaco.languages.registerDocumentHighlightProvider('wikitext', highlightProvider);
+	monaco.languages.registerDocumentHighlightProvider('wikitext', documentHighlightProvider);
 	monaco.languages.registerDefinitionProvider('wikitext', definitionProvider);
-	monaco.languages.registerColorProvider('wikitext', colorProvider);
+	monaco.languages.registerColorProvider('wikitext', documentColorProvider);
 	monaco.languages.registerRenameProvider('wikitext', renameProvider);
-	monaco.languages.registerFoldingRangeProvider('wikitext', foldProvider);
+	monaco.languages.registerFoldingRangeProvider('wikitext', foldingRangeProvider);
 	monaco.languages.registerLinkProvider('wikitext', linkProvider);
+	monaco.languages.registerHoverProvider('wikitext', hoverProvider);
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
 		getLinter(monaco, model);
 	});

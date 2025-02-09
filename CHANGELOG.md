@@ -1,10 +1,11 @@
 ## v1.7.0
 
-*2025-02-07*
+*2025-02-10*
 
 **Added**
 
 - Auto-linking for URLs in Wikitext
+- Hover information for magic words in Wikitext
 
 **Fixed**
 

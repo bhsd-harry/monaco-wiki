@@ -1,14 +1,13 @@
 import {getObject} from '@bhsd/common';
 import {
-	getWikiLinter,
 	getJsLinter,
 	getCssLinter,
 	getLuaLinter,
 // @ts-expect-error ESM
 } from '@bhsd/codemirror-mediawiki/dist/linter.mjs';
+import {getLSP, nRangeToIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity} from 'monaco-editor';
-import type {LinterBase} from 'wikiparser-node/extensions/typings.d.ts';
 import type {Linter} from 'eslint';
 import type {Warning} from 'stylelint';
 import type {Diagnostic} from 'luacheck-browserify';
@@ -85,11 +84,17 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 		(async () => {
 			switch (this.getLanguageId()) {
 				case 'wikitext': {
-					const config: Record<string, string> | null = getCmObject('wikilint'),
-						wikilint: LinterBase = await getWikiLinter({include: true});
+					const config: Record<string, string> | null = getCmObject('wikilint');
 					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
-						((await wikilint.monaco(text)) as (editor.IMarkerData & {rule: string})[])
-							.filter(({rule, severity}) => Number(config?.[rule] ?? 1) > Number(severity as number < 8));
+						(await getLSP(model)?.provideDiagnostics(text))?.filter(
+							({code, severity}) => Number(config?.[code!] ?? 1) > Number(severity as number > 1),
+						).map(({code, severity, message, source, range}) => ({
+							code: code as string,
+							severity: severity === 1 ? 8 : 4,
+							message,
+							source: source!,
+							...nRangeToIRange(range),
+						}) satisfies editor.IMarkerData) ?? [];
 					break;
 				}
 				case 'javascript': {

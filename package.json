@@ -37,15 +37,9 @@
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
 		"test:end": "pkill -x http-server"
 	},
-	"dependencies": {
-		"@codemirror/view": "^6.36.2",
-		"monaco-editor": "^0.52.2",
-		"wikiparser-node": "^1.16.0"
-	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.20.3",
 		"@bhsd/common": "^0.6.3",
-		"@codemirror/lint": "^6.8.4",
 		"@shikijs/monaco": "^2.3.2",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
@@ -68,9 +62,12 @@
 		"http-server": "^14.1.1",
 		"luacheck-browserify": "^0.2.2",
 		"mocha": "^11.1.0",
+		"monaco-editor": "^0.52.2",
 		"shiki": "^2.3.2",
 		"stylelint": "^16.14.1",
 		"stylelint-config-recommended": "^15.0.0",
-		"typescript": "^5.7.3"
+		"typescript": "^5.7.3",
+		"vscode-languageserver-types": "^3.17.5",
+		"wikiparser-node": "^1.16.0"
 	}
 }

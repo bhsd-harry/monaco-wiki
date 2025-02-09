@@ -6,7 +6,7 @@ declare interface Test {
 (async () => {
 	const tests: Test[] = await (await fetch('/wikiparser-node/test/parserTests.json')).json(),
 		key = 'monaco-wiki-done',
-		dones = new Set<string>(JSON.parse(localStorage.getItem(key)!) as string[]),
+		dones = new Set(JSON.parse(localStorage.getItem(key)!) as string[]),
 		isGH = location.hostname.endsWith('.github.io'),
 		select = document.querySelector('select')!,
 		btn = document.querySelector('button')!,

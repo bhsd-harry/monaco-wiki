@@ -1,5 +1,6 @@
 (async () => {
 	wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json() as Config);
+	localStorage.removeItem('codemirror-mediawiki-addons');
 
 	const container = document.querySelector<HTMLDivElement>('#container')!,
 		languages = [...document.querySelectorAll<HTMLInputElement>('input[name="language"]')],
@@ -41,7 +42,7 @@
 			init(input.id);
 		}
 	}
-	const hashMap = new Map<string, string>([
+	const hashMap = new Map([
 		['wiki', 'wikitext'],
 		['wikitext', 'wikitext'],
 		['mediawiki', 'wikitext'],
