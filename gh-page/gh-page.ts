@@ -22,6 +22,7 @@
 	const init = (lang: string): void => {
 		if (editor.getModel()?.getLanguageId() !== lang) {
 			const isMediaWiki = lang === 'wikitext';
+			editor.getModel()?.dispose();
 			editor.setModel((monaco as unknown as Awaited<typeof monaco>).editor.createModel(editor.getValue(), lang));
 			editor.updateOptions({
 				wordWrap: isMediaWiki ? 'on' : 'off',

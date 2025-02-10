@@ -68,6 +68,6 @@
 		"stylelint-config-recommended": "^15.0.0",
 		"typescript": "^5.7.3",
 		"vscode-languageserver-types": "^3.17.5",
-		"wikiparser-node": "^1.16.0"
+		"wikiparser-node": "^1.16.1"
 	}
 }

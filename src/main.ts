@@ -9,6 +9,7 @@ import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import getLinter from './linter.ts';
 import {
+	getLSP,
 	documentColorProvider,
 	completionItemProvider,
 	foldingRangeProvider,
@@ -18,11 +19,11 @@ import {
 	definitionProvider,
 	renameProvider,
 	hoverProvider,
+	signatureHelpProvider,
 } from './lsp.ts';
 import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
-import type {IWikitextModel} from './linter.ts';
 
 const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
 	defaultConfig: Config = require('wikiparser-node/config/default.json');
@@ -75,7 +76,11 @@ export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): P
 	monaco.languages.registerFoldingRangeProvider('wikitext', foldingRangeProvider);
 	monaco.languages.registerLinkProvider('wikitext', linkProvider);
 	monaco.languages.registerHoverProvider('wikitext', hoverProvider);
-	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
+	monaco.languages.registerSignatureHelpProvider('wikitext', signatureHelpProvider);
+	monaco.editor.onDidCreateModel(model => {
 		getLinter(monaco, model);
+	});
+	monaco.editor.onWillDisposeModel(model => {
+		getLSP(model)?.destroy();
 	});
 };

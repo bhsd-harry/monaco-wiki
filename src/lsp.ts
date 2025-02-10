@@ -163,3 +163,21 @@ export const hoverProvider: languages.HoverProvider = {
 		};
 	},
 };
+
+export const signatureHelpProvider: languages.SignatureHelpProvider = {
+	signatureHelpTriggerCharacters: [':', '|'],
+	signatureHelpRetriggerCharacters: ['|'],
+
+	async provideSignatureHelp(model, pos): Promise<languages.SignatureHelpResult | undefined> {
+		const res = await getLSP(model)?.provideSignatureHelp(model.getValue(), iPositionToNPosition(pos));
+		return res && {
+			value: {
+				...res as Omit<languages.SignatureHelp, 'activeSignature'>,
+				activeSignature: 0,
+			},
+			dispose(): void {
+				//
+			},
+		};
+	},
+};
