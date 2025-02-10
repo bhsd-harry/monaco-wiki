@@ -34,20 +34,21 @@ export const getLSP = (model: editor.ITextModel): LanguageServiceBase | undefine
 
 export const documentColorProvider: languages.DocumentColorProvider = {
 	async provideDocumentColors(model): Promise<languages.IColorInformation[] | undefined> {
-		return (await getLSP(model)?.provideDocumentColors(model.getValue()))?.map(({color, range}) => ({
-			color,
-			range: nRangeToIRange(range),
-		}) satisfies languages.IColorInformation);
+		return (await getLSP(model)?.provideDocumentColors(model.getValue()))
+			?.map(({color, range}): languages.IColorInformation => ({
+				color,
+				range: nRangeToIRange(range),
+			}));
 	},
 	async provideColorPresentations(model, color): Promise<languages.IColorPresentation[] | undefined> {
 		return (await getLSP(model)?.provideColorPresentations(color as unknown as ColorInformation))
-			?.map(({label, textEdit}) => ({
+			?.map(({label, textEdit}): languages.IColorPresentation => ({
 				label,
 				textEdit: {
 					text: textEdit!.newText,
 					range: textEdit!.range as unknown as IRange,
 				},
-			}) satisfies languages.IColorPresentation);
+			}));
 	},
 };
 
@@ -63,12 +64,12 @@ export const completionItemProvider = (monaco: typeof Monaco): languages.Complet
 		async provideCompletionItems(model, pos): Promise<languages.CompletionList | undefined | null> {
 			const items = await getLSP(model)?.provideCompletionItems(model.getValue(), iPositionToNPosition(pos));
 			return items && {
-				suggestions: items.map(({label, kind, textEdit}) => ({
+				suggestions: items.map(({label, kind, textEdit}): languages.CompletionItem => ({
 					label,
 					kind: monaco.languages.CompletionItemKind[kind],
 					insertText: textEdit!.newText,
 					range: nRangeToIRange((textEdit as TextEdit).range),
-				}) satisfies languages.CompletionItem),
+				})),
 			};
 		},
 	};
@@ -76,10 +77,11 @@ export const completionItemProvider = (monaco: typeof Monaco): languages.Complet
 
 export const foldingRangeProvider: languages.FoldingRangeProvider = {
 	async provideFoldingRanges(model): Promise<languages.FoldingRange[] | undefined> {
-		return (await getLSP(model)?.provideFoldingRanges(model.getValue()))?.map(({startLine, endLine}) => ({
-			start: startLine + 1,
-			end: endLine + 1,
-		}) satisfies languages.FoldingRange);
+		return (await getLSP(model)?.provideFoldingRanges(model.getValue()))
+			?.map(({startLine, endLine}): languages.FoldingRange => ({
+				start: startLine + 1,
+				end: endLine + 1,
+			}));
 	},
 };
 
@@ -87,10 +89,10 @@ export const linkProvider: languages.LinkProvider = {
 	async provideLinks(model): Promise<languages.ILinksList | undefined> {
 		const items = await getLSP(model)?.provideLinks(model.getValue());
 		return items && {
-			links: items.map(({target, range}) => ({
+			links: items.map(({target, range}): languages.ILink => ({
 				url: target!,
 				range: nRangeToIRange(range),
-			}) satisfies languages.ILink),
+			})),
 		};
 	},
 };
@@ -98,27 +100,27 @@ export const linkProvider: languages.LinkProvider = {
 export const referenceProvider: languages.ReferenceProvider = {
 	async provideReferences(model, pos): Promise<languages.Location[] | undefined> {
 		return (await getLSP(model)?.provideReferences(model.getValue(), iPositionToNPosition(pos)))
-			?.map(({range}) => ({
+			?.map(({range}): languages.Location => ({
 				range: nRangeToIRange(range),
 				uri: model.uri,
-			}) satisfies languages.Location);
+			}));
 	},
 };
 
 export const documentHighlightProvider: languages.DocumentHighlightProvider = {
 	async provideDocumentHighlights(model, pos): Promise<languages.DocumentHighlight[] | undefined> {
 		return (await getLSP(model)?.provideReferences(model.getValue(), iPositionToNPosition(pos)))
-			?.map(({range}) => ({range: nRangeToIRange(range)}) satisfies languages.DocumentHighlight);
+			?.map(({range}): languages.DocumentHighlight => ({range: nRangeToIRange(range)}));
 	},
 };
 
 export const definitionProvider: languages.DefinitionProvider = {
 	async provideDefinition(model, pos): Promise<languages.Location[] | undefined> {
 		return (await getLSP(model)?.provideDefinition(model.getValue(), iPositionToNPosition(pos)))
-			?.map(({range}) => ({
+			?.map(({range}): languages.Location => ({
 				range: nRangeToIRange(range),
 				uri: model.uri,
-			}) satisfies languages.Location);
+			}));
 	},
 };
 
@@ -127,14 +129,14 @@ export const renameProvider: languages.RenameProvider = {
 		const res = await getLSP(model)?.provideRenameEdits(model.getValue(), iPositionToNPosition(pos), newName),
 			versionId = model.getVersionId();
 		return res && {
-			edits: res.changes!['']!.map(({range, newText}) => ({
+			edits: res.changes!['']!.map(({range, newText}): languages.IWorkspaceTextEdit => ({
 				resource: model.uri,
 				versionId,
 				textEdit: {
 					range: nRangeToIRange(range),
 					text: newText,
 				},
-			}) satisfies languages.IWorkspaceTextEdit),
+			})),
 		};
 	},
 	async resolveRenameLocation(model, pos): Promise<languages.RenameLocation & languages.Rejection> {

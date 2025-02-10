@@ -62,7 +62,7 @@ export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): P
 	// 语言设置
 	config.autoClosingPairs!.push(
 		...[wikiConfig.ext, wikiConfig.html.slice(0, 2)].flat(2)
-			.map(tag => ({open: `<${tag}>`, close: `</${tag}>`}) satisfies languages.IAutoClosingPairConditional),
+			.map((tag): languages.IAutoClosingPairConditional => ({open: `<${tag}>`, close: `</${tag}>`})),
 	);
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 

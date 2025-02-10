@@ -55,7 +55,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 				monaco.editor.setModelMarkers(model, 'Linter', diagnostics);
 				linter.glyphs = model.deltaDecorations(
 					linter.glyphs,
-					diagnostics.map(({startLineNumber, severity, message}) => ({
+					diagnostics.map(({startLineNumber, severity, message}): editor.IModelDeltaDecoration => ({
 						range: new monaco.Range(startLineNumber, 1, startLineNumber, 1),
 						options: {
 							glyphMarginClassName: `codicon codicon-${
@@ -63,7 +63,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 							}`,
 							glyphMarginHoverMessage: {value: message},
 						},
-					}) satisfies editor.IModelDeltaDecoration),
+					})),
 				);
 			})();
 		}, clear ? 0 : 750);
@@ -88,13 +88,13 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
 						(await getLSP(model)?.provideDiagnostics(text))?.filter(
 							({code, severity}) => Number(config?.[code!] ?? 1) > Number(severity as number > 1),
-						).map(({code, severity, message, source, range}) => ({
+						).map(({code, severity, message, source, range}): editor.IMarkerData => ({
 							code: code as string,
 							severity: severity === 1 ? 8 : 4,
 							message,
 							source: source!,
 							...nRangeToIRange(range),
-						}) satisfies editor.IMarkerData) ?? [];
+						})) ?? [];
 					break;
 				}
 				case 'javascript': {
@@ -105,44 +105,48 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 						} as Linter.Config as Record<string, unknown>,
 						esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
 					linter.lint = (text): editor.IMarkerData[] =>
-						esLint(text).map(({ruleId, message, severity, line, column, endLine, endColumn}) => ({
-							source: `ESLint(${ruleId})`,
-							startLineNumber: line,
-							startColumn: column,
-							endLineNumber: endLine ?? line,
-							endColumn: endColumn ?? column,
-							severity: severity === 2 ? 8 : 4,
-							message,
-						}) satisfies editor.IMarkerData);
+						esLint(text).map(
+							({ruleId, message, severity, line, column, endLine, endColumn}): editor.IMarkerData => ({
+								source: `ESLint(${ruleId})`,
+								startLineNumber: line,
+								startColumn: column,
+								endLineNumber: endLine ?? line,
+								endColumn: endColumn ?? column,
+								severity: severity === 2 ? 8 : 4,
+								message,
+							}),
+						);
 					break;
 				}
 				case 'css': {
 					const opt: Record<string, unknown> | null = getCmObject('Stylelint'),
 						styleLint: (code: string) => Promise<Warning[]> = await getCssLinter(opt);
 					linter.lint = async (code): Promise<editor.IMarkerData[]> =>
-						(await styleLint(code)).map(({text, severity, line, column, endLine, endColumn}) => ({
-							source: 'Stylelint',
-							startLineNumber: line,
-							startColumn: column,
-							endLineNumber: endLine ?? line,
-							endColumn: endColumn ?? column,
-							severity: severity === 'error' ? 8 : 4,
-							message: text,
-						}) satisfies editor.IMarkerData);
+						(await styleLint(code))
+							.map(({text, severity, line, column, endLine, endColumn}): editor.IMarkerData => ({
+								source: 'Stylelint',
+								startLineNumber: line,
+								startColumn: column,
+								endLineNumber: endLine ?? line,
+								endColumn: endColumn ?? column,
+								severity: severity === 'error' ? 8 : 4,
+								message: text,
+							}));
 					break;
 				}
 				case 'lua': {
 					const luaLint: (text: string) => Promise<Diagnostic[]> = await getLuaLinter();
 					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
-						(await luaLint(text)).map(({line, column, end_column: endColumn, msg, severity}) => ({
-							source: 'Luacheck',
-							startLineNumber: line,
-							startColumn: column,
-							endLineNumber: line,
-							endColumn: endColumn + 1,
-							severity: severity * 4,
-							message: msg,
-						}) satisfies editor.IMarkerData);
+						(await luaLint(text))
+							.map(({line, column, end_column: endColumn, msg, severity}): editor.IMarkerData => ({
+								source: 'Luacheck',
+								startLineNumber: line,
+								startColumn: column,
+								endLineNumber: line,
+								endColumn: endColumn + 1,
+								severity: severity * 4,
+								message: msg,
+							}));
 				}
 				// no default
 			}
