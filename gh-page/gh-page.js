@@ -13,9 +13,10 @@
         renderLineHighlight: 'gutter',
     });
     const init = (lang) => {
-        var _a;
+        var _a, _b;
         if (((_a = editor.getModel()) === null || _a === void 0 ? void 0 : _a.getLanguageId()) !== lang) {
             const isMediaWiki = lang === 'wikitext';
+            (_b = editor.getModel()) === null || _b === void 0 ? void 0 : _b.dispose();
             editor.setModel(monaco.editor.createModel(editor.getValue(), lang));
             editor.updateOptions({
                 wordWrap: isMediaWiki ? 'on' : 'off',

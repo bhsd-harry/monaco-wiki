@@ -1,11 +1,12 @@
 ## v1.7.0
 
-*2025-02-11*
+*2025-02-12*
 
 **Added**
 
 - Auto-linking for URLs in Wikitext
 - Hover information and signature help for magic words in Wikitext
+- Inlay hints for template anonymous parameters in Wikitext
 
 **Fixed**
 

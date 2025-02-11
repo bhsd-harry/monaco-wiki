@@ -27,6 +27,7 @@ declare interface Test {
 			scrollBeyondLastLine: false,
 			minimap: {enabled: false},
 			unicodeHighlight: {ambiguousCharacters: false},
+			inlayHints: {enabled: 'offUnlessPressed'},
 		});
 	Object.assign(globalThis, {editor});
 	/** @implements */

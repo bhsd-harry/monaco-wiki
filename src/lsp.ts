@@ -16,6 +16,11 @@ const iPositionToNPosition = ({lineNumber, column}: IPosition): NPosition => ({
 	character: column - 1,
 });
 
+const nPositionToIPosition = ({line, character}: NPosition): IPosition => ({
+	lineNumber: line + 1,
+	column: character + 1,
+});
+
 export const nRangeToIRange = ({start, end}: NRange): IRange => ({
 	startLineNumber: start.line + 1,
 	startColumn: start.character + 1,
@@ -177,6 +182,21 @@ export const signatureHelpProvider: languages.SignatureHelpProvider = {
 				...res as Omit<languages.SignatureHelp, 'activeSignature'>,
 				activeSignature: 0,
 			},
+			dispose(): void {
+				//
+			},
+		};
+	},
+};
+
+export const inlayHintsProvider: languages.InlayHintsProvider = {
+	async provideInlayHints(model): Promise<languages.InlayHintList | undefined> {
+		const res = await getLSP(model)?.provideInlayHints(model.getValue());
+		return res && {
+			hints: res.map(({label, position}): languages.InlayHint => ({
+				label: label as string,
+				position: nPositionToIPosition(position),
+			})),
 			dispose(): void {
 				//
 			},
