@@ -4,8 +4,6 @@ declare interface Test {
 }
 
 (async () => {
-	wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json() as Config);
-
 	const tests: Test[] = await (await fetch('/wikiparser-node/test/parserTests.json')).json(),
 		key = 'monaco-wiki-done',
 		dones = new Set(JSON.parse(localStorage.getItem(key)!) as string[]),

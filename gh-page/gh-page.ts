@@ -1,5 +1,4 @@
 (async () => {
-	wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json() as Config);
 	localStorage.removeItem('codemirror-mediawiki-addons');
 
 	const container = document.querySelector<HTMLDivElement>('#container')!,
@@ -19,9 +18,14 @@
 	 * 设置语言
 	 * @param lang 语言
 	 */
-	const init = (lang: string): void => {
+	const init = async (lang: string): Promise<void> => {
 		if (editor.getModel()?.getLanguageId() !== lang) {
 			const isMediaWiki = lang === 'wikitext';
+			if (isMediaWiki) {
+				const config = await wikiparse.getConfig();
+				Object.assign(config, {articlePath: 'https://mediawiki.org/wiki/$1'});
+				wikiparse.setConfig(config);
+			}
 			editor.getModel()?.dispose();
 			editor.setModel((monaco as unknown as Awaited<typeof monaco>).editor.createModel(editor.getValue(), lang));
 			editor.updateOptions({
@@ -36,11 +40,11 @@
 	// 初始化语言
 	for (const input of languages) {
 		input.addEventListener('change', () => {
-			init(input.id);
+			void init(input.id);
 			history.replaceState(null, '', `#${input.id.charAt(0).toUpperCase()}${input.id.slice(1)}`);
 		});
 		if (input.checked) {
-			init(input.id);
+			void init(input.id);
 		}
 	}
 	const hashMap = new Map([

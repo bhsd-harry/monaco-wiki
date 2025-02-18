@@ -32,23 +32,22 @@ const config: languages.LanguageConfiguration = require('../vendor/language-conf
 export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): Promise<void> => {
 	// 加载 WikiParser-Node
 	const DIR = `npm/wikiparser-node/extensions/dist`,
-		loaded = 'wikiparse' in globalThis;
+		loaded = typeof wikiparse === 'object';
 	await loadScript(`${DIR}/base.min.js`, 'wikiparse');
 	await loadScript(`${DIR}/lsp.min.js`, 'wikiparse.LanguageService');
 	let wikiConfig: Config;
 	if (typeof parserConfig === 'object') {
 		wikiConfig = parserConfig;
-	} else if (loaded) {
-		wikiConfig = await wikiparse.getConfig();
-	} else {
-		wikiConfig = parserConfig ? getParserConfig(await wikiparse.getConfig(), await getMwConfig()) : defaultConfig;
-	}
-	if (typeof mediaWiki === 'object') {
+	} else if (parserConfig) { // MW网站
+		const minConfig = await wikiparse.getConfig();
+		wikiConfig = loaded ? minConfig : getParserConfig(minConfig, await getMwConfig());
 		let articlePath = mediaWiki.config.get('wgArticlePath');
 		if (/^\/(?!\/)/u.test(articlePath)) {
 			articlePath = location.origin + articlePath;
 		}
 		Object.assign(wikiConfig, {articlePath});
+	} else {
+		wikiConfig = defaultConfig;
 	}
 	wikiparse.setConfig(wikiConfig);
 

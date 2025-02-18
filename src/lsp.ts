@@ -29,7 +29,7 @@ export const nRangeToIRange = ({start, end}: NRange): IRange => ({
 });
 
 export const getLSP = (model: editor.ITextModel): LanguageServiceBase | undefined => {
-	if (!('wikiparse' in globalThis && wikiparse.LanguageService) || lsps.has(model)) {
+	if (!(typeof wikiparse === 'object' && wikiparse.LanguageService) || lsps.has(model)) {
 		return lsps.get(model);
 	}
 	const lsp = new wikiparse.LanguageService();

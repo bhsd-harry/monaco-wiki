@@ -1,6 +1,5 @@
 "use strict";
 (async () => {
-    wikiparse.setConfig(await (await fetch('/wikiparser-node/config/default.json')).json());
     localStorage.removeItem('codemirror-mediawiki-addons');
     const container = document.querySelector('#container'), languages = [...document.querySelectorAll('input[name="language"]')], editor = (await monaco).editor.create(container, {
         automaticLayout: true,
@@ -12,10 +11,15 @@
         insertSpaces: false,
         renderLineHighlight: 'gutter',
     });
-    const init = (lang) => {
+    const init = async (lang) => {
         var _a, _b;
         if (((_a = editor.getModel()) === null || _a === void 0 ? void 0 : _a.getLanguageId()) !== lang) {
             const isMediaWiki = lang === 'wikitext';
+            if (isMediaWiki) {
+                const config = await wikiparse.getConfig();
+                Object.assign(config, { articlePath: 'https://mediawiki.org/wiki/$1' });
+                wikiparse.setConfig(config);
+            }
             (_b = editor.getModel()) === null || _b === void 0 ? void 0 : _b.dispose();
             editor.setModel(monaco.editor.createModel(editor.getValue(), lang));
             editor.updateOptions({
@@ -28,11 +32,11 @@
     };
     for (const input of languages) {
         input.addEventListener('change', () => {
-            init(input.id);
+            void init(input.id);
             history.replaceState(null, '', `#${input.id.charAt(0).toUpperCase()}${input.id.slice(1)}`);
         });
         if (input.checked) {
-            init(input.id);
+            void init(input.id);
         }
     }
     const hashMap = new Map([
