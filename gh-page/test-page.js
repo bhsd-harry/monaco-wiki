@@ -1,7 +1,6 @@
 "use strict";
 (async () => {
     const tests = await (await fetch('/wikiparser-node/test/parserTests.json')).json(), key = 'monaco-wiki-done', dones = new Set(JSON.parse(localStorage.getItem(key))), isGH = location.hostname.endsWith('.github.io'), select = document.querySelector('select'), btn = document.querySelector('button'), container = document.querySelector('#container'), pre = document.querySelector('pre');
-    Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json();
     localStorage.setItem('codemirror-mediawiki-addons', '[]');
     const model = (await monaco).editor.createModel('', 'wikitext'), editor = (await monaco).editor.create(container, {
         model,
@@ -18,6 +17,7 @@
         inlayHints: { enabled: 'offUnlessPressed' },
     });
     Object.assign(globalThis, { editor });
+    Parser.config = await wikiparse.getConfig();
     wikiparse.print = (wikitext, include, stage) => {
         const printed = Parser.parse(wikitext, include, stage).print();
         return Promise.resolve([[stage !== null && stage !== void 0 ? stage : Infinity, wikitext, printed]]);

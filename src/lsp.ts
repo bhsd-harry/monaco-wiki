@@ -21,6 +21,17 @@ const nPositionToIPosition = ({line, character}: NPosition): IPosition => ({
 	column: character + 1,
 });
 
+const provideReferences = async (
+	model: editor.ITextModel,
+	pos: IPosition,
+	method: 'provideReferences' | 'provideDefinition',
+): Promise<languages.Location[] | undefined> =>
+	(await getLSP(model)?.[method](model.getValue(), iPositionToNPosition(pos)))
+		?.map(({range}): languages.Location => ({
+			range: nRangeToIRange(range),
+			uri: model.uri,
+		}));
+
 export const nRangeToIRange = ({start, end}: NRange): IRange => ({
 	startLineNumber: start.line + 1,
 	startColumn: start.character + 1,
@@ -103,12 +114,8 @@ export const linkProvider: languages.LinkProvider = {
 };
 
 export const referenceProvider: languages.ReferenceProvider = {
-	async provideReferences(model, pos): Promise<languages.Location[] | undefined> {
-		return (await getLSP(model)?.provideReferences(model.getValue(), iPositionToNPosition(pos)))
-			?.map(({range}): languages.Location => ({
-				range: nRangeToIRange(range),
-				uri: model.uri,
-			}));
+	provideReferences(model, pos): Promise<languages.Location[] | undefined> {
+		return provideReferences(model, pos, 'provideReferences');
 	},
 };
 
@@ -120,12 +127,8 @@ export const documentHighlightProvider: languages.DocumentHighlightProvider = {
 };
 
 export const definitionProvider: languages.DefinitionProvider = {
-	async provideDefinition(model, pos): Promise<languages.Location[] | undefined> {
-		return (await getLSP(model)?.provideDefinition(model.getValue(), iPositionToNPosition(pos)))
-			?.map(({range}): languages.Location => ({
-				range: nRangeToIRange(range),
-				uri: model.uri,
-			}));
+	provideDefinition(model, pos): Promise<languages.Location[] | undefined> {
+		return provideReferences(model, pos, 'provideDefinition');
 	},
 };
 

@@ -4896,6 +4896,16 @@
 		"parsed": "pmid 1 <constant.language.variables.pmid>PMID 1\\n</>rfc 1 <constant.language.variables.rfc>RFC 1\\n</>isbn 1234567890 <constant.language.variables.isbn>ISBN 1234567890</>"
 	},
 	{
+		"desc": "Font of text following an external link",
+		"wikitext": "[//a ''b]c",
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>//a</><string.other.link.external.title> <markup.italic>''</>b</><punctuation.definition.tag.link.external>]</>c"
+	},
+	{
+		"desc": "Interaction between apostrophes and <b> tags",
+		"wikitext": "'''a</b>b<b>c'''d",
+		"parsed": "<markup.bold>'''</>a<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>b<meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>c<markup.bold>'''</>d"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

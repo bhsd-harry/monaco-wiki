@@ -12,7 +12,6 @@ declare interface Test {
 		btn = document.querySelector('button')!,
 		container = document.querySelector<HTMLDivElement>('#container')!,
 		pre = document.querySelector('pre')!;
-	Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json();
 	localStorage.setItem('codemirror-mediawiki-addons', '[]');
 	const model = (await monaco).editor.createModel('', 'wikitext'),
 		editor = (await monaco).editor.create(container, {
@@ -30,6 +29,7 @@ declare interface Test {
 			inlayHints: {enabled: 'offUnlessPressed'},
 		});
 	Object.assign(globalThis, {editor});
+	Parser.config = await wikiparse.getConfig();
 	/** @implements */
 	wikiparse.print = (wikitext, include, stage): Promise<[number, string, string][]> => {
 		const printed = Parser.parse(wikitext, include, stage).print();
