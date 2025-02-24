@@ -68,7 +68,8 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		3: {patterns: [attribute]},
 		[pos]: tagEnd,
 	}),
-	extBegin = (exts: string[], suffix = '>'): string => String.raw`(?i)(<)(${exts.join('|')})(\s[^>]*)?(${suffix})`,
+	extBegin = (exts: string[], suffix = '>'): string =>
+		String.raw`(?i)(<)(${exts.join('|')})(\s[^>]*)?(${suffix})`,
 	hl = (contentName: string, include: string, lang = contentName): IRawRule => ({
 		contentName: `meta.embedded.block.${contentName}`,
 		begin: String.raw`(?i)(<)(syntaxhighlight|pre)((?:\s[^>]*)?\slang\s*=\s*(['"]?)${lang}\4(?:\s[^>]*)?)(>)`,

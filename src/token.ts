@@ -13,7 +13,9 @@ import type {IRawRule} from './wikitext.tmLanguage.ts';
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	for (let i = 1; i < 10; i++) {
 		if ((rule[key] as string).includes(`$${i}`)) {
-			Object.assign(rule, {[key]: (rule[key] as string).replace(`$${i}`, options.join('|'))});
+			Object.assign(rule, {
+				[key]: (rule[key] as string).replace(`$${i}`, options.join('|')),
+			});
 			break;
 		}
 	}
@@ -72,12 +74,19 @@ export default async (
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
 	defineGrammar(
 		fileLink,
-		Object.entries(nsid).filter(([, v]) => v === 6).map(([k]) => k.replace(/ /gu, '[_ ]')),
+		Object.entries(nsid).filter(([, v]) => v === 6)
+			.map(([k]) => k.replace(/ /gu, '[_ ]')),
 		'begin',
 	);
 	defineGrammar(fileLink.patterns![0]!, imgKeys.filter(s => !s.includes('$1')));
-	defineGrammar(fileLink.patterns![0]!, imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)));
-	defineGrammar(fileLink.patterns![1]!, imgKeys.filter(s => s.startsWith('$1')).map(s => s.slice(2)));
+	defineGrammar(
+		fileLink.patterns![0]!,
+		imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)),
+	);
+	defineGrammar(
+		fileLink.patterns![1]!,
+		imgKeys.filter(s => s.startsWith('$1')).map(s => s.slice(2)),
+	);
 	defineGrammar(plainLink, protocols, 'begin');
 	defineGrammar(plainLink, namespaces, 'begin');
 	defineGrammar(repository['external-link']!, protocols);

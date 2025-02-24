@@ -23,8 +23,9 @@ declare interface Test {
 }
 declare type TestResult = Pick<Test, 'desc' | 'wikitext' | 'parsed'>;
 
-// eslint-disable-next-line es-x/no-regexp-lookbehind-assertions
-const split = (test?: TestResult): string[] | undefined => test?.parsed?.split(/(?<=<\/>)(?!$)|(?<!^)(?=<\w)/u);
+const split = (test?: TestResult): string[] | undefined =>
+	// eslint-disable-next-line es-x/no-regexp-lookbehind-assertions
+	test?.parsed?.split(/(?<=<\/>)(?!$)|(?<!^)(?=<\w)/u);
 
 const tests: Test[] = parserTests,
 	results: TestResult[] = testResults;
@@ -58,8 +59,9 @@ describe('Parser tests', () => {
 							}
 							last = scopes;
 							return '</>'.repeat(l - j)
-								+ scopes.slice(j).map(s => `<${s.replace('.wikitext', '')}>`).join('')
-								+ part.replace(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
+								+ scopes.slice(j).map(s => `<${s.replace('.wikitext', '')}>`)
+									.join('')
+									+ part.replace(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
 						}).join('');
 					}).join(String.raw`\n`) + '</>'.repeat(last.length);
 					assert.deepStrictEqual(split(test), split(results.find(({desc: d}) => d === desc)));

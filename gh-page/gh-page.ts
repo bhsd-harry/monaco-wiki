@@ -41,7 +41,11 @@
 	for (const input of languages) {
 		input.addEventListener('change', () => {
 			void init(input.id);
-			history.replaceState(null, '', `#${input.id.charAt(0).toUpperCase()}${input.id.slice(1)}`);
+			history.replaceState(
+				null,
+				'',
+				`#${input.id.charAt(0).toUpperCase()}${input.id.slice(1)}`,
+			);
 		});
 		if (input.checked) {
 			void init(input.id);
