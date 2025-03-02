@@ -1,3 +1,11 @@
+## v1.7.2
+
+*2025-03-02*
+
+**Fixed**
+
+- Highlighting of multiple `<th>` with attributes delimited by `!!` in Wikitext
+
 ## v1.7.0
 
 *2025-02-16*

@@ -93,8 +93,8 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 			$self,
 		],
 	}),
-	td = (subtype: string, begin: string, pattern = ''): IRawRule => {
-		const match = String.raw`(.*?)((?:${delimiter}){2}|\{\{\s*!!\s*\}\}|$${pattern})`;
+	td = (subtype: string, begin: string, th?: boolean): IRawRule => {
+		const match = String.raw`(.*?)((?:${delimiter}){2}|\{\{\s*!!\s*\}\}${th ? '|!!' : ''}|$)`;
 		return {
 			name: `meta.tag.block.${subtype}.wikitext`,
 			begin: String.raw`^\s*${begin}`,
@@ -102,7 +102,9 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 			end: '$',
 			patterns: [
 				{
-					match: String.raw`([^\|\[\]\{\}]*)(${delimiter})(?!${delimiter})${match}`,
+					match: String.raw`(${
+						th ? '(?:(?!!!)' : ''
+					}[^\|\[\]\{\}]${th ? ')' : ''}*)(${delimiter})(?!${delimiter})${match}`,
 					captures: {
 						1: {patterns: attrs},
 						2: pipeRule,
@@ -297,7 +299,7 @@ const signature = {
 					2: {patterns: attrs},
 				},
 			},
-			td('th', '!', '|!!'),
+			td('th', '!', true),
 			td('td', String.raw`(?:${delimiter})\+?`),
 			$self,
 		],
