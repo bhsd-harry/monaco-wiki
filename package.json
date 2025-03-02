@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.7.1",
+	"version": "1.7.2",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
