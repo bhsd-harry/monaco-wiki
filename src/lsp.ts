@@ -82,7 +82,7 @@ export const completionItemProvider = (monaco: typeof Monaco): languages.Complet
 			return items && {
 				suggestions: items.map(({label, kind, textEdit}): languages.CompletionItem => ({
 					label,
-					kind: monaco.languages.CompletionItemKind[kind],
+					kind: monaco.languages.CompletionItemKind[kind as keyof typeof monaco.languages.CompletionItemKind],
 					insertText: textEdit!.newText,
 					range: nRangeToIRange((textEdit as TextEdit).range),
 				})),

@@ -28,7 +28,8 @@
         btn.style.display = '';
     }
     let optgroup;
-    for (const [i, { desc, wikitext }] of tests.entries()) {
+    for (let i = 0; i < tests.length; i++) {
+        const { desc, wikitext } = tests[i];
         if (wikitext === undefined) {
             optgroup = document.createElement('optgroup');
             optgroup.label = desc;
