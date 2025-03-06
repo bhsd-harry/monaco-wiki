@@ -7,7 +7,7 @@ import {
 } from '@bhsd/codemirror-mediawiki/dist/linter.mjs';
 import {getLSP, nRangeToIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
-import type {editor, MarkerSeverity} from 'monaco-editor';
+import type {editor, MarkerSeverity, Position} from 'monaco-editor';
 import type {Linter} from 'eslint';
 import type {Warning} from 'stylelint';
 import type {Diagnostic} from 'luacheck-browserify';
@@ -51,22 +51,44 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 		clearTimeout(linter.timer);
 		linter.timer = setTimeout(() => {
 			(async () => {
-				const diagnostics = clear ? [] : await linter.lint!(model.getValue());
-				monaco.editor.setModelMarkers(model, 'Linter', diagnostics);
-				linter.glyphs = model.deltaDecorations(
-					linter.glyphs,
-					diagnostics.map(({startLineNumber, severity, message}): editor.IModelDeltaDecoration => ({
-						range: new monaco.Range(startLineNumber, 1, startLineNumber, 1),
-						options: {
-							glyphMarginClassName: `codicon codicon-${
-								severity === 8 as MarkerSeverity ? 'error' : 'warning'
-							}`,
-							glyphMarginHoverMessage: {value: message},
-						},
-					})),
-				);
+				if (!model.isDisposed()) {
+					const diagnostics = clear ? [] : await linter.lint!(model.getValue());
+					monaco.editor.setModelMarkers(model, 'Linter', diagnostics);
+					linter.glyphs = model.deltaDecorations(
+						linter.glyphs,
+						diagnostics.map(({startLineNumber, severity, message}): editor.IModelDeltaDecoration => ({
+							range: new monaco.Range(startLineNumber, 1, startLineNumber, 1),
+							options: {
+								glyphMarginClassName: `codicon codicon-${
+									severity === 8 as MarkerSeverity ? 'error' : 'warning'
+								}`,
+								glyphMarginHoverMessage: {value: message},
+							},
+						})),
+					);
+				}
 			})();
 		}, clear ? 0 : 750);
+	};
+
+	/**
+	 * 计算位置
+	 * @param offset 额外偏移量
+	 * @param maxOffset 最大偏移量
+	 * @param lines 各行文本
+	 * @param line 行号
+	 * @param column 列号
+	 */
+	const positionAt = (offset: number, maxOffset: number, lines: string[], line: number, column: number): Position => {
+		let index: number;
+		if (line === 1) {
+			index = 0;
+		} else if (line === lines.length + 2) {
+			index = maxOffset;
+		} else {
+			index = lines.slice(0, line - 2).join('\n').length + column - 1;
+		}
+		return model.getPositionAt(offset + index);
 	};
 
 	model.lint = function(on = true): void {
@@ -85,16 +107,56 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 			switch (this.getLanguageId()) {
 				case 'wikitext': {
 					const config: Record<string, string> | null = getCmObject('wikilint');
-					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
-						(await getLSP(model)?.provideDiagnostics(text))?.filter(
-							({code, severity}) => Number(config?.[code!] ?? 1) > Number(severity as number > 1),
-						).map(({code, severity, message, source, range}): editor.IMarkerData => ({
-							code: code as string,
-							severity: severity === 1 ? 8 : 4,
-							message,
-							source: source!,
-							...nRangeToIRange(range),
-						})) ?? [];
+					linter.lint = async (text): Promise<editor.IMarkerData[]> => {
+						const lsp = getLSP(model),
+							diagnostics = (await lsp?.provideDiagnostics(text))?.filter(
+								({code, severity}) => Number(config?.[code!] ?? 1) > Number(severity as number > 1),
+							).map(({code, severity, message, source, range}): editor.IMarkerData => ({
+								code: code as string,
+								severity: severity === 1 ? 8 : 4,
+								message,
+								source: source!,
+								...nRangeToIRange(range),
+							})) ?? [];
+						if (!lsp?.findStyleTokens || config?.['invalid-css'] === '0') {
+							return diagnostics;
+						}
+						const styleLint: ((code: string) => Promise<Warning[]>) = await getCssLinter();
+						return [
+							diagnostics,
+							await Promise.all((await lsp.findStyleTokens()).map(async ({childNodes, type, tag}) => {
+								const {range: [offset], data} = childNodes![1]!.childNodes![0]!,
+									l = data!.length,
+									lines = data!.split('\n');
+								return (await styleLint(
+									`${type === 'ext-attr' ? 'div' : tag as string}{\n${data}\n}`,
+								)).map(({
+									line,
+									column,
+									endLine,
+									endColumn,
+									rule,
+									severity,
+									text: msg,
+								}): editor.IMarkerData => {
+									const start = positionAt(offset, l, lines, line, column),
+										end = endLine === undefined
+											? start
+											: positionAt(offset, l, lines, endLine, endColumn!);
+									return {
+										code: rule,
+										severity: severity === 'error' ? 8 : 4,
+										message: msg.slice(0, msg.lastIndexOf('(') - 1),
+										source: 'Stylelint',
+										startLineNumber: start.lineNumber,
+										startColumn: start.column,
+										endLineNumber: end.lineNumber,
+										endColumn: end.column,
+									};
+								});
+							})),
+						].flat(2);
+					};
 					break;
 				}
 				case 'javascript': {

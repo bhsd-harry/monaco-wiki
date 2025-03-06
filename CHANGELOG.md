@@ -1,3 +1,11 @@
+## v1.8.0
+
+*2025-03-06*
+
+**Added**
+
+- [Stylelint](https://stylelint.io/) integration for Wikitext
+
 ## v1.7.2
 
 *2025-03-02*
