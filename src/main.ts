@@ -2,14 +2,13 @@
 import {shikiToMonaco} from '@shikijs/monaco';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
-import {loadScript} from '@bhsd/common';
+import {loadScript, getLSP} from '@bhsd/common';
 // @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import getLinter from './linter.ts';
 import {
-	getLSP,
 	documentColorProvider,
 	completionItemProvider,
 	foldingRangeProvider,

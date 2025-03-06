@@ -1,3 +1,4 @@
+import {getLSP} from '@bhsd/common';
 import type * as Monaco from 'monaco-editor';
 import type {editor, languages, IRange, IPosition} from 'monaco-editor';
 import type {
@@ -7,9 +8,6 @@ import type {
 	Position as NPosition,
 	MarkupContent,
 } from 'vscode-languageserver-types';
-import type {LanguageServiceBase} from 'wikiparser-node/extensions/typings.d.ts';
-
-const lsps = new WeakMap<editor.ITextModel, LanguageServiceBase>();
 
 const iPositionToNPosition = ({lineNumber, column}: IPosition): NPosition => ({
 	line: lineNumber - 1,
@@ -38,15 +36,6 @@ export const nRangeToIRange = ({start, end}: NRange): IRange => ({
 	endLineNumber: end.line + 1,
 	endColumn: end.character + 1,
 });
-
-export const getLSP = (model: editor.ITextModel): LanguageServiceBase | undefined => {
-	if (!(typeof wikiparse === 'object' && wikiparse.LanguageService) || lsps.has(model)) {
-		return lsps.get(model);
-	}
-	const lsp = new wikiparse.LanguageService();
-	lsps.set(model, lsp);
-	return lsp;
-};
 
 export const documentColorProvider: languages.DocumentColorProvider = {
 	async provideDocumentColors(model): Promise<languages.IColorInformation[] | undefined> {
