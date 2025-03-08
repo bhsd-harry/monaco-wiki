@@ -4,8 +4,6 @@ import {nRangeToIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity} from 'monaco-editor';
 import type {Linter} from 'eslint';
-import type {Warning} from 'stylelint';
-import type {Diagnostic} from 'luacheck-browserify';
 
 declare interface ITextModelLinter {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
@@ -82,45 +80,39 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 			switch (this.getLanguageId()) {
 				case 'wikitext': {
 					const wikiLint = await getWikiLinter(undefined, model);
-					linter.lint = async (text): Promise<editor.IMarkerData[]> => {
-						const config: Record<string, string> | null = getCmObject('wikilint');
-						return (await wikiLint(text)).filter(
-							({source, code, severity}) =>
-								Number(config?.[source === 'Stylelint' ? 'invalid-css' : code as string] ?? 1)
-								> Number(severity as number > 1),
-						).map(({code, severity, message, source, range, from, to}): editor.IMarkerData => {
-							const isStylelint = source === 'Stylelint',
-								start = isStylelint ? model.getPositionAt(from!) : undefined,
-								end = isStylelint ? model.getPositionAt(to!) : undefined;
-							return {
-								code: code as string,
-								severity: severity === 1 ? 8 : 4,
-								message: isStylelint
-									? message.slice(0, message.lastIndexOf('(') - 1)
-									: message,
-								source: source!,
-								...isStylelint
-									? {
-										startLineNumber: start!.lineNumber,
-										startColumn: start!.column,
-										endLineNumber: end!.lineNumber,
-										endColumn: end!.column,
-									}
-									: nRangeToIRange(range!),
-							};
-						});
-					};
+					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
+						(await wikiLint(text, getCmObject('wikilint') as Record<string, unknown> | null))
+							.map(({code, severity, message, source, range, from, to}): editor.IMarkerData => {
+								const isStylelint = source === 'Stylelint',
+									start = isStylelint ? model.getPositionAt(from!) : undefined,
+									end = isStylelint ? model.getPositionAt(to!) : undefined;
+								return {
+									code: code as string,
+									severity: severity === 1 ? 8 : 4,
+									message: isStylelint
+										? message.slice(0, message.lastIndexOf('(') - 1)
+										: message,
+									source: source!,
+									...isStylelint
+										? {
+											startLineNumber: start!.lineNumber,
+											startColumn: start!.column,
+											endLineNumber: end!.lineNumber,
+											endColumn: end!.column,
+										}
+										: nRangeToIRange(range!),
+								};
+							});
 					break;
 				}
 				case 'javascript': {
-					const opt = {
+					const opt: Linter.Config = {
 							env: {browser: true, es2024: true, jquery: true},
 							globals: {mw: 'readonly', mediaWiki: 'readonly', OO: 'readonly'},
-							...getCmObject('ESLint'),
-						} as Linter.Config as Record<string, unknown>,
-						esLint: (text: string) => Linter.LintMessage[] = await getJsLinter(opt);
+						},
+						esLint = await getJsLinter();
 					linter.lint = (text): editor.IMarkerData[] =>
-						esLint(text).map(
+						esLint(text, {...opt, ...getCmObject('ESLint') as Record<string, unknown> | null}).map(
 							({ruleId, message, severity, line, column, endLine, endColumn}): editor.IMarkerData => ({
 								source: `ESLint(${ruleId})`,
 								startLineNumber: line,
@@ -134,10 +126,9 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 					break;
 				}
 				case 'css': {
-					const opt: Record<string, unknown> | null = getCmObject('Stylelint'),
-						styleLint: (code: string) => Promise<Warning[]> = await getCssLinter(opt);
+					const styleLint = await getCssLinter();
 					linter.lint = async (code): Promise<editor.IMarkerData[]> =>
-						(await styleLint(code))
+						(await styleLint(code, getCmObject('Stylelint') as Record<string, unknown> | null))
 							.map(({text, severity, line, column, endLine, endColumn}): editor.IMarkerData => ({
 								source: 'Stylelint',
 								startLineNumber: line,
@@ -150,7 +141,7 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 					break;
 				}
 				case 'lua': {
-					const luaLint: (text: string) => Promise<Diagnostic[]> = await getLuaLinter();
+					const luaLint = await getLuaLinter();
 					linter.lint = async (text): Promise<editor.IMarkerData[]> =>
 						(await luaLint(text))
 							.map(({line, column, end_column: endColumn, msg, severity}): editor.IMarkerData => ({

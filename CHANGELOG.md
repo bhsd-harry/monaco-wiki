@@ -1,10 +1,14 @@
 ## v1.8.0
 
-*2025-03-06*
+*2025-03-08*
 
 **Added**
 
 - [Stylelint](https://stylelint.io/) integration for Wikitext
+
+**Fixed**
+
+- Changes in WikiLint/ESLint/Stylelint configurations now take effects immediately (after any editing) on a MediaWiki site
 
 ## v1.7.2
 
