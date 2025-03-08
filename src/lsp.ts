@@ -69,11 +69,16 @@ export const completionItemProvider = (monaco: typeof Monaco): languages.Complet
 		async provideCompletionItems(model, pos): Promise<languages.CompletionList | undefined | null> {
 			const items = await getLSP(model)?.provideCompletionItems(model.getValue(), iPositionToNPosition(pos));
 			return items && {
-				suggestions: items.map(({label, kind, textEdit}): languages.CompletionItem => ({
+				suggestions: items.map(({label, kind, textEdit, documentation}): languages.CompletionItem => ({
 					label,
 					kind: monaco.languages.CompletionItemKind[kind as keyof typeof monaco.languages.CompletionItemKind],
 					insertText: textEdit!.newText,
 					range: nRangeToIRange((textEdit as TextEdit).range),
+					...documentation && {
+						documentation: {
+							value: (documentation as MarkupContent).value,
+						},
+					},
 				})),
 			};
 		},

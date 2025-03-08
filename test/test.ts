@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import * as fs from 'fs';
 import * as assert from 'assert';
 // @ts-expect-error JSON module

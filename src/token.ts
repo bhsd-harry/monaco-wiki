@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import {createHighlighterCore} from 'shiki/core';
 import {createOnigurumaEngine} from 'shiki/engine/oniguruma';
 import javascript from 'shiki/langs/javascript.mjs';

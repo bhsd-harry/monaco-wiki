@@ -1,3 +1,11 @@
+## v1.8.1
+
+*2025-03-11*
+
+**Added**
+
+- Completion suggestions for magic words in Wikitext now contain documentation
+
 ## v1.8.0
 
 *2025-03-08*
