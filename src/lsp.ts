@@ -169,7 +169,7 @@ export const hoverProvider: languages.HoverProvider = {
 };
 
 export const signatureHelpProvider: languages.SignatureHelpProvider = {
-	signatureHelpTriggerCharacters: [':', '|'],
+	signatureHelpTriggerCharacters: [':', '：', '|'],
 	signatureHelpRetriggerCharacters: ['|'],
 
 	async provideSignatureHelp(model, pos): Promise<languages.SignatureHelpResult | undefined> {

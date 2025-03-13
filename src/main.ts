@@ -25,12 +25,11 @@ import type {Config} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 
-const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json'),
-	defaultConfig: Config = require('wikiparser-node/config/default.json');
+const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
 export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): Promise<void> => {
 	// 加载 WikiParser-Node
-	const DIR = `npm/wikiparser-node/extensions/dist`,
+	const DIR = 'npm/wikiparser-node/extensions/dist',
 		loaded = typeof wikiparse === 'object';
 	await loadScript(`${DIR}/base.min.js`, 'wikiparse');
 	await loadScript(`${DIR}/lsp.min.js`, 'wikiparse.LanguageService');
@@ -46,7 +45,7 @@ export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): P
 		}
 		Object.assign(wikiConfig, {articlePath});
 	} else {
-		wikiConfig = defaultConfig;
+		wikiConfig = await (await fetch(`${wikiparse.CDN}/config/default.json`)).json();
 	}
 	wikiparse.setConfig(wikiConfig);
 

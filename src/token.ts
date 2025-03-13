@@ -37,6 +37,7 @@ export default async (
 			doubleUnderscore,
 			redirection,
 			parserFunction,
+			functionHook,
 			variable,
 			nsid,
 			protocol,
@@ -47,6 +48,7 @@ export default async (
 		namespaces = Object.keys(nsid).filter(Boolean).map(ns => ns.replace(/ /gu, '[_ ]')),
 		[p0, p1, ...p2] = parserFunction,
 		isOldSchema = Array.isArray(p1),
+		isLatestSchema = !isOldSchema && 'functionHook' in parserConfig,
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
 		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#')),
 		imgKeys = Object.keys(img),
@@ -66,8 +68,19 @@ export default async (
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		variable && !isOldSchema ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive,
 	);
-	defineGrammar(parserFunctions[0]!, [insensitive, p2].flat(2), 'begin');
-	defineGrammar(parserFunctions[1]!, sensitive, 'begin');
+	defineGrammar(
+		parserFunctions[0]!,
+		[
+			isLatestSchema ? insensitive.filter(s => functionHook.includes(p0[s]!)) : insensitive,
+			p2,
+		].flat(2),
+		'begin',
+	);
+	defineGrammar(
+		parserFunctions[1]!,
+		isLatestSchema ? sensitive.filter(s => functionHook.includes(p1[s]!)) : sensitive,
+		'begin',
+	);
 	defineGrammar(repository['template']!, namespaces, 'begin');
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);

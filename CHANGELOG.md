@@ -1,3 +1,11 @@
+## v1.8.2
+
+*2025-03-15*
+
+**Fixed**
+
+- Only function hooks are allowed to take parameters
+
 ## v1.8.1
 
 *2025-03-11*

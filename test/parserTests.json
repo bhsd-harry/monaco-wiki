@@ -4906,6 +4906,11 @@
 		"parsed": "<markup.bold>'''</>a<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>b<meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>c<markup.bold>'''</>d"
 	},
 	{
+		"desc": "Function hook and variable",
+		"wikitext": "{{uc}}{{server:}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>uc</><punctuation.definition.tag.template>}}{{</><entity.name.tag.local-name>server:</><punctuation.definition.tag.template>}}</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
