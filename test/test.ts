@@ -8,8 +8,8 @@ import parserTests from 'wikiparser-node/test/parserTests.json' with {type: 'jso
 import testResults from '../../parserTests.json' with {type: 'json'};
 import getHighlighter from '../src/token.js';
 import lang from '../src/wikitext.tmLanguage.js';
+import parse from './parser.js';
 import type {Grammar} from 'shiki/core';
-import type {StateStack} from '@shikijs/vscode-textmate';
 import type {Config} from 'wikiparser-node';
 
 declare interface Test {
@@ -28,7 +28,6 @@ const split = (test?: TestResult): string[] | undefined =>
 
 const tests: Test[] = parserTests,
 	results: TestResult[] = testResults;
-const entities = {'<': '&lt;', '>': '&gt', '&': '&amp;'};
 let grammar: Grammar;
 describe('Parser tests', () => {
 	for (let i = tests.length - 1; i >= 0; i--) {
@@ -40,29 +39,7 @@ describe('Parser tests', () => {
 					delete test.html;
 					delete test.print;
 					delete test.render;
-					let stack: StateStack | null = null,
-						last: string[] = [];
-					test.parsed = wikitext.split('\n').map(line => {
-						const {tokens, ruleStack} = grammar.tokenizeLine(line, stack);
-						stack = ruleStack;
-						return tokens.map(({startIndex, endIndex, scopes}) => {
-							const part = line.slice(startIndex, endIndex);
-							if (!part) {
-								return '';
-							}
-							scopes.shift();
-							const l = last.length;
-							let j = 0;
-							for (; j < l && j < scopes.length && last[j] === scopes[j]; j++) {
-								// pass
-							}
-							last = scopes;
-							return '</>'.repeat(l - j)
-								+ scopes.slice(j).map(s => `<${s.replace('.wikitext', '')}>`)
-									.join('')
-									+ part.replace(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
-						}).join('');
-					}).join(String.raw`\n`) + '</>'.repeat(last.length);
+					test.parsed = parse(wikitext, grammar);
 					assert.deepStrictEqual(split(test), split(results.find(({desc: d}) => d === desc)));
 				} catch (e) {
 					if (!(e instanceof assert.AssertionError)) {
