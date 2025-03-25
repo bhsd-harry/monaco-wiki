@@ -5,7 +5,7 @@ import css from 'shiki/langs/css.mjs';
 import htm from 'shiki/langs/html.mjs';
 import json from 'shiki/langs/json.mjs';
 import loadWasm from 'shiki/wasm';
-import type {Config} from 'wikiparser-node';
+import type {ConfigData} from 'wikiparser-node';
 import type {HighlighterCore, ThemeRegistrationRaw, LanguageRegistration} from 'shiki/core';
 import type {IRawRule} from './wikitext.tmLanguage.ts';
 
@@ -22,7 +22,7 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 
 export default async (
 	wikitext: LanguageRegistration,
-	parserConfig: Config,
+	parserConfig: ConfigData,
 	themes: ThemeRegistrationRaw[] = [],
 ): Promise<HighlighterCore> => {
 	const {repository} = wikitext,

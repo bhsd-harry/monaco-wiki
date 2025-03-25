@@ -10,7 +10,7 @@ import getHighlighter from '../src/token.js';
 import lang from '../src/wikitext.tmLanguage.js';
 import parse from './parser.js';
 import type {Grammar} from 'shiki/core';
-import type {Config} from 'wikiparser-node';
+import type {ConfigData} from 'wikiparser-node';
 
 declare interface Test {
 	desc: string;
@@ -54,7 +54,7 @@ describe('Parser tests', () => {
 		}
 	}
 	before(async () => {
-		grammar = (await getHighlighter(lang, defaultConfig as Config)).getLanguage('wikitext');
+		grammar = (await getHighlighter(lang, defaultConfig as ConfigData)).getLanguage('wikitext');
 	});
 	after(() => {
 		fs.writeFileSync('test/parserTests.json', `${JSON.stringify(tests, null, '\t')}\n`);

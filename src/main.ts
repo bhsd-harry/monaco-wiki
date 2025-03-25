@@ -21,19 +21,19 @@ import {
 	signatureHelpProvider,
 	inlayHintsProvider,
 } from './lsp.ts';
-import type {Config} from 'wikiparser-node';
+import type {ConfigData} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 
 const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
-export default async (monaco: typeof Monaco, parserConfig?: Config | boolean): Promise<void> => {
+export default async (monaco: typeof Monaco, parserConfig?: ConfigData | boolean): Promise<void> => {
 	// 加载 WikiParser-Node
 	const DIR = 'npm/wikiparser-node/extensions/dist',
 		loaded = typeof wikiparse === 'object';
 	await loadScript(`${DIR}/base.min.js`, 'wikiparse');
 	await loadScript(`${DIR}/lsp.min.js`, 'wikiparse.LanguageService');
-	let wikiConfig: Config;
+	let wikiConfig: ConfigData;
 	if (typeof parserConfig === 'object') {
 		wikiConfig = parserConfig;
 	} else if (parserConfig) { // MW网站

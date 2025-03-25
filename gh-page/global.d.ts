@@ -5,6 +5,4 @@ import type {} from 'wikiparser-node/extensions/typings';
 declare global {
 	const monaco: PromiseLike<{editor: typeof editor}>;
 	const Parser: typeof ParserBase;
-
-	type Config = ParserBase.Config;
 }

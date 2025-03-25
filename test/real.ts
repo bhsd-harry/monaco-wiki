@@ -5,7 +5,7 @@ import defaultConfig from 'wikiparser-node/config/default.json' with {type: 'jso
 import getHighlighter from '../src/token.js';
 import lang from '../src/wikitext.tmLanguage.js';
 import parse from './parser.js';
-import type {Config} from 'wikiparser-node';
+import type {ConfigData} from 'wikiparser-node';
 
 declare interface MediaWikiPage {
 	readonly title: string;
@@ -61,7 +61,7 @@ const getPages = async (url: string): Promise<SimplePage[]> => {
 
 (async () => {
 	const failures = new Map<string, number>(),
-		grammar = (await getHighlighter(lang, defaultConfig as Config)).getLanguage('wikitext');
+		grammar = (await getHighlighter(lang, defaultConfig as ConfigData)).getLanguage('wikitext');
 	for (const [site, url] of apis) {
 		console.log(`开始检查${site}：`);
 		let worst: {title: string, duration: number} | undefined;
