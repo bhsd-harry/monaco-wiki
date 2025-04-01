@@ -42,7 +42,7 @@
 		"@bhsd/codemirror-mediawiki": "^2.23.0",
 		"@bhsd/common": "^0.9.0",
 		"@shikijs/monaco": "^3.1.0",
-		"@stylistic/eslint-plugin": "^3.1.0",
+		"@stylistic/eslint-plugin": "^4.2.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
 		"@types/eslint": "^8.56.10",
 		"@types/mocha": "^10.0.10",
