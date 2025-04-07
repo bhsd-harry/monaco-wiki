@@ -3,7 +3,6 @@ import {shikiToMonaco} from '@shikijs/monaco';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import {loadScript, getLSP} from '@bhsd/common';
-// @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
@@ -38,7 +37,7 @@ export default async (monaco: typeof Monaco, parserConfig?: ConfigData | boolean
 		wikiConfig = parserConfig;
 	} else if (parserConfig) { // MW网站
 		const minConfig = await wikiparse.getConfig();
-		wikiConfig = loaded ? minConfig : getParserConfig(minConfig, await getMwConfig());
+		wikiConfig = loaded ? minConfig : getParserConfig(minConfig, await getMwConfig({}));
 		let articlePath = mediaWiki.config.get('wgArticlePath');
 		if (/^\/(?!\/)/u.test(articlePath)) {
 			articlePath = location.origin + articlePath;

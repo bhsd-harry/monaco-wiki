@@ -4911,6 +4911,11 @@
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>uc</><punctuation.definition.tag.template>}}{{</><entity.name.tag.local-name>server:</><punctuation.definition.tag.template>}}</>"
 	},
 	{
+		"desc": "New tvar syntax",
+		"wikitext": "<translate><tvar name=\"name\">contents</tvar></translate>",
+		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></> <meta.attribute.unrecognized.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>name<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>contents<meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -11165,6 +11170,49 @@
 		"desc": "T319143 - copy-pasting of cells, after multiple cells, without \"row\"",
 		"wikitext": "{|\n|[[Eau]]||[[Abc]]\n|}",
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Eau</><punctuation.definition.tag.link.internal>]]</></></><keyword.operator>||</><markup.style><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Abc</><punctuation.definition.tag.link.internal>]]\\n</></></></><keyword.operator>|}</></>"
+	},
+	{
+		"desc": "translateParserTests"
+	},
+	{
+		"desc": "#translation as magic word for valid language code",
+		"wikitext": "{{#translation:}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#translation</><keyword.operator.function>:</><punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#translation as magic word for source page",
+		"wikitext": "{{#translation:}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#translation</><keyword.operator.function>:</><punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#translation as magic word for invalid language code",
+		"wikitext": "{{#translation:}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#translation</><keyword.operator.function>:</><punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Old tvar syntax should not break too hard.",
+		"wikitext": "<translate><tvar|plop>pouet</></translate>",
+		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.tvar|plop.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar|plop</></><punctuation.definition.tag.end.html>&gt</></>pouet&lt;/&gt<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Old tvar syntax should not pull content in cell attributes",
+		"wikitext": "{|\n|<translate>hello <tvar|var>variable</></translate>\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><invalid.illegal.character-not-allowed-here.html>&lt;translate</>&gt<meta.attribute.unrecognized.hello.html><entity.other.attribute-name.html>hello</></> <invalid.illegal.character-not-allowed-here.html>&lt;tvar</><keyword.operator>|</><markup.style>var&gtvariable&lt;/&gt<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt\\n</></></></><keyword.operator>|}</></>"
+	},
+	{
+		"desc": "Annotation markers starting lines should neither insert pre nor merge ranges",
+		"wikitext": "<translate><!--T:1--> translate 1</translate>\n<translate><!--T:2--> translate 2</translate>",
+		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>T:1<punctuation.definition.comment.html>--&gt</></> translate 1<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt\\n</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>T:2<punctuation.definition.comment.html>--&gt</></> translate 2<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "tvar in a template should get stripped",
+		"wikitext": "<translate>{{1x|<tvar|var>hello</>}}</translate>",
+		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.other.tvar|var.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar|var</></><punctuation.definition.tag.end.html>&gt</></>hello&lt;/&gt<punctuation.definition.tag.template>}}</><meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "tvar with old syntax containing template markup should not break",
+		"wikitext": "<translate>hello <tvar|code>{{1x|</>world<tvar|code2>}}</></translate>",
+		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>hello <meta.tag.other.tvar|code.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar|code</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>&lt;/&gtworld<meta.tag.other.tvar|code2.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar|code2</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}</>&lt;/&gt<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
 		"desc": "wtEscaping"
