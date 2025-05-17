@@ -19,6 +19,7 @@ import {
 	hoverProvider,
 	signatureHelpProvider,
 	inlayHintsProvider,
+	codeActionProvider,
 } from './lsp.ts';
 import type {ConfigData} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
@@ -75,6 +76,7 @@ export default async (monaco: typeof Monaco, parserConfig?: ConfigData | boolean
 	monaco.languages.registerHoverProvider('wikitext', hoverProvider);
 	monaco.languages.registerSignatureHelpProvider('wikitext', signatureHelpProvider);
 	monaco.languages.registerInlayHintsProvider('wikitext', inlayHintsProvider);
+	monaco.languages.registerCodeActionProvider('wikitext', codeActionProvider);
 	monaco.editor.onDidCreateModel(model => {
 		getLinter(monaco, model);
 	});

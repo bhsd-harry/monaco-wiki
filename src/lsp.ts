@@ -8,6 +8,7 @@ import type {
 	Position as NPosition,
 	MarkupContent,
 } from 'vscode-languageserver-types';
+import type {IWikitextModel} from './linter.ts';
 
 const iPositionToNPosition = ({lineNumber, column}: IPosition): NPosition => ({
 	line: lineNumber - 1,
@@ -30,11 +31,34 @@ const provideReferences = async (
 			uri: model.uri,
 		}));
 
-export const nRangeToIRange = ({start, end}: NRange): IRange => ({
-	startLineNumber: start.line + 1,
-	startColumn: start.character + 1,
-	endLineNumber: end.line + 1,
-	endColumn: end.character + 1,
+const deepEqual = (a: editor.IMarkerData, b: editor.IMarkerData): boolean =>
+	a.code === b.code && a.severity === b.severity && a.message === b.message && a.source === b.source
+	&& a.startLineNumber === b.startLineNumber && a.startColumn === b.startColumn
+	&& a.endLineNumber === b.endLineNumber && a.endColumn === b.endColumn;
+
+export const toIRange = (line: number, column: number, endLine?: number, endColumn?: number): IRange => ({
+	startLineNumber: line,
+	startColumn: column,
+	endLineNumber: endLine ?? line,
+	endColumn: endColumn ?? column,
+});
+
+export const nRangeToIRange = ({start, end}: NRange): IRange => toIRange(
+	start.line + 1,
+	start.character + 1,
+	end.line + 1,
+	end.character + 1,
+);
+
+export const iRangeToNRange = ({startLineNumber, startColumn, endLineNumber, endColumn}: IRange): NRange => ({
+	start: {
+		line: startLineNumber - 1,
+		character: startColumn - 1,
+	},
+	end: {
+		line: endLineNumber - 1,
+		character: endColumn - 1,
+	},
 });
 
 export const documentColorProvider: languages.DocumentColorProvider = {
@@ -151,7 +175,7 @@ export const renameProvider: languages.RenameProvider = {
 			};
 		}
 		return {
-			range: {startLineNumber: 1, startColumn: 1, endLineNumber: 1, endColumn: 1},
+			range: toIRange(1, 1, 1, 1),
 			text: '',
 			rejectReason: 'You cannot rename this element.',
 		};
@@ -179,8 +203,8 @@ export const signatureHelpProvider: languages.SignatureHelpProvider = {
 				...res as Omit<languages.SignatureHelp, 'activeSignature'>,
 				activeSignature: 0,
 			},
-			dispose(): void {
-				//
+			dispose(this: Partial<languages.SignatureHelpResult>): void {
+				delete this.value;
 			},
 		};
 	},
@@ -194,9 +218,90 @@ export const inlayHintsProvider: languages.InlayHintsProvider = {
 				label: label as string,
 				position: nPositionToIPosition(position),
 			})),
-			dispose(): void {
-				//
+			dispose(this: Partial<languages.InlayHintList>): void {
+				delete this.hints;
 			},
 		};
+	},
+};
+
+export const codeActionProvider: languages.CodeActionProvider = {
+	provideCodeActions(model: IWikitextModel, _, {markers}): languages.CodeActionList | undefined {
+		const fixable = model.linter?.diagnostics
+			?.filter(diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)));
+		return fixable?.length
+			? {
+				actions: [
+					...fixable.flatMap(
+						diagnostic => diagnostic.data!.map(({title, fix, range, newText}): languages.CodeAction => ({
+							title,
+							isPreferred: fix,
+							kind: 'quickfix',
+							diagnostics: markers.filter(marker => deepEqual(marker, diagnostic)),
+							edit: {
+								edits: [
+									{
+										resource: model.uri,
+										versionId: model.getVersionId(),
+										textEdit: {
+											range: nRangeToIRange(range),
+											text: newText,
+										},
+									},
+								],
+							},
+						})),
+					),
+					...model.getLanguageId() === 'wikitext'
+						? []
+						: [
+							...[...new Set(fixable.map(({code}) => code))].map(rule => {
+								const related = fixable.filter(({code}) => code === rule);
+								return {
+									title: `Fix all ${rule as string} problems`,
+									isPreferred: true,
+									kind: 'quickfix',
+									diagnostics: markers
+										.filter(marker => related.some(diagnostic => deepEqual(marker, diagnostic))),
+									model,
+									rule,
+								};
+							}),
+							{
+								title: 'Fix all auto-fixable problems',
+								isPreferred: true,
+								kind: 'quickfix',
+								diagnostics: markers
+									.filter(marker => fixable.some(diagnostic => deepEqual(marker, diagnostic))),
+								// @ts-expect-error extra property
+								model,
+							},
+						],
+				],
+				dispose(this: {actions?: languages.CodeAction[]}): void {
+					delete this.actions;
+				},
+			}
+			: undefined;
+	},
+	async resolveCodeAction(
+		action: languages.CodeAction & {model: IWikitextModel, rule?: string},
+	): Promise<languages.CodeAction> {
+		if (/^Fix all .+ problems$/u.test(action.title)) {
+			const {model, rule} = action;
+			action.edit = {
+				edits: [
+					{
+						resource: model.uri,
+						versionId: model.getVersionId(),
+						textEdit: {
+							range: model.getFullModelRange(),
+							text: await model.linter!.fixer!(model.getValue(), rule),
+						},
+					},
+				],
+			};
+		}
+		return action;
 	},
 };

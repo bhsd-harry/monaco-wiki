@@ -1,3 +1,11 @@
+## v1.9.0
+
+*2025-05-19*
+
+**Added**
+
+- Quick fix for diagnostics from WikiLint, ESLint, and Stylelint
+
 ## v1.8.2
 
 *2025-03-15*

@@ -1,5 +1,6 @@
 import {CDN as baseCDN} from '@bhsd/common';
 import registerWiki from './main.ts';
+import {codeActionProvider} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
 
@@ -67,6 +68,8 @@ const load = async (): Promise<typeof Monaco> => {
 	return new Promise(resolve => {
 		requirejs(['vs/editor/editor.main'], async () => {
 			Object.assign(monaco, {version});
+			monaco.languages.registerCodeActionProvider('css', codeActionProvider);
+			monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
 			await registerWiki(monaco, typeof mediaWiki === 'object');
 			resolve(monaco);
 		});
