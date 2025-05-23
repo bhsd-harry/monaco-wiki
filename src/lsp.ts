@@ -227,8 +227,10 @@ export const inlayHintsProvider: languages.InlayHintsProvider = {
 
 export const codeActionProvider: languages.CodeActionProvider = {
 	provideCodeActions(model: IWikitextModel, _, {markers}): languages.CodeActionList | undefined {
-		const fixable = model.linter?.diagnostics
-			?.filter(diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)));
+		const fixable = model.linter?.diagnostics?.filter(
+				diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
+			),
+			autofixable = fixable?.filter(({data}) => data!.some(({fix}) => fix));
 		return fixable?.length
 			? {
 				actions: [
@@ -252,11 +254,11 @@ export const codeActionProvider: languages.CodeActionProvider = {
 							},
 						})),
 					),
-					...model.getLanguageId() === 'wikitext'
+					...model.getLanguageId() === 'wikitext' || !autofixable?.length
 						? []
 						: [
-							...[...new Set(fixable.map(({code}) => code))].map(rule => {
-								const related = fixable.filter(({code}) => code === rule);
+							...[...new Set(autofixable.map(({code}) => code))].map(rule => {
+								const related = autofixable.filter(({code}) => code === rule);
 								return {
 									title: `Fix all ${rule as string} problems`,
 									isPreferred: true,
@@ -272,7 +274,7 @@ export const codeActionProvider: languages.CodeActionProvider = {
 								isPreferred: true,
 								kind: 'quickfix',
 								diagnostics: markers
-									.filter(marker => fixable.some(diagnostic => deepEqual(marker, diagnostic))),
+									.filter(marker => autofixable.some(diagnostic => deepEqual(marker, diagnostic))),
 								// @ts-expect-error extra property
 								model,
 							},

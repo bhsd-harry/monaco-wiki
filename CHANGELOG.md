@@ -1,3 +1,11 @@
+## v1.9.1
+
+*2025-05-23*
+
+**Added**
+
+- Quick fix for ESLint suggestions
+
 ## v1.9.0
 
 *2025-05-20*

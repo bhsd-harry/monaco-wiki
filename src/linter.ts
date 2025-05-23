@@ -3,7 +3,7 @@ import {getWikiLinter, getJsLinter, getCssLinter, getLuaLinter} from '@bhsd/code
 import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity, Position} from 'monaco-editor';
-import type {Linter, Rule} from 'eslint';
+import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
 
 declare interface ITextModelLinter {
@@ -36,17 +36,28 @@ const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}
  * @param model 文本模型
  */
 export default (monaco: typeof Monaco, model: IWikitextModel): void => {
-	const getData = (rule: string, fix?: Rule.Fix): QuickFixData[] | undefined => fix && [
-		{
-			title: `Fix this ${rule} problem`,
-			fix: true,
-			range: iRangeToNRange(monaco.Range.fromPositions(
-				...fix.range.map(
-					x => model.getPositionAt(x),
-				) as [Position, Position],
-			)),
-			newText: fix.text,
-		},
+	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+	const toNRange = (range: AST.Range) => iRangeToNRange(monaco.Range.fromPositions(
+		...range.map(x => model.getPositionAt(x)) as [Position, Position],
+	));
+
+	const getData = (rule: string, fix?: Rule.Fix, suggestions: Linter.LintSuggestion[] = []): QuickFixData[] => [
+		...fix
+			? [
+				{
+					title: `Fix this ${rule} problem`,
+					fix: true,
+					range: toNRange(fix.range),
+					newText: fix.text,
+				},
+			]
+			: [],
+		...suggestions.map(({desc, fix: {range, text}}) => ({
+			title: `${desc} (${rule})`,
+			fix: false,
+			range: toNRange(range),
+			newText: text,
+		})),
 	];
 
 	/**
@@ -143,12 +154,13 @@ export default (monaco: typeof Monaco, model: IWikitextModel): void => {
 							endLine,
 							endColumn,
 							fix,
+							suggestions,
 						}): editor.IMarkerData & {data: QuickFixData[] | undefined} => ({
 							code: ruleId!,
 							source: 'ESLint',
 							severity: severity === 2 ? 8 : 4,
 							message,
-							data: getData(ruleId!, fix),
+							data: getData(ruleId!, fix, suggestions),
 							...toIRange(line, column, endLine, endColumn),
 						}));
 					linter.fixer = (text, rule): string => esLint.fixer!(text, rule) as string;
