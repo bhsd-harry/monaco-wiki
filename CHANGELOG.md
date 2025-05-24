@@ -1,3 +1,11 @@
+## v1.9.2
+
+*2025-05-26*
+
+**Added**
+
+- Localization for WikiLint
+
 ## v1.9.1
 
 *2025-05-23*

@@ -2,7 +2,7 @@
 import {shikiToMonaco} from '@shikijs/monaco';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
-import {loadScript, getLSP} from '@bhsd/common';
+import {getWikiparse, getLSP} from '@bhsd/common';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
@@ -27,28 +27,32 @@ import type {languages} from 'monaco-editor';
 
 const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
-export default async (monaco: typeof Monaco, parserConfig?: ConfigData | boolean): Promise<void> => {
+export default async (
+	monaco: typeof Monaco,
+	parserConfig?: ConfigData | boolean,
+	lang?: string | string[],
+): Promise<void> => {
 	// 加载 WikiParser-Node
-	const DIR = 'npm/wikiparser-node/extensions/dist',
-		loaded = typeof wikiparse === 'object';
-	await loadScript(`${DIR}/base.min.js`, 'wikiparse');
-	await loadScript(`${DIR}/lsp.min.js`, 'wikiparse.LanguageService');
-	let wikiConfig: ConfigData;
-	if (typeof parserConfig === 'object') {
-		wikiConfig = parserConfig;
-	} else if (parserConfig) { // MW网站
-		const minConfig = await wikiparse.getConfig();
-		wikiConfig = loaded ? minConfig : getParserConfig(minConfig, await getMwConfig({}));
-		let articlePath = mediaWiki.config.get('wgArticlePath');
-		if (/^\/(?!\/)/u.test(articlePath)) {
-			articlePath = location.origin + articlePath;
+	const loaded = typeof wikiparse === 'object';
+	const getConfig = async (): Promise<ConfigData> => {
+		if (typeof parserConfig === 'object') {
+			return parserConfig;
+		} else if (parserConfig) { // MW网站
+			const minConfig = await wikiparse.getConfig();
+			let articlePath = mediaWiki!.config.get('wgArticlePath');
+			if (/^\/(?!\/)/u.test(articlePath)) {
+				articlePath = location.origin + articlePath;
+			}
+			return {
+				...loaded ? minConfig : getParserConfig(minConfig, await getMwConfig({})),
+				articlePath,
+			};
 		}
-		Object.assign(wikiConfig, {articlePath});
-	} else {
-		wikiConfig = await (await fetch(`${wikiparse.CDN}/config/default.json`)).json();
-	}
-	wikiparse.setConfig(wikiConfig);
+		return (await fetch(`${wikiparse.CDN}/config/default.json`)).json();
+	};
+	await getWikiparse(getConfig, lang);
 
+	const wikiConfig = await wikiparse.getConfig();
 	// 注册语言
 	monaco.languages.register({id: 'wikitext', aliases: ['Wikitext', 'mediawiki', 'MediaWiki', 'wiki']});
 	monaco.languages.register({id: 'javascript', aliases: ['JavaScript', 'js']});

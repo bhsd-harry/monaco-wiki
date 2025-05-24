@@ -16,6 +16,9 @@ declare global {
 		config: {
 			get(key: string): string;
 		};
+		language?: {
+			getFallbackLanguageChain?: () => string[]; // eslint-disable-line @typescript-eslint/method-signature-style
+		};
 	};
 }
 
@@ -70,7 +73,14 @@ const load = async (): Promise<typeof Monaco> => {
 			Object.assign(monaco, {version});
 			monaco.languages.registerCodeActionProvider('css', codeActionProvider);
 			monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
-			await registerWiki(monaco, typeof mediaWiki === 'object');
+			const isMW = typeof mediaWiki === 'object';
+			await registerWiki(
+				monaco,
+				isMW,
+				isMW
+					? mediaWiki.language?.getFallbackLanguageChain?.() ?? [mediaWiki.config.get('wgUserLanguage')]
+					: undefined,
+			);
 			resolve(monaco);
 		});
 	});
