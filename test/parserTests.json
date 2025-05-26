@@ -208,6 +208,11 @@
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>redirect to foo</><punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>redirect to foo</><punctuation.definition.tag.template>}}</>"
 	},
 	{
+		"desc": "Transclusion with a (stripped) fragment",
+		"wikitext": "{{Foo#bar}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>Foo</><invalid.deprecated.ineffective>#bar</><punctuation.definition.tag.template>}}</>"
+	},
+	{
 		"desc": "T53086: Double newlines in blockquotes should be turned into paragraphs",
 		"wikitext": "<blockquote>\nFoo\n\nBar\n</blockquote>",
 		"parsed": "<meta.tag.structure.blockquote.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt\\n</></>Foo\\n\\nBar\\n<meta.tag.structure.blockquote.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt</></>"
@@ -331,6 +336,11 @@
 		"desc": "Broken wikilinks (but not external links) prevent templates from closing",
 		"wikitext": "[http://example.com x\n\n{{1x|[http://example.com x}}\n\n[[Foo\n\n{{1x|[[Foo}}",
 		"parsed": "[http://example.com x\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>[http://example.com x<punctuation.definition.tag.template>}}\\n\\n</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo\\n\\n</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</><invalid.deprecated.ineffective>}}</></></>"
+	},
+	{
+		"desc": "Non-wikilinks should not be treated as broken wikilinks",
+		"wikitext": "{{1x|[[1],[2]]}}\n\n{{1x|[[{}]]}}\n\n{{1x|[[1, [[2, 3]], 4]]}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>1</><invalid.deprecated.ineffective>]</>,<invalid.deprecated.ineffective>[</>2<punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}\\n\\n{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</>{<invalid.deprecated.ineffective>}</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}\\n\\n{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>1, </><invalid.deprecated.ineffective>[[</>2, 3<punctuation.definition.tag.link.internal>]]</></>, 4]]<punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "Wikilinks with embedded newlines are not broken",
@@ -708,6 +718,16 @@
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>#a</><keyword.operator>|</>b<punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
+		"desc": "Purely hash wikilink on file page",
+		"wikitext": "[[#a|b]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>#a</><keyword.operator>|</>b<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Purely hash wikilink on category page",
+		"wikitext": "[[#a|b]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>#a</><keyword.operator>|</>b<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
 		"desc": "Serialization of purely hash wikilink",
 		"wikitext": "[[#a|<nowiki>[[</nowiki>]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>#a</><keyword.operator>|</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>[[</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.link.internal>]]</></>"
@@ -761,6 +781,11 @@
 		"desc": "Wikilink in wikilink",
 		"wikitext": "[[Hi|[[Ho]]]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Hi</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Ho</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Category in wikilink",
+		"wikitext": "[[Hi|Ho[[Category:Hiho]]]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Hi</><keyword.operator>|</>Ho<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Hiho</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "Parsoid T55221: Wikilinks should be properly entity-escaped",
@@ -1018,6 +1043,11 @@
 		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.list.begin.markdown>*</>a<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.list.begin.markdown>*</>b<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
+		"desc": "T368721: Closing block tags not on the stack of open elements in lists",
+		"wikitext": "<!-- block tag  -->\n*a</div>b\n\n<!-- wikitext block tag -->\n*a</p>b",
+		"parsed": "<comment.block.html><punctuation.definition.comment.html>&lt;!--</> block tag  <punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>*</>a<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>b\\n\\n<comment.block.html><punctuation.definition.comment.html>&lt;!--</> wikitext block tag <punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>*</>a<meta.tag.structure.p.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>p</><punctuation.definition.tag.end.html>&gt</></>b"
+	},
+	{
 		"desc": "Unclosed formatting tags that straddle lists are closed and reopened",
 		"wikitext": "#<s> a\n#b </s>",
 		"parsed": "<punctuation.definition.list.begin.markdown>#</><meta.tag.inline.s.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>s</><punctuation.definition.tag.end.html>&gt</></> a\\n<punctuation.definition.list.begin.markdown>#</>b <meta.tag.inline.s.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>s</><punctuation.definition.tag.end.html>&gt</></>"
@@ -1051,11 +1081,6 @@
 		"desc": "Parsoid: Template-generated DISPLAYTITLE",
 		"wikitext": "{{{{1x|DISPLAYTITLE}}:Foo}}",
 		"parsed": "{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>DISPLAYTITLE<punctuation.definition.tag.template>}}</>:Foo}}"
-	},
-	{
-		"desc": "Parsoid html2wt b/c check: Cached Parsoid HTML for DISPLAYTITLE should be handled properly",
-		"wikitext": "{{DISPLAYTITLE:foo}}\n{{DISPLAYTITLE:''{{PAGENAME}}''}}\n{{{{1x|DISPLAYTITLE}}:Foo}}",
-		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>DISPLAYTITLE</><keyword.operator.function>:</>foo<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>DISPLAYTITLE</><keyword.operator.function>:</><markup.italic>''</><constant.language.variables.metadata>{{PAGENAME}}</><markup.italic>''</><punctuation.definition.tag.function>}}\\n</>{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>DISPLAYTITLE<punctuation.definition.tag.template>}}</>:Foo}}"
 	},
 	{
 		"desc": "Namespace 1 {{ns:1}}",
@@ -1223,6 +1248,16 @@
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>2</><punctuation.definition.tag.variable>{{{</><variable.other>3</><punctuation.definition.tag.variable>}}}</><keyword.operator>|</><entity.other.attribute-name.local-name>4</><keyword.operator.equal>=</>5<punctuation.definition.tag.template>}}}}</>"
 	},
 	{
+		"desc": "T372669: While processing templates with templated names, other attributes shouldn't be processed",
+		"wikitext": "{{{{1x|1x}}|foo|{{1x|ignore-this[[Category:Foo]]}}}}",
+		"parsed": "{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>1x<punctuation.definition.tag.template>}}</>|foo|<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>ignore-this<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}</>}}"
+	},
+	{
+		"desc": "T372669: Template names from multiple templates",
+		"wikitext": "{{{{1x|1}}{{1x|x}}|foo}}",
+		"parsed": "{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>1<punctuation.definition.tag.template>}}{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>x<punctuation.definition.tag.template>}}</>|foo}}"
+	},
+	{
 		"desc": "Templates with invalid templated targets",
 		"wikitext": "{{1x\n{{1x|foo}}\n}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x\\n</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>foo<punctuation.definition.tag.template>}}\\n}}</>"
@@ -1296,6 +1331,11 @@
 		"desc": "T2041: Template parameters shown as broken links",
 		"wikitext": "{{{parameter}}}",
 		"parsed": "<punctuation.definition.tag.variable>{{{</><variable.other>parameter</><punctuation.definition.tag.variable>}}}</>"
+	},
+	{
+		"desc": "Unsubstituted template argument with newlines",
+		"wikitext": "{{{testing\n\n123}}}",
+		"parsed": "<punctuation.definition.tag.variable>{{{</><variable.other>testing\\n\\n</><variable.parameter>123</><punctuation.definition.tag.variable>}}}</>"
 	},
 	{
 		"desc": "Template with targets containing wikilinks",
@@ -1374,8 +1414,8 @@
 	},
 	{
 		"desc": "T236868: Un-closed <noinclude> caused bad SourceRange length",
-		"wikitext": "{| <noinclude>\n|- <noinclude>\n| A\n|-</noinclude>\n|}",
-		"parsed": "<meta.tag.block.table><keyword.operator>{|</> <punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</><meta.tag.block.table-row><keyword.operator>|-</> <punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style> A\\n</></><meta.tag.block.table-row><keyword.operator>|-</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</></><keyword.operator>|}</></>"
+		"wikitext": "{| <noinclude>\n|- <noinclude>\n|A\n|- </noinclude>\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|</> <punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</><meta.tag.block.table-row><keyword.operator>|-</> <punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>A\\n</></><meta.tag.block.table-row><keyword.operator>|-</> <punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</></><keyword.operator>|}</></>"
 	},
 	{
 		"desc": "Self-closed noinclude, includeonly, onlyinclude tags",
@@ -1418,24 +1458,14 @@
 		"parsed": "a<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>b<meta.tag.structure.table.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>table</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.table.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>table</><punctuation.definition.tag.end.html>&gt</></>c<punctuation.definition.tag.template>}}</>d\\n\\na<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>b\\n<meta.tag.structure.table.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>table</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.table.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>table</><punctuation.definition.tag.end.html>&gt\\n</></>c<punctuation.definition.tag.template>}}</>d\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>a\\n\\n<meta.tag.structure.table.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>table</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.table.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>table</><punctuation.definition.tag.end.html>&gt\\n\\n</></>b<punctuation.definition.tag.template>}}</>"
 	},
 	{
-		"desc": "Parsoid: Merge double tds (T52603)",
-		"wikitext": "{|\n|{{1x|{{!}} foo}}\n|}",
-		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</></><keyword.operator>|{{!}}</><markup.style> foo}}\\n</></><keyword.operator>|}</></>"
-	},
-	{
-		"desc": "Parsoid: Merge double tds in nested transclusion content (T52603)",
-		"wikitext": "{{1x|<div>}}\n{|\n|{{1x|{{!}} foo}}\n|}\n{{1x|</div>}}",
-		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}\\n</><meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</></><keyword.operator>|{{!}}</><markup.style> foo}}\\n</></><keyword.operator>|}\\n</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}</>"
-	},
-	{
 		"desc": "Template name with question mark",
 		"wikitext": "{{temp?|123}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>temp?</><keyword.operator>|</>123<punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "0. includeonly around the entire attribute",
-		"wikitext": "<span <includeonly>id=\"v1\"</includeonly><noinclude>id=\"v2\"</noinclude>>bar</span>",
-		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</> <invalid.illegal.character-not-allowed-here.html>&lt;includeonly</><punctuation.definition.tag.end.html>&gt</></>id=\"v1\"<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>includeonly</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</>id=\"v2\"<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</>&gtbar<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>"
+		"wikitext": "<span <includeonly>id=\"v1\"</includeonly><noinclude>id=\"v2\" </noinclude>>bar</span>",
+		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</> <invalid.illegal.character-not-allowed-here.html>&lt;includeonly</><punctuation.definition.tag.end.html>&gt</></>id=\"v1\"<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>includeonly</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</>id=\"v2\" <punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</>&gtbar<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
 		"desc": "1. includeonly in html attr key",
@@ -1469,8 +1499,8 @@
 	},
 	{
 		"desc": "Table wikitext syntax outside wiki-tables",
-		"wikitext": "a\n|+ not a caption\n! not a table heading\n|- not a table row\n| not a table cell\n| class=\"foo bar\" | baz\nb\n|}\n|-\nc",
-		"parsed": "a\\n|+ not a caption\\n! not a table heading\\n|- not a table row\\n| not a table cell\\n| class=\"foo bar\" | baz\\nb\\n|}\\n|-\\nc"
+		"wikitext": "a\n|+ not a caption\n! not a table heading!! neither is this\n|- not a table row\n| not a table cell || neither is this\n| class=\"foo bar\" | baz\nb\n|}\n|-\nc\n|-\n{{1x|!a!!b}}\n|-\n{{1x|{{!}}a {{!}}{{!}}b}}",
+		"parsed": "a\\n|+ not a caption\\n! not a table heading!! neither is this\\n|- not a table row\\n| not a table cell || neither is this\\n| class=\"foo bar\" | baz\\nb\\n|}\\n|-\\nc\\n|-\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>!a!!b<punctuation.definition.tag.template>}}\\n</>|-\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><constant.language.variables.metadata>{{!}}</>a <constant.language.variables.metadata>{{!}}{{!}}</>b<punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "Content after <tr> like wikitext should get fully processed",
@@ -2028,49 +2058,49 @@
 		"parsed": "<punctuation.definition.list.begin.markdown>*</> Foo<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></>Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></>Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> Bar\\n\\n<punctuation.definition.list.begin.markdown>*</> Foo<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]][[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></>Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]][[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></> Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></>Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></> Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]][[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></>Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]][[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></> Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></>Bar\\n<punctuation.definition.list.begin.markdown>*</> Foo <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></> Bar"
 	},
 	{
-		"desc": "1. Categories and newlines: All preceding newlines should be suppressed (courtesy T2087)",
-		"wikitext": "This\n   \n[[Category:Foo]] and this should be part of same paragraph (not an indent-pre)\n   \n{{1x|[[Category:Foo]] and so should this!}}",
-		"parsed": "This\\n   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and this should be part of same paragraph (not an indent-pre)\\n   \\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and so should this!<punctuation.definition.tag.template>}}</>"
+		"desc": "1. cats/langlinks and newlines: All preceding newlines should be suppressed (courtesy T2087)",
+		"wikitext": "This\n   \n[[Category:Foo]] and this\n[[es:Foo]] and this should be part of same paragraph (not an indent-pre)\n   \n{{1x|[[Category:Foo]] and so should this!}}\n{{1x|[[es:Foo]] and this!}}",
+		"parsed": "This\\n   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and this\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> and this should be part of same paragraph (not an indent-pre)\\n   \\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and so should this!<punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> and this!<punctuation.definition.tag.template>}}</>"
 	},
 	{
-		"desc": "2. Categories and newlines: All preceding newlines should be suppressed (courtesy T2087)",
-		"wikitext": "* This\n   \n[[Category:Foo]] and this should be part of the same list item\n* So should this\n\n{{1x|[[Category:Foo]] and this should be part of the same list item}}",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</> This\\n   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and this should be part of the same list item\\n<punctuation.definition.list.begin.markdown>*</> So should this\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and this should be part of the same list item<punctuation.definition.tag.template>}}</>"
+		"desc": "2. cats/langlinks and newlines: All preceding newlines should be suppressed (courtesy T2087)",
+		"wikitext": "* This\n   \n[[Category:Foo]] and this\n[[es:Foo]] and this should be part of the same list item\n* So should this\n\n{{1x|[[Category:Foo]] and this}}\n{{1x|[[es:Foo]] and this should be part of the same list item}}",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</> This\\n   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and this\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> and this should be part of the same list item\\n<punctuation.definition.list.begin.markdown>*</> So should this\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></> and this<punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></> and this should be part of the same list item<punctuation.definition.tag.template>}}</>"
 	},
 	{
-		"desc": "3. Categories and newlines: newline suppression for last list item should RT properly",
-		"wikitext": "*a\n*b\n   \n[[Category:Foo]]\n   \n[[Category:Bar]]\n[[Category:Baz]]\n\n:c\n\n[[Category:C]]\n\n;d\n\n[[Category:D]]",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>*</>b\\n   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n</></>   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Bar</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Baz</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.list.begin.markdown>:</>c\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>C</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.list.begin.markdown>;</>d\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>D</><punctuation.definition.tag.link.internal>]]</></>"
+		"desc": "3. cats/langlinks and newlines: newline suppression for last list item should RT properly",
+		"wikitext": "*a\n*b\n   \n[[Category:Foo]]\n   \n[[Category:Bar]]\n[[Category:Baz]]\n[[es:Foo]]\n\n:c\n\n[[Category:C]]\n\n;d\n\n[[Category:D]]\n[[es:Bar]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>*</>b\\n   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n</></>   \\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Bar</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Baz</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.list.begin.markdown>:</>c\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>C</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.list.begin.markdown>;</>d\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>D</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Bar</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "4. Categories and newlines: newline suppression for last list item should RT properly",
-		"wikitext": "*a\n****b\n\n[[Category:Foo]]",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>****</>b\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></>"
+		"desc": "4. cats/langlinks: newline suppression for last list item should RT properly",
+		"wikitext": "*a\n****b\n\n[[Category:Foo]]\n[[es:Foo]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>****</>b\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "5. Categories and newlines: migrateTrailingCategories dom pass should only run on the rightmost path of nested lists",
-		"wikitext": "*a\n**b\n[[Category:Foo]]\n*c\n**d\n[[Category:Foo]]",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>**</>b\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n</></><punctuation.definition.list.begin.markdown>*</>c\\n<punctuation.definition.list.begin.markdown>**</>d\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></>"
+		"desc": "5. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should only run on the rightmost path of nested lists",
+		"wikitext": "*a\n**b\n[[Category:Foo]]\n*c\n**d\n[[Category:Foo]]\n[[es:Foo]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>**</>b\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n</></><punctuation.definition.list.begin.markdown>*</>c\\n<punctuation.definition.list.begin.markdown>**</>d\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "6. Categories and newlines: migrateTrailingCategories dom pass should not migrate categories not preceded by newlines",
-		"wikitext": "*a [[Category:Foo]]",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></>"
+		"desc": "6. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should not migrate them when not preceded by newlines",
+		"wikitext": "*a [[Category:Foo]]\n*b [[es:Foo]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</>a <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n</></><punctuation.definition.list.begin.markdown>*</>b <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "7. Categories and newlines: migrateTrailingCategories dom pass should leave template content alone",
-		"wikitext": "*{{1x|a\n[[Category:Foo]]}}",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>a\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}</>"
+		"desc": "7. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should leave template content alone",
+		"wikitext": "*{{1x|a\n[[Category:Foo]]\n[[es:Foo]]}}",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>a\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}</>"
 	},
 	{
-		"desc": "8. Categories and newlines: migrateTrailingCategories dom pass should not get tripped by intervening templates",
-		"wikitext": "*a\n\n{{1x|[[Category:Foo]]\n[[Category:Bar]]}}\n[[Category:Baz]]",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Bar</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}\\n</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Baz</><punctuation.definition.tag.link.internal>]]</></>"
+		"desc": "8. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should not get tripped by intervening templates",
+		"wikitext": "*a\n\n{{1x|[[Category:Foo]]\n[[Category:Bar]]}}\n[[Category:Baz]]\n[[es:Baz]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Bar</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}\\n</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Baz</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Baz</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "Categories and newlines: migrateTrailingCategories dom pass should not get tripped by comments and whitespace",
-		"wikitext": "*a\n\n[[Category:Bar]]<!--boo1--> <!--boo2-->\n[[Category:Baz]]<!--boo3--> <!--boo4-->",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Bar</><punctuation.definition.tag.link.internal>]]</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo1<punctuation.definition.comment.html>--&gt</></> <comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo2<punctuation.definition.comment.html>--&gt\\n</></><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Baz</><punctuation.definition.tag.link.internal>]]</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo3<punctuation.definition.comment.html>--&gt</></> <comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo4<punctuation.definition.comment.html>--&gt</></>"
+		"desc": "cats/langlinks: migrateTrailingSolTransparentLinks dom pass should not get tripped by comments and whitespace",
+		"wikitext": "*a\n\n[[Category:Bar]]<!--boo1--> <!--boo2-->\n[[Category:Baz]]<!--boo3--> <!--boo4-->\n[[es:Foo]]<!--boo5--> <!--boo6-->",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Bar</><punctuation.definition.tag.link.internal>]]</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo1<punctuation.definition.comment.html>--&gt</></> <comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo2<punctuation.definition.comment.html>--&gt\\n</></><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Baz</><punctuation.definition.tag.link.internal>]]</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo3<punctuation.definition.comment.html>--&gt</></> <comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo4<punctuation.definition.comment.html>--&gt\\n</></><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo</><punctuation.definition.tag.link.internal>]]</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo5<punctuation.definition.comment.html>--&gt</></> <comment.block.html><punctuation.definition.comment.html>&lt;!--</>boo6<punctuation.definition.comment.html>--&gt</></>"
 	},
 	{
 		"desc": "No regressions on internal links following category (T174639)",
@@ -2121,11 +2151,6 @@
 		"desc": "Parsoid: Defaultsort variations (T236846)",
 		"wikitext": "{{DEFAULTSORT}}\n\n{{DEFAULTSORT:}}\n{{DEFAULTSORT:DOGGIE}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>DEFAULTSORT</><punctuation.definition.tag.template>}}\\n\\n</><punctuation.definition.tag.function>{{</><constant.language.variables.query>DEFAULTSORT</><keyword.operator.function>:</><punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>DEFAULTSORT</><keyword.operator.function>:</>DOGGIE<punctuation.definition.tag.function>}}</>"
-	},
-	{
-		"desc": "Parsoid html2wt b/c check: Defaultsort with key content being added (T236846)",
-		"wikitext": "{{DEFAULTSORT:BIRD}}",
-		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>DEFAULTSORT</><keyword.operator.function>:</>BIRD<punctuation.definition.tag.function>}}</>"
 	},
 	{
 		"desc": "Parsoid: Defaultsort (template-generated)",
@@ -2348,11 +2373,6 @@
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Media:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>Bat!<punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "Media link from old 1.7.0 DOM spec (crash test, parsoid-only) T198511",
-		"wikitext": "This is what Parsoid would emit (and we still handle this HTML fine):\n\n[[Media:Foobar.jpg|A neat file to look at]]\n\nBut VisualEditor would mangle the rel attribute, and give us back this:\n\n[http://example.com/images/3/3a/Foobar.jpg A neat file to look at]\n\nBut at least we don't crash when trying to handle the mangled HTML!",
-		"parsed": "This is what Parsoid would emit (and we still handle this HTML fine):\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Media:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>A neat file to look at<punctuation.definition.tag.link.internal>]]\\n\\n</></>But VisualEditor would mangle the rel attribute, and give us back this:\\n\\n<punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://example.com/images/3/3a/Foobar.jpg</><string.other.link.external.title> A neat file to look at</><punctuation.definition.tag.link.external>]\\n\\n</>But at least we don't crash when trying to handle the mangled HTML!"
-	},
-	{
 		"desc": "Media link to nonexistent file (T3702)",
 		"wikitext": "[[Media:No such.jpg]]\n[[Media:No_such file.jpg]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Media:</><entity.other.attribute-name>No such.jpg</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Media:</><entity.other.attribute-name>No_such file.jpg</><punctuation.definition.tag.link.internal>]]</></>"
@@ -2471,21 +2491,6 @@
 		"desc": "T4304: HTML attribute safety (bold)",
 		"wikitext": "<div title=\"'''foobar'''\"></div>",
 		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>'''foobar'''<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
-	},
-	{
-		"desc": "T4304: HTML attribute safety (ISBN)",
-		"wikitext": "<div title=\"ISBN 1234567890\"></div>",
-		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>ISBN 1234567890<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
-	},
-	{
-		"desc": "T4304: HTML attribute safety (RFC)",
-		"wikitext": "<div title=\"RFC 1234\"></div>",
-		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>RFC 1234<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
-	},
-	{
-		"desc": "T4304: HTML attribute safety (PMID)",
-		"wikitext": "<div title=\"PMID 1234567890\"></div>",
-		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>PMID 1234567890<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
 		"desc": "T4304: HTML attribute safety (web link)",
@@ -2626,6 +2631,11 @@
 		"desc": "Sanitizer: Validating the contents of the id attribute (T6515)",
 		"wikitext": "<br id=\"\" /><br id=\"a space\" />",
 		"parsed": "<meta.tag.inline.br.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>br</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><punctuation.definition.string.end.html>\"</></></> <punctuation.definition.tag.end.html>/&gt</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>br</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>a space<punctuation.definition.string.end.html>\"</></></> <punctuation.definition.tag.end.html>/&gt</></>"
+	},
+	{
+		"desc": "Sanitizer: Validating the contents of the id attribute, empty attribute syntax (T6515)",
+		"wikitext": "<br id />",
+		"parsed": "<meta.tag.inline.br.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>br</> <meta.attribute.id.html><entity.other.attribute-name.html>id</></> <punctuation.definition.tag.end.html>/&gt</></>"
 	},
 	{
 		"desc": "Sanitizer: Validating id attribute uniqueness (T6515, T8301)",
@@ -2826,6 +2836,11 @@
 		"desc": "Special page transclusion twice (T7021)",
 		"wikitext": "{{Special:Prefixindex/Xyzzyx}}\n{{Special:Prefixindex/Xyzzyx}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>Special:Prefixindex/Xyzzyx</><punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>Special:Prefixindex/Xyzzyx</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "Nested special page transclusion",
+		"wikitext": "{{nested special}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>nested special</><punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "Transclusion of default MediaWiki message",
@@ -3083,9 +3098,14 @@
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</> <meta.attribute.colspan.html><entity.other.attribute-name.html>colspan</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>1<punctuation.definition.string.end.html>\"</></> </><keyword.operator>|</><markup.style>foo <constant.language.variables.metadata>{{!}}</> bar\\n</></><keyword.operator>|}</></>"
 	},
 	{
-		"desc": "Using {{!}} in wikilinks (T290526)",
-		"wikitext": "[[Main Page{{!}}Something else]]\n\n[[{{T290526}}]]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Main Page</><constant.language.variables.metadata>{{!}}</>Something else<punctuation.definition.tag.link.internal>]]\\n\\n[[</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>T290526</><punctuation.definition.tag.template>}}</><punctuation.definition.tag.link.internal>]]</></>"
+		"desc": "1. Using {{!}} in wikilinks (T290526)",
+		"wikitext": "[[Main Page{{!}}Something else]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Main Page</><constant.language.variables.metadata>{{!}}</>Something else<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "2. Using {{!}} in wikilinks (T290526)",
+		"wikitext": "[[{{T290526}}]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>T290526</><punctuation.definition.tag.template>}}</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "Using {{!}} in template arguments (T290526)",
@@ -3121,51 +3141,6 @@
 		"desc": "Illegal character references (T106578, T113194)",
 		"wikitext": "; Null: &#00;\n; FF: &#xC;\n; CR: &#xD;\n; Control (low): &#8;\n; Control (high): &#x7F; &#x9F;\n; Unsupported legacy: &#128; &#130; &#131; &#150; &#159;\n; Surrogate: &#xD83D;&#xDCA9;\n; Invalid characters: &#xfffe; &#xffff;\n; This is an okay astral character: &#x1F4A9;\n; This is an okay multi-codepoint HTML5 entity: &acE;\n; This are valid wikitext-specific entities: &רלמ; &رلم;\n; Highest valid characters: &#x10fffd; &#x10fffe; &#x10ffff;",
 		"parsed": "<punctuation.definition.list.begin.markdown>;</> Null: <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#00;\\n</><punctuation.definition.list.begin.markdown>;</> FF: <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#xC;\\n</><punctuation.definition.list.begin.markdown>;</> CR: <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#xD;\\n</><punctuation.definition.list.begin.markdown>;</> Control (low): <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#8;\\n</><punctuation.definition.list.begin.markdown>;</> Control (high): <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x7F;</> <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x9F;\\n</><punctuation.definition.list.begin.markdown>;</> Unsupported legacy: <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#128;</> <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#130;</> <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#131;</> <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#150;</> <constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#159;\\n</><punctuation.definition.list.begin.markdown>;</> Surrogate: <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#xD83D;<punctuation.definition.entity.html>&amp;</>#xDCA9;\\n</><punctuation.definition.list.begin.markdown>;</> Invalid characters: <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#xfffe;</> <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#xffff;\\n</><punctuation.definition.list.begin.markdown>;</> This is an okay astral character: <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x1F4A9;\\n</><punctuation.definition.list.begin.markdown>;</> This is an okay multi-codepoint HTML5 entity: <constant.character.entity.named.acE.html><punctuation.definition.entity.html>&amp;</>acE<punctuation.definition.entity.html>;\\n</></><punctuation.definition.list.begin.markdown>;</> This are valid wikitext-specific entities: &amp;רלמ; &amp;رلم;\\n<punctuation.definition.list.begin.markdown>;</> Highest valid characters: <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x10fffd;</> <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x10fffe;</> <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x10ffff;</>"
-	},
-	{
-		"desc": "ISBN code coverage",
-		"wikitext": "ISBN  978-0-1234-56&#x20;789",
-		"parsed": "<constant.language.variables.isbn>ISBN  978-0-1234-56</><constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x20;</>789"
-	},
-	{
-		"desc": "ISBN followed by 5 spaces",
-		"wikitext": "ISBN",
-		"parsed": "ISBN"
-	},
-	{
-		"desc": "Double ISBN",
-		"wikitext": "ISBN ISBN 1234567890",
-		"parsed": "ISBN <constant.language.variables.isbn>ISBN 1234567890</>"
-	},
-	{
-		"desc": "ISBN with an X",
-		"wikitext": "ISBN 3-462-04561-X\nISBN 3-462-04561-x\nISBN 080442957X\nISBN 080442957x\nISBN 978080442957X\nISBN 978080442957x",
-		"parsed": "<constant.language.variables.isbn>ISBN 3-462-04561-X\\nISBN 3-462-04561-x\\nISBN 080442957X\\nISBN 080442957x\\nISBN 978080442957X\\nISBN 978080442957x</>"
-	},
-	{
-		"desc": "ISBN with empty prefix (parsoid test)",
-		"wikitext": "ISBN 1234567890",
-		"parsed": "<constant.language.variables.isbn>ISBN 1234567890</>"
-	},
-	{
-		"desc": "T24905: <abbr> followed by ISBN followed by </a>",
-		"wikitext": "<abbr>(fr)</abbr> ISBN 2753300917 [http://www.example.com example.com]",
-		"parsed": "<meta.tag.inline.abbr.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>abbr</><punctuation.definition.tag.end.html>&gt</></>(fr)<meta.tag.inline.abbr.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>abbr</><punctuation.definition.tag.end.html>&gt</></> <constant.language.variables.isbn>ISBN 2753300917</> <punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.example.com</><string.other.link.external.title> example.com</><punctuation.definition.tag.link.external>]</>"
-	},
-	{
-		"desc": "Double RFC",
-		"wikitext": "RFC RFC 1234",
-		"parsed": "RFC <constant.language.variables.rfc>RFC 1234</>"
-	},
-	{
-		"desc": "Double RFC with a wiki link",
-		"wikitext": "RFC [[RFC 1234]]",
-		"parsed": "RFC <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>RFC 1234</><punctuation.definition.tag.link.internal>]]</></>"
-	},
-	{
-		"desc": "RFC code coverage",
-		"wikitext": "RFC   983&#x20;987",
-		"parsed": "<constant.language.variables.rfc>RFC   983</><constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x20;</>987"
 	},
 	{
 		"desc": "Another italics / bold test",
@@ -3261,31 +3236,6 @@
 		"desc": "Template caching",
 		"wikitext": "{{Test}}\n{{Test}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>Test</><punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>Test</><punctuation.definition.tag.template>}}</>"
-	},
-	{
-		"desc": "ISBN with a dummy number",
-		"wikitext": "ISBN ---",
-		"parsed": "ISBN ---"
-	},
-	{
-		"desc": "ISBN with space-delimited number",
-		"wikitext": "ISBN 92 9017 032 8",
-		"parsed": "<constant.language.variables.isbn>ISBN 92 9017 032 8</>"
-	},
-	{
-		"desc": "ISBN with multiple spaces, no number",
-		"wikitext": "ISBN  foo",
-		"parsed": "ISBN  foo"
-	},
-	{
-		"desc": "ISBN length",
-		"wikitext": "ISBN 123456789\n\nISBN 1234567890\n\nISBN 12345678901",
-		"parsed": "ISBN 123456789\\n\\n<constant.language.variables.isbn>ISBN 1234567890\\n\\nISBN 1234567890</>1"
-	},
-	{
-		"desc": "ISBN with trailing year (T9110)",
-		"wikitext": "ISBN 1-234-56789-0 - 2006\n\nISBN 1 234 56789 0 - 2006",
-		"parsed": "<constant.language.variables.isbn>ISBN 1-234-56789-0</> - 2006\\n\\n<constant.language.variables.isbn>ISBN 1 234 56789 0</> - 2006"
 	},
 	{
 		"desc": "anchorencode",
@@ -3668,6 +3618,11 @@
 		"parsed": "<meta.tag.inline.br.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>br</> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css> clear : both ; </><punctuation.definition.string.end.html><source.css>\"</></></></></> <punctuation.definition.tag.end.html>/&gt</></>"
 	},
 	{
+		"desc": "Displayspace processing on embedded fragments",
+		"wikitext": "[[File:Foobar.jpg|« test »]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>« test »<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
 		"desc": "HTML5 data attributes",
 		"wikitext": "<span data-foo=\"bar\">Baz</span>\n<p data-abc-def_hij=\"\">Quuz</p>",
 		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</> <meta.attribute.data-x.data-foo.html><entity.other.attribute-name.html>data-foo</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>bar<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>Baz<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.structure.p.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>p</> <meta.attribute.unrecognized.data-abc-def_hij.html><entity.other.attribute-name.html>data-abc-def_hij</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>Quuz<meta.tag.structure.p.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>p</><punctuation.definition.tag.end.html>&gt</></>"
@@ -3743,6 +3698,16 @@
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>1<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</>2<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>1<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</>2<keyword.operator>|</>R<punctuation.definition.tag.function>}}</>"
 	},
 	{
+		"desc": "Check lossless in formatNum",
+		"wikitext": "{{formatnum:9999999999999999}}\n{{formatnum:9999999999999999|LOSSLESS}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>9999999999999999<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>9999999999999999<keyword.operator>|</>LOSSLESS<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Check noCommafy + lossless in formatNum",
+		"wikitext": "{{formatnum:999999999999999|NOSEP|LOSSLESS}}\n{{formatnum:9999999999999999|NOSEP|LOSSLESS}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>999999999999999<keyword.operator>|</>NOSEP<keyword.operator>|</>LOSSLESS<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>9999999999999999<keyword.operator>|</>NOSEP<keyword.operator>|</>LOSSLESS<punctuation.definition.tag.function>}}</>"
+	},
+	{
 		"desc": "Wrong option for formatNum (T58199)",
 		"wikitext": "{{formatnum:1,234.56|Random}}\n{{formatnum:1,234.56|EVERYTHING}}\n{{formatnum:1234.56|any argument that has the string 'NOSEP'}}",
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>1,234.56<keyword.operator>|</>Random<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>1,234.56<keyword.operator>|</>EVERYTHING<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>formatnum</><keyword.operator.function>:</>1234.56<keyword.operator>|</>any argument that has the string 'NOSEP'<punctuation.definition.tag.function>}}</>"
@@ -3773,9 +3738,44 @@
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>quux\\n</></><meta.tag.block.table-row><keyword.operator>|-</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.unquoted.html>foo</></> <meta.attribute.unrecognized.|.html><entity.other.attribute-name.html>|</></> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.single.html><punctuation.definition.string.begin.html>'</><source.css>color: red</><punctuation.definition.string.end.html><source.css>'\\n</></></></></></><meta.tag.block.td><keyword.operator>|</><markup.style>bar\\n</></><keyword.operator>|}</></>"
 	},
 	{
-		"desc": "Language parser function",
+		"desc": "Language parser function (autonym)",
 		"wikitext": "{{#language:ar}}",
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#language</><keyword.operator.function>:</>ar<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Language parser function (case-insensitive)",
+		"wikitext": "{{#language:AR}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#language</><keyword.operator.function>:</>AR<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Language parser function (non-autonym)",
+		"wikitext": "{{#language:aR|En}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#language</><keyword.operator.function>:</>aR<keyword.operator>|</>En<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Language parser function (bcp-47 codes)",
+		"wikitext": "{{#language:de-x-formal|en-simple}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#language</><keyword.operator.function>:</>de-x-formal<keyword.operator>|</>en-simple<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Dir parser function (valid codes)",
+		"wikitext": "Persian: {{#dir:fa}}\n\nEnglish: {{#dir:en}}\n\nPersian (with space): {{#dir: fa}}\n\nTajik: {{#dir:tg}}\n\nThe string 'egl' is a valid internal code; however when used as a\nBCP-47 code it refers to the internal code 'eml'.  Unfortunately,\nboth of these have ltr directionality which makes this test case\nless useful than it could be.\n\nAmbiguous BCP-47 code:\n;Directionality of internal code 'egl':{{#dir:egl}}\n;Directionality of internal code 'eml':{{#dir:egl|bcp47}} == {{#dir:eml}}",
+		"parsed": "Persian: <punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>fa<punctuation.definition.tag.function>}}\\n\\n</>English: <punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>en<punctuation.definition.tag.function>}}\\n\\n</>Persian (with space): <punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</> fa<punctuation.definition.tag.function>}}\\n\\n</>Tajik: <punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>tg<punctuation.definition.tag.function>}}\\n\\n</>The string 'egl' is a valid internal code; however when used as a\\nBCP-47 code it refers to the internal code 'eml'.  Unfortunately,\\nboth of these have ltr directionality which makes this test case\\nless useful than it could be.\\n\\nAmbiguous BCP-47 code:\\n<punctuation.definition.list.begin.markdown>;</>Directionality of internal code 'egl':<punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>egl<punctuation.definition.tag.function>}}\\n</><punctuation.definition.list.begin.markdown>;</>Directionality of internal code 'eml':<punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>egl<keyword.operator>|</>bcp47<punctuation.definition.tag.function>}}</> == <punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>eml<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Dir parser function (invalid code)",
+		"wikitext": "{{#dir:blah<blah}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#dir</><keyword.operator.function>:</>blah<meta.tag.other.blah}}.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>blah}}</></></>"
+	},
+	{
+		"desc": "Bcp47 parser function (valid codes)",
+		"wikitext": "Serbian: {{#bcp47:sr-ec}}\n\nCantonese: {{#bcp47:zh-yue}}\n\nFormal German (with space): {{#bcp47: de-formal}}\n\nSimple English: {{#bcp47:simple}}\n\nThe string 'egl' is a valid internal code, distinct from the\ninternal code 'eml'; however both map to the BCP-47 code 'egl'.\n\nAmbiguous BCP-47 code:\n;Internal code 'eml':{{#bcp47:eml}} == egl\n;Internal code 'egl':{{#bcp47:egl}} == egl",
+		"parsed": "Serbian: <punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>sr-ec<punctuation.definition.tag.function>}}\\n\\n</>Cantonese: <punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>zh-yue<punctuation.definition.tag.function>}}\\n\\n</>Formal German (with space): <punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</> de-formal<punctuation.definition.tag.function>}}\\n\\n</>Simple English: <punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>simple<punctuation.definition.tag.function>}}\\n\\n</>The string 'egl' is a valid internal code, distinct from the\\ninternal code 'eml'; however both map to the BCP-47 code 'egl'.\\n\\nAmbiguous BCP-47 code:\\n<punctuation.definition.list.begin.markdown>;</>Internal code 'eml':<punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>eml<punctuation.definition.tag.function>}}</> == egl\\n<punctuation.definition.list.begin.markdown>;</>Internal code 'egl':<punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>egl<punctuation.definition.tag.function>}}</> == egl"
+	},
+	{
+		"desc": "Bcp47 parser function (examples from Template:BCP47)",
+		"wikitext": "Unaffected codes, for example:\n*{{#bcp47:en}} returns: \"en\"\nChanges required by BCP47, using standard codes:\n*{{#bcp47:als}} returns: \"gsw\"\n*{{#bcp47:fiu-vro}} returns: \"vro\"\n*{{#bcp47:simple}} returns: \"en\"\n*{{#bcp47:zh-classical}} returns: \"lzh\"\n*{{#bcp47:roa-rup}} returns: \"rup\"\nChanges required by BCP47, currently using private-use extensions:\n*{{#bcp47:nrm}} returns: \"nrf\"\n*{{#bcp47:roa-tara}} returns: \"it-x-tara\"\nChanges preferable with BCP47 for improved interoperability (not really violations):\n*{{#bcp47:be-x-old}} returns: \"be-tarask\"",
+		"parsed": "Unaffected codes, for example:\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>en<punctuation.definition.tag.function>}}</> returns: \"en\"\\nChanges required by BCP47, using standard codes:\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>als<punctuation.definition.tag.function>}}</> returns: \"gsw\"\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>fiu-vro<punctuation.definition.tag.function>}}</> returns: \"vro\"\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>simple<punctuation.definition.tag.function>}}</> returns: \"en\"\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>zh-classical<punctuation.definition.tag.function>}}</> returns: \"lzh\"\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>roa-rup<punctuation.definition.tag.function>}}</> returns: \"rup\"\\nChanges required by BCP47, currently using private-use extensions:\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>nrm<punctuation.definition.tag.function>}}</> returns: \"nrf\"\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>roa-tara<punctuation.definition.tag.function>}}</> returns: \"it-x-tara\"\\nChanges preferable with BCP47 for improved interoperability (not really violations):\\n<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#bcp47</><keyword.operator.function>:</>be-x-old<punctuation.definition.tag.function>}}</> returns: \"be-tarask\""
 	},
 	{
 		"desc": "Padleft and padright (default 0-padding)",
@@ -3838,11 +3838,6 @@
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><keyword.operator>|</><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
-		"desc": "LST Sections: Backwards compatibility",
-		"wikitext": "<section begin=\"2011-05-16\" />\n<section end=\"2014-04-10 (MW 1.23wmf22)\" />",
-		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>section</> <meta.attribute.unrecognized.begin.html><entity.other.attribute-name.html>begin</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>2011-05-16<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>section</> <meta.attribute.unrecognized.end.html><entity.other.attribute-name.html>end</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>2014-04-10 (MW 1.23wmf22)<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt</>"
-	},
-	{
 		"desc": "LST Sections: Newfangled approach",
 		"wikitext": "<section begin=\"2011-05-16\" />\n<section end=\"2014-04-10 (MW 1.23wmf22)\" />",
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>section</> <meta.attribute.unrecognized.begin.html><entity.other.attribute-name.html>begin</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>2011-05-16<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>section</> <meta.attribute.unrecognized.end.html><entity.other.attribute-name.html>end</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>2014-04-10 (MW 1.23wmf22)<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt</>"
@@ -3859,8 +3854,8 @@
 	},
 	{
 		"desc": "Empty LI and TR nodes should not be stripped from top-level content",
-		"wikitext": "*a\n*\n*b\n\n{|\n|-\n|-\n|foo\n|}",
-		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>*\\n*</>b\\n\\n<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.table-row><keyword.operator>|-\\n|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</></><keyword.operator>|}</></>"
+		"wikitext": "* a\n*\n* b\n\n{|\n|-\n|-\n|foo\n|}",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</> a\\n<punctuation.definition.list.begin.markdown>*\\n*</> b\\n\\n<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.table-row><keyword.operator>|-\\n|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</></><keyword.operator>|}</></>"
 	},
 	{
 		"desc": "Empty TR nodes should not be stripped if they have any attributes set",
@@ -4318,21 +4313,6 @@
 		"parsed": " a\\n\\n b\\n\\n c\\n\\n d\\n\\n e\\n \\n\\n \\n f"
 	},
 	{
-		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks",
-		"wikitext": "[[Special:BookSources/1234567890|ISBN 1234567895]]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Special:</><entity.other.attribute-name>BookSources/1234567890</><keyword.operator>|</><constant.language.variables.isbn>ISBN 1234567895</><punctuation.definition.tag.link.internal>]]</></>"
-	},
-	{
-		"desc": "Edited RFC links not serializable as RFC links should serialize as extlinks",
-		"wikitext": "[https://tools.ietf.org/html/rfc123 New RFC]",
-		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://tools.ietf.org/html/rfc123</><string.other.link.external.title> New RFC</><punctuation.definition.tag.link.external>]</>"
-	},
-	{
-		"desc": "Edited PMID links not serializable as PMID links should serialize as extlinks",
-		"wikitext": "[//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract New PMID]",
-		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract</><string.other.link.external.title> New PMID</><punctuation.definition.tag.link.external>]</>"
-	},
-	{
 		"desc": "WTS of autolinks with trailing/surrounding context",
 		"wikitext": "http://cscott.net'''foo'''\n\nhttp://cscott.net<b>foo</b>\n\n'''http://cscott.net'''\n\n'''http://cscott.net '''\n\n'''http://cscott.net<nowiki/>x'''\n\nhttp://cscott.net<nowiki/>x",
 		"parsed": "http://cscott.net<markup.bold>'''</>foo<markup.bold>'''\\n\\n</>http://cscott.net<meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n\\n</></><markup.bold>'''</>http://cscott.net<markup.bold>'''\\n\\n'''</>http://cscott.net <markup.bold>'''\\n\\n'''</>http://cscott.net<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</>x<markup.bold>'''\\n\\n</>http://cscott.net<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</>x"
@@ -4381,16 +4361,6 @@
 		"desc": "WTS of edited external link surrounded by square brackets (T220018)",
 		"wikitext": "[http://example.com foo]",
 		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://example.com</><string.other.link.external.title> foo</><punctuation.definition.tag.link.external>]</>"
-	},
-	{
-		"desc": "Magic links inside links (not autolinked)",
-		"wikitext": "[[Foo|http://example.com]]\n[[Foo|RFC 1234]]\n[[Foo|PMID 1234]]\n[[Foo|ISBN 123456789x]]\n\n[http://foo.com http://example.com]\n[http://foo.com RFC 1234]\n[http://foo.com PMID 1234]\n[http://foo.com ISBN 123456789x]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</><keyword.operator>|</>http://example.com<punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.rfc>RFC 1234</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.pmid>PMID 1234</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.isbn>ISBN 123456789x</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> http://example.com</><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.rfc>RFC 1234</></><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.pmid>PMID 1234</></><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.isbn>ISBN 123456789x</></><punctuation.definition.tag.link.external>]</>"
-	},
-	{
-		"desc": "WTS of magic word text (T109371)",
-		"wikitext": "<nowiki>RFC 1234</nowiki>\n\n[http://foo.com RFC 1234]\n\n[[Foo|RFC 1234]]",
-		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>RFC 1234</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt\\n\\n</><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.rfc>RFC 1234</></><punctuation.definition.tag.link.external>]\\n\\n</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.rfc>RFC 1234</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "Edited Redirect link should emit a non-piped wikitext link",
@@ -4708,11 +4678,6 @@
 		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>a<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>a<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n\\n</></><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>b<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>b<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
-		"desc": "Selser: Check for validity of DSR before using it",
-		"wikitext": "<span id=\"a\">a</span>",
-		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>a<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>a<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>"
-	},
-	{
 		"desc": "DOMDiff: Edits to content nested in elements with templated attributes should not be lost (T139388)",
 		"wikitext": "<div style=\"{{1x|color:red;}}%\">foo</div>",
 		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>{{1x|color:red;}}%</><punctuation.definition.string.end.html><source.css>\"</></></></></><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
@@ -4721,6 +4686,11 @@
 		"desc": "Empty LI (T49673)",
 		"wikitext": "*a\n* \n*\n*b",
 		"parsed": "<punctuation.definition.list.begin.markdown>*</>a\\n<punctuation.definition.list.begin.markdown>*</> \\n<punctuation.definition.list.begin.markdown>*\\n*</>b"
+	},
+	{
+		"desc": "Empty list item with rendering transparent tag",
+		"wikitext": "{{1x|*hmm\n*[[category:123]]}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>*hmm\\n<punctuation.definition.list.begin.markdown>*</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>category:</><entity.other.attribute-name>123</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "unclosed internal link XSS (T137264)",
@@ -4858,6 +4828,66 @@
 		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.width.html><entity.other.attribute-name.html>width</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>95%<punctuation.definition.string.end.html>\"</></></> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>border: 3px solid darkblue</><punctuation.definition.string.end.html><source.css>\"</></></></></><punctuation.definition.tag.end.html>&gt</></>hi"
 	},
 	{
+		"desc": "Extension tag with embedded html",
+		"wikitext": "<embedtag>Content with a [[broken link]].</embedtag>",
+		"parsed": "<meta.tag.other.embedtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>embedtag</></><punctuation.definition.tag.end.html>&gt</></>Content with a <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>broken link</><punctuation.definition.tag.link.internal>]]</></>.<meta.tag.other.embedtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>embedtag</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Cloned formatting element with extension tag that unpacks itself in attribute name position",
+		"wikitext": "<i <sealtag>y</sealtag>>\n\nz",
+		"parsed": "<meta.tag.inline.i.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>i</> <invalid.illegal.character-not-allowed-here.html>&lt;sealtag</><punctuation.definition.tag.end.html>&gt</></>y<meta.tag.other.sealtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>sealtag</></><punctuation.definition.tag.end.html>&gt</></>&gt\\n\\nz"
+	},
+	{
+		"desc": "Cloned formatting element with extension tag that unpacks itself in attribute value position",
+		"wikitext": "<i title=\"<sealtag>y</sealtag>\">a\n\nz",
+		"parsed": "<meta.tag.inline.i.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>i</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>&lt;sealtag&gty&lt;/sealtag&gt<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>a\\n\\nz"
+	},
+	{
+		"desc": "Include directive string gluing",
+		"wikitext": "<noinclude>{{1x|</noinclude>testing<noinclude>}}</noinclude>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</>testing<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.template>}}</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "1. Include directive in template target",
+		"wikitext": "{{1x<noinclude>|123</noinclude>}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</><keyword.operator>|</>123<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "2. Include directive in template target",
+		"wikitext": "{{1x<includeonly>|123</includeonly>|345}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>includeonly</><punctuation.definition.tag.end>&gt</><keyword.operator>|</>123<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>includeonly</><punctuation.definition.tag.end>&gt</><keyword.operator>|</>345<punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "3. Include directive in template target",
+		"wikitext": "{{1x<onlyinclude>|123</onlyinclude>}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>onlyinclude</><punctuation.definition.tag.end>&gt</><meta.block.onlyinclude>|123</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>onlyinclude</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "4. Include directive in template target",
+		"wikitext": "{{{{{1<noinclude>|1x</noinclude>}}}|123}}",
+		"parsed": "{{<punctuation.definition.tag.variable>{{{</><variable.other>1&lt;noinclude&gt</><variable.parameter><keyword.operator>|</>1x<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</></><punctuation.definition.tag.variable>}}}</>|123}}"
+	},
+	{
+		"desc": "Extension tag contents using isRawHTML flag",
+		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n<divtag raw=\"true\" ishtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>\n\nBut with isRawHTML the result is left alone:\n<divtag raw=\"true\" israwhtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>",
+		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\\n<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></> <meta.attribute.unrecognized.raw.html><entity.other.attribute-name.html>raw</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.ishtml.html><entity.other.attribute-name.html>ishtml</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt\\n\\n</></>But with isRawHTML the result is left alone:\\n<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></> <meta.attribute.unrecognized.raw.html><entity.other.attribute-name.html>raw</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.israwhtml.html><entity.other.attribute-name.html>israwhtml</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Parser function contents using isRawHTML flag",
+		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isRawHTML}}",
+		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#divtag</><keyword.operator.function>:</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><keyword.operator>|</>raw<keyword.operator>|</>isHTML<punctuation.definition.tag.function>}}\\n\\n</>But with isRawHTML the result is left alone:\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#divtag</><keyword.operator.function>:</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><keyword.operator>|</>raw<keyword.operator>|</>isRawHTML<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Handling of nested nowiki strip markers in Parsoid fragments (2)",
+		"wikitext": "Text {{#spantag:<nowiki><b></nowiki> {{#spantag:<nowiki><c></nowiki>}}}}",
+		"parsed": "Text <punctuation.definition.tag.function>{{</><constant.language.variables.query>#spantag</><keyword.operator.function>:</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>&lt;b&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</> <punctuation.definition.tag.function>{{</><constant.language.variables.query>#spantag</><keyword.operator.function>:</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>&lt;c&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.function>}}}}</>"
+	},
+	{
+		"desc": "T386233: suppress <nowiki/> tags between extension tags",
+		"wikitext": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\nadded between the divtags:\n\n<b>{{1x|<divtag>abc</divtag><divtag>xyz</divtag>}}",
+		"parsed": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\\nadded between the divtags:\\n\\n<meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></>abc<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></>xyz<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}</>"
+	},
+	{
 		"desc": "additionalTests"
 	},
 	{
@@ -4916,6 +4946,11 @@
 		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></> <meta.attribute.unrecognized.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>name<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>contents<meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
+		"desc": "Unicode number before autolinks",
+		"wikitext": "１http://example.com",
+		"parsed": "１http://example.com"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -4942,6 +4977,11 @@
 		"desc": "External links: tab character",
 		"wikitext": "[http://www.example.com Alice in\tWonderland]",
 		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.example.com</><string.other.link.external.title> Alice in\tWonderland</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "U+0338, bare and as entity",
+		"wikitext": "Header\n\n== &#x338; One & ==\n&#x338; Text\n\n== ̸ Two & ==\n̸ Text",
+		"parsed": "Header\\n\\n<markup.heading>==<string.quoted.other.heading> <constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x338;</> One &amp; </>==\\n</><constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x338;</> Text\\n\\n<markup.heading>==<string.quoted.other.heading> ̸ Two &amp; </>==\\n</≯ Text"
 	},
 	{
 		"desc": "Stray carriage return in text",
@@ -6159,57 +6199,57 @@
 		"parsed": "<meta.tag.structure.dl.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>dl</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.dt.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>dt</><punctuation.definition.tag.end.html>&gt</></>x<meta.tag.structure.dt.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>dt</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.structure.dd.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>dd</><punctuation.definition.tag.end.html>&gt</></>a<meta.tag.structure.dd.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>dd</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.structure.dd.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>dd</><punctuation.definition.tag.end.html>&gt</></>b<meta.tag.structure.dd.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>dd</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.dl.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>dl</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
-		"desc": "Definition Lists: No nesting: Multiple dd's",
+		"desc": "No nesting: Multiple dd's",
 		"wikitext": ";x\n:a\n:b",
 		"parsed": "<punctuation.definition.list.begin.markdown>;</>x\\n<punctuation.definition.list.begin.markdown>:</>a\\n<punctuation.definition.list.begin.markdown>:</>b"
 	},
 	{
-		"desc": "Definition Lists: Indentation: Regular",
+		"desc": "Indentation: Regular",
 		"wikitext": ":i1\n::i2\n:::i3",
 		"parsed": "<punctuation.definition.list.begin.markdown>:</>i1\\n<punctuation.definition.list.begin.markdown>::</>i2\\n<punctuation.definition.list.begin.markdown>:::</>i3"
 	},
 	{
-		"desc": "Definition Lists: Indentation: Missing 1st level",
+		"desc": "Indentation: Missing 1st level",
 		"wikitext": "::i2\n:::i3",
 		"parsed": "<punctuation.definition.list.begin.markdown>::</>i2\\n<punctuation.definition.list.begin.markdown>:::</>i3"
 	},
 	{
-		"desc": "Definition Lists: Indentation: Multi-level indent",
+		"desc": "Indentation: Multi-level indent",
 		"wikitext": ":::i3",
 		"parsed": "<punctuation.definition.list.begin.markdown>:::</>i3"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables",
+		"desc": "Hacky use to indent tables",
 		"wikitext": "::{|\n|foo\n|bar\n|}\nthis text\nshould be left alone",
 		"parsed": "<meta.tag.block.table><punctuation.definition.list.begin.markdown>::</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</><keyword.operator>|</><markup.style>bar\\n</></><keyword.operator>|}\\n</></>this text\\nshould be left alone"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables (with content following table)",
+		"desc": "Hacky use to indent tables (with content following table)",
 		"wikitext": ":{|\n|foo\n|bar\n|} <!--c1--> this text should be part of the dl",
 		"parsed": "<meta.tag.block.table><punctuation.definition.list.begin.markdown>:</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</><keyword.operator>|</><markup.style>bar\\n</></><keyword.operator>|}</></> <comment.block.html><punctuation.definition.comment.html>&lt;!--</>c1<punctuation.definition.comment.html>--&gt</></> this text should be part of the dl"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables, with comments (T65979)",
+		"desc": "Hacky use to indent tables, with comments (T65979)",
 		"wikitext": "<!-- foo -->\n::{|\n|foo\n|bar\n|}<!-- bar -->\nthis text\nshould be left alone",
 		"parsed": "<comment.block.html><punctuation.definition.comment.html>&lt;!--</> foo <punctuation.definition.comment.html>--&gt\\n</></><meta.tag.block.table><punctuation.definition.list.begin.markdown>::</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</><keyword.operator>|</><markup.style>bar\\n</></><keyword.operator>|}</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</> bar <punctuation.definition.comment.html>--&gt\\n</></>this text\\nshould be left alone"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables, with comment before table",
+		"desc": "Hacky use to indent tables, with comment before table",
 		"wikitext": "::<!-- foo -->{|\n|foo\n|}",
 		"parsed": "<punctuation.definition.list.begin.markdown>::</><comment.block.html><punctuation.definition.comment.html>&lt;!--</> foo <punctuation.definition.comment.html>--&gt</></>{|\\n|foo\\n|}"
 	},
 	{
-		"desc": "Definition Lists: Hack use to indent tables, in a nested list context (T262943)",
+		"desc": "Hack use to indent tables, in a nested list context (T262943)",
 		"wikitext": "This is a discussion thread.\n\n:Parent comment.\n::Child comment\n::{|\n|With a\n|Table!\n|}",
 		"parsed": "This is a discussion thread.\\n\\n<punctuation.definition.list.begin.markdown>:</>Parent comment.\\n<punctuation.definition.list.begin.markdown>::</>Child comment\\n<meta.tag.block.table><punctuation.definition.list.begin.markdown>::</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>With a\\n</><keyword.operator>|</><markup.style>Table!\\n</></><keyword.operator>|}</></>"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables (WS-insensitive)",
+		"desc": "Hacky use to indent tables (WS-insensitive)",
 		"wikitext": ":{|\n|a\n|}",
 		"parsed": "<meta.tag.block.table><punctuation.definition.list.begin.markdown>:</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>a\\n</></><keyword.operator>|}</></>"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables (nl-insensitive)",
+		"desc": "Hacky use to indent tables (nl-insensitive)",
 		"wikitext": ":{|\n\n\n|a\n|}",
 		"parsed": "<meta.tag.block.table><punctuation.definition.list.begin.markdown>:</><keyword.operator>{|\\n\\n\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>a\\n</></><keyword.operator>|}</></>"
 	},
@@ -6224,109 +6264,114 @@
 		"parsed": "<meta.tag.block.table><punctuation.definition.list.begin.markdown>:</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|\\n</></><punctuation.definition.list.begin.markdown>:</>a\\n<punctuation.definition.list.begin.markdown>:</>b\\n<meta.tag.block.td><keyword.operator>|\\n</></><punctuation.definition.list.begin.markdown>*</>c\\n<punctuation.definition.list.begin.markdown>*</>d\\n<keyword.operator>|}\\n\\n</></><punctuation.definition.list.begin.markdown>*</>e\\n<punctuation.definition.list.begin.markdown>*</>f"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Multi-level (Parsoid only)",
+		"desc": "Nesting: Multi-level (Parsoid only)",
 		"wikitext": ";t1:d1\n;;t2::d2\n;;;t3:::d3",
 		"parsed": "<punctuation.definition.list.begin.markdown>;</>t1:d1\\n<punctuation.definition.list.begin.markdown>;;</>t2::d2\\n<punctuation.definition.list.begin.markdown>;;;</>t3:::d3"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Test 2",
+		"desc": "Nesting: Test 2",
 		"wikitext": ";t1\n::d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>;</>t1\\n<punctuation.definition.list.begin.markdown>::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Test 3",
+		"desc": "Nesting: Test 3",
 		"wikitext": ":;t1\n::::d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>:;</>t1\\n<punctuation.definition.list.begin.markdown>::::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Test 4",
+		"desc": "Nesting: Test 4",
 		"wikitext": "::;t3\n:::d3",
 		"parsed": "<punctuation.definition.list.begin.markdown>::;</>t3\\n<punctuation.definition.list.begin.markdown>:::</>d3"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 1",
+		"desc": "Mixed Lists: Test 1",
 		"wikitext": ":;*foo\n::*bar\n:;baz",
 		"parsed": "<punctuation.definition.list.begin.markdown>:;*</>foo\\n<punctuation.definition.list.begin.markdown>::*</>bar\\n<punctuation.definition.list.begin.markdown>:;</>baz"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 2",
+		"desc": "Mixed Lists: Test 2",
 		"wikitext": "*:d1\n*:d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>*:</>d1\\n<punctuation.definition.list.begin.markdown>*:</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 3",
+		"desc": "Mixed Lists: Test 3",
 		"wikitext": "*:::d1\n*:::d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>*:::</>d1\\n<punctuation.definition.list.begin.markdown>*:::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 4",
+		"desc": "Mixed Lists: Test 4",
 		"wikitext": "*;d1 :d2\n*;d3 :d4",
 		"parsed": "<punctuation.definition.list.begin.markdown>*;</>d1 :d2\\n<punctuation.definition.list.begin.markdown>*;</>d3 :d4"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 5",
+		"desc": "Mixed Lists: Test 5",
 		"wikitext": "*:d1\n*::d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>*:</>d1\\n<punctuation.definition.list.begin.markdown>*::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 6",
+		"desc": "Mixed Lists: Test 6",
 		"wikitext": "#*:d1\n#*:::d3",
 		"parsed": "<punctuation.definition.list.begin.markdown>#*:</>d1\\n<punctuation.definition.list.begin.markdown>#*:::</>d3"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 7",
+		"desc": "Mixed Lists: Test 7",
 		"wikitext": ":*d1\n:*d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>:*</>d1\\n<punctuation.definition.list.begin.markdown>:*</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 8",
+		"desc": "Mixed Lists: Test 8",
 		"wikitext": ":*d1\n::*d2",
 		"parsed": "<punctuation.definition.list.begin.markdown>:*</>d1\\n<punctuation.definition.list.begin.markdown>::*</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 9",
+		"desc": "Mixed Lists: Test 9",
 		"wikitext": "*;foo :bar",
 		"parsed": "<punctuation.definition.list.begin.markdown>*;</>foo :bar"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 10",
+		"desc": "Mixed Lists: Test 10",
 		"wikitext": "*#;foo :bar",
 		"parsed": "<punctuation.definition.list.begin.markdown>*#;</>foo :bar"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 11",
+		"desc": "Mixed Lists: Test 11",
 		"wikitext": ";a\n:*b",
 		"parsed": "<punctuation.definition.list.begin.markdown>;</>a\\n<punctuation.definition.list.begin.markdown>:*</>b"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 12",
-		"wikitext": "*#*#;*;;foo :bar\n*#*#;boo :baz",
-		"parsed": "<punctuation.definition.list.begin.markdown>*#*#;*;;</>foo :bar\\n<punctuation.definition.list.begin.markdown>*#*#;</>boo :baz"
-	},
-	{
-		"desc": "Definition Lists: Mixed Lists: Test 13",
+		"desc": "Mixed Lists: Test 13",
 		"wikitext": "*#*#;*;;foo : bar\n*#*#;boo : baz",
 		"parsed": "<punctuation.definition.list.begin.markdown>*#*#;*;;</>foo : bar\\n<punctuation.definition.list.begin.markdown>*#*#;</>boo : baz"
 	},
 	{
-		"desc": "Definition Lists: Weird Ones: Test 1",
-		"wikitext": "*#;*::;;foo :bar (who uses this?)",
-		"parsed": "<punctuation.definition.list.begin.markdown>*#;*::;;</>foo :bar (who uses this?)"
-	},
-	{
-		"desc": "Definition Lists: colons occurring in tags",
+		"desc": "colons occurring in tags",
 		"wikitext": ";a:b\n;'''a:b'''\n;<i>a:b</i>\n;<span>a:b</span>\n;<div>a:b</div>\n;<div>a\n:b</div>\n;{{1x|a:b}}\n;{{1x|''a:b''}}\n;;;''a:b''",
 		"parsed": "<punctuation.definition.list.begin.markdown>;</>a:b\\n<punctuation.definition.list.begin.markdown>;</><markup.bold>'''</>a:b<markup.bold>'''\\n</><punctuation.definition.list.begin.markdown>;</><meta.tag.inline.i.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>i</><punctuation.definition.tag.end.html>&gt</></>a:b<meta.tag.inline.i.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>i</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.list.begin.markdown>;</><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>a:b<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.list.begin.markdown>;</><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>a:b<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.list.begin.markdown>;</><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>a\\n<punctuation.definition.list.begin.markdown>:</>b<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.list.begin.markdown>;</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>a:b<punctuation.definition.tag.template>}}\\n</><punctuation.definition.list.begin.markdown>;</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><markup.italic>''</>a:b<markup.italic>''</><punctuation.definition.tag.template>}}\\n</><punctuation.definition.list.begin.markdown>;;;</><markup.italic>''</>a:b<markup.italic>''</>"
 	},
 	{
-		"desc": "Definition Lists: colons and tables 1",
+		"desc": "colons and tables 1",
 		"wikitext": ":{|\n|x\n|}\n:{|\n|y\n|}",
 		"parsed": "<meta.tag.block.table><punctuation.definition.list.begin.markdown>:</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>x\\n</></><keyword.operator>|}\\n</><punctuation.definition.list.begin.markdown>:</><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>y\\n</></><keyword.operator>|}</></>"
 	},
 	{
-		"desc": "Definition Lists: template interaction",
+		"desc": "Template interaction",
 		"wikitext": "::{{definition_list}}\n\n:one\n::{{definition_list}}\n:::two\n:::three\n::four",
 		"parsed": "<punctuation.definition.list.begin.markdown>::</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>definition_list</><punctuation.definition.tag.template>}}\\n\\n</><punctuation.definition.list.begin.markdown>:</>one\\n<punctuation.definition.list.begin.markdown>::</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>definition_list</><punctuation.definition.tag.template>}}\\n</><punctuation.definition.list.begin.markdown>:::</>two\\n<punctuation.definition.list.begin.markdown>:::</>three\\n<punctuation.definition.list.begin.markdown>::</>four"
+	},
+	{
+		"desc": "Second colon on line: No templates involved",
+		"wikitext": ";term:def=foo:bar\n\n;'''1:00''':bar",
+		"parsed": "<punctuation.definition.list.begin.markdown>;</>term:def=foo:bar\\n\\n<punctuation.definition.list.begin.markdown>;</><markup.bold>'''</>1:00<markup.bold>'''</>:bar"
+	},
+	{
+		"desc": "Second colon on line: Templates involved and T2959 kicks in",
+		"wikitext": ":a\n::{{1x|1=::foo}} bar\n\n;term:def=foo{{1x|:bar}}",
+		"parsed": "<punctuation.definition.list.begin.markdown>:</>a\\n<punctuation.definition.list.begin.markdown>::</><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>1</><keyword.operator.equal>=</>::foo<punctuation.definition.tag.template>}}</> bar\\n\\n<punctuation.definition.list.begin.markdown>;</>term:def=foo<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>:bar<punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "Void elements without self-closing slash in definition lists",
+		"wikitext": ";[[File:Foobar.jpg|Test]]:123\n;Test<br>12:3",
+		"parsed": "<punctuation.definition.list.begin.markdown>;</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>Test<punctuation.definition.tag.link.internal>]]</></>:123\\n<punctuation.definition.list.begin.markdown>;</>Test<meta.tag.inline.br.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>br</><punctuation.definition.tag.end.html>&gt</></>12:3"
 	},
 	{
 		"desc": "extLinks"
@@ -6727,6 +6772,11 @@
 		"parsed": "http://[2404:130:0:1000::187:2]/index.php\\n\\nExamples from <constant.language.variables.rfc>RFC 2373</>, section 2.2:\\n\\n<punctuation.definition.list.begin.markdown>*</>http://[1080::8:800:200C:417A]/unicast\\n<punctuation.definition.list.begin.markdown>*</>http://[FF01::101]/multicast\\n<punctuation.definition.list.begin.markdown>*</>http://[::1]/loopback\\n<punctuation.definition.list.begin.markdown>*</>http://[::]/unspecified\\n<punctuation.definition.list.begin.markdown>*</>http://[::13.1.68.3]/ipv4compat\\n<punctuation.definition.list.begin.markdown>*</>http://[::FFFF:129.144.52.38]/ipv4compat\\n\\nExamples from <constant.language.variables.rfc>RFC 2732</>, section 2:\\n\\n<punctuation.definition.list.begin.markdown>*</>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html\\n<punctuation.definition.list.begin.markdown>*</>http://[1080:0:0:0:8:800:200C:417A]/index.html\\n<punctuation.definition.list.begin.markdown>*</>http://[3ffe:2a00:100:7031::1]\\n<punctuation.definition.list.begin.markdown>*</>http://[1080::8:800:200C:417A]/foo\\n<punctuation.definition.list.begin.markdown>*</>http://[::192.9.5.5]/ipng\\n<punctuation.definition.list.begin.markdown>*</>http://[::FFFF:129.144.52.38]:80/index.html\\n<punctuation.definition.list.begin.markdown>*</>http://[2010:836B:4179::836B:4179]"
 	},
 	{
+		"desc": "Ensure html2wt b/c for stashed RFC target links (T382963)",
+		"wikitext": "RFC 1234\n\nRFC 1234",
+		"parsed": "<constant.language.variables.rfc>RFC 1234\\n\\nRFC 1234</>"
+	},
+	{
 		"desc": "Unicode text around autolinks",
 		"wikitext": "größhttps://foo.org\n\ngröß https://foo.org\n\n아들 고건 사진https://foo.org\n\n💩https://foo.org",
 		"parsed": "größhttps://foo.org\\n\\ngröß https://foo.org\\n\\n아들 고건 사진https://foo.org\\n\\n💩https://foo.org"
@@ -6780,6 +6830,54 @@
 		"desc": "Extlink in square brackets with entity",
 		"wikitext": "[&nbsp;[http://test.com 123]&nbsp;]\n\n[http://test.com [123]",
 		"parsed": "[<constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://test.com</><string.other.link.external.title> 123</><punctuation.definition.tag.link.external>]</><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></>]\\n\\n<punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://test.com</><string.other.link.external.title> [123</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Extlink in indent pre gets link attributes",
+		"wikitext": " [http://test.com 123]",
+		"parsed": " <punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://test.com</><string.other.link.external.title> 123</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "extTags"
+	},
+	{
+		"desc": "Extension tags in extension content: <nowiki>",
+		"wikitext": "{{#tag:nowiki|a<nowiki>b</nowiki>c}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>nowiki<keyword.operator>|</>a<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>b</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>c<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension content: <pre>",
+		"wikitext": "{{#tag:pre|a<nowiki>b</nowiki>c}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>pre<keyword.operator>|</>a<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>b</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>c<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension content: <indicator>",
+		"wikitext": "{{#tag:indicator|a<nowiki>b</nowiki>c|name=foo}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>indicator<keyword.operator>|</>a<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>b</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>c<keyword.operator>|</>name=foo<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension attributes: <pre>",
+		"wikitext": "{{#tag:pre|content|class=a<nowiki>b</nowiki>c}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>pre<keyword.operator>|</>content<keyword.operator>|</>class=a<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>b</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>c<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension attributes: <indicator>",
+		"wikitext": "{{#tag:indicator|content|name=a<nowiki>b</nowiki>c}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>indicator<keyword.operator>|</>content<keyword.operator>|</>name=a<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>b</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>c<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension attributes: bogus tag name",
+		"wikitext": "{{#tag:does-not-exist|<nowiki>content</nowiki>|name=a<nowiki>b</nowiki>c}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>does-not-exist<keyword.operator>|</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>content</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><keyword.operator>|</>name=a<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>b</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>c<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension name",
+		"wikitext": "{{#tag:no<nowiki>ignored</nowiki>wiki|content}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>no<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>ignored</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</>wiki<keyword.operator>|</>content<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Doubly-nested tags",
+		"wikitext": "{{#tag:nowiki|more {{#tag:nowiki|content <nowiki>here</nowiki>}}}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>nowiki<keyword.operator>|</>more <punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>nowiki<keyword.operator>|</>content <punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>here</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.function>}}}}</>"
 	},
 	{
 		"desc": "fragmentModes"
@@ -7426,6 +7524,31 @@
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>With a section?</><punctuation.definition.tag.template>}}</>"
 	},
 	{
+		"desc": "Reset section numbering per template",
+		"wikitext": "=== out ===\n123\n\n{{with one}}\n\n=== out 2 ===\n456\n\n{{with two}}\n\n{{with one}}",
+		"parsed": "<markup.heading>===<string.quoted.other.heading> out </>===\\n</>123\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>with one</><punctuation.definition.tag.template>}}\\n\\n</><markup.heading>===<string.quoted.other.heading> out 2 </>===\\n</>456\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>with two</><punctuation.definition.tag.template>}}\\n\\n{{</><entity.name.tag.local-name>with one</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "Nested section numbering",
+		"wikitext": "=== out ===\n123\n\n{{with heading nesting}}",
+		"parsed": "<markup.heading>===<string.quoted.other.heading> out </>===\\n</>123\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>with heading nesting</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "Sections follow template redirects",
+		"wikitext": "{{with redirect}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>with redirect</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "Editable headings can only have trailing comments and whitespace",
+		"wikitext": "==== test ====\nyup\n\n==== hi ho ====<noinclude>\nnope\n</noinclude>\n\n==== test 2 ====\nanother yup\n\n<!-- well -->==== ha ha ====\nback to nope\n\n==== he he ====  <!-- but this is ok -->\nsee",
+		"parsed": "<markup.heading>====<string.quoted.other.heading> test </>====\\n</>yup\\n\\n==== hi ho ====<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</>nope\\n<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n\\n</><markup.heading>====<string.quoted.other.heading> test 2 </>====\\n</>another yup\\n\\n<comment.block.html><punctuation.definition.comment.html>&lt;!--</> well <punctuation.definition.comment.html>--&gt</></>==== ha ha ====\\nback to nope\\n\\n==== he he ====  <comment.block.html><punctuation.definition.comment.html>&lt;!--</> but this is ok <punctuation.definition.comment.html>--&gt\\n</></>see"
+	},
+	{
+		"desc": "T368722: Empty headings",
+		"wikitext": "== ==",
+		"parsed": "<markup.heading>==<string.quoted.other.heading> </>==</>"
+	},
+	{
 		"desc": "indentPre"
 	},
 	{
@@ -7715,6 +7838,212 @@
 		"desc": "Indicator with comments should not be <p>-wrapped",
 		"wikitext": "<indicator name=\"x\"><!-- hello -->\n<span>some stuff</span>\n<!-- second comment--></indicator>",
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>indicator</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>x<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref><comment.block.html><punctuation.definition.comment.html>&lt;!--</> hello <punctuation.definition.comment.html>--&gt\\n</></><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>some stuff<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</> second comment<punctuation.definition.comment.html>--&gt</></></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>indicator</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Indicator shouldn't prevent empty elt class",
+		"wikitext": "<nowiki/><indicator name=\"x\">\n<span>some stuff</span>\n</indicator><nowiki/>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>indicator</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>x<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt\\n</><meta.block.ref><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>some stuff<meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>indicator</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "Indicator shouldn't prevent addition of link classes",
+		"wikitext": "<indicator name=\"link\">[http://www.example.com Example]</indicator>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>indicator</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>link<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.example.com</><string.other.link.external.title> Example</><punctuation.definition.tag.link.external>]</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>indicator</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "interlanguageLinks"
+	},
+	{
+		"desc": "Interlanguage link",
+		"wikitext": "Blah blah blah\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>zh:Chinese</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interlanguage link with spacing",
+		"wikitext": "Blah blah blah\n[[   zh  :    Chinese     ]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>   zh  :    Chinese     </><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Double interlanguage link",
+		"wikitext": "Blah blah blah\n[[es:Spanish]]\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Spanish</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>zh:Chinese</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interlanguage link variations",
+		"wikitext": "Blah blah blah\n[[   es :Spanish]]\n[[ ZH :Chinese]]\n[[es:Foo_bar]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>   es :Spanish</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name> ZH :Chinese</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>es:Foo_bar</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Escaping of interlanguage links (T129218, T156308)",
+		"wikitext": "Blah blah blah\n[[:es:Spanish]]\n[[ : zh : Chinese ]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>:es:Spanish</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name> : zh : Chinese </><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Multiple colons escaping interlanguage links",
+		"wikitext": "[[:es:Spanish]]\n[[::es:Spanish]]\n[[:::es:Spanish]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>:es:Spanish</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>::es:Spanish</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>:::es:Spanish</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Space and question mark encoding in interlanguage links (T95473)",
+		"wikitext": "Blah blah blah\n[[es:Foo bar?]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Foo bar?</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "\"Extra\" interlanguage links (T34189 / gerrit 111390)",
+		"wikitext": "Blah blah blah\n[[mul:Article]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>mul:Article</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Language links render as inline links if $wgInterwikiMagic=false",
+		"wikitext": "Blah blah blah\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>zh:Chinese</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Language links render as inline links in the Talk namespace",
+		"wikitext": "Blah blah blah\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>zh:Chinese</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Parsoid: recognize interlanguage links without a target page",
+		"wikitext": "[[es:]]\n\n[[ko:]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>ko:</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Parsoid: recognize interwiki links without a target page",
+		"wikitext": "[[:es:]]\n\n[[:ko:]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>:es:</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>:ko:</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Handle interwiki links pointing to the current wiki as plain wiki links (T47209)",
+		"wikitext": "[[mi:Foo]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>mi:Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interlanguage link with preceding local interwiki link (T70085)",
+		"wikitext": "Blah blah blah\n[[local:es:Spanish]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:es:Spanish</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Looks like an interlanguage link, but is actually a local interwiki",
+		"wikitext": "Blah blah blah\n[[mi:Template:Foo]]",
+		"parsed": "Blah blah blah\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>mi:Template:Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interlanguage link with a fragment",
+		"wikitext": "[[zh:Chinese#fragment]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>zh:Chinese#fragment</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "{{#interlanguagelink}} parser function as a means to force an interlanguage link (T363538)",
+		"wikitext": "*{{#interlanguagelink:mi|Template:Bar}}\n*[[mi:Template:Foo]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#interlanguagelink</><keyword.operator.function>:</>mi<keyword.operator>|</>Template:Bar<punctuation.definition.tag.function>}}\\n</><punctuation.definition.list.begin.markdown>*</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>mi:Template:Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "{{#interlanguagelink}} parser function as a means to force an interlanguage link, v2 (T363538)",
+		"wikitext": "*{{#interlanguagelink:mi|Template:Bat#fragment-kept|caption is ignored}}",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#interlanguagelink</><keyword.operator.function>:</>mi<keyword.operator>|</>Template:Bat#fragment-kept<keyword.operator>|</>caption is ignored<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "interwikiLinks"
+	},
+	{
+		"desc": "Inline interwiki link",
+		"wikitext": "[[MeatBall:SoftSecurity]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>MeatBall:SoftSecurity</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Inline interwiki link with empty title (T4372)",
+		"wikitext": "[[MeatBall:]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>MeatBall:</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interwiki link encoding conversion (T3636)",
+		"wikitext": "*[[Wikipedia:ro:Olteni&#0355;a]]\n*[[Wikipedia:ro:Olteni&#355;a]]",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Wikipedia:</><entity.other.attribute-name>ro:Olteni&amp;#0355;a</><punctuation.definition.tag.link.internal>]]\\n</></><punctuation.definition.list.begin.markdown>*</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Wikipedia:</><entity.other.attribute-name>ro:Olteni&amp;#355;a</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interwiki link with fragment (T4130)",
+		"wikitext": "[[MeatBall:SoftSecurity#foo]]\n\n[[meatball:Soft#Bar]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>MeatBall:SoftSecurity#foo</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>meatball:Soft#Bar</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Link scenarios with escaped fragments",
+		"wikitext": "[[#Is this great?]]\n[[Foo#Is this great?]]\n[[meatball:Foo#Is this great?]]\n[[:en:Foo#Is this great?]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>#Is this great?</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo#Is this great?</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>meatball:Foo#Is this great?</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>:en:Foo#Is this great?</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Link scenarios with escaped fragments (legacy)",
+		"wikitext": "[[#Is this great?]]\n[[Foo#Is this great?]]\n[[meatball:Foo#Is this great?]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>#Is this great?</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo#Is this great?</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>meatball:Foo#Is this great?</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Different interwiki prefixes mapping to the same URL",
+		"wikitext": "[[:en:Foo]]\n\n[[:en:Foo|Foo]]\n\n[[wikipedia:Foo]]\n\n[[:wikipedia:Foo|Foo]]\n\n[[wikipedia:en:Foo]]\n\n[[:wikipedia:en:Foo]]\n\n[[  wikiPEdia :Foo]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>:en:Foo</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>:en:Foo</><keyword.operator>|</>Foo<punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>wikipedia:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>:wikipedia:</><entity.other.attribute-name>Foo</><keyword.operator>|</>Foo<punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>wikipedia:</><entity.other.attribute-name>en:Foo</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>:wikipedia:</><entity.other.attribute-name>en:Foo</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>  wikiPEdia :</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interwiki links that cannot be represented in wiki syntax",
+		"wikitext": "[[meatball:ok]]\n[[meatball:ok#foo|ok with fragment]]\n[[meatball:ok_as_well?|ok ending with ? mark]]\n[http://de.wikipedia.org/wiki/Foo?action=history has query]\n[http://de.wikipedia.org/wiki/#foo is just fragment]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>meatball:ok</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>meatball:ok#foo</><keyword.operator>|</>ok with fragment<punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>meatball:ok_as_well?</><keyword.operator>|</>ok ending with ? mark<punctuation.definition.tag.link.internal>]]\\n</></><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://de.wikipedia.org/wiki/Foo?action=history</><string.other.link.external.title> has query</><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://de.wikipedia.org/wiki/#foo</><string.other.link.external.title> is just fragment</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Interwiki links: trail",
+		"wikitext": "[[wikipedia:Foo|Ba]]r",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>wikipedia:</><entity.other.attribute-name>Foo</><keyword.operator>|</>Ba<punctuation.definition.tag.link.internal>]]</></>r"
+	},
+	{
+		"desc": "Local interwiki link",
+		"wikitext": "[[local:Template:Foo]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:Template:Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Local interwiki link: self-link to current page",
+		"wikitext": "[[local:Main Page]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:Main Page</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Local interwiki link: prefix only (T66167)",
+		"wikitext": "[[local:]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Local interwiki link: with additional interwiki prefix (T63357)",
+		"wikitext": "[[local:meatball:Hello]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:meatball:Hello</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Multiple local interwiki link prefixes",
+		"wikitext": "[[local:local:local:local:mi:local:Foo]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:local:local:local:mi:local:Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interwiki link that could be a language link, if not for a local interwiki prefix (T292022)",
+		"wikitext": "[[:es:Hello|local:es:Hello]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>:es:Hello</><keyword.operator>|</>local:es:Hello<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Internal link with a namespace matching a local interwiki prefix (T228616)",
+		"wikitext": "[[Project:Hello]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Project:</><entity.other.attribute-name>Hello</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "{{#interwikilink}} parser function as a means to force an interwiki link (T363538)",
+		"wikitext": "[[Project:Hello World]]\n\n{{#interwikilink:Project|Hello World}}\n\n{{#interwikilink:Project|Hello World 2|caption text}}",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Project:</><entity.other.attribute-name>Hello World</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.function>{{</><constant.language.variables.query>#interwikilink</><keyword.operator.function>:</>Project<keyword.operator>|</>Hello World<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>#interwikilink</><keyword.operator.function>:</>Project<keyword.operator>|</>Hello World 2<keyword.operator>|</>caption text<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Interwiki link with percent encoded target",
+		"wikitext": "[[:es:Nueva Guip%C3%BAzcoa|Nueva Guipúzcoa]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>:es:Nueva Guip%C3%BAzcoa</><keyword.operator>|</>Nueva Guipúzcoa<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Interwiki link with colon escape after prefix",
+		"wikitext": "[[meatball::Category:Hello]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>meatball::Category:Hello</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Self-links and interwiki",
+		"wikitext": "[[local:Main Page]]\n\n[[meatball:Main Page]]\n\n[[mi:Main Page]]\n\n[[local:Main Page#anchor]]\n\n[[meatball:Main Page#anchor]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>local:Main Page</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>meatball:Main Page</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>mi:Main Page</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>local:Main Page#anchor</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.other.attribute-name>meatball:Main Page#anchor</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "langParserTests"
@@ -8242,13 +8571,163 @@
 	},
 	{
 		"desc": "Magic links: use appropriate serialization for \"almost\" magic links.",
-		"wikitext": "X[[Special:BookSources/0978739256|foo]]\n\nX[https://tools.ietf.org/html/rfc1234 foo]",
-		"parsed": "X<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Special:</><entity.other.attribute-name>BookSources/0978739256</><keyword.operator>|</>foo<punctuation.definition.tag.link.internal>]]\\n\\n</></>X<punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://tools.ietf.org/html/rfc1234</><string.other.link.external.title> foo</><punctuation.definition.tag.link.external>]</>"
+		"wikitext": "X[[Special:BookSources/0978739256|foo]]\n\nX[https://datatracker.ietf.org/doc/html/rfc1234 foo]",
+		"parsed": "X<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Special:</><entity.other.attribute-name>BookSources/0978739256</><keyword.operator>|</>foo<punctuation.definition.tag.link.internal>]]\\n\\n</></>X<punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://datatracker.ietf.org/doc/html/rfc1234</><string.other.link.external.title> foo</><punctuation.definition.tag.link.external>]</>"
 	},
 	{
 		"desc": "Magic links: All disabled (T47942)",
 		"wikitext": "ISBN 0-306-40615-2\nPMID 1234\nRFC 4321",
 		"parsed": "<constant.language.variables.isbn>ISBN 0-306-40615-2\\n</><constant.language.variables.pmid>PMID 1234\\n</><constant.language.variables.rfc>RFC 4321</>"
+	},
+	{
+		"desc": "Magic links: html2wt of old wikitext when disabled (T47942)",
+		"wikitext": "[[Special:BookSources/0306406152|ISBN 0-306-40615-2]]\n[//www.ncbi.nlm.nih.gov/pubmed/1234?dopt=Abstract PMID 1234]\n[https://datatracker.ietf.org/doc/html/rfc4321 RFC 4321]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Special:</><entity.other.attribute-name>BookSources/0306406152</><keyword.operator>|</><constant.language.variables.isbn>ISBN 0-306-40615-2</><punctuation.definition.tag.link.internal>]]\\n</></><punctuation.definition.tag.link.external>[</><entity.name.tag.url>//www.ncbi.nlm.nih.gov/pubmed/1234?dopt=Abstract</><string.other.link.external.title> <constant.language.variables.pmid>PMID 1234</></><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>https://datatracker.ietf.org/doc/html/rfc4321</><string.other.link.external.title> <constant.language.variables.rfc>RFC 4321</></><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Prefer PMID magic link, no interwiki and magic links enabled (T145590#8608455)",
+		"wikitext": "PMID 234",
+		"parsed": "<constant.language.variables.pmid>PMID 234</>"
+	},
+	{
+		"desc": "Prefer PMID magic link, interwiki and magic links enabled (T145590#8608455)",
+		"wikitext": "PMID 234",
+		"parsed": "<constant.language.variables.pmid>PMID 234</>"
+	},
+	{
+		"desc": "Round-trip PMID interwiki, magic links enabled (T145590#8608455)",
+		"wikitext": "[[pmid:234|PMID 234]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>pmid:234</><keyword.operator>|</><constant.language.variables.pmid>PMID 234</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Prefer PMID interwiki, magic links disabled (T145590#8608455)",
+		"wikitext": "[[pmid:234|PMID 234]]\n\n[https://datatracker.ietf.org/doc/html/rfc4321 RFC 4321]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>pmid:234</><keyword.operator>|</><constant.language.variables.pmid>PMID 234</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://datatracker.ietf.org/doc/html/rfc4321</><string.other.link.external.title> <constant.language.variables.rfc>RFC 4321</></><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Preder PMID extlink if no interwiki, magic links disabled (T145590#8608455)",
+		"wikitext": "[//www.ncbi.nlm.nih.gov/pubmed/234?dopt=Abstract PMID 234]",
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>//www.ncbi.nlm.nih.gov/pubmed/234?dopt=Abstract</><string.other.link.external.title> <constant.language.variables.pmid>PMID 234</></><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Magic links inside links (not autolinked)",
+		"wikitext": "[[Foo|http://example.com]]\n[[Foo|RFC 1234]]\n[[Foo|PMID 1234]]\n[[Foo|ISBN 123456789x]]\n\n[http://foo.com http://example.com]\n[http://foo.com RFC 1234]\n[http://foo.com PMID 1234]\n[http://foo.com ISBN 123456789x]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</><keyword.operator>|</>http://example.com<punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.rfc>RFC 1234</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.pmid>PMID 1234</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.isbn>ISBN 123456789x</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> http://example.com</><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.rfc>RFC 1234</></><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.pmid>PMID 1234</></><punctuation.definition.tag.link.external>]\\n[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.isbn>ISBN 123456789x</></><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "WTS of magic word text (T109371)",
+		"wikitext": "<nowiki>RFC 1234</nowiki>\n\n[http://foo.com RFC 1234]\n\n[[Foo|RFC 1234]]",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>RFC 1234</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt\\n\\n</><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://foo.com</><string.other.link.external.title> <constant.language.variables.rfc>RFC 1234</></><punctuation.definition.tag.link.external>]\\n\\n</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</><keyword.operator>|</><constant.language.variables.rfc>RFC 1234</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "T4304: HTML attribute safety (ISBN)",
+		"wikitext": "<div title=\"ISBN 1234567890\"></div>",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>ISBN 1234567890<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "T4304: HTML attribute safety (RFC)",
+		"wikitext": "<div title=\"RFC 1234\"></div>",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>RFC 1234<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "T4304: HTML attribute safety (PMID)",
+		"wikitext": "<div title=\"PMID 1234567890\"></div>",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>PMID 1234567890<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "ISBN code coverage",
+		"wikitext": "ISBN  978-0-1234-56&#x20;789",
+		"parsed": "<constant.language.variables.isbn>ISBN  978-0-1234-56</><constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x20;</>789"
+	},
+	{
+		"desc": "ISBN followed by 5 spaces",
+		"wikitext": "ISBN",
+		"parsed": "ISBN"
+	},
+	{
+		"desc": "Double ISBN",
+		"wikitext": "ISBN ISBN 1234567890",
+		"parsed": "ISBN <constant.language.variables.isbn>ISBN 1234567890</>"
+	},
+	{
+		"desc": "ISBN with an X",
+		"wikitext": "ISBN 3-462-04561-X\nISBN 3-462-04561-x\nISBN 080442957X\nISBN 080442957x\nISBN 978080442957X\nISBN 978080442957x",
+		"parsed": "<constant.language.variables.isbn>ISBN 3-462-04561-X\\nISBN 3-462-04561-x\\nISBN 080442957X\\nISBN 080442957x\\nISBN 978080442957X\\nISBN 978080442957x</>"
+	},
+	{
+		"desc": "ISBN with empty prefix (parsoid test)",
+		"wikitext": "ISBN 1234567890",
+		"parsed": "<constant.language.variables.isbn>ISBN 1234567890</>"
+	},
+	{
+		"desc": "T24905: <abbr> followed by ISBN followed by </a>",
+		"wikitext": "<abbr>(fr)</abbr> ISBN 2753300917 [http://www.example.com example.com]",
+		"parsed": "<meta.tag.inline.abbr.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>abbr</><punctuation.definition.tag.end.html>&gt</></>(fr)<meta.tag.inline.abbr.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>abbr</><punctuation.definition.tag.end.html>&gt</></> <constant.language.variables.isbn>ISBN 2753300917</> <punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.example.com</><string.other.link.external.title> example.com</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Double RFC",
+		"wikitext": "RFC RFC 1234",
+		"parsed": "RFC <constant.language.variables.rfc>RFC 1234</>"
+	},
+	{
+		"desc": "Double RFC with a wiki link",
+		"wikitext": "RFC [[RFC 1234]]",
+		"parsed": "RFC <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>RFC 1234</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "RFC code coverage",
+		"wikitext": "RFC   983&#x20;987",
+		"parsed": "<constant.language.variables.rfc>RFC   983</><constant.character.entity.numeric.hexadecimal.html><punctuation.definition.entity.html>&amp;</>#x20;</>987"
+	},
+	{
+		"desc": "ISBN with a dummy number",
+		"wikitext": "ISBN ---",
+		"parsed": "ISBN ---"
+	},
+	{
+		"desc": "ISBN with space-delimited number",
+		"wikitext": "ISBN 92 9017 032 8",
+		"parsed": "<constant.language.variables.isbn>ISBN 92 9017 032 8</>"
+	},
+	{
+		"desc": "ISBN with multiple spaces, no number",
+		"wikitext": "ISBN  foo",
+		"parsed": "ISBN  foo"
+	},
+	{
+		"desc": "ISBN length",
+		"wikitext": "ISBN 123456789\n\nISBN 1234567890\n\nISBN 12345678901",
+		"parsed": "ISBN 123456789\\n\\n<constant.language.variables.isbn>ISBN 1234567890\\n\\nISBN 1234567890</>1"
+	},
+	{
+		"desc": "ISBN with trailing year (T9110)",
+		"wikitext": "ISBN 1-234-56789-0 - 2006\n\nISBN 1 234 56789 0 - 2006",
+		"parsed": "<constant.language.variables.isbn>ISBN 1-234-56789-0</> - 2006\\n\\n<constant.language.variables.isbn>ISBN 1 234 56789 0</> - 2006"
+	},
+	{
+		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks\n(magic links enabled)",
+		"wikitext": "[[Special:BookSources/1234567890|ISBN 1234567895]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Special:</><entity.other.attribute-name>BookSources/1234567890</><keyword.operator>|</><constant.language.variables.isbn>ISBN 1234567895</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks\n(magic links disabled)",
+		"wikitext": "[[Special:BookSources/1234567890|ISBN 1234567895]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Special:</><entity.other.attribute-name>BookSources/1234567890</><keyword.operator>|</><constant.language.variables.isbn>ISBN 1234567895</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Edited RFC links not serializable as RFC links should serialize as extlinks",
+		"wikitext": "[https://datatracker.ietf.org/doc/html/rfc123 New RFC]",
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://datatracker.ietf.org/doc/html/rfc123</><string.other.link.external.title> New RFC</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Edited PMID links not serializable as PMID links should serialize as extlinks",
+		"wikitext": "[//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract New PMID]",
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract</><string.other.link.external.title> New PMID</><punctuation.definition.tag.link.external>]</>"
+	},
+	{
+		"desc": "Edited PMID links not serializable as PMID links should serialize as wikilinks if possible",
+		"wikitext": "[[pmid:123|New PMID]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>pmid:123</><keyword.operator>|</>New PMID<punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "magicWords"
@@ -8609,6 +9088,16 @@
 		"parsed": "<constant.language.variables.metadata>{{PAGELANGUAGE}}</>"
 	},
 	{
+		"desc": "Magic Word: {{USERLANGUAGE}} disabled",
+		"wikitext": "{{USERLANGUAGE}}",
+		"parsed": "<constant.language.variables.metadata>{{USERLANGUAGE}}</>"
+	},
+	{
+		"desc": "Magic Word: {{USERLANGUAGE}} enabled",
+		"wikitext": "{{USERLANGUAGE}}",
+		"parsed": "<constant.language.variables.metadata>{{USERLANGUAGE}}</>"
+	},
+	{
 		"desc": "Case-sensitive magic words, when cased differently, should just be template transclusions",
 		"wikitext": "{{CurrentMonth}}\n{{currentday}}\n{{cURreNTweEK}}\n{{currentHour}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>CurrentMonth</><punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>currentday</><punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>cURreNTweEK</><punctuation.definition.tag.template>}}\\n{{</><entity.name.tag.local-name>currentHour</><punctuation.definition.tag.template>}}</>"
@@ -8644,6 +9133,31 @@
 		"parsed": "<constant.language.behavior>__TOC__\\n__NOTOC__\\n__FORCETOC__\\n</><constant.language.switcher>__INDEX__\\n__NOINDEX__\\n</><constant.language.behavior>__NOGALLERY__\\n__NOEDITSECTION__\\n__NOTITLECONVERT__\\n__NOCONTENTCONVERT__</>"
 	},
 	{
+		"desc": "NOGALLERY sets flag",
+		"wikitext": "__NOGALLERY__",
+		"parsed": "<constant.language.behavior>__NOGALLERY__</>"
+	},
+	{
+		"desc": "1. HIDDENCAT sets tracking category on category page",
+		"wikitext": "__HIDDENCAT__",
+		"parsed": "<constant.language.switcher>__HIDDENCAT__</>"
+	},
+	{
+		"desc": "2. HIDDENCAT sets tracking category on category page",
+		"wikitext": "__HIDDENCAT__",
+		"parsed": "<constant.language.switcher>__HIDDENCAT__</>"
+	},
+	{
+		"desc": "New section link / no new section link",
+		"wikitext": "__NEWSECTIONLINK__ __NONEWSECTIONLINK__",
+		"parsed": "<constant.language.switcher>__NEWSECTIONLINK__</> <constant.language.switcher>__NONEWSECTIONLINK__</>"
+	},
+	{
+		"desc": "Templated new section link",
+		"wikitext": "{{NewSectionLink}}",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>NewSectionLink</><punctuation.definition.tag.template>}}</>"
+	},
+	{
 		"desc": "media"
 	},
 	{
@@ -8655,16 +9169,6 @@
 		"desc": "Simple image redirect",
 		"wikitext": "[[Image:Redirect to foobar.jpg]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Image:</><entity.other.attribute-name>Redirect to foobar.jpg</><punctuation.definition.tag.link.internal>]]</></>"
-	},
-	{
-		"desc": "Serialize simple image with figure-inline wrapper",
-		"wikitext": "[[File:Foobar.jpg]]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><punctuation.definition.tag.link.internal>]]</></>"
-	},
-	{
-		"desc": "Serialize simple image with mw:Image typeof",
-		"wikitext": "[[File:Foobar.jpg]]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "Simple image (using File: namespace, now canonical)",
@@ -8800,6 +9304,11 @@
 		"desc": "Image with size specified with pxpx (T15500, T53628)",
 		"wikitext": "[[File:Foobar.jpg|20pxpx]]\n[[File:Foobar.jpg|200x20pxpx]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>20px<entity.other.attribute-name.localname>px</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>200x20px<entity.other.attribute-name.localname>px</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "T374311: Gallery with trailing px should not trigger double-px",
+		"wikitext": "<gallery widths=\"100px\">\nFile:Foobar.jpg\n</gallery>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>gallery</> <meta.attribute.unrecognized.widths.html><entity.other.attribute-name.html>widths</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>100px<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>File:Foobar.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
 		"desc": "Image with link parameter, wiki target",
@@ -9358,8 +9867,8 @@
 	},
 	{
 		"desc": "Gallery with valid attributes",
-		"wikitext": "<gallery type=\"123\" summary=\"345\">\nFile:File:Foobar.jpg\n</gallery>",
-		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>gallery</> <meta.attribute.type.html><entity.other.attribute-name.html>type</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>123<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.summary.html><entity.other.attribute-name.html>summary</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>345<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>File:File:Foobar.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt</>"
+		"wikitext": "<gallery type=\"123\" summary=\"345\" class=\"foo\">\nFile:File:Foobar.jpg\n</gallery>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>gallery</> <meta.attribute.type.html><entity.other.attribute-name.html>type</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>123<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.summary.html><entity.other.attribute-name.html>summary</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>345<punctuation.definition.string.end.html>\"</></></> <meta.attribute.class.html><entity.other.attribute-name.html>class</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>foo<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>File:File:Foobar.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
 		"desc": "Gallery",
@@ -9827,6 +10336,11 @@
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</>123<punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
+		"desc": "Fragment in media filename",
+		"wikitext": "[[File:Foobar.jpg#fragment|123]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><invalid.deprecated.ineffective>#fragment</><keyword.operator>|</>123<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
 		"desc": "Entities in media filenames",
 		"wikitext": "[[File:Hi&#45;ho.jpg|thumb]]\n\n<gallery>\nHi&#45;ho.jpg\nFile:Hi&#45;ho.jpg\n</gallery>",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Hi&amp;</><invalid.deprecated.ineffective>#45;ho.jpg</><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.begin>&lt;</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>Hi<constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#45;</>ho.jpg\\nFile:Hi<constant.character.entity.numeric.decimal.html><punctuation.definition.entity.html>&amp;</>#45;</>ho.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt</>"
@@ -9840,6 +10354,109 @@
 		"desc": "Gallery line with trailing closing square brackets",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|Testing 123]]\nFile:Foobar.jpg|Testing [[123]]\n</gallery>",
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>File:Foobar.jpg|Testing 123]]\\nFile:Foobar.jpg|Testing <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>123</><punctuation.definition.tag.link.internal>]]\\n</></></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Broken media gets category",
+		"wikitext": "[[File:Foobaz.jpg]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobaz.jpg</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "pWrapping"
+	},
+	{
+		"desc": "No block tags",
+		"wikitext": "a\n\nb",
+		"parsed": "a\\n\\nb"
+	},
+	{
+		"desc": "Block tag on one line (<div>)",
+		"wikitext": "a <div>foo</div>\n\nb",
+		"parsed": "a <meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n\\n</></>b"
+	},
+	{
+		"desc": "No p-wrappable content",
+		"wikitext": "<span><div>x</div></span>\n<span><s><div>x</div></s></span>\n<small><em></em></small><span><s><div>x</div></s></span>",
+		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>x<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.s.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>s</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>x<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.s.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>s</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.inline.small.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>small</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.em.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>em</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.em.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>em</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.small.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>small</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.s.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>s</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>x<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.s.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>s</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Transclusion meta tags shouldn't trip Parsoid's useless p-wrapper stripping code",
+		"wikitext": "{{1x|<span><div>x</div></span>}}\nx",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>x<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}\\n</>x"
+	},
+	{
+		"desc": "Block tag on one line (<blockquote>)",
+		"wikitext": "a <blockquote>foo</blockquote>\n\nb",
+		"parsed": "a <meta.tag.structure.blockquote.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.blockquote.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt\\n\\n</></>b"
+	},
+	{
+		"desc": "Block tag on both lines (<div>)",
+		"wikitext": "a <div>foo</div>\n\nb <div>foo</div>",
+		"parsed": "a <meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n\\n</></>b <meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Block tag on both lines (<blockquote>)",
+		"wikitext": "a <blockquote>foo</blockquote>\n\nb <blockquote>foo</blockquote>",
+		"parsed": "a <meta.tag.structure.blockquote.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.blockquote.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt\\n\\n</></>b <meta.tag.structure.blockquote.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.blockquote.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>blockquote</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Multiple lines without block tags",
+		"wikitext": "<div>foo</div> a\nb\nc\nd<!--foo--> e\nx <div>foo</div> z",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></> a\\nb\\nc\\nd<comment.block.html><punctuation.definition.comment.html>&lt;!--</>foo<punctuation.definition.comment.html>--&gt</></> e\\nx <meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></> z"
+	},
+	{
+		"desc": "Empty lines between lines with block tags",
+		"wikitext": "<div></div>\n\n\n<div></div>a\n\nb\n<div>a</div>b\n\n<div>b</div>d\n\n\n<div>e</div>",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n\\n\\n</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>a\\n\\nb\\n<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>a<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>b\\n\\n<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>b<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>d\\n\\n\\n<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>e<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Unclosed HTML p-tags should be handled properly",
+		"wikitext": "<div><p>foo</div>\na\n\nb",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.p.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>p</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt\\n</></>a\\n\\nb"
+	},
+	{
+		"desc": "1. P-wrapping should leave sol-transparent tags outside p-tags where possible",
+		"wikitext": "a [[Category:A1]] [[Category:A2]]\n[[Category:A3]]\n[[Category:A4]]",
+		"parsed": "a <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>A1</><punctuation.definition.tag.link.internal>]]</></> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>A2</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>A3</><punctuation.definition.tag.link.internal>]]\\n[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>A4</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "2. P-wrapping should leave sol-transparent tags outside p-tags where possible",
+		"wikitext": "[[Category:A1]]a",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>A1</><punctuation.definition.tag.link.internal>]]</></>a"
+	},
+	{
+		"desc": "No paragraph necessary for SOL transparent template",
+		"wikitext": "<span><div>foo</div></span>\n[[Category:Foo]]\n\n<span><div>foo</div></span>\n{{1x|[[Category:Foo]]}}",
+		"parsed": "<meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]\\n\\n</></><meta.tag.inline.span.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></><meta.tag.inline.span.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>span</><punctuation.definition.tag.end.html>&gt\\n</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "Avoid expanding multiline sol transparent template ranges unnecessarily",
+		"wikitext": "hi\n\n\n{{1x|<br/>\n}}\n\n[[Category:Ho]]",
+		"parsed": "hi\\n\\n\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.inline.br.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>br</><punctuation.definition.tag.end.html>/&gt\\n</></><punctuation.definition.tag.template>}}\\n\\n</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Ho</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Paragraph wrapping following unclosed table",
+		"wikitext": "{|\n|-\n\n{|\n| x\n|}\n\na\n\nb\n\nc",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.table-row><keyword.operator>|-\\n\\n</></><meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style> x\\n</></><keyword.operator>|}\\n\\n</></>a\\n\\nb\\n\\nc</>"
+	},
+	{
+		"desc": "Paragraph wrapping suppressed in html p",
+		"wikitext": "<p>\n\n\nhi\n\n\n\n</p>",
+		"parsed": "<meta.tag.structure.p.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>p</><punctuation.definition.tag.end.html>&gt\\n\\n\\n</></>hi\\n\\n\\n\\n<meta.tag.structure.p.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>p</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Dangling table row doesn't prevent p-wrapping",
+		"wikitext": "{|\n| hi\n|-\n|} ho",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style> hi\\n</></><meta.tag.block.table-row><keyword.operator>|-\\n</></><keyword.operator>|}</></> ho"
+	},
+	{
+		"desc": "Paragraph wrapping suppressed in table captions",
+		"wikitext": "{|\n|+hi\n|ho\n|}\n\n{|\n|hi\n|+ho\n|}\n\nit's off to work we go",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|+</><markup.style>hi\\n</><keyword.operator>|</><markup.style>ho\\n</></><keyword.operator>|}\\n\\n{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>hi\\n</><keyword.operator>|+</><markup.style>ho\\n</></><keyword.operator>|}\\n\\n</></>it's off to work we go"
+	},
+	{
+		"desc": "Extlink on a line with a block gets wrapped",
+		"wikitext": "[https://google.com {{1x|foo}}] bar <div>foo</div>",
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>https://google.com</><string.other.link.external.title> <punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>foo<punctuation.definition.tag.template>}}</></><punctuation.definition.tag.link.external>]</> bar <meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
 		"desc": "parserFunctionTests"
@@ -10797,11 +11414,6 @@
 		"desc": "tables"
 	},
 	{
-		"desc": "Tables with multiple newlines after individual lines embedded in links",
-		"wikitext": "[[Test|\n{|\n\n|test\n|}]]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><keyword.operator>|\\n</><meta.tag.block.table><keyword.operator>{|\\n\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>test\\n</></><keyword.operator>|}</></><punctuation.definition.tag.link.internal>]]</></>"
-	},
-	{
 		"desc": "A table with no data.",
 		"wikitext": "{||}",
 		"parsed": "<meta.tag.block.table><keyword.operator>{|</><meta.attribute.unrecognized.|}.html><entity.other.attribute-name.html>|}</></></>"
@@ -10842,6 +11454,11 @@
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|+</><meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>color: red;</><punctuation.definition.string.end.html><source.css>\"</></></></></><keyword.operator>|</><markup.style>caption2\\n</><keyword.operator>|+</> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>color: red;</><punctuation.definition.string.end.html><source.css>\"</></></></></><keyword.operator>|</><markup.style>caption3\\n</></><meta.tag.block.table-row><keyword.operator>|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</></><keyword.operator>|}</></>"
 	},
 	{
+		"desc": "Multi-line captions in tables",
+		"wikitext": "{|\n|+line 1 of caption\nline 2 of caption\n|data\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|+</><markup.style>line 1 of caption\\n</></>line 2 of caption\\n<meta.tag.block.td><keyword.operator>|</><markup.style>data\\n</></><keyword.operator>|}</></>"
+	},
+	{
 		"desc": "Table td-cell syntax variations",
 		"wikitext": "{|\n|foo bar foo|baz\n|foo bar foo||baz\n|style='color:red;'|baz\n|style='color:red;'||baz\n|}",
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><meta.attribute.unrecognized.foo.html><entity.other.attribute-name.html>foo</></> <meta.attribute.unrecognized.bar.html><entity.other.attribute-name.html>bar</></> <meta.attribute.unrecognized.foo.html><entity.other.attribute-name.html>foo</></><keyword.operator>|</><markup.style>baz\\n</><keyword.operator>|</><markup.style>foo bar foo</><keyword.operator>||</><markup.style>baz\\n</><keyword.operator>|</><meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.single.html><punctuation.definition.string.begin.html>'</><source.css>color:red;</><punctuation.definition.string.end.html><source.css>'</></></></></><keyword.operator>|</><markup.style>baz\\n</><keyword.operator>|</><markup.style>style='color:red;'</><keyword.operator>||</><markup.style>baz\\n</></><keyword.operator>|}</></>"
@@ -10850,6 +11467,11 @@
 		"desc": "Simple table",
 		"wikitext": "{|\n|1||2\n|-\n|3||4\n|}",
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>1</><keyword.operator>||</><markup.style>2\\n</></><meta.tag.block.table-row><keyword.operator>|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>3</><keyword.operator>||</><markup.style>4\\n</></><keyword.operator>|}</></>"
+	},
+	{
+		"desc": "Row-syntax table cells require that the row start with a table cell",
+		"wikitext": "{|\n|a\nb||c\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>a\\n</></>b||c\\n<keyword.operator>|}</></>"
 	},
 	{
 		"desc": "Simple table but with multiple dashes for row wikitext",
@@ -11082,7 +11704,7 @@
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.table-row><keyword.operator>|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>class=\"foo\"<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>1</><keyword.operator.equal>=</> <constant.language.variables.metadata>{{!}}</>bar<punctuation.definition.tag.template>}}\\n</></></><meta.tag.block.table-row><keyword.operator>|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>class=\"foo\"<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>1</><keyword.operator.equal>=</><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></><constant.language.variables.metadata>{{!}}</>bar<punctuation.definition.tag.template>}}\\n</></></><keyword.operator>|}</></>"
 	},
 	{
-		"desc": "Templated table cell with untemplated attributes: Unsupported Scenario",
+		"desc": "Templated table cell with untemplated attributes",
 		"wikitext": "{|\n|-\n|class=\"foo\"{{1x|1={{!}}title=\"fail\"{{!}}bar}}\n|}",
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.table-row><keyword.operator>|-\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style>class=\"foo\"<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>1</><keyword.operator.equal>=</><constant.language.variables.metadata>{{!}}</>title=\"fail\"<constant.language.variables.metadata>{{!}}</>bar<punctuation.definition.tag.template>}}\\n</></></><keyword.operator>|}</></>"
 	},
@@ -11170,6 +11792,26 @@
 		"desc": "T319143 - copy-pasting of cells, after multiple cells, without \"row\"",
 		"wikitext": "{|\n|[[Eau]]||[[Abc]]\n|}",
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Eau</><punctuation.definition.tag.link.internal>]]</></></><keyword.operator>||</><markup.style><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Abc</><punctuation.definition.tag.link.internal>]]\\n</></></></><keyword.operator>|}</></>"
+	},
+	{
+		"desc": "Spec syntactic differences in parsing of !! compared to ||",
+		"wikitext": "{|\n<!--cmt-->!!foo\n{{1x|!!foo}}\n<!--cmt-->!!foo!!bar\n{{1x|!!foo}}{{1x|!!bar}}\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>cmt<punctuation.definition.comment.html>--&gt</></>!!foo\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>!!foo<punctuation.definition.tag.template>}}\\n</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>cmt<punctuation.definition.comment.html>--&gt</></>!!foo!!bar\\n<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>!!foo<punctuation.definition.tag.template>}}{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>!!bar<punctuation.definition.tag.template>}}\\n</><keyword.operator>|}</></>"
+	},
+	{
+		"desc": "Multiline inline table line in file caption",
+		"wikitext": "[[File:Foobar.jpg|thumb|\n{|\n|\nasdf\n|}\n]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><keyword.operator>|\\n</><meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|\\n</></>asdf\\n<keyword.operator>|}\\n</></><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "Table lines with multiple newlines, spaces, comments embedded in file caption",
+		"wikitext": "[[File:Foobar.jpg|thumb|\n  <!--cmt-->   \n{|\n  \n |test\n   <!--cmt-->  \n|}]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><keyword.operator>|\\n</>  <comment.block.html><punctuation.definition.comment.html>&lt;!--</>cmt<punctuation.definition.comment.html>--&gt</></>   \\n<meta.tag.block.table><keyword.operator>{|\\n</>  \\n<meta.tag.block.td><keyword.operator> |</><markup.style>test\\n</></>   <comment.block.html><punctuation.definition.comment.html>&lt;!--</>cmt<punctuation.definition.comment.html>--&gt</></>  \\n<keyword.operator>|}</></><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "First line attributes should be handled by html2wt even without data-parsoid",
+		"wikitext": "{|\n|- valign=\"top\"\n|Bar\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.table-row><keyword.operator>|-</> <meta.attribute.unrecognized.valign.html><entity.other.attribute-name.html>valign</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>top<punctuation.definition.string.end.html>\"\\n</></></></><meta.tag.block.td><keyword.operator>|</><markup.style>Bar\\n</></><keyword.operator>|}</></>"
 	},
 	{
 		"desc": "translateParserTests"
