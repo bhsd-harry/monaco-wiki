@@ -1,3 +1,13 @@
+## v1.9.3
+
+*2025-06-07*
+
+**Fixed**
+
+- Highlighting of triple brackets in Wikitext
+- Highlighting of complex parameter names in Wikitext
+- Highlighting of headings followed by comments in Wikitext
+
 ## v1.9.2
 
 *2025-05-26*

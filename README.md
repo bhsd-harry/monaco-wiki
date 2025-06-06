@@ -50,17 +50,17 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 
 ### Transclusion
 
-1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is problematic ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces ([left](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Target%20with%20an%20extension%20tag) or [right braces](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20'%3D'%20char%20in%20nested%20transclusions%20should%20not%20trigger%20nowiki%20escapes%20or%20conversion%20to%20named%20param)).
+1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is problematic ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces ([left](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%20with%20templated%20name) or [right braces](http://bhsd-harry.github.io/monaco-wiki/tests.html#Template%20with%20just%20whitespace%20in%20it%2C%20T70421)).
+1. Non-existing parser functions starting with `#` are highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%3A%20unknown%20parser%20function%20(T314524))).
 1. Multiline template names should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Don't%20recognize%20targets%20split%20by%20newlines)).
 1. Template names containing comments are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20the%20target)).
 1. Template parameter names containing newlines or comments are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20parameter%20names%20(T69657))).
-1. Wikitext in template parameter names is not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Other%20wikitext%20in%20parameter%20names%20(T69657))).
 1. HTML tags break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20name%20in%20template)).
 1. External links break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
 
 ### Heading
 
-1. Trailing comments break section headings ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Single-line%20or%20multiline-comments%20can%20follow%20headings)).
+1. Multi-line trailing comments break section headings ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Single-line%20or%20multiline-comments%20can%20follow%20headings)).
 
 ### HTML tag
 
@@ -69,25 +69,26 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 
 ### Table
 
-1. Interaction between table cells and `<nowiki>` is incorrectly highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
+1. Interaction between table cells and `<nowiki>` is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
 1. Complex table attributes are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Table%20cell%20with%20attribute%20before%20expanded%20attribute)).
 
 ### Link
 
 1. Internal links nested in external links are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Nested%20wikilink%20syntax%20in%20wikilink%20syntax%20that%20parses%20as%20wikilink%20in%20extlink)).
-1. 3 consecutive brackets should be invalid (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20with%203%20brackets), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%203%20brackets)).
 1. Nested double brackets are highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilink%20in%20wikilink)).
 1. Multiline link targets should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilinks%20with%20embedded%20newlines%20are%20not%20broken)).
 1. Double URI encoding should not appear in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20%25%20as%20a%20double%20hex%20sequence%20interpreted%20to%20hex%20sequence)).
 1. Double HTML escaping should not appear in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20an%20ampersand)).
-1. A bracket pair inside link text is incorrectly highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
+1. A bracket pair inside link text is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
+1. Link targets with templates may be highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Links%3A%203.%20Generation%20of%20part%20of%20a%20link%20href)).
 
 ### External link
 
 1. Free external links are not supported.
 1. External links are not XML tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Pseudo-tag%20with%20URL%20'name'%20renders%20as%20url%20link)).
+1. External links cannot be nested in links ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T4095%3A%20link%20with%20pipe%20and%20three%20closing%20brackets%2C%20version%202)).
 
 ### Block element
 
 1. Preformatted text with a leading space is not supported.
-1. Comments at the start of a line break the highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).
+1. Comments at the SOL break the highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).

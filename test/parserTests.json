@@ -275,7 +275,7 @@
 	{
 		"desc": "Templates: Other wikitext in parameter names (T69657)",
 		"wikitext": "{{1x|''1''=foo}}",
-		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name>''1''</><keyword.operator.equal>=</>foo<punctuation.definition.tag.template>}}</>"
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><entity.other.attribute-name.local-name><markup.italic>''</>1<markup.italic>''</></><keyword.operator.equal>=</>foo<punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "Templates: With colons",
@@ -465,7 +465,7 @@
 	{
 		"desc": "Link with 3 brackets",
 		"wikitext": "[[[Main Page]]]\nFoo [[[Main Page]]]",
-		"parsed": "[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Main Page</><punctuation.definition.tag.link.internal>]]</></>]\\nFoo [<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Main Page</><punctuation.definition.tag.link.internal>]]</></>]"
+		"parsed": "[[[Main Page]]]\\nFoo [[[Main Page]]]"
 	},
 	{
 		"desc": "Link with 4 brackets",
@@ -475,7 +475,7 @@
 	{
 		"desc": "Piped link with 3 brackets",
 		"wikitext": "[[[main page|the main page]]]",
-		"parsed": "[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>main page</><keyword.operator>|</>the main page<punctuation.definition.tag.link.internal>]]</></>]"
+		"parsed": "[[[main page|the main page]]]"
 	},
 	{
 		"desc": "Piped link with extlink-like text",
@@ -755,7 +755,7 @@
 	{
 		"desc": "Parsoid link bracket escaping",
 		"wikitext": "[[Test]]\n\n[<nowiki/>[[Test]]]\n\n[[[[Test]]]]\n\n[[[<nowiki/>[[Test]]]]]\n\n[[[[[[Test]]]]]]\n\n[[[[[<nowiki/>[[Test]]]]]]]",
-		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]\\n\\n</></>[<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]\\n\\n[[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]]\\n\\n[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><invalid.deprecated.ineffective>[[</>Test<punctuation.definition.tag.link.internal>]]</></>]]]\\n\\n[[[[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]]]]\\n\\n[[[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><invalid.deprecated.ineffective>[[</>Test<punctuation.definition.tag.link.internal>]]</></>]]]]]"
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]\\n\\n</></>[<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]\\n\\n[[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]]\\n\\n[[[<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]]]\\n\\n[[[[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Test</><punctuation.definition.tag.link.internal>]]</></>]]]]\\n\\n[[[<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>/&gt</><invalid.deprecated.ineffective>[[</>Test<punctuation.definition.tag.link.internal>]]</></>]]]]]"
 	},
 	{
 		"desc": "Parsoid-centric test: Whitespace in ext- and wiki-links should be preserved",
@@ -2175,7 +2175,7 @@
 	{
 		"desc": "Single-line or multiline-comments can follow headings",
 		"wikitext": "==foo==<!---->\n==bar==<!--c1-->\n==baz==<!--\nc2\nc3-->",
-		"parsed": "==foo==<comment.block.html><punctuation.definition.comment.html>&lt;!----&gt\\n</></>==bar==<comment.block.html><punctuation.definition.comment.html>&lt;!--</>c1<punctuation.definition.comment.html>--&gt\\n</></>==baz==<comment.block.html><punctuation.definition.comment.html>&lt;!--\\n</>c2\\nc3<punctuation.definition.comment.html>--&gt</></>"
+		"parsed": "<markup.heading>==<string.quoted.other.heading>foo</>==<comment.block.html><punctuation.definition.comment.html>&lt;!----&gt\\n</></>==<string.quoted.other.heading>bar</>==<comment.block.html><punctuation.definition.comment.html>&lt;!--</>c1<punctuation.definition.comment.html>--&gt\\n</></></>==baz==<comment.block.html><punctuation.definition.comment.html>&lt;!--\\n</>c2\\nc3<punctuation.definition.comment.html>--&gt</></>"
 	},
 	{
 		"desc": "T3186 news: in the middle of text",
@@ -2940,12 +2940,12 @@
 	{
 		"desc": "Section extraction test with comment after heading (section 1)",
 		"wikitext": "==a==\n==b== <!-- -->\n==c==",
-		"parsed": "<markup.heading>==<string.quoted.other.heading>a</>==\\n</>==b== <comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt\\n</></><markup.heading>==<string.quoted.other.heading>c</>==</>"
+		"parsed": "<markup.heading>==<string.quoted.other.heading>a</>==\\n==<string.quoted.other.heading>b</>== <comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt\\n</></>==<string.quoted.other.heading>c</>==</>"
 	},
 	{
 		"desc": "Section extraction test with comment after heading (section 2)",
 		"wikitext": "==a==\n==b== <!-- -->\n==c==",
-		"parsed": "<markup.heading>==<string.quoted.other.heading>a</>==\\n</>==b== <comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt\\n</></><markup.heading>==<string.quoted.other.heading>c</>==</>"
+		"parsed": "<markup.heading>==<string.quoted.other.heading>a</>==\\n==<string.quoted.other.heading>b</>== <comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt\\n</></>==<string.quoted.other.heading>c</>==</>"
 	},
 	{
 		"desc": "Section extraction test with bogus <nowiki> heading (section 1)",
@@ -2960,12 +2960,12 @@
 	{
 		"desc": "Section extraction prefixed by comment (section 1)",
 		"wikitext": "<!-- -->==sec1==\n==sec2==",
-		"parsed": "<comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>==sec1==\\n<markup.heading>==<string.quoted.other.heading>sec2</>==</>"
+		"parsed": "<markup.heading><comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>==<string.quoted.other.heading>sec1</>==\\n==<string.quoted.other.heading>sec2</>==</>"
 	},
 	{
 		"desc": "Section extraction prefixed by comment (section 2)",
 		"wikitext": "<!-- -->==sec1==\n==sec2==",
-		"parsed": "<comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>==sec1==\\n<markup.heading>==<string.quoted.other.heading>sec2</>==</>"
+		"parsed": "<markup.heading><comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>==<string.quoted.other.heading>sec1</>==\\n==<string.quoted.other.heading>sec2</>==</>"
 	},
 	{
 		"desc": "Section extraction, mixed wiki and html (section 1)",
@@ -7541,7 +7541,7 @@
 	{
 		"desc": "Editable headings can only have trailing comments and whitespace",
 		"wikitext": "==== test ====\nyup\n\n==== hi ho ====<noinclude>\nnope\n</noinclude>\n\n==== test 2 ====\nanother yup\n\n<!-- well -->==== ha ha ====\nback to nope\n\n==== he he ====  <!-- but this is ok -->\nsee",
-		"parsed": "<markup.heading>====<string.quoted.other.heading> test </>====\\n</>yup\\n\\n==== hi ho ====<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</>nope\\n<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n\\n</><markup.heading>====<string.quoted.other.heading> test 2 </>====\\n</>another yup\\n\\n<comment.block.html><punctuation.definition.comment.html>&lt;!--</> well <punctuation.definition.comment.html>--&gt</></>==== ha ha ====\\nback to nope\\n\\n==== he he ====  <comment.block.html><punctuation.definition.comment.html>&lt;!--</> but this is ok <punctuation.definition.comment.html>--&gt\\n</></>see"
+		"parsed": "<markup.heading>====<string.quoted.other.heading> test </>====\\n</>yup\\n\\n==== hi ho ====<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n</>nope\\n<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt\\n\\n</><markup.heading>====<string.quoted.other.heading> test 2 </>====\\n</>another yup\\n\\n<markup.heading><comment.block.html><punctuation.definition.comment.html>&lt;!--</> well <punctuation.definition.comment.html>--&gt</></>====<string.quoted.other.heading> ha ha </>====\\n</>back to nope\\n\\n<markup.heading>====<string.quoted.other.heading> he he </>====  <comment.block.html><punctuation.definition.comment.html>&lt;!--</> but this is ok <punctuation.definition.comment.html>--&gt\\n</></></>see"
 	},
 	{
 		"desc": "T368722: Empty headings",

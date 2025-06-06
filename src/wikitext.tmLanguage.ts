@@ -263,7 +263,10 @@ const signature = {
 				match: String.raw`(\|)([^\|=\{\}\[\]<>]*)(=)`,
 				captures: {
 					1: pipeRule,
-					2: {name: 'entity.other.attribute-name.local-name.wikitext'},
+					2: {
+						name: 'entity.other.attribute-name.local-name.wikitext',
+						patterns: [$self],
+					},
 					3: {name: 'keyword.operator.equal.wikitext'},
 				},
 			},
@@ -273,12 +276,14 @@ const signature = {
 	},
 	heading = {
 		name: 'markup.heading.wikitext',
-		match: String.raw`^(={1,6})(.+)(\1)\s*$`,
+		match: String.raw`^((?:<!--(?:(?!-->).)*-->)*)(={1,6})(.+)(\2)((?:\s|<!--(?:(?!-->).)*-->)*)$`,
 		captures: {
-			2: {
+			1: {patterns: [{include: 'text.html.basic'}]},
+			3: {
 				name: 'string.quoted.other.heading.wikitext',
 				patterns: [$self],
 			},
+			5: {patterns: [{include: 'text.html.basic'}]},
 		},
 	},
 	table = {
@@ -345,7 +350,8 @@ const signature = {
 	},
 	internalLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^\n\|\[\]\{\}<>#]*(?:#[^\n\|\[\]\{\}]*)?)`,
+		// eslint-disable-next-line @stylistic/max-len
+		begin: String.raw`(?i)(?<!(?<!\[)\[)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^\n\|\[\]\{\}<>#]*(?:#[^\n\|\[\]\{\}]*)?)`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
