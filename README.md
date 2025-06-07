@@ -71,6 +71,7 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 
 1. Interaction between table cells and `<nowiki>` is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
 1. Complex table attributes are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Table%20cell%20with%20attribute%20before%20expanded%20attribute)).
+1. Comments at the SOL break table syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#3c.%20Table%20cells%20without%20escapable%20prefixes%20after%20edits)).
 
 ### Link
 
@@ -82,6 +83,10 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 1. A bracket pair inside link text is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
 1. Link targets with templates may be highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Links%3A%203.%20Generation%20of%20part%20of%20a%20link%20href)).
 
+### Apostrophe
+
+1. Mixing bold and italic apostrophes ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Another%20italics%20%2F%20bold%20test)).
+
 ### External link
 
 1. Free external links are not supported.
@@ -91,4 +96,5 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 ### Block element
 
 1. Preformatted text with a leading space is not supported.
+1. One-line definition lists are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Definition%20list%20code%20coverage)).
 1. Comments at the SOL break the highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).

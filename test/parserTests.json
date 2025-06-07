@@ -4868,24 +4868,9 @@
 		"parsed": "{{<punctuation.definition.tag.variable>{{{</><variable.other>1&lt;noinclude&gt</><variable.parameter><keyword.operator>|</>1x<punctuation.definition.tag.begin>&lt;/</><entity.name.tag>noinclude</><punctuation.definition.tag.end>&gt</></><punctuation.definition.tag.variable>}}}</>|123}}"
 	},
 	{
-		"desc": "Extension tag contents using isRawHTML flag",
-		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n<divtag raw=\"true\" ishtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>\n\nBut with isRawHTML the result is left alone:\n<divtag raw=\"true\" israwhtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>",
-		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\\n<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></> <meta.attribute.unrecognized.raw.html><entity.other.attribute-name.html>raw</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.ishtml.html><entity.other.attribute-name.html>ishtml</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt\\n\\n</></>But with isRawHTML the result is left alone:\\n<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></> <meta.attribute.unrecognized.raw.html><entity.other.attribute-name.html>raw</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.israwhtml.html><entity.other.attribute-name.html>israwhtml</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>true<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></>"
-	},
-	{
 		"desc": "Parser function contents using isRawHTML flag",
 		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isRawHTML}}",
 		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#divtag</><keyword.operator.function>:</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><keyword.operator>|</>raw<keyword.operator>|</>isHTML<punctuation.definition.tag.function>}}\\n\\n</>But with isRawHTML the result is left alone:\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#divtag</><keyword.operator.function>:</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>protect newline<punctuation.definition.comment.html>--&gt\\n</></><punctuation.definition.list.begin.markdown>:</>foo <punctuation.definition.tag.convert>-{</>raw<punctuation.definition.tag.convert>}-</> <meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>bold<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt\\n</></><keyword.operator>|</>raw<keyword.operator>|</>isRawHTML<punctuation.definition.tag.function>}}</>"
-	},
-	{
-		"desc": "Handling of nested nowiki strip markers in Parsoid fragments (2)",
-		"wikitext": "Text {{#spantag:<nowiki><b></nowiki> {{#spantag:<nowiki><c></nowiki>}}}}",
-		"parsed": "Text <punctuation.definition.tag.function>{{</><constant.language.variables.query>#spantag</><keyword.operator.function>:</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>&lt;b&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</> <punctuation.definition.tag.function>{{</><constant.language.variables.query>#spantag</><keyword.operator.function>:</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>&lt;c&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.function>}}}}</>"
-	},
-	{
-		"desc": "T386233: suppress <nowiki/> tags between extension tags",
-		"wikitext": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\nadded between the divtags:\n\n<b>{{1x|<divtag>abc</divtag><divtag>xyz</divtag>}}",
-		"parsed": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\\nadded between the divtags:\\n\\n<meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</><meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></>abc<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></>xyz<meta.tag.other.divtag.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>divtag</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}</>"
 	},
 	{
 		"desc": "additionalTests"
@@ -4949,6 +4934,71 @@
 		"desc": "Unicode number before autolinks",
 		"wikitext": "１http://example.com",
 		"parsed": "１http://example.com"
+	},
+	{
+		"desc": "Common prefix ';'",
+		"wikitext": ";;;t3:::d3\n;;;;;t5::::::d5\n\n;t1\n;*t1:d1\n;*t1:d1",
+		"parsed": "<punctuation.definition.list.begin.markdown>;;;</>t3:::d3\\n<punctuation.definition.list.begin.markdown>;;;;;</>t5::::::d5\\n\\n<punctuation.definition.list.begin.markdown>;</>t1\\n<punctuation.definition.list.begin.markdown>;*</>t1:d1\\n<punctuation.definition.list.begin.markdown>;*</>t1:d1"
+	},
+	{
+		"desc": "Extension tag in language conversion",
+		"wikitext": "-{<pre>foo</pre>}-\n\n-{<pre>foo</pre>|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>foo</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>&lt;pre&gtfoo&lt;/pre&gt</><keyword.operator>|</>bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Template in language conversion",
+		"wikitext": "-{{{1x|foo}} }-\n\n-{{{1x|foo}}|bar}-",
+		"parsed": "-<punctuation.definition.tag.variable>{{{</><variable.other>1x</><variable.parameter><keyword.operator>|</>foo}} }-\\n\\n-<punctuation.definition.tag.variable>{{{</><variable.other>1x</><variable.parameter><keyword.operator>|</>foo}}<invalid.deprecated.ineffective>|bar}-</></></>"
+	},
+	{
+		"desc": "Template variable in language conversion",
+		"wikitext": "-{{{{foo}}} }-\n\n-{{{{foo}}}|bar}-\n\n-{{{{foo|baz}}} }-\n\n-{{{{foo|baz}}}|bar}-",
+		"parsed": "-{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>foo</><punctuation.definition.tag.template>}}</>} }-\\n\\n-{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>foo</><punctuation.definition.tag.template>}}</>}|bar}-\\n\\n-{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>foo</><keyword.operator>|</>baz<punctuation.definition.tag.template>}}</>} }-\\n\\n-{{<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>foo</><keyword.operator>|</>baz<punctuation.definition.tag.template>}}</>}|bar}-"
+	},
+	{
+		"desc": "Section heading in language conversion",
+		"wikitext": "-{\n==foo==\n}-\n\n-{\n==foo==\n|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{\\n</><markup.heading>==<string.quoted.other.heading>foo</>==\\n</><punctuation.definition.tag.convert>}-\\n\\n-{\\n</><markup.heading>==<string.quoted.other.heading>foo</>==\\n</>|bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "HTML tag in language conversion",
+		"wikitext": "-{<b>foo</b>}-\n\n-{<b>foo</b>|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><meta.tag.inline.b.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></>foo<meta.tag.inline.b.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>b</><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>&lt;b&gtfoo&lt;/b&gt</><keyword.operator>|</>bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Table in language conversion",
+		"wikitext": "-{\n{|\n|foo\n|}}-\n\n-{\n{|\n|foo\n|}|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{\\n</><meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</></><keyword.operator>|}</></><punctuation.definition.tag.convert>}-\\n\\n-{\\n</><meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>foo\\n</></><keyword.operator>|}</></>|bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Hr in language conversion",
+		"wikitext": "-{\n----}-\n\n-{\n----|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{\\n</><markup.changed>----</><punctuation.definition.tag.convert>}-\\n\\n-{\\n</><markup.changed>----</>|bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Internal link in language conversion",
+		"wikitext": "-{[[foo]]}-\n\n-{[[foo]]|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>foo</><punctuation.definition.tag.link.internal>]]</></><punctuation.definition.tag.convert>}-\\n\\n-{</><string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>foo</><punctuation.definition.tag.link.internal>]]</></>|bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Quote in language conversion",
+		"wikitext": "-{''foo''}-\n\n-{''foo''|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><markup.italic>''</>foo<markup.italic>''</><punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>''foo''</><keyword.operator>|</>bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "External link in language conversion",
+		"wikitext": "-{[//foo]}-\n\n-{[//foo]|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><punctuation.definition.tag.link.external>[</><entity.name.tag.url>//foo</><punctuation.definition.tag.link.external>]</><punctuation.definition.tag.convert>}-\\n\\n-{</><punctuation.definition.tag.link.external>[</><entity.name.tag.url>//foo</><punctuation.definition.tag.link.external>]</>|bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "List in language conversion",
+		"wikitext": "-{\n*foo}-\n\n-{\n*foo|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{\\n</><punctuation.definition.list.begin.markdown>*</>foo<punctuation.definition.tag.convert>}-\\n\\n-{\\n</><punctuation.definition.list.begin.markdown>*</>foo|bar<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Magic link in language conversion",
+		"wikitext": "-{PMID 1}-\n\n-{PMID 1|bar}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><constant.language.variables.pmid>PMID 1</><punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>PMID 1</><keyword.operator>|</>bar<punctuation.definition.tag.convert>}-</>"
 	},
 	{
 		"desc": "badCharacters"
