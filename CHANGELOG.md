@@ -7,6 +7,11 @@
 - Localization for the Monaco Editor's core
 - Keybindings for Wikitext formatting
 
+**Fixed**
+
+- Disable the default link provider for Wikitext
+- Italic/bold apostrophes end the external link in Wikitext
+
 ## v1.9.3
 
 *2025-06-07*

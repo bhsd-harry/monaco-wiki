@@ -77,7 +77,7 @@ export default async (
 	monaco.languages.registerColorProvider('wikitext', documentColorProvider);
 	monaco.languages.registerRenameProvider('wikitext', renameProvider);
 	monaco.languages.registerFoldingRangeProvider('wikitext', foldingRangeProvider);
-	monaco.languages.registerLinkProvider('wikitext', linkProvider);
+	monaco.languages.registerLinkProvider({language: 'wikitext', exclusive: true}, linkProvider);
 	monaco.languages.registerHoverProvider('wikitext', hoverProvider);
 	monaco.languages.registerSignatureHelpProvider('wikitext', signatureHelpProvider);
 	monaco.languages.registerInlayHintsProvider('wikitext', inlayHintsProvider);

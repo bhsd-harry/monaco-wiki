@@ -48,15 +48,21 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 
 ## Syntax Highlighting
 
+### Extension
+
+1. [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) is not supported.
+
 ### Transclusion
 
 1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is problematic ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces ([left](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%20with%20templated%20name) or [right braces](http://bhsd-harry.github.io/monaco-wiki/tests.html#Template%20with%20just%20whitespace%20in%20it%2C%20T70421)).
+1. Substitution is not correctly highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20isSubsting%20during%20PST)).
 1. Non-existing parser functions starting with `#` are highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%3A%20unknown%20parser%20function%20(T314524))).
 1. Multiline template names should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Don't%20recognize%20targets%20split%20by%20newlines)).
 1. Template names containing comments are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20the%20target)).
 1. Template parameter names containing newlines or comments are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20parameter%20names%20(T69657))).
 1. HTML tags break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20name%20in%20template)).
 1. External links break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
+1. Parameter names of `#invoke` are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20getAllArgs)).
 
 ### Heading
 
@@ -77,6 +83,7 @@ If you wish to use other themes listed [here](https://shiki.style/themes), pleas
 
 1. Internal links nested in external links are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Nested%20wikilink%20syntax%20in%20wikilink%20syntax%20that%20parses%20as%20wikilink%20in%20extlink)).
 1. Nested double brackets are highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilink%20in%20wikilink)).
+1. Multiple leading colons should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Multiple%20colons%20escaping%20interlanguage%20links)).
 1. Multiline link targets should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilinks%20with%20embedded%20newlines%20are%20not%20broken)).
 1. Double URI encoding should not appear in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20%25%20as%20a%20double%20hex%20sequence%20interpreted%20to%20hex%20sequence)).
 1. Double HTML escaping should not appear in link targets ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Link%20containing%20an%20ampersand)).

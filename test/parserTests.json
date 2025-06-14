@@ -5001,6 +5001,11 @@
 		"parsed": "<punctuation.definition.tag.convert>-{</><constant.language.variables.pmid>PMID 1</><punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>PMID 1</><keyword.operator>|</>bar<punctuation.definition.tag.convert>}-</>"
 	},
 	{
+		"desc": "Nested <poem><pre>",
+		"wikitext": "<poem><pre>\nthis\nis\na\ntest\n</pre></poem>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>poem</><punctuation.definition.tag.end>&gt</><meta.block.ref><punctuation.definition.tag.begin>&lt;</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>this\\nis\\na\\ntest\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>poem</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -6789,7 +6794,7 @@
 	{
 		"desc": "External link containing double-single-quotes with no space separating the url from text in italics",
 		"wikitext": "[http://www.musee-picasso.fr/pages/page_id18528_u1l2.htm''La muerte de Casagemas'' (1901) en el sitio de [[Museo Picasso (París)|Museo Picasso]].]",
-		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.musee-picasso.fr/pages/page_id18528_u1l2.htm''La</><string.other.link.external.title> muerte de Casagemas<markup.italic>''</> (1901) en el sitio de <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Museo Picasso (París)</><keyword.operator>|</>Museo Picasso</></><punctuation.definition.tag.link.external>]</>].]"
+		"parsed": "<punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.musee-picasso.fr/pages/page_id18528_u1l2.htm</><string.other.link.external.title><markup.italic>''</>La muerte de Casagemas<markup.italic>''</> (1901) en el sitio de <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Museo Picasso (París)</><keyword.operator>|</>Museo Picasso</></><punctuation.definition.tag.link.external>]</>].]"
 	},
 	{
 		"desc": "External link with comments in link text",

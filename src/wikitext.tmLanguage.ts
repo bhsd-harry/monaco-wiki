@@ -393,7 +393,7 @@ const signature = {
 		],
 	},
 	externalLink = {
-		match: String.raw`(?i)(\[)((?:$1)[^\[\]<>"\s]+)(?=[\[\]<>"\s])([^\]\n]*)(\])`,
+		match: String.raw`(?i)(\[)((?:$1)[^\[\]<>"\s]+?)(?=[\[\]<>"\s]|'')([^\]\n]*)(\])`,
 		captures: {
 			1: externalBracket,
 			2: {name: 'entity.name.tag.url.wikitext'},
