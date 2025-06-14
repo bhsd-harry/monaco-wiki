@@ -7,6 +7,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwCo
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import getLinter from './linter.ts';
+import addKeybindings from './keymap.ts';
 import {
 	documentColorProvider,
 	completionItemProvider,
@@ -81,6 +82,7 @@ export default async (
 	monaco.languages.registerSignatureHelpProvider('wikitext', signatureHelpProvider);
 	monaco.languages.registerInlayHintsProvider('wikitext', inlayHintsProvider);
 	monaco.languages.registerCodeActionProvider('wikitext', codeActionProvider);
+	addKeybindings(monaco);
 	monaco.editor.onDidCreateModel(model => {
 		getLinter(monaco, model);
 	});

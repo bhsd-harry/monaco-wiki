@@ -1,10 +1,11 @@
-## v1.9.4
+## v1.10.0
 
 *2025-06-15*
 
 **Added**
 
 - Localization for the Monaco Editor's core
+- Keybindings for Wikitext formatting
 
 ## v1.9.3
 
