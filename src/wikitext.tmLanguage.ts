@@ -5,13 +5,13 @@ declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
 const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	pipe = String.raw`\|`,
-	constants = String.raw`\{\{\s*(?:$1)\s*\}\}`,
+	constants = String.raw`\{\{\s*(?:$1)\s*}}`,
 	tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
 	tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
 	tagName = {name: 'entity.name.tag.wikitext'},
 	attribute = {include: 'text.html.basic#attribute'},
-	templateEnd = String.raw`(\}\})`,
-	argEnd = String.raw`(?=\}\}\})`,
+	templateEnd = '(}})',
+	argEnd = '(?=}}})',
 	linkBracket = {name: 'punctuation.definition.tag.link.internal.wikitext'},
 	invalid = 'invalid.deprecated.ineffective.wikitext',
 	invalidRule = {name: invalid},
@@ -21,9 +21,9 @@ const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	variable = 'constant.language.variables.query.wikitext',
 	namespace = {name: 'entity.name.tag.namespace.wikitext'},
 	indent = 'punctuation.definition.list.begin.markdown.wikitext',
-	delimiter = String.raw`\||\{\{\s*!\s*\}\}`,
+	delimiter = String.raw`\||\{\{\s*!\s*}}`,
 	link = 'string.quoted.internal-link.wikitext',
-	linkEnd = String.raw`(\]\])`,
+	linkEnd = '(]])',
 	externalBracket = {name: 'punctuation.definition.tag.link.external.wikitext'},
 	tagWithoutAttribute = {
 		1: tagBegin,
@@ -80,7 +80,7 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 	}),
 	parserFunctions = (caseSensitive?: boolean): IRawRule => ({
 		begin: String.raw`${caseSensitive ? '' : '(?i)'}(\{\{)\s*(${
-			caseSensitive ? String.raw`#[^#:\|\[\]\{\}]*[^#:\|\[\]\{\}\s]|` : ''
+			caseSensitive ? String.raw`#[^]#:\[{|}]*[^]#:\[{|}\s]|` : ''
 		}$1)(:)`,
 		end: templateEnd,
 		captures: {
@@ -94,7 +94,7 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		],
 	}),
 	td = (subtype: string, begin: string, th?: boolean): IRawRule => {
-		const match = String.raw`(.*?)((?:${delimiter}){2}|\{\{\s*!!\s*\}\}${th ? '|!!' : ''}|$)`;
+		const match = String.raw`(.*?)((?:${delimiter}){2}|\{\{\s*!!\s*}}${th ? '|!!' : ''}|$)`;
 		return {
 			name: `meta.tag.block.${subtype}.wikitext`,
 			begin: String.raw`^\s*${begin}`,
@@ -104,7 +104,7 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 				{
 					match: String.raw`(${
 						th ? '(?:(?!!!)' : ''
-					}[^\|\[\]\{\}]${th ? ')' : ''}*)(${delimiter})(?!${delimiter})${match}`,
+					}[^]\[{|}]${th ? ')' : ''}*)(${delimiter})(?!${delimiter})${match}`,
 					captures: {
 						1: {patterns: attrs},
 						2: pipeRule,
@@ -128,7 +128,7 @@ const signature = {
 		match: '~{3,5}',
 	},
 	redirect = {
-		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)(\s*(?::\s*)?(?:$2)\s*:)?([^\|\[\]\{\}<>]+)(\|.*?)?(\]\])`,
+		match: String.raw`(?i)^\s*($1)\s*((?::\s*)?\[\[)(\s*(?::\s*)?(?:$2)\s*:)?([^]<>\[{|}]+)(\|.*?)?(]])`,
 		captures: {
 			1: {name: 'keyword.control.redirect.wikitext'},
 			2: linkBracket,
@@ -201,8 +201,8 @@ const signature = {
 	},
 	argument = {
 		contentName: 'variable.parameter.wikitext',
-		begin: String.raw`(?<!(?<!\{)\{)(\{\{\{)(?!\{|\s*!\s*\}\}(?!\}))([^\{\}\|]*)`,
-		end: String.raw`(\}\}\})`,
+		begin: String.raw`(?<!(?<!\{)\{)(\{\{\{)(?!\{|\s*!\s*}}(?!}))([^{|}]*)`,
+		end: '(}}})',
 		captures: {
 			1: {name: 'punctuation.definition.tag.variable.wikitext'},
 			2: {name: 'variable.other.wikitext'},
@@ -242,7 +242,7 @@ const signature = {
 		],
 	},
 	template = {
-		begin: String.raw`(\{\{)(\s*(?::\s*)?(?:$1)\s*:)?([^#\|\[\]\{\}<>]+)(#[^\|\{\}<>]*)?`,
+		begin: String.raw`(\{\{)(\s*(?::\s*)?(?:$1)\s*:)?([^]#<>\[{|}]+)(#[^<>{|}]*)?`,
 		end: templateEnd,
 		captures: {
 			1: {name: 'punctuation.definition.tag.template.wikitext'},
@@ -260,7 +260,7 @@ const signature = {
 		},
 		patterns: [
 			{
-				match: String.raw`(\|)([^\|=\{\}\[\]<>]*)(=)`,
+				match: String.raw`(\|)([^]<=>\[{|}]*)(=)`,
 				captures: {
 					1: pipeRule,
 					2: {
@@ -288,8 +288,8 @@ const signature = {
 	},
 	table = {
 		name: 'meta.tag.block.table.wikitext',
-		begin: String.raw`^(\s*(?::+\s*)?)(\{\||\{\{(?:\{\s*|\s*\()!\s*\}\})(.*)$`,
-		end: String.raw`^(\s*)(\|\}|\{\{\s*!(?:\s*\}|\)\s*)\}\})`,
+		begin: String.raw`^(\s*(?::+\s*)?)(\{(?:\||\{(?:\{\s*|\s*\()!\s*}}))(.*)$`,
+		end: String.raw`^(\s*)(\|}|\{\{\s*!(?:\s*}|\)\s*)}})`,
 		captures: {
 			1: {name: indent},
 			2: pipeRule,
@@ -327,7 +327,7 @@ const signature = {
 	},
 	fileLink = {
 		name: link,
-		begin: String.raw`(?i)(\[\[)(?!\[)[^\S\n]*((?:$1)[^\S\n]*:)([^\n\|\[\]\{\}<>#]+)(#[^\n\|\[\]\{\}]*)?`,
+		begin: String.raw`(?i)(\[\[)(?!\[)[^\S\n]*((?:$1)[^\S\n]*:)([^]\n#<>\[{|}]+)(#[^]\n\[{|}]*)?`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
@@ -337,11 +337,11 @@ const signature = {
 		},
 		patterns: [
 			{
-				match: String.raw`(\|)\s*((?:$1)\s*(?=\||\]\])|$2)`,
+				match: String.raw`(\|)\s*((?:$1)\s*(?=\||]])|$2)`,
 				captures: imgKey,
 			},
 			{
-				match: String.raw`(\|)\s*[\dx]+(?:px)?($1)\s*(?=\||\]\])`,
+				match: String.raw`(\|)\s*[\dx]+(?:px)?($1)\s*(?=\||]])`,
 				captures: imgKey,
 			},
 			pipePattern,
@@ -351,7 +351,7 @@ const signature = {
 	internalLink = {
 		name: link,
 		// eslint-disable-next-line @stylistic/max-len
-		begin: String.raw`(?i)(?<!(?<!\[)\[)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^\n\|\[\]\{\}<>#]*(?:#[^\n\|\[\]\{\}]*)?)`,
+		begin: String.raw`(?i)(?<!(?<!\[)\[)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^]\n#<>\[{|}]*(?:#[^]\n\[{|}]*)?)`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,
@@ -362,11 +362,11 @@ const signature = {
 			{
 				begin: pipe,
 				beginCaptures: {0: pipeRule},
-				end: String.raw`(?=\]\])`,
+				end: '(?=]])',
 				patterns: [$self],
 			},
 			{
-				match: String.raw`[\[\]\}>]`,
+				match: String.raw`[]>\[}]`,
 				name: invalid,
 			},
 			{include: 'text.html.basic#comment'},
@@ -393,7 +393,7 @@ const signature = {
 		],
 	},
 	externalLink = {
-		match: String.raw`(?i)(\[)((?:$1)[^\[\]<>"\s]+?)(?=[\[\]<>"\s]|'')([^\]\n]*)(\])`,
+		match: String.raw`(?i)(\[)((?:$1)[^]"<>\[\s]+?)(?=[]"<>\[\s]|'')([^]\n]*)(])`,
 		captures: {
 			1: externalBracket,
 			2: {name: 'entity.name.tag.url.wikitext'},
@@ -408,7 +408,7 @@ const signature = {
 		patterns: [
 			{
 				name: 'constant.language.variables.isbn.wikitext',
-				match: String.raw`ISBN\s+(?:97[89][\-\s]?)?(?:\d[\-\s]?){9}[\dXx]`,
+				match: String.raw`ISBN\s+(?:97[89][-\s]?)?(?:\d[-\s]?){9}[\dXx]`,
 			},
 			{
 				name: 'constant.language.variables.rfc.wikitext',
@@ -425,8 +425,8 @@ const signature = {
 		match: '^[#*;:]+',
 	},
 	convert = {
-		begin: String.raw`(-\{)(?!\{)(?:([^\|\{\}\[\]]*)(\|))?`,
-		end: String.raw`(\}-)`,
+		begin: String.raw`(-\{)(?!\{)(?:([^]\[{|}]*)(\|))?`,
+		end: '(}-)',
 		captures: {
 			1: {name: 'punctuation.definition.tag.convert.wikitext'},
 			2: {
@@ -442,7 +442,7 @@ const signature = {
 		},
 		patterns: [
 			{
-				match: String.raw`(?<=[\|;]|-\{|=>)\s*($1)(:)(.*?)(?:(;)|(?=\}-))`,
+				match: String.raw`(?<=[;|]|-\{|=>)\s*($1)(:)(.*?)(?:(;)|(?=}-))`,
 				captures: {
 					1: {name: 'entity.name.tag.language.wikitext'},
 					2: {name: 'punctuation.separator.key-value.wikitext'},

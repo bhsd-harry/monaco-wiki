@@ -52,7 +52,7 @@ export default async (
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
 		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#')),
 		imgKeys = Object.keys(img),
-		protocols = [protocol.replace(/\//gu, String.raw`\/`), String.raw`\/\/`];
+		protocols = [protocol, '//'];
 	for (let i = 0; i < 2; i++) {
 		if (doubleUnderscore.length > i + 2 && doubleUnderscore[i]!.length === 0) {
 			doubleUnderscore[i] = Object.keys(doubleUnderscore[i + 2]!);

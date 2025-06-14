@@ -1,11 +1,12 @@
 ## v1.10.0
 
-*2025-06-15*
+*2025-06-16*
 
 **Added**
 
 - Localization for the Monaco Editor's core
 - Keybindings for Wikitext formatting
+- Option to specify a predefined WikiLint configuration
 
 **Fixed**
 

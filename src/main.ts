@@ -30,7 +30,7 @@ const config: languages.LanguageConfiguration = require('../vendor/language-conf
 
 export default async (
 	monaco: typeof Monaco,
-	parserConfig?: ConfigData | boolean,
+	parserConfig?: ConfigData | string | boolean,
 	lang?: string | string[],
 ): Promise<void> => {
 	// 加载 WikiParser-Node
@@ -38,7 +38,7 @@ export default async (
 	const getConfig = async (): Promise<ConfigData> => {
 		if (typeof parserConfig === 'object') {
 			return parserConfig;
-		} else if (parserConfig) { // MW网站
+		} else if (parserConfig && typeof parserConfig !== 'string') { // MW网站
 			const minConfig = await wikiparse.getConfig();
 			let articlePath = mediaWiki!.config.get('wgArticlePath');
 			if (/^\/(?!\/)/u.test(articlePath)) {
@@ -49,7 +49,7 @@ export default async (
 				articlePath,
 			};
 		}
-		return (await fetch(`${wikiparse.CDN}/config/default.json`)).json();
+		return (await fetch(`${wikiparse.CDN}/config/${parserConfig || 'default'}.json`)).json();
 	};
 	await getWikiparse(getConfig, lang);
 
