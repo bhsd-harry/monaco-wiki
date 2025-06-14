@@ -4,8 +4,14 @@ import {codeActionProvider} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
 
+declare interface RequireConfig {
+	paths: Record<string, string>;
+	'vs/nls'?: {
+		availableLanguages: Record<string, string>;
+	};
+}
 declare interface Require {
-	config(config: {paths?: Record<string, string>}): void;
+	config(config: RequireConfig): void;
 
 	(modules: string[], ready: () => unknown): void;
 }
@@ -59,6 +65,7 @@ const MonacoEnvironment: Environment = {
 };
 Object.assign(globalThis, {MonacoEnvironment});
 
+const i18n = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'];
 const load = async (): Promise<typeof Monaco> => {
 	await new Promise(resolve => {
 		const script = document.createElement('script');
@@ -66,14 +73,22 @@ const load = async (): Promise<typeof Monaco> => {
 		script.addEventListener('load', resolve);
 		document.head.append(script);
 	});
-	const requirejs = globalThis.require as unknown as Require;
-	requirejs.config({paths: {vs}});
+	const requirejs = globalThis.require as unknown as Require,
+		config: RequireConfig = {paths: {vs}},
+		isMW = typeof mediaWiki === 'object';
+	if (isMW) {
+		config['vs/nls'] = {
+			availableLanguages: {
+				'*': mediaWiki.language?.getFallbackLanguageChain?.().find(l => i18n.includes(l)) ?? 'en',
+			},
+		};
+	}
+	requirejs.config(config);
 	return new Promise(resolve => {
 		requirejs(['vs/editor/editor.main'], async () => {
 			Object.assign(monaco, {version});
 			monaco.languages.registerCodeActionProvider('css', codeActionProvider);
 			monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
-			const isMW = typeof mediaWiki === 'object';
 			await registerWiki(
 				monaco,
 				isMW,

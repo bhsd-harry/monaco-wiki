@@ -1,3 +1,11 @@
+## v1.9.4
+
+*2025-06-15*
+
+**Added**
+
+- Localization for the Monaco Editor's core
+
 ## v1.9.3
 
 *2025-06-07*
