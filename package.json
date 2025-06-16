@@ -40,8 +40,8 @@
 		"test:end": "pkill -x http-server"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.27.0",
-		"@bhsd/common": "^0.12.0",
+		"@bhsd/codemirror-mediawiki": "^2.27.1",
+		"@bhsd/common": "^0.13.0",
 		"@shikijs/monaco": "^3.1.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
@@ -60,7 +60,7 @@
 		"eslint-plugin-regexp": "^2.7.0",
 		"eslint-plugin-unicorn": "^56.0.1",
 		"http-server": "^14.1.1",
-		"luacheck-browserify": "^0.5.1",
+		"luacheck-browserify": "^0.5.2",
 		"mocha": "^11.1.0",
 		"monaco-editor": "^0.52.2",
 		"shiki": "^3.1.0",
