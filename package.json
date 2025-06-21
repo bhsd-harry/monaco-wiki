@@ -41,7 +41,7 @@
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.28.2",
-		"@bhsd/common": "^0.13.0",
+		"@bhsd/common": "^0.13.1",
 		"@shikijs/monaco": "^3.1.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
