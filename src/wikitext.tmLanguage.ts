@@ -1,4 +1,5 @@
 import type {IRawGrammar} from '@shikijs/vscode-textmate';
+import type {LanguageRegistration} from 'shiki/core';
 
 export type IRawRule = IRawGrammar['patterns'][0];
 declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
@@ -534,4 +535,4 @@ export default {
 		list,
 		convert,
 	},
-};
+} as LanguageRegistration;

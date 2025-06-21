@@ -16,7 +16,16 @@ import registerWiki from 'https://cdn.jsdelivr.net/npm/monaco-wiki';
 
 await registerWiki(
 	monaco,
-	false, // Set to `true` if used in a MediaWiki site
+
+	// Set to `true` if used in a MediaWiki site,
+	// or a string to specify a preset configuration (https://github.com/bhsd-harry/wikiparser-node/tree/main/config)
+	false,
+
+	// (optional) i18n language codes with a preferred order, e.g. `['zh-hans', 'zh-hant', 'en']
+	['en'],
+
+	// (optional) custom download URL for the `wikiparse` object`
+	'https://cdn.jsdelivr.net/npm/wikiparser-node'
 );
 ```
 

@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.10.1",
+	"version": "1.11.0",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -18,18 +18,18 @@
 		"/dist/",
 		"!/dist/*.map"
 	],
-	"sideEffects": false,
-	"browser": "/dist/main.min.js",
+	"main": "./dist/main.min.js",
+	"types": "./dist/main.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bhsd-harry/monaco-wiki.git"
 	},
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"lint:ts": "tsc && tsc --project gh-page/tsconfig.json --noEmit && tsc --project test/tsconfig.json --noEmit && eslint --cache .",
+		"lint:ts": "tsc --noEmit && tsc --project gh-page/tsconfig.json --noEmit && tsc --project test/tsconfig.json --noEmit && eslint --cache .",
 		"lint:css": "stylelint gh-page/*.css",
 		"lint": "npm run lint:ts && npm run lint:css",
-		"build:core": "esbuild src/main.ts --charset=utf8 --bundle --minify --target=es2019 --format=esm --outfile=dist/main.min.js",
+		"build:core": "tsc && rm dist/all.d.ts && esbuild src/main.ts --charset=utf8 --bundle --minify --target=es2019 --format=esm --outfile=dist/main.min.js",
 		"build:all": "esbuild src/all.ts --charset=utf8 --bundle --minify --target=es2019 --sourcemap --outfile=dist/all.min.js",
 		"build:gh-page": "tsc --project gh-page/tsconfig.json",
 		"build:test": "tsc --project test/tsconfig.json && npm test",
@@ -40,7 +40,7 @@
 		"test:end": "pkill -x http-server"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.27.1",
+		"@bhsd/codemirror-mediawiki": "^2.28.2",
 		"@bhsd/common": "^0.13.0",
 		"@shikijs/monaco": "^3.1.0",
 		"@stylistic/eslint-plugin": "^3.1.0",

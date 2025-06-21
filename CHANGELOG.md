@@ -1,4 +1,12 @@
-## v1.10.0
+## v1.11.0
+
+*2025-06-21*
+
+**Added**
+
+- Support for a custom URL to download the [`wikiparse`](https://github.com/bhsd-harry/wikiparser-node/wiki/Browser-%28EN%29#base) object
+
+## v1.10.1
 
 *2025-06-16*
 

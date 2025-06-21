@@ -32,6 +32,7 @@ export default async (
 	monaco: typeof Monaco,
 	parserConfig?: ConfigData | string | boolean,
 	lang?: string | string[],
+	cdn?: string,
 ): Promise<void> => {
 	// 加载 WikiParser-Node
 	const loaded = typeof wikiparse === 'object';
@@ -51,7 +52,7 @@ export default async (
 		}
 		return (await fetch(`${wikiparse.CDN}/config/${parserConfig || 'default'}.json`)).json();
 	};
-	await getWikiparse(getConfig, lang);
+	await getWikiparse(getConfig, lang, cdn);
 
 	const wikiConfig = await wikiparse.getConfig();
 	// 注册语言
