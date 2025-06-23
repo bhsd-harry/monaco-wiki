@@ -2,4 +2,5 @@
 dist/
 !/dist/all.min.js
 /.markdownlint.json
+/build
 .eslintcache

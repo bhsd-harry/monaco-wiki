@@ -1,3 +1,11 @@
+## v1.11.2
+
+*2025-06-25*
+
+**Fixed**
+
+- Updated ESLint globals when used on a MediaWiki site 
+
 ## v1.11.1
 
 *2025-06-21*

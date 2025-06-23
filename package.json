@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.11.1",
+	"version": "1.11.2",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -30,8 +30,10 @@
 		"lint:ts": "tsc --noEmit && tsc --project gh-page/tsconfig.json --noEmit && tsc --project test/tsconfig.json --noEmit && eslint --cache .",
 		"lint:css": "stylelint gh-page/*.css",
 		"lint": "npm run lint:ts && npm run lint:css",
-		"build:core": "tsc && rm dist/all.d.ts && esbuild src/main.ts --charset=utf8 --bundle --minify --target=es2019 --format=esm --outfile=dist/main.min.js",
-		"build:all": "esbuild src/all.ts --charset=utf8 --bundle --minify --target=es2019 --sourcemap --outfile=dist/all.min.js",
+		"bundle:core": "esbuild src/main.ts --charset=utf8 --bundle --format=esm --outfile=build/main.js",
+		"bundle:all": "esbuild src/all.ts --charset=utf8 --bundle --format=esm --outfile=build/all.js",
+		"build:core": "tsc && rm dist/all.d.ts && npm run bundle:core && esbuild build/main.js --charset=utf8 --minify --target=es2019 --outfile=dist/main.min.js",
+		"build:all": "npm run bundle:all && esbuild build/all.js --charset=utf8 --minify --target=es2019 --sourcemap --format=iife --outfile=dist/all.min.js",
 		"build:gh-page": "tsc --project gh-page/tsconfig.json",
 		"build:test": "tsc --project test/tsconfig.json && npm test",
 		"build": "npm run build:core && npm run build:all && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js",
@@ -41,7 +43,7 @@
 		"test:end": "pkill -x http-server"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.28.2",
+		"@bhsd/codemirror-mediawiki": "^2.29.0",
 		"@bhsd/common": "^0.13.1",
 		"@shikijs/monaco": "^3.1.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
@@ -61,11 +63,11 @@
 		"eslint-plugin-regexp": "^2.7.0",
 		"eslint-plugin-unicorn": "^56.0.1",
 		"http-server": "^14.1.1",
-		"luacheck-browserify": "^0.5.2",
+		"luacheck-browserify": "^0.7.0",
 		"mocha": "^11.1.0",
 		"monaco-editor": "^0.52.2",
 		"shiki": "^3.1.0",
-		"stylelint": "^16.20.0",
+		"stylelint": "^16.21.0",
 		"stylelint-config-recommended": "^16.0.0",
 		"typescript": "^5.8.2",
 		"wikiparser-node": "^1.21.2"

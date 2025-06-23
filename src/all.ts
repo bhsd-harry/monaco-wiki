@@ -1,5 +1,7 @@
 import {CDN as baseCDN} from '@bhsd/common';
 import registerWiki from './main.ts';
+import {linterGetters} from './wikilint.ts';
+import registerLinters from './linters.ts';
 import {codeActionProvider} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
@@ -64,6 +66,8 @@ const MonacoEnvironment: Environment = {
 	},
 };
 Object.assign(globalThis, {MonacoEnvironment});
+
+registerLinters(linterGetters);
 
 const i18n = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'];
 const load = async (): Promise<typeof Monaco> => {

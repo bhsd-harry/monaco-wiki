@@ -3,10 +3,10 @@ import {shikiToMonaco} from '@shikijs/monaco';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import {getWikiparse, getLSP} from '@bhsd/common';
-import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
-import getLinter from './linter.ts';
+import registerLinter from './wikilint.ts';
 import addKeybindings from './keymap.ts';
 import {
 	documentColorProvider,
@@ -84,9 +84,7 @@ export default async (
 	monaco.languages.registerInlayHintsProvider('wikitext', inlayHintsProvider);
 	monaco.languages.registerCodeActionProvider('wikitext', codeActionProvider);
 	addKeybindings(monaco);
-	monaco.editor.onDidCreateModel(model => {
-		getLinter(monaco, model);
-	});
+	registerLinter(monaco);
 	monaco.editor.onWillDisposeModel(model => {
 		getLSP(model)?.destroy();
 	});

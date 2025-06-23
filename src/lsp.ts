@@ -8,7 +8,7 @@ import type {
 	Position as NPosition,
 	MarkupContent,
 } from 'vscode-languageserver-types';
-import type {IWikitextModel} from './linter.ts';
+import type {IWikitextModel} from './wikilint.ts';
 
 const iPositionToNPosition = ({lineNumber, column}: IPosition): NPosition => ({
 	line: lineNumber - 1,
