@@ -1,3 +1,11 @@
+## v1.12.0
+
+*2025-06-30*
+
+**Added**
+
+- New exported functions `registerJavaScript`, `registerCSS`, and `registerLua` to register external linters ([ESLint](https://eslint.org/) for JavaScript, [Stylelint](https://stylelint.io/) for CSS, and [Luacheck](https://github.com/lunarmodules/luacheck) for Lua, respectively)
+
 ## v1.11.2
 
 *2025-06-25*
@@ -159,7 +167,7 @@
 
 - Color provider for argument default values in Wikitext
 - Completion for behavior switches in Wikitext
-- The Lua linter is now based on [Luacheck](https://github.com/mpeterv/luacheck) instead of luaparse
+- The Lua linter is now based on [Luacheck](https://github.com/lunarmodules/luacheck) instead of luaparse
 
 ## v1.4.2
 

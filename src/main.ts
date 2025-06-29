@@ -6,7 +6,8 @@ import {getWikiparse, getLSP} from '@bhsd/common';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
-import registerLinter from './wikilint.ts';
+import registerLinterBase from './linter.ts';
+import {registerWikiLint, registerESLint, registerStylelint, registerLuacheck} from './linters.ts';
 import addKeybindings from './keymap.ts';
 import {
 	documentColorProvider,
@@ -28,10 +29,18 @@ import type {languages} from 'monaco-editor';
 
 const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 
+/**
+ * Register the language service for Wikitext
+ * @param monaco Monaco Editor global
+ * @param parserConfig Configuration for [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node).
+ * Please set this to `true` if used in a MediaWiki site.
+ * @param langs i18n language codes with a preferred order
+ * @param cdn CDN URL for downloading WikiParser-Node, default to https://testingcf.jsdelivr.net/npm/wikiparser-node
+ */
 export default async (
 	monaco: typeof Monaco,
 	parserConfig?: ConfigData | string | boolean,
-	lang?: string | string[],
+	langs?: string | string[],
 	cdn?: string,
 ): Promise<void> => {
 	// 加载 WikiParser-Node
@@ -52,7 +61,7 @@ export default async (
 		}
 		return (await fetch(`${wikiparse.CDN}/config/${parserConfig || 'default'}.json`)).json();
 	};
-	await getWikiparse(getConfig, lang, cdn);
+	await getWikiparse(getConfig, langs, cdn);
 
 	const wikiConfig = await wikiparse.getConfig();
 	// 注册语言
@@ -84,8 +93,42 @@ export default async (
 	monaco.languages.registerInlayHintsProvider('wikitext', inlayHintsProvider);
 	monaco.languages.registerCodeActionProvider('wikitext', codeActionProvider);
 	addKeybindings(monaco);
-	registerLinter(monaco);
+	registerLinterBase(monaco);
+	registerWikiLint();
 	monaco.editor.onWillDisposeModel(model => {
 		getLSP(model)?.destroy();
 	});
+};
+
+/**
+ * Register ESLint for JavaScript
+ * @param monaco Monaco Editor global
+ * @param cdn CDN URL for downloading ESLint, default to https://testingcf.jsdelivr.net/npm/@bhsd/eslint-browserify
+ */
+export const registerJavaScript = (monaco: typeof Monaco, cdn?: string): void => {
+	monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
+	registerLinterBase(monaco);
+	registerESLint(cdn);
+};
+
+/**
+ * Register Stylelint for CSS
+ * @param monaco Monaco Editor global
+ * @param cdn CDN URL for downloading Stylelint,
+ * default to https://testingcf.jsdelivr.net/npm/@bhsd/stylelint-browserify
+ */
+export const registerCSS = (monaco: typeof Monaco, cdn?: string): void => {
+	monaco.languages.registerCodeActionProvider('css', codeActionProvider);
+	registerLinterBase(monaco);
+	registerStylelint(cdn);
+};
+
+/**
+ * Register the Luacheck for Lua
+ * @param monaco Monaco Editor global
+ * @param cdn CDN URL for downloading Luacheck, default to https://testingcf.jsdelivr.net/npm/luacheck-browserify
+ */
+export const registerLua = (monaco: typeof Monaco, cdn?: string): void => {
+	registerLinterBase(monaco);
+	registerLuacheck(cdn);
 };

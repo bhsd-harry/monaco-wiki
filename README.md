@@ -12,7 +12,11 @@ You may load the Monaco Editor on your own:
 
 ```js
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor/+esm';
-import registerWiki from 'https://cdn.jsdelivr.net/npm/monaco-wiki';
+import registerWiki, {
+	registerJavaScript,
+	registerCSS,
+	registerLua,
+} from 'https://cdn.jsdelivr.net/npm/monaco-wiki';
 
 await registerWiki(
 	monaco,
@@ -26,7 +30,28 @@ await registerWiki(
 	['en'],
 
 	// (optional) custom download URL for the `wikiparse` object`
-	'https://cdn.jsdelivr.net/npm/wikiparser-node'
+	'https://cdn.jsdelivr.net/npm/wikiparser-node',
+);
+
+registerJavaScript(
+	monaco,
+
+	// (optional) custom download URL for the `eslint` object`
+	'https://cdn.jsdelivr.net/npm/@bhsd/eslint-browserify',
+);
+
+registerCSS(
+	monaco,
+
+	// (optional) custom download URL for the `stylelint` object`
+	'https://cdn.jsdelivr.net/npm/@bhsd/stylelint-browserify',
+);
+
+registerLua(
+	monaco,
+
+	// (optional) custom download URL for the `luacheck` object`
+	'https://cdn.jsdelivr.net/npm/luacheck-browserify',
 );
 ```
 

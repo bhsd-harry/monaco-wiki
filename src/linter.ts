@@ -1,8 +1,7 @@
 import {getObject} from '@bhsd/common';
-import {getWikiLinter} from '@bhsd/codemirror-mediawiki/dist/linter.js';
-import {nRangeToIRange, toIRange} from './lsp.ts';
+import {toIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
-import type {editor, MarkerSeverity, Position, IRange} from 'monaco-editor';
+import type {editor, MarkerSeverity} from 'monaco-editor';
 import type {QuickFixData} from 'wikiparser-node';
 
 declare interface ILinter {
@@ -34,50 +33,17 @@ export const linterGetters = new Map<string, (model: editor.ITextModel) => Promi
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}`);
 
-export const fromPositions = (start: Position, end = start): IRange => ({
-	startLineNumber: start.lineNumber,
-	startColumn: start.column,
-	endLineNumber: end.lineNumber,
-	endColumn: end.column,
-});
-
-linterGetters.set('wikitext', async model => {
-	const wikiLint = await getWikiLinter(undefined, model);
-	return {
-		async lint(text): Promise<editor.IMarkerData[]> {
-			return (await wikiLint(text, getCmObject('wikilint') as Record<string, unknown> | null)).map(({
-				code,
-				severity,
-				message,
-				source,
-				range,
-				from,
-				to,
-				data,
-			}): editor.IMarkerData & {data?: unknown} => {
-				const isStylelint = source === 'Stylelint',
-					start = isStylelint ? model.getPositionAt(from!) : undefined,
-					end = isStylelint ? model.getPositionAt(to!) : undefined;
-				return {
-					code: code as string,
-					severity: severity === 1 ? 8 : 4,
-					message: isStylelint
-						? message.slice(0, message.lastIndexOf('(') - 1)
-						: message,
-					source: source!,
-					data,
-					...isStylelint ? fromPositions(start!, end) : nRangeToIRange(range!),
-				};
-			});
-		},
-	};
-});
+let registered = false;
 
 /**
  * 获取代码检查器
  * @param monaco Monaco
  */
 export default (monaco: typeof Monaco): void => {
+	if (registered) {
+		return;
+	}
+
 	/**
 	 * 更新诊断信息
 	 * @param model ITextModel 实例
@@ -90,24 +56,25 @@ export default (monaco: typeof Monaco): void => {
 		}
 		clearTimeout(linter.timer);
 		linter.timer = setTimeout(() => {
+			if (model.isDisposed()) {
+				return;
+			}
 			(async () => {
-				if (!model.isDisposed()) {
-					linter.diagnostics = clear ? [] : await linter.lint!(model.getValue());
-					monaco.editor.setModelMarkers(model, 'Linter', linter.diagnostics);
-					linter.glyphs = model.deltaDecorations(
-						linter.glyphs,
-						linter.diagnostics
-							.map(({startLineNumber, severity, message}): editor.IModelDeltaDecoration => ({
-								range: toIRange(startLineNumber, 1, startLineNumber, 1),
-								options: {
-									glyphMarginClassName: `codicon codicon-${
-										severity === 8 as MarkerSeverity ? 'error' : 'warning'
-									}`,
-									glyphMarginHoverMessage: {value: message},
-								},
-							})),
-					);
-				}
+				linter.diagnostics = clear ? [] : await linter.lint!(model.getValue());
+				monaco.editor.setModelMarkers(model, 'Linter', linter.diagnostics);
+				linter.glyphs = model.deltaDecorations(
+					linter.glyphs,
+					linter.diagnostics
+						.map(({startLineNumber, severity, message}): editor.IModelDeltaDecoration => ({
+							range: toIRange(startLineNumber, 1, startLineNumber, 1),
+							options: {
+								glyphMarginClassName: `codicon codicon-${
+									severity === 8 as MarkerSeverity ? 'error' : 'warning'
+								}`,
+								glyphMarginHoverMessage: {value: message},
+							},
+						})),
+				);
 			})();
 		}, clear ? 0 : 750);
 	};
@@ -140,6 +107,7 @@ export default (monaco: typeof Monaco): void => {
 		})();
 	}
 
+	registered = true;
 	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
 		model.lint = lint;
 		model.lint((getCmObject('addons') as string[] | null)?.includes('lint'));

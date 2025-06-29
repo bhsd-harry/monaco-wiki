@@ -1,10 +1,22 @@
-import {jsConfig, getJsLinter, getCssLinter, getLuaLinter} from '@bhsd/codemirror-mediawiki/dist/linter.js';
-import {iRangeToNRange, toIRange} from './lsp.ts';
-import {getCmObject, fromPositions} from './wikilint.ts';
-import type {editor, Position} from 'monaco-editor';
+import {
+	getWikiLinter,
+	jsConfig,
+	getJsLinter,
+	getCssLinter,
+	getLuaLinter,
+} from '@bhsd/codemirror-mediawiki/dist/linter.js';
+import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.ts';
+import {getCmObject, linterGetters} from './linter.ts';
+import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
-import type {linterGetters} from './wikilint.ts';
+
+const fromPositions = (start: Position, end = start): IRange => ({
+	startLineNumber: start.lineNumber,
+	startColumn: start.column,
+	endLineNumber: end.lineNumber,
+	endColumn: end.column,
+});
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const toNRange = (model: editor.ITextModel, range: AST.Range) => iRangeToNRange(
@@ -35,9 +47,43 @@ const getData = (
 	})),
 ];
 
-export default (getters: typeof linterGetters): void => {
-	getters.set('javascript', async model => {
-		const esLint = await getJsLinter();
+export const registerWikiLint = (): void => {
+	linterGetters.set('wikitext', async model => {
+		const wikiLint = await getWikiLinter(undefined, model);
+		return {
+			async lint(text): Promise<editor.IMarkerData[]> {
+				return (await wikiLint(text, getCmObject('wikilint') as Record<string, unknown> | null)).map(({
+					code,
+					severity,
+					message,
+					source,
+					range,
+					from,
+					to,
+					data,
+				}): editor.IMarkerData & {data?: unknown} => {
+					const isStylelint = source === 'Stylelint',
+						start = isStylelint ? model.getPositionAt(from!) : undefined,
+						end = isStylelint ? model.getPositionAt(to!) : undefined;
+					return {
+						code: code as string,
+						severity: severity === 1 ? 8 : 4,
+						message: isStylelint
+							? message.slice(0, message.lastIndexOf('(') - 1)
+							: message,
+						source: source!,
+						data,
+						...isStylelint ? fromPositions(start!, end) : nRangeToIRange(range!),
+					};
+				});
+			},
+		};
+	});
+};
+
+export const registerESLint = (cdn?: string): void => {
+	linterGetters.set('javascript', async model => {
+		const esLint = await getJsLinter(cdn);
 		return {
 			lint(text): editor.IMarkerData[] {
 				return esLint(text, {
@@ -67,9 +113,11 @@ export default (getters: typeof linterGetters): void => {
 			},
 		};
 	});
+};
 
-	getters.set('css', async model => {
-		const styleLint = await getCssLinter();
+export const registerStylelint = (cdn?: string): void => {
+	linterGetters.set('css', async model => {
+		const styleLint = await getCssLinter(cdn);
 		return {
 			async lint(code): Promise<editor.IMarkerData[]> {
 				return (await styleLint(
@@ -98,9 +146,11 @@ export default (getters: typeof linterGetters): void => {
 			},
 		};
 	});
+};
 
-	getters.set('lua', async () => {
-		const luaLint = await getLuaLinter();
+export const registerLuacheck = (cdn?: string): void => {
+	linterGetters.set('lua', async () => {
+		const luaLint = await getLuaLinter(cdn);
 		return {
 			async lint(text): Promise<editor.IMarkerData[]> {
 				return (await luaLint(text))

@@ -1,8 +1,5 @@
 import {CDN as baseCDN} from '@bhsd/common';
-import registerWiki from './main.ts';
-import {linterGetters} from './wikilint.ts';
-import registerLinters from './linters.ts';
-import {codeActionProvider} from './lsp.ts';
+import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
 
@@ -67,8 +64,6 @@ const MonacoEnvironment: Environment = {
 };
 Object.assign(globalThis, {MonacoEnvironment});
 
-registerLinters(linterGetters);
-
 const i18n = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'];
 const load = async (): Promise<typeof Monaco> => {
 	await new Promise(resolve => {
@@ -91,8 +86,6 @@ const load = async (): Promise<typeof Monaco> => {
 	return new Promise(resolve => {
 		requirejs(['vs/editor/editor.main'], async () => {
 			Object.assign(monaco, {version});
-			monaco.languages.registerCodeActionProvider('css', codeActionProvider);
-			monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
 			await registerWiki(
 				monaco,
 				isMW,
@@ -100,6 +93,9 @@ const load = async (): Promise<typeof Monaco> => {
 					? mediaWiki.language?.getFallbackLanguageChain?.() ?? [mediaWiki.config.get('wgUserLanguage')]
 					: undefined,
 			);
+			registerJavaScript(monaco);
+			registerCSS(monaco);
+			registerLua(monaco);
 			resolve(monaco);
 		});
 	});
