@@ -1,10 +1,11 @@
 ## v1.12.0
 
-*2025-06-30*
+*2025-07-01*
 
 **Added**
 
 - New exported functions `registerJavaScript`, `registerCSS`, and `registerLua` to register external linters ([ESLint](https://eslint.org/) for JavaScript, [Stylelint](https://stylelint.io/) for CSS, and [Luacheck](https://github.com/lunarmodules/luacheck) for Lua, respectively)
+- Support for custom Shiki themes
 
 ## v1.11.2
 

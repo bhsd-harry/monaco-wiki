@@ -26,8 +26,7 @@ import {
 import type {ConfigData} from 'wikiparser-node';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
-
-const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
+import type {ThemeRegistrationRaw} from 'shiki';
 
 /**
  * Register the language service for Wikitext
@@ -36,12 +35,14 @@ const config: languages.LanguageConfiguration = require('../vendor/language-conf
  * Please set this to `true` if used in a MediaWiki site.
  * @param langs i18n language codes with a preferred order
  * @param cdn CDN URL for downloading WikiParser-Node, default to https://testingcf.jsdelivr.net/npm/wikiparser-node
+ * @param themes additional Shiki themes
  */
 export default async (
 	monaco: typeof Monaco,
 	parserConfig?: ConfigData | string | boolean,
 	langs?: string | string[],
 	cdn?: string,
+	themes: ThemeRegistrationRaw[] = [],
 ): Promise<void> => {
 	// 加载 WikiParser-Node
 	const loaded = typeof wikiparse === 'object';
@@ -70,8 +71,9 @@ export default async (
 	monaco.languages.register({id: 'css', aliases: ['CSS']});
 	monaco.languages.register({id: 'html', aliases: ['HTML', 'htm', 'xhtml']});
 	monaco.languages.register({id: 'json', aliases: ['JSON']});
-	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, [monokai, nord]), monaco);
+	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, [monokai, nord, ...themes]), monaco);
 
+	const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 	// 语言设置
 	config.autoClosingPairs!.push(
 		...[wikiConfig.ext, wikiConfig.html.slice(0, 2)].flat(2)

@@ -31,6 +31,9 @@ await registerWiki(
 
 	// (optional) custom download URL for the `wikiparse` object`
 	'https://cdn.jsdelivr.net/npm/wikiparser-node',
+
+	// (optional) addtional Shiki themes
+	[await import('shiki/themes/github-light.mjs')],
 );
 
 registerJavaScript(
@@ -70,14 +73,12 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 - wiki
 - mediawiki
 
-# Themes
+# Bundled Themes
 
 |Name|ID|
 |:-:|:-:|
 |Monokai|`monokai`|
 |Nord|`nord`|
-
-If you wish to use other themes listed [here](https://shiki.style/themes), please [submit a feature request](https://github.com/bhsd-harry/monaco-wiki/issues/new).
 
 # Known Issues
 
