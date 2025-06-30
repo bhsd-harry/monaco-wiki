@@ -5006,6 +5006,11 @@
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>poem</><punctuation.definition.tag.end>&gt</><meta.block.ref><punctuation.definition.tag.begin>&lt;</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>this\\nis\\na\\ntest\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>poem</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
+		"desc": "Precedence of table over links",
+		"wikitext": "{|\n! [[Foo!!]]\n| [[Bar\n|Baz]]\n|}",
+		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.th><keyword.operator>!</><markup.style> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</></></><keyword.operator>!!</><markup.style>]]\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Bar\\n</></></><keyword.operator>|</><markup.style>Baz]]\\n</></><keyword.operator>|}</></>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

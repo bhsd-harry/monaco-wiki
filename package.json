@@ -42,9 +42,13 @@
 		"test:real": "node test/dist/test/real.js",
 		"test:end": "pkill -x http-server"
 	},
+	"dependencies": {
+		"monaco-editor": "^0.52.2",
+		"wikiparser-node": "^1.21.2"
+	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.29.0",
-		"@bhsd/common": "^0.13.1",
+		"@bhsd/common": "^0.14.1",
 		"@shikijs/monaco": "^3.1.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
@@ -65,11 +69,9 @@
 		"http-server": "^14.1.1",
 		"luacheck-browserify": "^0.7.0",
 		"mocha": "^11.1.0",
-		"monaco-editor": "^0.52.2",
 		"shiki": "^3.1.0",
 		"stylelint": "^16.21.0",
 		"stylelint-config-recommended": "^16.0.0",
-		"typescript": "^5.8.2",
-		"wikiparser-node": "^1.21.2"
+		"typescript": "^5.8.2"
 	}
 }
