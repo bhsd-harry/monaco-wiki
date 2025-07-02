@@ -6,9 +6,15 @@
 
 **Monaco-Wiki** registers the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language in the [Monaco Editor](https://microsoft.github.io/monaco-editor/). It is a web version of the [Visual Studio Code](https://code.visualstudio.com/) extensions developed by [Rowe Wilson Frederisk Holme](https://github.com/Frederisk/Wikitext-VSCode-Extension) and [Bhsd](https://github.com/bhsd-harry/vscode-extension-wikiparser). The TextMate grammar is substantially revised to be site-specific and more accurate.
 
+# Installation
+
+```bash
+npm install monaco-wiki
+```
+
 # Usage
 
-You may load the Monaco Editor on your own:
+You may load the Monaco Editor and prepare the bundle on your own:
 
 ```js
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor/+esm';
@@ -16,7 +22,7 @@ import registerWiki, {
 	registerJavaScript,
 	registerCSS,
 	registerLua,
-} from 'https://cdn.jsdelivr.net/npm/monaco-wiki';
+} from 'monaco-wiki';
 
 await registerWiki(
 	monaco,
@@ -32,7 +38,7 @@ await registerWiki(
 	// (optional) custom download URL for the `wikiparse` object`
 	'https://cdn.jsdelivr.net/npm/wikiparser-node',
 
-	// (optional) addtional Shiki themes
+	// (optional) Shiki themes
 	[await import('shiki/themes/github-light.mjs')],
 );
 
@@ -58,7 +64,7 @@ registerLua(
 );
 ```
 
-or simply:
+or simply load the pre-bundled version from a CDN:
 
 ```js
 // Automatically loads the Monaco Editor's core and relevant workers

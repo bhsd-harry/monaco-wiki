@@ -1,4 +1,6 @@
 import {CDN as baseCDN} from '@bhsd/common';
+import monokai from 'shiki/themes/monokai.mjs';
+import nord from 'shiki/themes/nord.mjs';
 import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
@@ -92,6 +94,8 @@ const load = async (): Promise<typeof Monaco> => {
 				isMW
 					? mediaWiki.language?.getFallbackLanguageChain?.() ?? [mediaWiki.config.get('wgUserLanguage')]
 					: undefined,
+				undefined,
+				[monokai, nord],
 			);
 			registerJavaScript(monaco);
 			registerCSS(monaco);

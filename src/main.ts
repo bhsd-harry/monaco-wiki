@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import {shikiToMonaco} from '@shikijs/monaco';
-import monokai from 'shiki/themes/monokai.mjs';
-import nord from 'shiki/themes/nord.mjs';
 import {getWikiparse, getLSP} from '@bhsd/common';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import getHighlighter from './token.ts';
@@ -71,7 +69,7 @@ export default async (
 	monaco.languages.register({id: 'css', aliases: ['CSS']});
 	monaco.languages.register({id: 'html', aliases: ['HTML', 'htm', 'xhtml']});
 	monaco.languages.register({id: 'json', aliases: ['JSON']});
-	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, [monokai, nord, ...themes]), monaco);
+	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, themes), monaco);
 
 	const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 	// 语言设置
