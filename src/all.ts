@@ -4,6 +4,7 @@ import nord from 'shiki/themes/nord.mjs';
 import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
+import type {} from 'types-mediawiki';
 
 declare interface RequireConfig {
 	paths: Record<string, string>;
@@ -19,14 +20,6 @@ declare interface Require {
 
 declare global {
 	const monaco: typeof Monaco;
-	const mediaWiki: {
-		config: {
-			get(key: string): string;
-		};
-		language?: {
-			getFallbackLanguageChain?: () => string[]; // eslint-disable-line @typescript-eslint/method-signature-style
-		};
-	};
 }
 
 const CDN = `${baseCDN}/npm`,
@@ -76,11 +69,12 @@ const load = async (): Promise<typeof Monaco> => {
 	});
 	const requirejs = globalThis.require as unknown as Require,
 		config: RequireConfig = {paths: {vs}},
-		isMW = typeof mediaWiki === 'object';
+		isMW = typeof mw === 'object';
 	if (isMW) {
+		await mw.loader.using('mediawiki.language');
 		config['vs/nls'] = {
 			availableLanguages: {
-				'*': mediaWiki.language?.getFallbackLanguageChain?.().find(l => i18n.includes(l)) ?? 'en',
+				'*': mw.language.getFallbackLanguageChain().find(l => i18n.includes(l)) ?? 'en',
 			},
 		};
 	}
@@ -91,9 +85,7 @@ const load = async (): Promise<typeof Monaco> => {
 			await registerWiki(
 				monaco,
 				isMW,
-				isMW
-					? mediaWiki.language?.getFallbackLanguageChain?.() ?? [mediaWiki.config.get('wgUserLanguage')]
-					: undefined,
+				isMW ? mw.language.getFallbackLanguageChain() : undefined,
 				undefined,
 				[monokai, nord],
 			);

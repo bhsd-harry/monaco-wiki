@@ -49,7 +49,7 @@ export default async (
 			return parserConfig;
 		} else if (parserConfig && typeof parserConfig !== 'string') { // MW网站
 			const minConfig = await wikiparse.getConfig();
-			let articlePath = mediaWiki!.config.get('wgArticlePath');
+			let articlePath = mw.config.get('wgArticlePath');
 			if (/^\/(?!\/)/u.test(articlePath)) {
 				articlePath = location.origin + articlePath;
 			}
