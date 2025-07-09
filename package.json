@@ -44,11 +44,11 @@
 	},
 	"dependencies": {
 		"monaco-editor": "^0.52.2",
-		"wikiparser-node": "^1.21.2"
+		"wikiparser-node": "^1.21.3"
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.30.2",
-		"@bhsd/common": "^0.14.1",
+		"@bhsd/common": "^0.15.0",
 		"@shikijs/monaco": "^3.7.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",

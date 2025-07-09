@@ -11,6 +11,10 @@ import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
 
+declare interface ITextModel extends editor.ITextModel {
+	getRangeAt(start: number, end: number): IRange;
+}
+
 const fromPositions = (start: Position, end = start): IRange => ({
 	startLineNumber: start.lineNumber,
 	startColumn: start.column,
@@ -20,7 +24,7 @@ const fromPositions = (start: Position, end = start): IRange => ({
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const toNRange = (model: editor.ITextModel, range: AST.Range) => iRangeToNRange(
-	fromPositions(...range.map(x => model.getPositionAt(x)) as [Position, Position]),
+	(model as ITextModel).getRangeAt(...range),
 );
 
 const getData = (
