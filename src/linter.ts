@@ -1,4 +1,4 @@
-import {getObject} from '@bhsd/common';
+import {getObject} from '@bhsd/browser';
 import {toIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity} from 'monaco-editor';

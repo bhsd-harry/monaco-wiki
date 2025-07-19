@@ -1,4 +1,4 @@
-import util from '@bhsd/common/dist/test';
+import util from '@bhsd/test-util';
 // @ts-expect-error JSON module
 import results from '../../parserTests.json' with {type: 'json'};
 import parse, {getGrammar} from './parser.js';

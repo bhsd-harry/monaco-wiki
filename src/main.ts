@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import {shikiToMonaco} from '@shikijs/monaco';
-import {getWikiparse, getLSP} from '@bhsd/common';
+import {getWikiparse, getLSP} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import getHighlighter from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
@@ -22,6 +22,7 @@ import {
 	codeActionProvider,
 } from './lsp.ts';
 import type {ConfigData} from 'wikiparser-node';
+import type {} from 'wikiparser-node/extensions/typings.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';

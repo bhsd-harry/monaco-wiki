@@ -5011,6 +5011,11 @@
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.th><keyword.operator>!</><markup.style> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Foo</></></><keyword.operator>!!</><markup.style>]]\\n</></><meta.tag.block.td><keyword.operator>|</><markup.style> <string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>Bar\\n</></></><keyword.operator>|</><markup.style>Baz]]\\n</></><keyword.operator>|}</></>"
 	},
 	{
+		"desc": "Upper-case language variant is acceptable in conversion rules",
+		"wikitext": "-{zh-Hans:a;zh-Hant:b}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</>zh-Hans:a;zh-Hant:b<punctuation.definition.tag.convert>}-</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -8120,13 +8125,13 @@
 	},
 	{
 		"desc": "Explicit definition of language variant alternatives",
-		"wikitext": "-{zh:China;zh-tw:Taiwan}-, not China",
-		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</>, not China"
+		"wikitext": "-{zh:China;zh-tw:Taiwan}-, is China",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</>, is China"
 	},
 	{
 		"desc": "Explicit definition of language variant alternatives (BCP 47 codes)",
-		"wikitext": "-{zh:China;zh-Hant-TW:Taiwan}-, not China",
-		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>zh-Hant-TW:Taiwan<punctuation.definition.tag.convert>}-</>, not China"
+		"wikitext": "-{zh:China;zh-Hant-TW:Taiwan}-, is China",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>zh-Hant-TW:Taiwan<punctuation.definition.tag.convert>}-</>, is China"
 	},
 	{
 		"desc": "Filter syntax for language variants",
@@ -8135,13 +8140,13 @@
 	},
 	{
 		"desc": "Explicit session-wise two-way language variant mapping (A flag and - flag)",
-		"wikitext": "This is -{zh:China; zh-tw:Taiwan}-, but we'll forget that now.\n\nTaiwan is not China.\n\nBut -{A|zh:China; zh-tw:Taiwan}- is China,\n\n(This-{-|zh:China; zh-tw:Taiwan}- should be stripped!)\n\nand -{China}- is China.",
-		"parsed": "This is <punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</> <entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</>, but we'll forget that now.\\n\\nTaiwan is not China.\\n\\nBut <punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</> <entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> is China,\\n\\n(This<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</> <entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> should be stripped!)\\n\\nand <punctuation.definition.tag.convert>-{</>China<punctuation.definition.tag.convert>}-</> is China."
+		"wikitext": "This is -{zh:China; zh-tw:Taiwan}-, but we'll forget that now.\n\nTaiwan is China.\n\n-{A|zh:China; zh-tw:Taiwan}- is China,\n\n(This-{-|zh:China; zh-tw:Taiwan}- should be stripped!)\n\nand -{China}- is China.",
+		"parsed": "This is <punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</> <entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</>, but we'll forget that now.\\n\\nTaiwan is China.\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</> <entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> is China,\\n\\n(This<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</> <entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> should be stripped!)\\n\\nand <punctuation.definition.tag.convert>-{</>China<punctuation.definition.tag.convert>}-</> is China."
 	},
 	{
 		"desc": "Explicit session-wise one-way language variant mapping (A flag and - flag)",
-		"wikitext": "This is -{COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}-, but we'll forget that now.\n\nCOUNTRY is China or Taiwan.\n\nBut -{A|COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}- is COUNTRY,\n\n(This-{-|COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}- should be stripped!)\n\nand -{COUNTRY}- is COUNTRY.",
-		"parsed": "This is <punctuation.definition.tag.convert>-{</>COUNTRY=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>COUNTRY=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</>, but we'll forget that now.\\n\\nCOUNTRY is China or Taiwan.\\n\\nBut <punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</>COUNTRY=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>COUNTRY=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> is COUNTRY,\\n\\n(This<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</>COUNTRY=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>COUNTRY=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> should be stripped!)\\n\\nand <punctuation.definition.tag.convert>-{</>COUNTRY<punctuation.definition.tag.convert>}-</> is COUNTRY."
+		"wikitext": "This is -{LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}-, but we'll forget that now.\n\nLOCATION is China or Taiwan.\n\n-{A|LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}- is LOCATION,\n\n(This-{-|LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}- should be stripped!)\n\nand -{LOCATION}- is LOCATION.",
+		"parsed": "This is <punctuation.definition.tag.convert>-{</>LOCATION=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>LOCATION=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</>, but we'll forget that now.\\n\\nLOCATION is China or Taiwan.\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</>LOCATION=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>LOCATION=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> is LOCATION,\\n\\n(This<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</>LOCATION=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>LOCATION=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> should be stripped!)\\n\\nand <punctuation.definition.tag.convert>-{</>LOCATION<punctuation.definition.tag.convert>}-</> is LOCATION."
 	},
 	{
 		"desc": "Explicit session-wise two-way language variant mapping (H flag for hide)",
@@ -8150,8 +8155,8 @@
 	},
 	{
 		"desc": "Explicit session-wise one-way language variant mapping (H flag for hide)",
-		"wikitext": "(This-{H|COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}- should be stripped!)\n\nCOUNTRY is Taiwan or China.",
-		"parsed": "(This<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>COUNTRY=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>COUNTRY=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> should be stripped!)\\n\\nCOUNTRY is Taiwan or China."
+		"wikitext": "(This-{H|LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}- should be stripped!)\n\nLOCATION is Taiwan and China.",
+		"parsed": "(This<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>LOCATION=&gt<entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>LOCATION=&gt<entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>Taiwan<punctuation.definition.tag.convert>}-</> should be stripped!)\\n\\nLOCATION is Taiwan and China."
 	},
 	{
 		"desc": "Adding explicit conversion rule for title (T flag)",

@@ -1,4 +1,4 @@
-import {getLSP} from '@bhsd/common';
+import {getLSP} from '@bhsd/browser';
 import type * as Monaco from 'monaco-editor';
 import type {editor, languages, IRange, IPosition} from 'monaco-editor';
 import type {

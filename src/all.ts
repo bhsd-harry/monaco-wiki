@@ -1,4 +1,4 @@
-import {CDN as baseCDN} from '@bhsd/common';
+import {CDN as baseCDN} from '@bhsd/browser';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.ts';

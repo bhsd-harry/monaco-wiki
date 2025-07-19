@@ -47,8 +47,10 @@
 		"wikiparser-node": "^1.21.3"
 	},
 	"devDependencies": {
+		"@bhsd/browser": "^0.0.0",
+		"@bhsd/code-standard": "^1.0.0",
 		"@bhsd/codemirror-mediawiki": "^2.30.2",
-		"@bhsd/common": "^0.15.0",
+		"@bhsd/test-util": "^0.0.0",
 		"@shikijs/monaco": "^3.7.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",

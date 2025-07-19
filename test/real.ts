@@ -1,4 +1,4 @@
-import test from '@bhsd/common/dist/test';
+import test from '@bhsd/test-util';
 import parse, {getGrammar} from './parser.js';
 
 (async () => {
