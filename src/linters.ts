@@ -6,11 +6,13 @@ import {
 	getLuaLinter,
 } from '@bhsd/codemirror-mediawiki/dist/linter.js';
 import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.ts';
-import {getCmObject, linterGetters} from './linter.ts';
+import {linterGetters} from './linter.ts';
 import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
+import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
 
+export type LiveOption = LinterOption | (() => LinterOption | Promise<LinterOption>);
 declare interface ITextModel extends editor.ITextModel {
 	getRangeAt(start: number, end: number): IRange;
 }
@@ -51,12 +53,14 @@ const getData = (
 	})),
 ];
 
-export const registerWikiLint = (): void => {
+const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt === 'function' ? opt() : opt;
+
+export const registerWikiLint = (opt?: LiveOption): void => {
 	linterGetters.set('wikitext', async model => {
 		const wikiLint = await getWikiLinter(undefined, model);
 		return {
 			async lint(text): Promise<editor.IMarkerData[]> {
-				return (await wikiLint(text, getCmObject('wikilint') as Record<string, unknown> | null)).map(({
+				return (await wikiLint(text, await getOption(opt))).map(({
 					code,
 					severity,
 					message,
@@ -85,15 +89,12 @@ export const registerWikiLint = (): void => {
 	});
 };
 
-export const registerESLint = (cdn?: string): void => {
+export const registerESLint = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('javascript', async model => {
 		const esLint = await getJsLinter(cdn);
 		return {
-			lint(text): editor.IMarkerData[] {
-				return esLint(text, {
-					...jsConfig,
-					...getCmObject('ESLint') as Record<string, unknown> | null,
-				}).map(({
+			async lint(text): Promise<editor.IMarkerData[]> {
+				return esLint(text, {...jsConfig, ...await getOption(opt)}).map(({
 					ruleId,
 					message,
 					severity,
@@ -119,15 +120,12 @@ export const registerESLint = (cdn?: string): void => {
 	});
 };
 
-export const registerStylelint = (cdn?: string): void => {
+export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('css', async model => {
 		const styleLint = await getCssLinter(cdn);
 		return {
 			async lint(code): Promise<editor.IMarkerData[]> {
-				return (await styleLint(
-					code,
-					(getCmObject('Stylelint') ?? {rules: {}}) as Record<string, unknown>,
-				)).map(({
+				return (await styleLint(code, await getOption(opt) ?? {rules: {}})).map(({
 					text,
 					severity,
 					line,

@@ -26,6 +26,7 @@ import type {} from 'wikiparser-node/extensions/typings.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';
+import type {LiveOption} from './linters.ts';
 
 /**
  * Register the language service for Wikitext
@@ -34,7 +35,8 @@ import type {ThemeRegistrationRaw} from 'shiki';
  * Please set this to `true` if used in a MediaWiki site.
  * @param langs i18n language codes with a preferred order
  * @param cdn CDN URL for downloading WikiParser-Node, default to https://testingcf.jsdelivr.net/npm/wikiparser-node
- * @param themes additional Shiki themes
+ * @param themes Additional Shiki themes
+ * @param opt WikiLint options.
  */
 export default async (
 	monaco: typeof Monaco,
@@ -42,6 +44,7 @@ export default async (
 	langs?: string | string[],
 	cdn?: string,
 	themes: ThemeRegistrationRaw[] = [],
+	opt?: LiveOption,
 ): Promise<void> => {
 	// 加载 WikiParser-Node
 	const loaded = typeof wikiparse === 'object';
@@ -95,7 +98,7 @@ export default async (
 	monaco.languages.registerCodeActionProvider('wikitext', codeActionProvider);
 	addKeybindings(monaco);
 	registerLinterBase(monaco);
-	registerWikiLint();
+	registerWikiLint(opt);
 	monaco.editor.onWillDisposeModel(model => {
 		getLSP(model)?.destroy();
 	});
@@ -105,11 +108,12 @@ export default async (
  * Register ESLint for JavaScript
  * @param monaco Monaco Editor global
  * @param cdn CDN URL for downloading ESLint, default to https://testingcf.jsdelivr.net/npm/@bhsd/eslint-browserify
+ * @param opt ESLint options
  */
-export const registerJavaScript = (monaco: typeof Monaco, cdn?: string): void => {
+export const registerJavaScript = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
 	monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
 	registerLinterBase(monaco);
-	registerESLint(cdn);
+	registerESLint(cdn, opt);
 };
 
 /**
@@ -117,11 +121,12 @@ export const registerJavaScript = (monaco: typeof Monaco, cdn?: string): void =>
  * @param monaco Monaco Editor global
  * @param cdn CDN URL for downloading Stylelint,
  * default to https://testingcf.jsdelivr.net/npm/@bhsd/stylelint-browserify
+ * @param opt Stylelint options
  */
-export const registerCSS = (monaco: typeof Monaco, cdn?: string): void => {
+export const registerCSS = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
 	monaco.languages.registerCodeActionProvider('css', codeActionProvider);
 	registerLinterBase(monaco);
-	registerStylelint(cdn);
+	registerStylelint(cdn, opt);
 };
 
 /**

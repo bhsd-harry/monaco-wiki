@@ -40,6 +40,13 @@ await registerWiki(
 
 	// (optional) Shiki themes
 	[await import('shiki/themes/github-light.mjs')],
+
+	// (optional) WikiLint options
+	{
+		// Rules are listed at https://github.com/bhsd-harry/wikiparser-node/wiki/Rules
+		// `0` ignores all, `1` ignores warnings, `2` reports all (default)
+		'no-arg': 0,
+	},
 );
 
 registerJavaScript(
@@ -47,6 +54,13 @@ registerJavaScript(
 
 	// (optional) custom download URL for the `eslint` object`
 	'https://cdn.jsdelivr.net/npm/@bhsd/eslint-browserify',
+
+	// (optional) ESLint options
+	{
+		parserOptions: {
+			sourceType: 'module',
+		},
+	},
 );
 
 registerCSS(
@@ -54,6 +68,13 @@ registerCSS(
 
 	// (optional) custom download URL for the `stylelint` object`
 	'https://cdn.jsdelivr.net/npm/@bhsd/stylelint-browserify',
+
+	// (optional) Stylelint options
+	{
+		rules: {
+			'length-zero-no-unit': true,
+		},
+	},
 );
 
 registerLua(

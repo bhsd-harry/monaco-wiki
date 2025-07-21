@@ -1,3 +1,11 @@
+## v1.13.0
+
+*2025-07-22*
+
+**Added**
+
+- `registerWiki`, `registerJavaScript` and `registerCSS` now accept an optional argument for linter options
+
 ## v1.12.0
 
 *2025-07-02*

@@ -2,6 +2,7 @@ import {CDN as baseCDN} from '@bhsd/browser';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.ts';
+import {getCmObject} from './linter.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
 import type {} from 'types-mediawiki';
@@ -88,9 +89,13 @@ const load = async (): Promise<typeof Monaco> => {
 				isMW ? mw.language.getFallbackLanguageChain() : undefined,
 				undefined,
 				[monokai, nord],
+				() => ({
+					...getCmObject('wikilint'),
+					css: getCmObject('Stylelint'),
+				}),
 			);
-			registerJavaScript(monaco);
-			registerCSS(monaco);
+			registerJavaScript(monaco, undefined, () => getCmObject('ESLint'));
+			registerCSS(monaco, undefined, () => getCmObject('Stylelint'));
 			registerLua(monaco);
 			resolve(monaco);
 		});
