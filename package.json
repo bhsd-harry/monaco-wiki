@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.12.1",
+	"version": "1.13.0",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -44,7 +44,7 @@
 	},
 	"dependencies": {
 		"monaco-editor": "^0.52.2",
-		"wikiparser-node": "^1.21.3"
+		"wikiparser-node": "^1.22.0"
 	},
 	"devDependencies": {
 		"@bhsd/browser": "^0.0.0",

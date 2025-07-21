@@ -3,10 +3,11 @@ import {toIRange} from './lsp.ts';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity} from 'monaco-editor';
 import type {QuickFixData} from 'wikiparser-node';
+import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
 
 declare interface ILinter {
 	/* eslint-disable @typescript-eslint/method-signature-style */
-	lint?: (text: string) => editor.IMarkerData[] | Promise<editor.IMarkerData[]>;
+	lint?: (text: string, opt?: LiveOption) => editor.IMarkerData[] | Promise<editor.IMarkerData[]>;
 	fixer?: (text: string, rule?: string) => string | Promise<string>;
 	/* eslint-enable @typescript-eslint/method-signature-style */
 }
@@ -16,6 +17,7 @@ declare interface ITextModelLinter extends Partial<ILinter> {
 	timer?: NodeJS.Timeout;
 	disabled?: boolean;
 	diagnostics?: (editor.IMarkerData & {data?: QuickFixData[]})[];
+	option?: LiveOption;
 }
 
 export interface IWikitextModel extends editor.ITextModel {
@@ -23,6 +25,8 @@ export interface IWikitextModel extends editor.ITextModel {
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
 	lint?: (this: IWikitextModel, on?: boolean) => void;
 }
+
+export type LiveOption = LinterOption | ((_?: true) => LinterOption | Promise<LinterOption>);
 
 export const linterGetters = new Map<string, (model: editor.ITextModel) => Promise<ILinter>>();
 
@@ -60,7 +64,7 @@ export default (monaco: typeof Monaco): void => {
 				return;
 			}
 			(async () => {
-				linter.diagnostics = clear ? [] : await linter.lint!(model.getValue());
+				linter.diagnostics = clear ? [] : await linter.lint!(model.getValue(), linter.option);
 				monaco.editor.setModelMarkers(model, 'Linter', linter.diagnostics);
 				linter.glyphs = model.deltaDecorations(
 					linter.glyphs,

@@ -43,8 +43,9 @@ await registerWiki(
 
 	// (optional) WikiLint options
 	{
-		// Rules are listed at https://github.com/bhsd-harry/wikiparser-node/wiki/Rules
 		// `0` ignores all, `1` ignores warnings, `2` reports all (default)
+		defaultSeverity: 1,
+		// Rules are listed at https://github.com/bhsd-harry/wikiparser-node/wiki/Rules
 		'no-arg': 0,
 	},
 );

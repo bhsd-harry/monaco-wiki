@@ -26,7 +26,7 @@ import type {} from 'wikiparser-node/extensions/typings.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';
-import type {LiveOption} from './linters.ts';
+import type {LiveOption} from './linter.ts';
 
 /**
  * Register the language service for Wikitext

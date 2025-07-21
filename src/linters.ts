@@ -11,8 +11,8 @@ import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
 import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
+import type {LiveOption} from './linter.ts';
 
-export type LiveOption = LinterOption | (() => LinterOption | Promise<LinterOption>);
 declare interface ITextModel extends editor.ITextModel {
 	getRangeAt(start: number, end: number): IRange;
 }
@@ -53,14 +53,14 @@ const getData = (
 	})),
 ];
 
-const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt === 'function' ? opt() : opt;
+const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt === 'function' ? opt(true) : opt;
 
 export const registerWikiLint = (opt?: LiveOption): void => {
 	linterGetters.set('wikitext', async model => {
 		const wikiLint = await getWikiLinter(undefined, model);
 		return {
-			async lint(text): Promise<editor.IMarkerData[]> {
-				return (await wikiLint(text, await getOption(opt))).map(({
+			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
+				return (await wikiLint(text, await getOption(option))).map(({
 					code,
 					severity,
 					message,
@@ -93,8 +93,8 @@ export const registerESLint = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('javascript', async model => {
 		const esLint = await getJsLinter(cdn);
 		return {
-			async lint(text): Promise<editor.IMarkerData[]> {
-				return esLint(text, {...jsConfig, ...await getOption(opt)}).map(({
+			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
+				return esLint(text, {...jsConfig, ...await getOption(option)}).map(({
 					ruleId,
 					message,
 					severity,
@@ -124,8 +124,8 @@ export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('css', async model => {
 		const styleLint = await getCssLinter(cdn);
 		return {
-			async lint(code): Promise<editor.IMarkerData[]> {
-				return (await styleLint(code, await getOption(opt) ?? {rules: {}})).map(({
+			async lint(code, option = opt): Promise<editor.IMarkerData[]> {
+				return (await styleLint(code, await getOption(option) ?? {rules: {}})).map(({
 					text,
 					severity,
 					line,
