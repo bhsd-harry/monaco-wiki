@@ -2,7 +2,7 @@
 import {shikiToMonaco} from '@shikijs/monaco';
 import {getWikiparse, getLSP} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
-import getHighlighter from './token.ts';
+import getHighlighter, {getVueHighlighter} from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import registerLinterBase from './linter.ts';
 import {registerWikiLint, registerESLint, registerStylelint, registerLuacheck} from './linters.ts';
@@ -137,4 +137,14 @@ export const registerCSS = (monaco: typeof Monaco, cdn?: string, opt?: LiveOptio
 export const registerLua = (monaco: typeof Monaco, cdn?: string): void => {
 	registerLinterBase(monaco);
 	registerLuacheck(cdn);
+};
+
+/**
+ * Register the Vue syntax
+ * @param monaco Monaco Editor global
+ * @param themes Additional Shiki themes
+ */
+export const registerVue = async (monaco: typeof Monaco, themes: ThemeRegistrationRaw[] = []): Promise<void> => {
+	monaco.languages.register({id: 'vue', aliases: ['Vue']});
+	shikiToMonaco(await getVueHighlighter(themes), monaco);
 };

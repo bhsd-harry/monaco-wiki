@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.13.0",
+	"version": "1.14.0",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -51,7 +51,7 @@
 		"@bhsd/code-standard": "^1.0.0",
 		"@bhsd/codemirror-mediawiki": "^2.30.2",
 		"@bhsd/test-util": "^0.0.0",
-		"@shikijs/monaco": "^3.7.0",
+		"@shikijs/monaco": "^3.8.1",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
 		"@types/eslint": "^8.56.10",
@@ -71,8 +71,8 @@
 		"http-server": "^14.1.1",
 		"luacheck-browserify": "^0.7.0",
 		"mocha": "^11.7.1",
-		"shiki": "^3.7.0",
-		"stylelint": "^16.21.1",
+		"shiki": "^3.8.1",
+		"stylelint": "^16.22.0",
 		"stylelint-config-recommended": "^16.0.0",
 		"typescript": "^5.8.2",
 		"types-mediawiki": "^1.10.1"

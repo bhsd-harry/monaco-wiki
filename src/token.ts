@@ -4,6 +4,7 @@ import javascript from 'shiki/langs/javascript.mjs';
 import css from 'shiki/langs/css.mjs';
 import htm from 'shiki/langs/html.mjs';
 import json from 'shiki/langs/json.mjs';
+import vue from 'shiki/langs/vue.mjs';
 import loadWasm from 'shiki/wasm';
 import type {ConfigData} from 'wikiparser-node';
 import type {HighlighterCore, ThemeRegistrationRaw, LanguageRegistration} from 'shiki/core';
@@ -115,3 +116,9 @@ export default async (
 		engine: createOnigurumaEngine(loadWasm),
 	});
 };
+
+export const getVueHighlighter = (themes: ThemeRegistrationRaw[]): Promise<HighlighterCore> => createHighlighterCore({
+	langs: [vue],
+	themes,
+	engine: createOnigurumaEngine(loadWasm),
+});

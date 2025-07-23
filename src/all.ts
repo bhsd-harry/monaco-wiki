@@ -1,7 +1,7 @@
 import {CDN as baseCDN} from '@bhsd/browser';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
-import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.ts';
+import registerWiki, {registerJavaScript, registerCSS, registerLua, registerVue} from './main.ts';
 import {getCmObject} from './linter.ts';
 import type * as Monaco from 'monaco-editor';
 import type {Environment} from 'monaco-editor';
@@ -97,6 +97,7 @@ const load = async (): Promise<typeof Monaco> => {
 			registerJavaScript(monaco, undefined, () => getCmObject('ESLint'));
 			registerCSS(monaco, undefined, () => getCmObject('Stylelint'));
 			registerLua(monaco);
+			await registerVue(monaco, [monokai, nord]);
 			resolve(monaco);
 		});
 	});

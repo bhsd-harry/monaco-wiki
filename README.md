@@ -22,6 +22,7 @@ import registerWiki, {
 	registerJavaScript,
 	registerCSS,
 	registerLua,
+	registerVue,
 } from 'monaco-wiki';
 
 await registerWiki(
@@ -83,6 +84,13 @@ registerLua(
 
 	// (optional) custom download URL for the `luacheck` object`
 	'https://cdn.jsdelivr.net/npm/luacheck-browserify',
+);
+
+await registerVue(
+	monaco,
+
+	// (optional) Shiki themes
+	[await import('shiki/themes/github-light.mjs')],
 );
 ```
 

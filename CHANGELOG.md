@@ -1,3 +1,11 @@
+## v1.14.0
+
+*2025-07-23*
+
+**Added**
+
+- New exported function `registerVue` to register the TextMate syntax for Vue
+
 ## v1.13.0
 
 *2025-07-22*

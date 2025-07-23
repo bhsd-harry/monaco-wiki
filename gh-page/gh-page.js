@@ -48,6 +48,7 @@
         ['css', 'css'],
         ['lua', 'lua'],
         ['json', 'json'],
+        ['vue', 'vue'],
     ]);
     addEventListener('hashchange', () => {
         const target = hashMap.get(location.hash.slice(1).toLowerCase()), element = languages.find(({ id }) => id === target);
