@@ -53,7 +53,7 @@
 		"@bhsd/test-util": "^0.0.0",
 		"@shikijs/monaco": "^3.7.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
-		"@stylistic/stylelint-plugin": "^3.1.2",
+		"@stylistic/stylelint-plugin": "^4.0.0",
 		"@types/eslint": "^8.56.10",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^24.0.10",
