@@ -1,3 +1,11 @@
+## v1.14.1
+
+*2025-08-08*
+
+**Changed**
+
+- Upgrade the [@bhsd/codemirror-mediawiki](https://npmjs.com/package/@bhsd/codemirror-mediawiki) package to [v3.0.2](https://github.com/bhsd-harry/codemirror-mediawiki/blob/npm/CHANGELOG.md#302)
+
 ## v1.14.0
 
 *2025-08-02*
@@ -140,7 +148,7 @@
 
 **Changed**
 
-- Language services for Wikitext are now provided directly by [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node), which is consistent with the [VSCode extension](https://github.com/bhsd-harry/vscode-extension-wikiparser)
+- Language services for Wikitext are now provided directly by [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node), which is consistent with the [VS Code extension](https://github.com/bhsd-harry/vscode-extension-wikiparser)
 
 ## v1.6.0
 
