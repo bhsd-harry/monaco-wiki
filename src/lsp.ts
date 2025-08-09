@@ -226,14 +226,18 @@ export const inlayHintsProvider: languages.InlayHintsProvider = {
 };
 
 export const codeActionProvider: languages.CodeActionProvider = {
-	provideCodeActions(model: IWikitextModel, _, {markers}): languages.CodeActionList | undefined {
-		const fixable = model.linter?.diagnostics?.filter(
-				diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
-			),
-			autofixable = fixable?.filter(({data}) => data!.some(({fix}) => fix));
-		return fixable?.length
-			? {
-				actions: [
+	async provideCodeActions(model: IWikitextModel, r, {markers, only}): Promise<languages.CodeActionList | undefined> {
+		let actions: languages.CodeAction[] = [];
+		const lsp = getLSP(model)!,
+			versionId = model.getVersionId(),
+			isWiki = model.getLanguageId() === 'wikitext';
+		if (!only || /^quickfix(?:$|\.)/u.test(only)) {
+			const fixable = model.linter?.diagnostics?.filter(
+					diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
+				),
+				autofixable = fixable?.filter(({data}) => data!.some(({fix}) => fix));
+			if (fixable?.length) {
+				actions = [
 					...fixable.flatMap(
 						diagnostic => diagnostic.data!.map(({title, fix, range, newText}): languages.CodeAction => ({
 							title,
@@ -244,7 +248,7 @@ export const codeActionProvider: languages.CodeActionProvider = {
 								edits: [
 									{
 										resource: model.uri,
-										versionId: model.getVersionId(),
+										versionId,
 										textEdit: {
 											range: nRangeToIRange(range),
 											text: newText,
@@ -254,7 +258,7 @@ export const codeActionProvider: languages.CodeActionProvider = {
 							},
 						})),
 					),
-					...model.getLanguageId() === 'wikitext' || !autofixable?.length
+					...isWiki || !autofixable?.length
 						? []
 						: [
 							...[...new Set(autofixable.map(({code}) => code))].map(rule => {
@@ -279,7 +283,33 @@ export const codeActionProvider: languages.CodeActionProvider = {
 								model,
 							},
 						],
-				],
+				];
+			}
+		}
+		if (isWiki && 'provideRefactoringAction' in lsp && (!only || /^refactor(?:$|\.)/u.test(only))) {
+			actions.push(
+				...(await lsp.provideRefactoringAction(model.getValue(), iRangeToNRange(r)))
+					.map(({title, kind, edit}): languages.CodeAction => ({
+						title,
+						kind: kind!,
+						edit: {
+							edits: [
+								{
+									resource: model.uri,
+									versionId,
+									textEdit: {
+										range: r,
+										text: edit!.changes!['']![0]!.newText,
+									},
+								},
+							],
+						},
+					})),
+			);
+		}
+		return actions.length > 0
+			? {
+				actions,
 				dispose(this: {actions?: languages.CodeAction[]}): void {
 					delete this.actions;
 				},

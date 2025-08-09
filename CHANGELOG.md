@@ -1,3 +1,11 @@
+## v1.15.0
+
+*2025-08-12*
+
+**Added**
+
+- New refactoring action provider for Wikitext
+
 ## v1.14.1
 
 *2025-08-08*
