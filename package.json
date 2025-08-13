@@ -45,12 +45,12 @@
 	"dependencies": {
 		"monaco-editor": "^0.52.2",
 		"shiki": "^3.8.1",
-		"wikiparser-node": "^1.23.0"
+		"wikiparser-node": "^1.24.1"
 	},
 	"devDependencies": {
 		"@bhsd/browser": "^0.0.1",
 		"@bhsd/code-standard": "^1.0.1",
-		"@bhsd/codemirror-mediawiki": "^3.0.2",
+		"@bhsd/codemirror-mediawiki": "^3.1.0",
 		"@bhsd/test-util": "^0.1.0",
 		"@shikijs/monaco": "^3.8.1",
 		"@stylistic/eslint-plugin": "^3.1.0",

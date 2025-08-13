@@ -11,7 +11,7 @@ import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
 import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
-import type {LiveOption} from './linter.ts';
+import type {LiveOption, ILinter} from './linter.ts';
 
 declare interface ITextModel extends editor.ITextModel {
 	getRangeAt(start: number, end: number): IRange;
@@ -58,7 +58,7 @@ const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt 
 export const registerWikiLint = (opt?: LiveOption): void => {
 	linterGetters.set('wikitext', async model => {
 		const wikiLint = await getWikiLinter(undefined, model);
-		return {
+		const linter: ILinter = {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
 				return (await wikiLint(text, await getOption(option))).map(({
 					code,
@@ -86,6 +86,11 @@ export const registerWikiLint = (opt?: LiveOption): void => {
 				});
 			},
 		};
+		if (wikiLint.fixer) {
+			linter.fixer = (text, rule): Promise<string> =>
+				wikiLint.fixer!(text, rule) as Promise<string>;
+		}
+		return linter;
 	});
 };
 

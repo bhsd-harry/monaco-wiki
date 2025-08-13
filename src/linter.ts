@@ -5,7 +5,7 @@ import type {editor, MarkerSeverity} from 'monaco-editor';
 import type {QuickFixData} from 'wikiparser-node';
 import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
 
-declare interface ILinter {
+export interface ILinter {
 	/* eslint-disable @typescript-eslint/method-signature-style */
 	lint?: (text: string, opt?: LiveOption) => editor.IMarkerData[] | Promise<editor.IMarkerData[]>;
 	fixer?: (text: string, rule?: string) => string | Promise<string>;

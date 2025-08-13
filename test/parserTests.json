@@ -5016,6 +5016,16 @@
 		"parsed": "<punctuation.definition.tag.convert>-{</>zh-Hans:a;zh-Hant:b<punctuation.definition.tag.convert>}-</>"
 	},
 	{
+		"desc": "Do not translate external URL",
+		"wikitext": "<translate>[<tvar name=1>http://example.net</tvar> text]</translate>\n\n[<!-- -->//example.net text]",
+		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>[<meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></> <meta.attribute.unrecognized.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.unquoted.html>1</></><punctuation.definition.tag.end.html>&gt</></>http://example.net<meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></><punctuation.definition.tag.end.html>&gt</></> text]<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt\\n\\n</></>[<comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>//example.net text]"
+	},
+	{
+		"desc": "Commented <translate> tags",
+		"wikitext": "<!-- <translate><tvar name=1></tvar></translate> --><includeonly><translate><tvar name=2></tvar></translate></includeonly>",
+		"parsed": "<comment.block.html><punctuation.definition.comment.html>&lt;!--</> &lt;translate&gt&lt;tvar name=1&gt&lt;/tvar&gt&lt;/translate&gt <punctuation.definition.comment.html>--&gt</></><punctuation.definition.tag.begin>&lt;</><entity.name.tag>includeonly</><punctuation.definition.tag.end>&gt</><meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.tvar.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></> <meta.attribute.unrecognized.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.unquoted.html>2</></><punctuation.definition.tag.end.html>&gt</><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>includeonly</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

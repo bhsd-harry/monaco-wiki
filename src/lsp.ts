@@ -258,9 +258,8 @@ export const codeActionProvider: languages.CodeActionProvider = {
 							},
 						})),
 					),
-					...isWiki || !autofixable?.length
-						? []
-						: [
+					...autofixable?.length
+						? [
 							...[...new Set(autofixable.map(({code}) => code))].map(rule => {
 								const related = autofixable.filter(({code}) => code === rule);
 								return {
@@ -282,7 +281,8 @@ export const codeActionProvider: languages.CodeActionProvider = {
 								// @ts-expect-error extra property
 								model,
 							},
-						],
+						]
+						: [],
 				];
 			}
 		}
