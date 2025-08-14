@@ -20,6 +20,7 @@ import {
 	signatureHelpProvider,
 	inlayHintsProvider,
 	codeActionProvider,
+	codeActionProviderForWiki,
 } from './lsp.ts';
 import type {ConfigData} from 'wikiparser-node';
 import type {} from 'wikiparser-node/extensions/typings.ts';
@@ -95,7 +96,7 @@ export default async (
 	monaco.languages.registerHoverProvider('wikitext', hoverProvider);
 	monaco.languages.registerSignatureHelpProvider('wikitext', signatureHelpProvider);
 	monaco.languages.registerInlayHintsProvider('wikitext', inlayHintsProvider);
-	monaco.languages.registerCodeActionProvider('wikitext', codeActionProvider);
+	monaco.languages.registerCodeActionProvider('wikitext', codeActionProviderForWiki);
 	addKeybindings(monaco);
 	registerLinterBase(monaco);
 	registerWikiLint(opt);

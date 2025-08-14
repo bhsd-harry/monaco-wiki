@@ -225,118 +225,138 @@ export const inlayHintsProvider: languages.InlayHintsProvider = {
 	},
 };
 
+const resolveCodeAction = async (
+	action: languages.CodeAction & {model: IWikitextModel, rule?: string},
+): Promise<languages.CodeAction> => {
+	const {title, model, rule} = action;
+	if (/^Fix all .+ problems$/u.test(title)) {
+		action.edit = {
+			edits: [
+				{
+					resource: model.uri,
+					versionId: model.getVersionId(),
+					textEdit: {
+						range: model.getFullModelRange(),
+						text: await model.linter!.fixer!(model.getValue(), rule),
+					},
+				},
+			],
+		};
+	}
+	return action;
+};
+
+const provideQuickFix = (
+	model: IWikitextModel,
+	{markers, only}: languages.CodeActionContext,
+): languages.CodeAction[] => {
+	if (only && !/^quickfix(?:$|\.)/u.test(only)) {
+		return [];
+	}
+	const fixable = model.linter?.diagnostics?.filter(
+		diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
+	);
+	if (!fixable?.length) {
+		return [];
+	}
+	const autofixable = fixable.filter(({data}) => data!.some(({fix}) => fix)),
+		versionId = model.getVersionId();
+	return [
+		...fixable.flatMap(
+			diagnostic => diagnostic.data!.map(({title, fix, range, newText}): languages.CodeAction => ({
+				title,
+				isPreferred: fix,
+				kind: 'quickfix',
+				diagnostics: markers.filter(marker => deepEqual(marker, diagnostic)),
+				edit: {
+					edits: [
+						{
+							resource: model.uri,
+							versionId,
+							textEdit: {
+								range: nRangeToIRange(range),
+								text: newText,
+							},
+						},
+					],
+				},
+			})),
+		),
+		...autofixable.length === 0
+			? []
+			: [
+				...[...new Set(autofixable.map(({code}) => code))].map(rule => {
+					const related = autofixable.filter(({code}) => code === rule);
+					return {
+						title: `Fix all ${rule as string} problems`,
+						isPreferred: true,
+						kind: 'quickfix',
+						diagnostics: markers
+							.filter(marker => related.some(diagnostic => deepEqual(marker, diagnostic))),
+						model,
+						rule,
+					};
+				}),
+				{
+					title: 'Fix all auto-fixable problems',
+					isPreferred: true,
+					kind: 'quickfix',
+					diagnostics: markers
+						.filter(marker => autofixable.some(diagnostic => deepEqual(marker, diagnostic))),
+					// @ts-expect-error extra property
+					model,
+				},
+			],
+	];
+};
+
+const getCodeActionList = (actions: languages.CodeAction[]): languages.CodeActionList | undefined =>
+	actions.length === 0
+		? undefined
+		: {
+			actions,
+			dispose(this: {actions?: languages.CodeAction[]}): void {
+				delete this.actions;
+			},
+		};
+
 export const codeActionProvider: languages.CodeActionProvider = {
-	async provideCodeActions(model: IWikitextModel, r, {markers, only}): Promise<languages.CodeActionList | undefined> {
-		let actions: languages.CodeAction[] = [];
-		const lsp = getLSP(model)!,
-			versionId = model.getVersionId();
-		if (!only || /^quickfix(?:$|\.)/u.test(only)) {
-			const fixable = model.linter?.diagnostics?.filter(
-					diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
-				),
-				autofixable = fixable?.filter(({data}) => data!.some(({fix}) => fix));
-			if (fixable?.length) {
-				actions = [
-					...fixable.flatMap(
-						diagnostic => diagnostic.data!.map(({title, fix, range, newText}): languages.CodeAction => ({
+	provideCodeActions(model: IWikitextModel, _, context): languages.CodeActionList | undefined {
+		return getCodeActionList(provideQuickFix(model, context));
+	},
+	resolveCodeAction,
+};
+
+export const codeActionProviderForWiki: languages.CodeActionProvider = {
+	async provideCodeActions(model: IWikitextModel, range, context): Promise<languages.CodeActionList | undefined> {
+		const {only} = context,
+			actions = provideQuickFix(model, context);
+		if (!only || /^refactor(?:$|\.)/u.test(only)) {
+			const lsp = getLSP(model)!;
+			if ('provideRefactoringAction' in lsp) {
+				const versionId = model.getVersionId();
+				actions.push(
+					...(await lsp.provideRefactoringAction(model.getValue(), iRangeToNRange(range)))
+						.map(({title, kind, edit}): languages.CodeAction => ({
 							title,
-							isPreferred: fix,
-							kind: 'quickfix',
-							diagnostics: markers.filter(marker => deepEqual(marker, diagnostic)),
+							kind: kind!,
 							edit: {
 								edits: [
 									{
 										resource: model.uri,
 										versionId,
 										textEdit: {
-											range: nRangeToIRange(range),
-											text: newText,
+											range,
+											text: edit!.changes!['']![0]!.newText,
 										},
 									},
 								],
 							},
 						})),
-					),
-					...autofixable?.length
-						? [
-							...[...new Set(autofixable.map(({code}) => code))].map(rule => {
-								const related = autofixable.filter(({code}) => code === rule);
-								return {
-									title: `Fix all ${rule as string} problems`,
-									isPreferred: true,
-									kind: 'quickfix',
-									diagnostics: markers
-										.filter(marker => related.some(diagnostic => deepEqual(marker, diagnostic))),
-									model,
-									rule,
-								};
-							}),
-							{
-								title: 'Fix all auto-fixable problems',
-								isPreferred: true,
-								kind: 'quickfix',
-								diagnostics: markers
-									.filter(marker => autofixable.some(diagnostic => deepEqual(marker, diagnostic))),
-								// @ts-expect-error extra property
-								model,
-							},
-						]
-						: [],
-				];
+				);
 			}
 		}
-		if (
-			model.getLanguageId() === 'wikitext'
-			&& 'provideRefactoringAction' in lsp
-			&& (!only || /^refactor(?:$|\.)/u.test(only))
-		) {
-			actions.push(
-				...(await lsp.provideRefactoringAction(model.getValue(), iRangeToNRange(r)))
-					.map(({title, kind, edit}): languages.CodeAction => ({
-						title,
-						kind: kind!,
-						edit: {
-							edits: [
-								{
-									resource: model.uri,
-									versionId,
-									textEdit: {
-										range: r,
-										text: edit!.changes!['']![0]!.newText,
-									},
-								},
-							],
-						},
-					})),
-			);
-		}
-		return actions.length > 0
-			? {
-				actions,
-				dispose(this: {actions?: languages.CodeAction[]}): void {
-					delete this.actions;
-				},
-			}
-			: undefined;
+		return getCodeActionList(actions);
 	},
-	async resolveCodeAction(
-		action: languages.CodeAction & {model: IWikitextModel, rule?: string},
-	): Promise<languages.CodeAction> {
-		if (/^Fix all .+ problems$/u.test(action.title)) {
-			const {model, rule} = action;
-			action.edit = {
-				edits: [
-					{
-						resource: model.uri,
-						versionId: model.getVersionId(),
-						textEdit: {
-							range: model.getFullModelRange(),
-							text: await model.linter!.fixer!(model.getValue(), rule),
-						},
-					},
-				],
-			};
-		}
-		return action;
-	},
+	resolveCodeAction,
 };
