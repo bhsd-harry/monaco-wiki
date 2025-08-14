@@ -43,5 +43,11 @@ module.exports = {
 				'no-irregular-whitespace': 0,
 			},
 		},
+		{
+			files: 'bundle/*.ts',
+			parserOptions: {
+				project: 'bundle/tsconfig.json',
+			},
+		},
 	],
 };

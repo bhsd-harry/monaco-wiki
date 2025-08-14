@@ -229,8 +229,7 @@ export const codeActionProvider: languages.CodeActionProvider = {
 	async provideCodeActions(model: IWikitextModel, r, {markers, only}): Promise<languages.CodeActionList | undefined> {
 		let actions: languages.CodeAction[] = [];
 		const lsp = getLSP(model)!,
-			versionId = model.getVersionId(),
-			isWiki = model.getLanguageId() === 'wikitext';
+			versionId = model.getVersionId();
 		if (!only || /^quickfix(?:$|\.)/u.test(only)) {
 			const fixable = model.linter?.diagnostics?.filter(
 					diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
@@ -286,7 +285,11 @@ export const codeActionProvider: languages.CodeActionProvider = {
 				];
 			}
 		}
-		if (isWiki && 'provideRefactoringAction' in lsp && (!only || /^refactor(?:$|\.)/u.test(only))) {
+		if (
+			model.getLanguageId() === 'wikitext'
+			&& 'provideRefactoringAction' in lsp
+			&& (!only || /^refactor(?:$|\.)/u.test(only))
+		) {
 			actions.push(
 				...(await lsp.provideRefactoringAction(model.getValue(), iRangeToNRange(r)))
 					.map(({title, kind, edit}): languages.CodeAction => ({
