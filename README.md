@@ -2,9 +2,7 @@
 [![CodeQL](https://github.com/bhsd-harry/monaco-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/monaco-wiki/actions/workflows/github-code-scanning/codeql)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/18f690b061a64d40ad0d8bec1f5489e3)](https://app.codacy.com/gh/bhsd-harry/monaco-wiki/dashboard)
 
-# Description
-
-**Monaco-Wiki** registers the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language in the [Monaco Editor](https://microsoft.github.io/monaco-editor/). It is a web version of the [Visual Studio Code](https://code.visualstudio.com/) extensions developed by [Rowe Wilson Frederisk Holme](https://github.com/Frederisk/Wikitext-VSCode-Extension) and [Bhsd](https://github.com/bhsd-harry/vscode-extension-wikiparser). The TextMate grammar is substantially revised to be site-specific and more accurate.
+**Monaco-Wiki** registers the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language in the [Monaco Editor](https://microsoft.github.io/monaco-editor/). It is a web version of the Visual Studio Code extensions developed by [Rowe Wilson Frederisk Holme](https://marketplace.visualstudio.com/items?itemName=RoweWilsonFrederiskHolme.wikitext) and [Bhsd](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser). The TextMate grammar is substantially revised to be site-specific and more accurate.
 
 # Installation
 
@@ -120,6 +118,9 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 ## Syntax Highlighting
 
+<details>
+	<summary>Expand</summary>
+
 ### Extension
 
 1. [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) is not supported.
@@ -171,3 +172,5 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 1. Preformatted text with a leading space is not supported.
 1. One-line definition lists are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Definition%20list%20code%20coverage)).
 1. Comments at the SOL break the highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).
+
+</details>

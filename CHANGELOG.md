@@ -13,7 +13,7 @@
 
 **Changed**
 
-- Upgrade the [@bhsd/codemirror-mediawiki](https://npmjs.com/package/@bhsd/codemirror-mediawiki) package to [v3.0.2](https://github.com/bhsd-harry/codemirror-mediawiki/blob/npm/CHANGELOG.md#302)
+- Upgrade the [@bhsd/codemirror-mediawiki](https://www.npmjs.com/package/@bhsd/codemirror-mediawiki) package to [v3.0.2](https://github.com/bhsd-harry/codemirror-mediawiki/blob/npm/CHANGELOG.md#302)
 
 ## v1.14.0
 
@@ -157,7 +157,7 @@
 
 **Changed**
 
-- Language services for Wikitext are now provided directly by [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node), which is consistent with the [VS Code extension](https://github.com/bhsd-harry/vscode-extension-wikiparser)
+- Language services for Wikitext are now provided directly by [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node), which is consistent with the [VS Code extension](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser)
 
 ## v1.6.0
 
@@ -322,7 +322,7 @@
 **Added**
 
 - Glyphs for the linter
-- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://npmjs.com/package/luaparse)
+- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://www.npmjs.com/package/luaparse)
 
 **Fixed**
 
@@ -343,7 +343,7 @@
 
 **Fixed**
 
-- [WikiLint](https://github.com/bhsd-harry/wikiparser-node) configuration
+- [WikiLint](https://www.npmjs.com/package/wikilint) configuration
 
 ## v0.1.0
 
@@ -351,7 +351,7 @@
 
 **Added**
 
-- [WikiLint](https://github.com/bhsd-harry/wikiparser-node) integration
+- [WikiLint](https://www.npmjs.com/package/wikilint) integration
 
 ## v0.0.2
 
