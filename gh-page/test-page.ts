@@ -29,13 +29,7 @@ declare interface Test {
 			inlayHints: {enabled: 'offUnlessPressed'},
 		});
 	Object.assign(globalThis, {editor});
-	Parser.config = await wikiparse.getConfig();
-	/** @implements */
-	wikiparse.print = (wikitext, include, stage): Promise<[number, string, string][]> => {
-		const printed = Parser.parse(wikitext, include, stage).print();
-		return Promise.resolve([[stage ?? Infinity, wikitext, printed]]);
-	};
-	void wikiparse.highlight!(pre, false, true);
+	await wikiparse.highlight!(pre, false, true);
 	btn.disabled = !select.value;
 	if (!isGH) {
 		btn.style.display = '';
