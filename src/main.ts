@@ -29,6 +29,14 @@ import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';
 import type {LiveOption} from './linter.ts';
 
+const themeSet = new Set<ThemeRegistrationRaw>();
+const getThemes = (themes: ThemeRegistrationRaw[]): ThemeRegistrationRaw[] => {
+	for (const theme of themes) {
+		themeSet.add(theme);
+	}
+	return [...themeSet];
+};
+
 /**
  * Register the language service for Wikitext
  * @param monaco Monaco Editor global
@@ -74,7 +82,7 @@ export default async (
 	monaco.languages.register({id: 'css', aliases: ['CSS']});
 	monaco.languages.register({id: 'html', aliases: ['HTML', 'htm', 'xhtml']});
 	monaco.languages.register({id: 'json', aliases: ['JSON']});
-	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, themes), monaco);
+	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, getThemes(themes)), monaco);
 
 	const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 	// 语言设置
@@ -147,5 +155,5 @@ export const registerLua = (monaco: typeof Monaco, cdn?: string): void => {
  */
 export const registerVue = async (monaco: typeof Monaco, themes: ThemeRegistrationRaw[] = []): Promise<void> => {
 	monaco.languages.register({id: 'vue', aliases: ['Vue']});
-	shikiToMonaco(await getVueHighlighter(themes), monaco);
+	shikiToMonaco(await getVueHighlighter(getThemes(themes)), monaco);
 };
