@@ -259,7 +259,7 @@ const provideQuickFix = (
 	if (!fixable?.length) {
 		return [];
 	}
-	const autofixable = fixable.filter(({data}) => data!.some(({fix}) => fix)),
+	const autofixable = fixable.filter(({source, data}) => source !== 'Stylelint' && data!.some(({fix}) => fix)),
 		versionId = model.getVersionId();
 	return [
 		...fixable.flatMap(

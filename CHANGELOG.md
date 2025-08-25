@@ -1,3 +1,11 @@
+## v1.15.1
+
+*2025-08-25*
+
+**Fixed**
+
+- Stylelint should not support fix-all actions for Wikitext
+
 ## v1.15.0
 
 *2025-08-14*
