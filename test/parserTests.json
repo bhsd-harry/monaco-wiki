@@ -1068,6 +1068,11 @@
 		"parsed": "<meta.tag.inline.small.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>small</><punctuation.definition.tag.end.html>&gt\\n\\n</></><punctuation.definition.list.begin.markdown>**</> 123<meta.tag.inline.small.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>small</><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
+		"desc": "4. Category at the end of a bare <li> list item",
+		"wikitext": "<li>Broken list\n== Section ==\n* Proper list\n\n[[Category:Foo]]",
+		"parsed": "<meta.tag.structure.li.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>li</><punctuation.definition.tag.end.html>&gt</></>Broken list\\n<markup.heading>==<string.quoted.other.heading> Section </>==\\n</><punctuation.definition.list.begin.markdown>*</> Proper list\\n\\n<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>Category:</><entity.other.attribute-name>Foo</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
 		"desc": "Parsoid: unknown parser function (T314524)",
 		"wikitext": "{{#tag:b|This is a known parser function}}\n\nNow show the unknown parser functions for comparison.\n\n{{#foo}}\n\n{{#foo:bar|bat}}",
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>b<keyword.operator>|</>This is a known parser function<punctuation.definition.tag.function>}}\\n\\n</>Now show the unknown parser functions for comparison.\\n\\n{{#foo}}\\n\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>#foo</><keyword.operator.function>:</>bar<keyword.operator>|</>bat<punctuation.definition.tag.function>}}</>"
@@ -5833,8 +5838,8 @@
 	},
 	{
 		"desc": "Templates: Wiki Tables: 7. Fosterable <ref>s should get fostered",
-		"wikitext": "{{PartialTable}}<ref>foo</ref>\n|}\n\n<references />",
-		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>PartialTable</><punctuation.definition.tag.template>}}</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt</><meta.block.ref>foo</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt\\n</>|}\\n\\n<punctuation.definition.tag.begin>&lt;</><entity.name.tag>references</> <punctuation.definition.tag.end>/&gt</>"
+		"wikitext": "{{PartialTable}}<ref>foo</ref>\n|-\n|}\n\n<references />",
+		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>PartialTable</><punctuation.definition.tag.template>}}</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt</><meta.block.ref>foo</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt\\n</>|-\\n|}\\n\\n<punctuation.definition.tag.begin>&lt;</><entity.name.tag>references</> <punctuation.definition.tag.end>/&gt</>"
 	},
 	{
 		"desc": "Template nested in extension tag in template",
@@ -6719,11 +6724,6 @@
 		"parsed": "http://[2404:130:0:1000::187:2]/index.php\\n\\nExamples from <constant.language.variables.rfc>RFC 2373</>, section 2.2:\\n\\n<punctuation.definition.list.begin.markdown>*</>http://[1080::8:800:200C:417A]/unicast\\n<punctuation.definition.list.begin.markdown>*</>http://[FF01::101]/multicast\\n<punctuation.definition.list.begin.markdown>*</>http://[::1]/loopback\\n<punctuation.definition.list.begin.markdown>*</>http://[::]/unspecified\\n<punctuation.definition.list.begin.markdown>*</>http://[::13.1.68.3]/ipv4compat\\n<punctuation.definition.list.begin.markdown>*</>http://[::FFFF:129.144.52.38]/ipv4compat\\n\\nExamples from <constant.language.variables.rfc>RFC 2732</>, section 2:\\n\\n<punctuation.definition.list.begin.markdown>*</>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html\\n<punctuation.definition.list.begin.markdown>*</>http://[1080:0:0:0:8:800:200C:417A]/index.html\\n<punctuation.definition.list.begin.markdown>*</>http://[3ffe:2a00:100:7031::1]\\n<punctuation.definition.list.begin.markdown>*</>http://[1080::8:800:200C:417A]/foo\\n<punctuation.definition.list.begin.markdown>*</>http://[::192.9.5.5]/ipng\\n<punctuation.definition.list.begin.markdown>*</>http://[::FFFF:129.144.52.38]:80/index.html\\n<punctuation.definition.list.begin.markdown>*</>http://[2010:836B:4179::836B:4179]"
 	},
 	{
-		"desc": "Ensure html2wt b/c for stashed RFC target links (T382963)",
-		"wikitext": "RFC 1234\n\nRFC 1234",
-		"parsed": "<constant.language.variables.rfc>RFC 1234\\n\\nRFC 1234</>"
-	},
-	{
 		"desc": "Unicode text around autolinks",
 		"wikitext": "größhttps://foo.org\n\ngröß https://foo.org\n\n아들 고건 사진https://foo.org\n\n💩https://foo.org",
 		"parsed": "größhttps://foo.org\\n\\ngröß https://foo.org\\n\\n아들 고건 사진https://foo.org\\n\\n💩https://foo.org"
@@ -6865,9 +6865,49 @@
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#time</><keyword.operator.function>:</>Y-m-d H:i<keyword.operator>|</> 2011-11-12 23:00 America/New_York <punctuation.definition.tag.function>}}</>"
 	},
 	{
-		"desc": "Explicitely specified output language (Dutch)",
+		"desc": "Explicitly specified output language (Dutch)",
 		"wikitext": "{{#time:d F Y|1988-02-28|nl}}",
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#time</><keyword.operator.function>:</>d F Y<keyword.operator>|</>1988-02-28<keyword.operator>|</>nl<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timel: UTC",
+		"wikitext": "{{#timel: Y-m-d H:i | 15 January 2001}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timel</><keyword.operator.function>:</> Y-m-d H:i <keyword.operator>|</> 15 January 2001<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timel: Melbourne",
+		"wikitext": "{{#timel: Y-m-d H:i | 16 January 2001}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timel</><keyword.operator.function>:</> Y-m-d H:i <keyword.operator>|</> 16 January 2001<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timef: one parameter",
+		"wikitext": "{{#timef:15 January 2001}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timef</><keyword.operator.function>:</>15 January 2001<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timef: date only",
+		"wikitext": "{{#timef:15 January 2001|date}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timef</><keyword.operator.function>:</>15 January 2001<keyword.operator>|</>date<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timef: time only",
+		"wikitext": "{{#timef:15 January 2001|time}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timef</><keyword.operator.function>:</>15 January 2001<keyword.operator>|</>time<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timef: \"pretty\" format",
+		"wikitext": "{{#timef:15 January 2001|pretty}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timef</><keyword.operator.function>:</>15 January 2001<keyword.operator>|</>pretty<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timef: ja parameter",
+		"wikitext": "{{#timef:15 January 2001|both|ja}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timef</><keyword.operator.function>:</>15 January 2001<keyword.operator>|</>both<keyword.operator>|</>ja<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "#timefl: one parameter",
+		"wikitext": "{{#timefl:17 January 2001}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#timefl</><keyword.operator.function>:</>17 January 2001<punctuation.definition.tag.function>}}</>"
 	},
 	{
 		"desc": "#titleparts",
@@ -7981,6 +8021,16 @@
 		"desc": "Explicit definition of language variant alternatives (BCP 47 codes)",
 		"wikitext": "-{zh:China;zh-Hant-TW:Taiwan}-, is China",
 		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>China<punctuation.terminator.rule>;</>zh-Hant-TW:Taiwan<punctuation.definition.tag.convert>}-</>, is China"
+	},
+	{
+		"desc": "html2wt support for edited wildcard rule (strip trailing semi where needed)",
+		"wikitext": "test: -{H|zh:content; }-",
+		"parsed": "test: <punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh</><punctuation.separator.key-value>:</>content<punctuation.terminator.rule>;</> <punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "html2wt support for wildcard rule with whitespace around flag value",
+		"wikitext": "test: -{ H  |all variants}-",
+		"parsed": "test: <punctuation.definition.tag.convert>-{</><entity.name.function.type> H  </><keyword.operator>|</>all variants<punctuation.definition.tag.convert>}-</>"
 	},
 	{
 		"desc": "Filter syntax for language variants",
@@ -11974,7 +12024,7 @@
 		"parsed": "<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>hello <meta.tag.other.tvar|code.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar|code</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>{{</><entity.name.tag.local-name>1x</><keyword.operator>|</>&lt;/&gtworld<meta.tag.other.tvar|code2.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>tvar|code2</></><punctuation.definition.tag.end.html>&gt</></><punctuation.definition.tag.template>}}</>&lt;/&gt<meta.tag.other.translate.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>translate</></><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
-		"desc": "urlFragmentModes"
+		"desc": "urlFragmentModesTests"
 	},
 	{
 		"desc": "Legacy fragment encoding",

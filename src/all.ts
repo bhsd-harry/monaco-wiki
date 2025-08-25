@@ -19,12 +19,11 @@ declare interface Require {
 	(modules: string[], ready: () => unknown): void;
 }
 
-declare global {
-	const monaco: typeof Monaco;
-}
+declare const monaco: typeof Monaco,
+	$VERSION: string;
 
 const CDN = `${baseCDN}/npm`,
-	version = '0.52.2',
+	version = $VERSION,
 	vs = `${CDN}/monaco-editor@${version}/min/vs`;
 
 const style = document.createElement('style');
