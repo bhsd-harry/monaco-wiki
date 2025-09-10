@@ -44,7 +44,7 @@
 		"test:end": "pkill -x http-server"
 	},
 	"dependencies": {
-		"monaco-editor": "^0.52.2",
+		"monaco-editor": "^0.53.0",
 		"shiki": "^3.8.1",
 		"wikiparser-node": "^1.25.1"
 	},
@@ -73,7 +73,7 @@
 		"http-server": "^14.1.1",
 		"luacheck-browserify": "^0.8.0",
 		"mocha": "^11.7.1",
-		"stylelint": "^16.23.1",
+		"stylelint": "^16.24.0",
 		"stylelint-config-recommended": "^17.0.0",
 		"typescript": "^5.8.2",
 		"types-mediawiki": "^2.0.0"
