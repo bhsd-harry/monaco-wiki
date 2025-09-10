@@ -2,7 +2,7 @@
 'use strict';
 
 const esbuild = require('esbuild'),
-	{version} = require('monaco-editor/package.json');
+	version = '0.52.2';
 
 esbuild.buildSync({
 	entryPoints: ['src/all.ts'],
