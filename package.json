@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.15.1",
+	"version": "1.16.0",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -46,12 +46,13 @@
 	"dependencies": {
 		"monaco-editor": "^0.53.0",
 		"shiki": "^3.8.1",
-		"wikiparser-node": "^1.25.1"
+		"wikiparser-node": "^1.28.0"
 	},
 	"devDependencies": {
 		"@bhsd/browser": "^0.0.1",
-		"@bhsd/code-standard": "^1.0.1",
-		"@bhsd/codemirror-mediawiki": "^3.4.1",
+		"@bhsd/cm-util": "^0.1.0",
+		"@bhsd/code-standard": "^1.2.0",
+		"@bhsd/codemirror-mediawiki": "^3.5.1",
 		"@bhsd/test-util": "^0.1.0",
 		"@shikijs/monaco": "^3.8.1",
 		"@stylistic/eslint-plugin": "^3.1.0",
@@ -61,7 +62,7 @@
 		"@types/node": "^24.0.10",
 		"@typescript-eslint/eslint-plugin": "^8.35.1",
 		"@typescript-eslint/parser": "^8.35.1",
-		"esbuild": "^0.25.5",
+		"esbuild": "^0.25.10",
 		"eslint": "^8.57.1",
 		"eslint-plugin-es-x": "^8.7.0",
 		"eslint-plugin-eslint-comments": "^3.2.0",
@@ -71,10 +72,11 @@
 		"eslint-plugin-regexp": "^2.9.0",
 		"eslint-plugin-unicorn": "^56.0.1",
 		"http-server": "^14.1.1",
-		"luacheck-browserify": "^0.8.0",
+		"luacheck-browserify": "^0.8.2",
 		"mocha": "^11.7.1",
-		"stylelint": "^16.24.0",
+		"stylelint": "^16.25.0",
 		"stylelint-config-recommended": "^17.0.0",
+		"stylelint-plugin-use-baseline": "^1.0.0",
 		"typescript": "^5.8.2",
 		"types-mediawiki": "^2.0.0"
 	}

@@ -124,6 +124,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 ### Extension
 
 1. [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) is not supported.
+1. `<gallery>` tags are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
 
 ### Transclusion
 

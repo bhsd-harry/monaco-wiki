@@ -54,7 +54,7 @@ span.mtku {
 	}
 
 	/* Chromium */
-	@supports (not (-webkit-hyphens:none)) and (not (-moz-appearance:none)) and (list-style-type:"*") {
+	@supports (not (-webkit-hyphens:none)) and (not (-moz-appearance:none)) {
 		#compare {
 			padding-top: .5rem;
 		}

@@ -2,7 +2,7 @@
 'use strict';
 
 const esbuild = require('esbuild'),
-	version = '0.52.2';
+	version = '0.54.0';
 
 esbuild.buildSync({
 	entryPoints: ['src/all.ts'],

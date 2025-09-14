@@ -1,3 +1,11 @@
+## v1.16.0
+
+*2025-10-16*
+
+**Changed**
+
+- Starting from [monaco-editor@0.53.0](https://www.npmjs.com/package/monaco-editor/v/0.53.0), workers no longer need to be specified manually
+
 ## v1.15.1
 
 *2025-08-27*

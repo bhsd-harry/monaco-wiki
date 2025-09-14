@@ -6,6 +6,7 @@ import htm from 'shiki/langs/html.mjs';
 import json from 'shiki/langs/json.mjs';
 import vue from 'shiki/langs/vue.mjs';
 import loadWasm from 'shiki/wasm';
+import {isUnderscore} from '@bhsd/cm-util';
 import type {ConfigData} from 'wikiparser-node';
 import type {HighlighterCore, ThemeRegistrationRaw, LanguageRegistration} from 'shiki/core';
 import type {IRawRule} from './wikitext.tmLanguage.ts';
@@ -83,8 +84,8 @@ export default async (
 		'begin',
 	);
 	defineGrammar(repository['template']!, namespaces, 'begin');
-	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0]);
-	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1]);
+	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0].filter(isUnderscore));
+	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1].filter(isUnderscore));
 	defineGrammar(
 		fileLink,
 		Object.entries(nsid).filter(([, v]) => v === 6)
