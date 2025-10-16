@@ -1,4 +1,3 @@
-// @ts-expect-error JSON module
 import defaultConfig from 'wikiparser-node/config/default.json' with {type: 'json'};
 import getHighlighter from '../src/token.js';
 import lang from '../src/wikitext.tmLanguage.js';
@@ -9,7 +8,7 @@ import type {StateStack} from '@shikijs/vscode-textmate';
 const entities = {'<': '&lt;', '>': '&gt', '&': '&amp;'};
 
 export const getGrammar = async (): Promise<Grammar> =>
-	(await getHighlighter(lang, defaultConfig as ConfigData)).getLanguage('wikitext');
+	(await getHighlighter(lang, defaultConfig as unknown as ConfigData)).getLanguage('wikitext');
 
 export default (wikitext: string, grammar: Grammar): string => {
 	let stack: StateStack | null = null,

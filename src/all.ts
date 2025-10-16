@@ -18,12 +18,9 @@ declare interface Require {
 	(modules: string[], ready: () => unknown): void;
 }
 
-declare const monaco: typeof Monaco,
-	$VERSION: string;
+declare const monaco: typeof Monaco;
 
-const CDN = `${baseCDN}/npm`,
-	version = $VERSION,
-	vs = `${CDN}/monaco-editor@${version}/min/vs`;
+const vs = `${baseCDN}/npm/monaco-editor/min/vs`;
 
 const style = document.createElement('style');
 style.textContent =
@@ -54,7 +51,6 @@ const load = async (): Promise<typeof Monaco> => {
 	requirejs.config(config);
 	return new Promise(resolve => {
 		requirejs(['vs/editor/editor.main'], async () => {
-			Object.assign(monaco, {version});
 			await registerWiki(
 				monaco,
 				isMW,
