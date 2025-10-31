@@ -25,12 +25,12 @@ const fromPositions = (start: Position, end = start): IRange => ({
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const toNRange = (model: editor.ITextModel, range: AST.Range) => iRangeToNRange(
-	(model as ITextModel).getRangeAt(...range),
+const toNRange = (m: editor.ITextModel, range: AST.Range) => iRangeToNRange(
+	(m as ITextModel).getRangeAt(...range),
 );
 
 const getData = (
-	model: editor.ITextModel,
+	m: editor.ITextModel,
 	rule: string,
 	fix?: Rule.Fix,
 	suggestions: Linter.LintSuggestion[] = [],
@@ -40,7 +40,7 @@ const getData = (
 			{
 				title: `Fix this ${rule} problem`,
 				fix: true,
-				range: toNRange(model, fix.range),
+				range: toNRange(m, fix.range),
 				newText: fix.text,
 			},
 		]
@@ -48,7 +48,7 @@ const getData = (
 	...suggestions.map(({desc, fix: {range, text}}) => ({
 		title: `${desc} (${rule})`,
 		fix: false,
-		range: toNRange(model, range),
+		range: toNRange(m, range),
 		newText: text,
 	})),
 ];
@@ -56,8 +56,8 @@ const getData = (
 const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt === 'function' ? opt(true) : opt;
 
 export const registerWikiLint = (opt?: LiveOption): void => {
-	linterGetters.set('wikitext', async model => {
-		const wikiLint = await getWikiLinter(undefined, model);
+	linterGetters.set('wikitext', async m => {
+		const wikiLint = await getWikiLinter(undefined, m);
 		const linter: ILinter = {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
 				return (await wikiLint(text, await getOption(option))).map(({
@@ -71,8 +71,8 @@ export const registerWikiLint = (opt?: LiveOption): void => {
 					data,
 				}): editor.IMarkerData & {data?: unknown} => {
 					const isStylelint = source === 'Stylelint',
-						start = isStylelint ? model.getPositionAt(from!) : undefined,
-						end = isStylelint ? model.getPositionAt(to!) : undefined;
+						start = isStylelint ? m.getPositionAt(from!) : undefined,
+						end = isStylelint ? m.getPositionAt(to!) : undefined;
 					return {
 						code: code as string,
 						severity: severity === 1 ? 8 : 4,
@@ -95,7 +95,7 @@ export const registerWikiLint = (opt?: LiveOption): void => {
 };
 
 export const registerESLint = (cdn?: string, opt?: LiveOption): void => {
-	linterGetters.set('javascript', async model => {
+	linterGetters.set('javascript', async m => {
 		const esLint = await getJsLinter(cdn);
 		return {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
@@ -114,7 +114,7 @@ export const registerESLint = (cdn?: string, opt?: LiveOption): void => {
 					source: 'ESLint',
 					severity: severity === 2 ? 8 : 4,
 					message,
-					data: getData(model, ruleId!, fix, suggestions),
+					data: getData(m, ruleId!, fix, suggestions),
 					...toIRange(line, column, endLine, endColumn),
 				}));
 			},
@@ -126,7 +126,7 @@ export const registerESLint = (cdn?: string, opt?: LiveOption): void => {
 };
 
 export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
-	linterGetters.set('css', async model => {
+	linterGetters.set('css', async m => {
 		const styleLint = await getCssLinter(cdn);
 		return {
 			async lint(code, option = opt): Promise<editor.IMarkerData[]> {
@@ -144,7 +144,7 @@ export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
 					source: 'Stylelint',
 					severity: severity === 'error' ? 8 : 4,
 					message: text,
-					data: getData(model, rule, fix),
+					data: getData(m, rule, fix),
 					...toIRange(line, column, endLine, endColumn),
 				}));
 			},

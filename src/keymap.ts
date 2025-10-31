@@ -32,21 +32,21 @@ export default (monaco: typeof Monaco): void => {
 				/* eslint-enable no-bitwise */
 			],
 			run(editor) {
-				const model = editor.getModel()!;
+				const m = editor.getModel()!;
 				if (splitlines) {
 					editor.setSelections(
 						editor.getSelections()!.map(range => ({
 							selectionStartLineNumber: range.startLineNumber,
 							selectionStartColumn: 1,
 							positionLineNumber: range.endLineNumber,
-							positionColumn: model.getLineMaxColumn(range.endLineNumber),
+							positionColumn: m.getLineMaxColumn(range.endLineNumber),
 						})),
 					);
 				}
 				editor.executeEdits(
 					id,
 					editor.getSelections()!.map(range => {
-						const value = model.getValueInRange(range);
+						const value = m.getValueInRange(range);
 						return {
 							range,
 							text: splitlines ? encapsulateLines(value, pre, post) : pre + value + post,

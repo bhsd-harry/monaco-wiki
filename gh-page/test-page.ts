@@ -13,9 +13,9 @@ declare interface Test {
 		container = document.querySelector<HTMLDivElement>('#container')!,
 		pre = document.querySelector('pre')!;
 	localStorage.setItem('codemirror-mediawiki-addons', '[]');
-	const model = (await monaco).editor.createModel('', 'wikitext'),
+	const m = (await monaco).editor.createModel('', 'wikitext'),
 		editor = (await monaco).editor.create(container, {
-			model,
+			model: m,
 			automaticLayout: true,
 			theme: 'monokai',
 			readOnly: true,
@@ -51,7 +51,7 @@ declare interface Test {
 	}
 	select.addEventListener('change', () => {
 		const {wikitext, desc} = tests[Number(select.value)]!;
-		model.setValue(wikitext!);
+		m.setValue(wikitext!);
 		pre.textContent = wikitext!;
 		pre.classList.remove('wikiparser');
 		void wikiparse.highlight!(pre, false, true);

@@ -21,14 +21,14 @@ const nPositionToIPosition = ({line, character}: NPosition): IPosition => ({
 });
 
 const provideReferences = async (
-	model: editor.ITextModel,
+	m: editor.ITextModel,
 	pos: IPosition,
 	method: 'provideReferences' | 'provideDefinition',
 ): Promise<languages.Location[] | undefined> =>
-	(await getLSP(model)?.[method](model.getValue(), iPositionToNPosition(pos)))
+	(await getLSP(m)?.[method](m.getValue(), iPositionToNPosition(pos)))
 		?.map(({range}): languages.Location => ({
 			range: nRangeToIRange(range),
-			uri: model.uri,
+			uri: m.uri,
 		}));
 
 const deepEqual = (a: editor.IMarkerData, b: editor.IMarkerData): boolean =>
@@ -62,15 +62,15 @@ export const iRangeToNRange = ({startLineNumber, startColumn, endLineNumber, end
 });
 
 export const documentColorProvider: languages.DocumentColorProvider = {
-	async provideDocumentColors(model): Promise<languages.IColorInformation[] | undefined> {
-		return (await getLSP(model)?.provideDocumentColors(model.getValue()))
+	async provideDocumentColors(m): Promise<languages.IColorInformation[] | undefined> {
+		return (await getLSP(m)?.provideDocumentColors(m.getValue()))
 			?.map(({color, range}): languages.IColorInformation => ({
 				color,
 				range: nRangeToIRange(range),
 			}));
 	},
-	async provideColorPresentations(model, color): Promise<languages.IColorPresentation[] | undefined> {
-		return (await getLSP(model)?.provideColorPresentations(color as unknown as ColorInformation))
+	async provideColorPresentations(m, color): Promise<languages.IColorPresentation[] | undefined> {
+		return (await getLSP(m)?.provideColorPresentations(color as unknown as ColorInformation))
 			?.map(({label, textEdit}): languages.IColorPresentation => ({
 				label,
 				textEdit: {
@@ -90,8 +90,8 @@ export const completionItemProvider = (monaco: typeof Monaco): languages.Complet
 	return {
 		triggerCharacters: ['#'],
 
-		async provideCompletionItems(model, pos): Promise<languages.CompletionList | undefined | null> {
-			const items = await getLSP(model)?.provideCompletionItems(model.getValue(), iPositionToNPosition(pos));
+		async provideCompletionItems(m, pos): Promise<languages.CompletionList | undefined | null> {
+			const items = await getLSP(m)?.provideCompletionItems(m.getValue(), iPositionToNPosition(pos));
 			return items && {
 				suggestions: items.map(({label, kind, textEdit, documentation}): languages.CompletionItem => ({
 					label,
@@ -110,8 +110,8 @@ export const completionItemProvider = (monaco: typeof Monaco): languages.Complet
 };
 
 export const foldingRangeProvider: languages.FoldingRangeProvider = {
-	async provideFoldingRanges(model): Promise<languages.FoldingRange[] | undefined> {
-		return (await getLSP(model)?.provideFoldingRanges(model.getValue()))
+	async provideFoldingRanges(m): Promise<languages.FoldingRange[] | undefined> {
+		return (await getLSP(m)?.provideFoldingRanges(m.getValue()))
 			?.map(({startLine, endLine}): languages.FoldingRange => ({
 				start: startLine + 1,
 				end: endLine + 1,
@@ -120,8 +120,8 @@ export const foldingRangeProvider: languages.FoldingRangeProvider = {
 };
 
 export const linkProvider: languages.LinkProvider = {
-	async provideLinks(model): Promise<languages.ILinksList | undefined> {
-		const items = await getLSP(model)?.provideLinks(model.getValue());
+	async provideLinks(m): Promise<languages.ILinksList | undefined> {
+		const items = await getLSP(m)?.provideLinks(m.getValue());
 		return items && {
 			links: items.map(({target, range}): languages.ILink => ({
 				url: target!,
@@ -132,31 +132,31 @@ export const linkProvider: languages.LinkProvider = {
 };
 
 export const referenceProvider: languages.ReferenceProvider = {
-	provideReferences(model, pos): Promise<languages.Location[] | undefined> {
-		return provideReferences(model, pos, 'provideReferences');
+	provideReferences(m, pos): Promise<languages.Location[] | undefined> {
+		return provideReferences(m, pos, 'provideReferences');
 	},
 };
 
 export const documentHighlightProvider: languages.DocumentHighlightProvider = {
-	async provideDocumentHighlights(model, pos): Promise<languages.DocumentHighlight[] | undefined> {
-		return (await getLSP(model)?.provideReferences(model.getValue(), iPositionToNPosition(pos)))
+	async provideDocumentHighlights(m, pos): Promise<languages.DocumentHighlight[] | undefined> {
+		return (await getLSP(m)?.provideReferences(m.getValue(), iPositionToNPosition(pos)))
 			?.map(({range}): languages.DocumentHighlight => ({range: nRangeToIRange(range)}));
 	},
 };
 
 export const definitionProvider: languages.DefinitionProvider = {
-	provideDefinition(model, pos): Promise<languages.Location[] | undefined> {
-		return provideReferences(model, pos, 'provideDefinition');
+	provideDefinition(m, pos): Promise<languages.Location[] | undefined> {
+		return provideReferences(m, pos, 'provideDefinition');
 	},
 };
 
 export const renameProvider: languages.RenameProvider = {
-	async provideRenameEdits(model, pos, newName): Promise<languages.WorkspaceEdit | undefined> {
-		const res = await getLSP(model)?.provideRenameEdits(model.getValue(), iPositionToNPosition(pos), newName),
-			versionId = model.getVersionId();
+	async provideRenameEdits(m, pos, newName): Promise<languages.WorkspaceEdit | undefined> {
+		const res = await getLSP(m)?.provideRenameEdits(m.getValue(), iPositionToNPosition(pos), newName),
+			versionId = m.getVersionId();
 		return res && {
 			edits: res.changes!['']!.map(({range, newText}): languages.IWorkspaceTextEdit => ({
-				resource: model.uri,
+				resource: m.uri,
 				versionId,
 				textEdit: {
 					range: nRangeToIRange(range),
@@ -165,13 +165,13 @@ export const renameProvider: languages.RenameProvider = {
 			})),
 		};
 	},
-	async resolveRenameLocation(model, pos): Promise<languages.RenameLocation & languages.Rejection> {
-		const res = await getLSP(model)?.resolveRenameLocation(model.getValue(), iPositionToNPosition(pos));
+	async resolveRenameLocation(m, pos): Promise<languages.RenameLocation & languages.Rejection> {
+		const res = await getLSP(m)?.resolveRenameLocation(m.getValue(), iPositionToNPosition(pos));
 		if (res) {
 			const range = nRangeToIRange(res);
 			return {
 				range,
-				text: model.getValueInRange(range),
+				text: m.getValueInRange(range),
 			};
 		}
 		return {
@@ -183,8 +183,8 @@ export const renameProvider: languages.RenameProvider = {
 };
 
 export const hoverProvider: languages.HoverProvider = {
-	async provideHover(model, pos): Promise<languages.Hover | undefined> {
-		const res = await getLSP(model)?.provideHover(model.getValue(), iPositionToNPosition(pos));
+	async provideHover(m, pos): Promise<languages.Hover | undefined> {
+		const res = await getLSP(m)?.provideHover(m.getValue(), iPositionToNPosition(pos));
 		return res && {
 			range: nRangeToIRange(res.range!),
 			contents: [res.contents as MarkupContent],
@@ -196,8 +196,8 @@ export const signatureHelpProvider: languages.SignatureHelpProvider = {
 	signatureHelpTriggerCharacters: [':', '：', '|'],
 	signatureHelpRetriggerCharacters: ['|'],
 
-	async provideSignatureHelp(model, pos): Promise<languages.SignatureHelpResult | undefined> {
-		const res = await getLSP(model)?.provideSignatureHelp(model.getValue(), iPositionToNPosition(pos));
+	async provideSignatureHelp(m, pos): Promise<languages.SignatureHelpResult | undefined> {
+		const res = await getLSP(m)?.provideSignatureHelp(m.getValue(), iPositionToNPosition(pos));
 		return res && {
 			value: {
 				...res as Omit<languages.SignatureHelp, 'activeSignature'>,
@@ -211,8 +211,8 @@ export const signatureHelpProvider: languages.SignatureHelpProvider = {
 };
 
 export const inlayHintsProvider: languages.InlayHintsProvider = {
-	async provideInlayHints(model): Promise<languages.InlayHintList | undefined> {
-		const res = await getLSP(model)?.provideInlayHints(model.getValue());
+	async provideInlayHints(m): Promise<languages.InlayHintList | undefined> {
+		const res = await getLSP(m)?.provideInlayHints(m.getValue());
 		return res && {
 			hints: res.map(({label, position}): languages.InlayHint => ({
 				label: label as string,
@@ -228,16 +228,16 @@ export const inlayHintsProvider: languages.InlayHintsProvider = {
 const resolveCodeAction = async (
 	action: languages.CodeAction & {model: IWikitextModel, rule?: string},
 ): Promise<languages.CodeAction> => {
-	const {title, model, rule} = action;
+	const {title, model: m, rule} = action;
 	if (/^Fix all .+ problems$/u.test(title)) {
 		action.edit = {
 			edits: [
 				{
-					resource: model.uri,
-					versionId: model.getVersionId(),
+					resource: m.uri,
+					versionId: m.getVersionId(),
 					textEdit: {
-						range: model.getFullModelRange(),
-						text: await model.linter!.fixer!(model.getValue(), rule),
+						range: m.getFullModelRange(),
+						text: await m.linter!.fixer!(m.getValue(), rule),
 					},
 				},
 			],
@@ -247,20 +247,20 @@ const resolveCodeAction = async (
 };
 
 const provideQuickFix = (
-	model: IWikitextModel,
+	m: IWikitextModel,
 	{markers, only}: languages.CodeActionContext,
 ): languages.CodeAction[] => {
 	if (only && !/^quickfix(?:$|\.)/u.test(only)) {
 		return [];
 	}
-	const fixable = model.linter?.diagnostics?.filter(
+	const fixable = m.linter?.diagnostics?.filter(
 		diagnostic => diagnostic.data?.length && markers.some(marker => deepEqual(marker, diagnostic)),
 	);
 	if (!fixable?.length) {
 		return [];
 	}
 	const autofixable = fixable.filter(({source, data}) => source !== 'Stylelint' && data!.some(({fix}) => fix)),
-		versionId = model.getVersionId();
+		versionId = m.getVersionId();
 	return [
 		...fixable.flatMap(
 			diagnostic => diagnostic.data!.map(({title, fix, range, newText}): languages.CodeAction => ({
@@ -271,7 +271,7 @@ const provideQuickFix = (
 				edit: {
 					edits: [
 						{
-							resource: model.uri,
+							resource: m.uri,
 							versionId,
 							textEdit: {
 								range: nRangeToIRange(range),
@@ -293,7 +293,7 @@ const provideQuickFix = (
 						kind: 'quickfix',
 						diagnostics: markers
 							.filter(marker => related.some(diagnostic => deepEqual(marker, diagnostic))),
-						model,
+						model: m,
 						rule,
 					};
 				}),
@@ -304,7 +304,7 @@ const provideQuickFix = (
 					diagnostics: markers
 						.filter(marker => autofixable.some(diagnostic => deepEqual(marker, diagnostic))),
 					// @ts-expect-error extra property
-					model,
+					model: m,
 				},
 			],
 	];
@@ -321,29 +321,29 @@ const getCodeActionList = (actions: languages.CodeAction[]): languages.CodeActio
 		};
 
 export const codeActionProvider: languages.CodeActionProvider = {
-	provideCodeActions(model: IWikitextModel, _, context): languages.CodeActionList | undefined {
-		return getCodeActionList(provideQuickFix(model, context));
+	provideCodeActions(m: IWikitextModel, _, context): languages.CodeActionList | undefined {
+		return getCodeActionList(provideQuickFix(m, context));
 	},
 	resolveCodeAction,
 };
 
 export const codeActionProviderForWiki: languages.CodeActionProvider = {
-	async provideCodeActions(model: IWikitextModel, range, context): Promise<languages.CodeActionList | undefined> {
+	async provideCodeActions(m: IWikitextModel, range, context): Promise<languages.CodeActionList | undefined> {
 		const {only} = context,
-			actions = provideQuickFix(model, context);
+			actions = provideQuickFix(m, context);
 		if (!only || /^refactor(?:$|\.)/u.test(only)) {
-			const lsp = getLSP(model)!;
+			const lsp = getLSP(m)!;
 			if ('provideRefactoringAction' in lsp) {
-				const versionId = model.getVersionId();
+				const versionId = m.getVersionId();
 				actions.push(
-					...(await lsp.provideRefactoringAction(model.getValue(), iRangeToNRange(range)))
+					...(await lsp.provideRefactoringAction(m.getValue(), iRangeToNRange(range)))
 						.map(({title, kind, edit}): languages.CodeAction => ({
 							title,
 							kind: kind!,
 							edit: {
 								edits: [
 									{
-										resource: model.uri,
+										resource: m.uri,
 										versionId,
 										textEdit: {
 											range,

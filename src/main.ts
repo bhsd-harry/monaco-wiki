@@ -108,8 +108,8 @@ export default async (
 	addKeybindings(monaco);
 	registerLinterBase(monaco);
 	registerWikiLint(opt);
-	monaco.editor.onWillDisposeModel(model => {
-		getLSP(model)?.destroy();
+	monaco.editor.onWillDisposeModel(m => {
+		getLSP(m)?.destroy();
 	});
 };
 

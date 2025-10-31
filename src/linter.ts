@@ -28,7 +28,7 @@ export interface IWikitextModel extends editor.ITextModel {
 
 export type LiveOption = LinterOption | ((_?: true) => LinterOption | Promise<LinterOption>);
 
-export const linterGetters = new Map<string, (model: editor.ITextModel) => Promise<ILinter>>();
+export const linterGetters = new Map<string, (m: editor.ITextModel) => Promise<ILinter>>();
 
 /**
  * 获取CM6存储
@@ -50,23 +50,23 @@ export default (monaco: typeof Monaco): void => {
 
 	/**
 	 * 更新诊断信息
-	 * @param model ITextModel 实例
+	 * @param m ITextModel 实例
 	 * @param clear 是否清除诊断信息
 	 */
-	const update = (model: IWikitextModel, clear?: boolean): void => {
-		const linter = model.linter!;
+	const update = (m: IWikitextModel, clear?: boolean): void => {
+		const linter = m.linter!;
 		if (!clear && linter.disabled) {
 			return;
 		}
 		clearTimeout(linter.timer);
 		linter.timer = setTimeout(() => {
-			if (model.isDisposed()) {
+			if (m.isDisposed()) {
 				return;
 			}
 			(async () => {
-				linter.diagnostics = clear ? [] : await linter.lint!(model.getValue(), linter.option);
-				monaco.editor.setModelMarkers(model, 'Linter', linter.diagnostics);
-				linter.glyphs = model.deltaDecorations(
+				linter.diagnostics = clear ? [] : await linter.lint!(m.getValue(), linter.option);
+				monaco.editor.setModelMarkers(m, 'Linter', linter.diagnostics);
+				linter.glyphs = m.deltaDecorations(
 					linter.glyphs,
 					linter.diagnostics
 						.map(({startLineNumber, severity, message}): editor.IModelDeltaDecoration => ({
@@ -112,8 +112,8 @@ export default (monaco: typeof Monaco): void => {
 	}
 
 	registered = true;
-	monaco.editor.onDidCreateModel((model: IWikitextModel) => {
-		model.lint = lint;
-		model.lint((getCmObject('addons') as string[] | null)?.includes('lint'));
+	monaco.editor.onDidCreateModel((m: IWikitextModel) => {
+		m.lint = lint;
+		m.lint((getCmObject('addons') as string[] | null)?.includes('lint'));
 	});
 };
