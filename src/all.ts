@@ -24,9 +24,9 @@ const vs = `${baseCDN}/npm/monaco-editor/min/vs`;
 
 const style = document.createElement('style');
 style.textContent =
-'.monaco-editor .glyph-margin-widgets>.codicon-warning::before{color:var(--vscode-problemsWarningIcon-foreground)}'
-+ '.monaco-editor .glyph-margin-widgets>.codicon-error::before{color:var(--vscode-problemsErrorIcon-foreground)}'
-+ '.monaco-hover-content code{color:inherit}';
+	'.monaco-editor .glyph-margin-widgets>.codicon-warning::before{color:var(--vscode-problemsWarningIcon-foreground)}'
+	+ '.monaco-editor .glyph-margin-widgets>.codicon-error::before{color:var(--vscode-problemsErrorIcon-foreground)}'
+	+ '.monaco-hover-content code{color:inherit}';
 document.head.append(style);
 
 const i18n = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'];
