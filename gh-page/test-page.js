@@ -2,8 +2,8 @@
 (async () => {
     const tests = await (await fetch('/wikiparser-node/test/parserTests.json')).json(), key = 'monaco-wiki-done', dones = new Set(JSON.parse(localStorage.getItem(key))), isGH = location.hostname.endsWith('.github.io'), select = document.querySelector('select'), btn = document.querySelector('button'), container = document.querySelector('#container'), pre = document.querySelector('pre');
     localStorage.setItem('codemirror-mediawiki-addons', '[]');
-    const model = (await monaco).editor.createModel('', 'wikitext'), editor = (await monaco).editor.create(container, {
-        model,
+    const m = (await monaco).editor.createModel('', 'wikitext'), editor = (await monaco).editor.create(container, {
+        model: m,
         automaticLayout: true,
         theme: 'monokai',
         readOnly: true,
@@ -39,7 +39,7 @@
     }
     select.addEventListener('change', () => {
         const { wikitext, desc } = tests[Number(select.value)];
-        model.setValue(wikitext);
+        m.setValue(wikitext);
         pre.textContent = wikitext;
         pre.classList.remove('wikiparser');
         void wikiparse.highlight(pre, false, true);
