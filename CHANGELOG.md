@@ -1,3 +1,11 @@
+## v1.16.1
+
+*2025-11-03*
+
+**Fixed**
+
+- Stylelint quick fixes for the MediaWiki mode
+
 ## v1.16.0
 
 *2025-10-16*
