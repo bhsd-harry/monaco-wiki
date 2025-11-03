@@ -351,8 +351,8 @@ const signature = {
 	},
 	internalLink = {
 		name: link,
-		// eslint-disable-next-line @stylistic/max-len
-		begin: String.raw`(?i)(?<!(?<!\[)\[)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^]\n#<>\[{|}]*(?:#[^]\n\[{|}]*)?)`,
+		begin: // eslint-disable-next-line @stylistic/max-len
+			String.raw`(?i)(?<!(?<!\[)\[)(\[\[)(?!\[)(?!$1)(\s*(?::\s*)?(?:$2)\s*:)?([^]\n#<>\[{|}]*(?:#[^]\n\[{|}]*)?)`,
 		end: linkEnd,
 		captures: {
 			1: linkBracket,

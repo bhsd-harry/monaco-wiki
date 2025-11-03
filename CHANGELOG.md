@@ -74,7 +74,7 @@
 
 **Fixed**
 
-- Updated ESLint globals when used on a MediaWiki site 
+- Updated ESLint globals when used on a MediaWiki site
 
 ## v1.11.1
 

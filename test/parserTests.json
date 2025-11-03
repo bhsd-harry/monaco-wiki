@@ -5136,6 +5136,31 @@
 		"parsed": "＿＿目次非表示＿＿"
 	},
 	{
+		"desc": "Basic {{nse:}} test",
+		"wikitext": "{{nse:1}}\n\n{{nse:01}}\n\n{{nse:0}}\n\n{{nse:00}}\n\n{{nse:-1}}\n\n{{nse:User}}\n\n{{nse:User_talk}}\n\n{{nse:uSeR tAlK}}\n\n{{nse:File}}\n\n{{nse:Image}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>1<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>01<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>0<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>00<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>-1<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>User<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>User_talk<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>uSeR tAlK<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>File<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>nse</><keyword.operator.function>:</>Image<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Basic {{localurle:}} test",
+		"wikitext": "{{localurle: media:top%20level#fragment }}\n\n{{localurle: file:top%20level#fragment | action=edit&preload=\n\n\" }}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>localurle</><keyword.operator.function>:</> media:top%20level#fragment <punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>localurle</><keyword.operator.function>:</> file:top%20level#fragment <keyword.operator>|</> action=edit&amp;preload=\\n\\n\" <punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Basic {{fullurl:}} test",
+		"wikitext": "{{fullurl: media:top%20level#fragment }}\n\n{{fullurle: file:top%20level#fragment | action=edit&preload=\n\n\" }}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>fullurl</><keyword.operator.function>:</> media:top%20level#fragment <punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>fullurle</><keyword.operator.function>:</> file:top%20level#fragment <keyword.operator>|</> action=edit&amp;preload=\\n\\n\" <punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Basic {{canonicalurl:}} test",
+		"wikitext": "{{canonicalurl: media:top%20level#fragment }}\n\n{{canonicalurle: file:top%20level#fragment | action=edit&preload=\n\n\" }}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>canonicalurl</><keyword.operator.function>:</> media:top%20level#fragment <punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>canonicalurle</><keyword.operator.function>:</> file:top%20level#fragment <keyword.operator>|</> action=edit&amp;preload=\\n\\n\" <punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Basic {{GENDER:}} test",
+		"wikitext": "{{GENDER:username|gender-neutral text applicable to all genders}}\n\n{{GENDER:username|text if user is male|text if user is female|text for unspecified gender}}\n\n{{GENDER:|text if user is male|text if user is female|text for unspecified gender}}\n\n{{GENDER:.|text if user is male|text if user is female|text for unspecified gender}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>GENDER</><keyword.operator.function>:</>username<keyword.operator>|</>gender-neutral text applicable to all genders<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>GENDER</><keyword.operator.function>:</>username<keyword.operator>|</>text if user is male<keyword.operator>|</>text if user is female<keyword.operator>|</>text for unspecified gender<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>GENDER</><keyword.operator.function>:</><keyword.operator>|</>text if user is male<keyword.operator>|</>text if user is female<keyword.operator>|</>text for unspecified gender<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>GENDER</><keyword.operator.function>:</>.<keyword.operator>|</>text if user is male<keyword.operator>|</>text if user is female<keyword.operator>|</>text for unspecified gender<punctuation.definition.tag.function>}}</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

@@ -11,6 +11,7 @@ import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
 import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
+import type {Range as NRange} from 'vscode-languageserver-types';
 import type {LiveOption, ILinter} from './linter.ts';
 
 declare interface ITextModel extends editor.ITextModel {
@@ -24,8 +25,7 @@ const fromPositions = (start: Position, end = start): IRange => ({
 	endColumn: end.column,
 });
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const toNRange = (m: editor.ITextModel, range: AST.Range) => iRangeToNRange(
+const toNRange = (m: editor.ITextModel, range: AST.Range): NRange => iRangeToNRange(
 	(m as ITextModel).getRangeAt(...range),
 );
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import {shikiToMonaco} from '@shikijs/monaco';
 import {getWikiparse, getLSP} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
