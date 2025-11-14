@@ -47,12 +47,12 @@ export default async (
 			img,
 			variants,
 		} = parserConfig,
-		namespaces = Object.keys(nsid).filter(Boolean).map(ns => ns.replace(/ /gu, '[_ ]')),
+		namespaces = Object.keys(nsid).filter(ns => ns !== '')
+			.map(ns => ns.replace(/ /gu, '[_ ]')),
 		[p0, p1, ...p2] = parserFunction,
-		isOldSchema = Array.isArray(p1),
-		isLatestSchema = !isOldSchema && 'functionHook' in parserConfig,
+		isLatestSchema = 'functionHook' in parserConfig,
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
-		sensitive = (isOldSchema ? p1 : Object.keys(p1)).filter(s => !s.startsWith('#')),
+		sensitive = Object.keys(p1).filter(s => !s.startsWith('#')),
 		imgKeys = Object.keys(img),
 		protocols = [protocol, '//'];
 	for (let i = 0; i < 2; i++) {
@@ -68,7 +68,7 @@ export default async (
 	defineGrammar(
 		variables[1]!,
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		variable && !isOldSchema ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive,
+		variable ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive,
 	);
 	defineGrammar(
 		parserFunctions[0]!,

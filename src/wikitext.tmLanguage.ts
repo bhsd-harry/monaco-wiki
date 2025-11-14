@@ -252,7 +252,7 @@ const signature = {
 				name: 'entity.name.tag.local-name.wikitext',
 				patterns: [
 					{
-						match: String.raw`(?i)%[\da-f]{2}`,
+						match: String.raw`(?i)%[a-f\d]{2}`,
 						name: invalid,
 					},
 				],
@@ -409,7 +409,7 @@ const signature = {
 		patterns: [
 			{
 				name: 'constant.language.variables.isbn.wikitext',
-				match: String.raw`ISBN\s+(?:97[89][-\s]?)?(?:\d[-\s]?){9}[\dXx]`,
+				match: String.raw`ISBN\s+(?:97[89][-\s]?)?(?:\d[-\s]?){9}[Xx\d]`,
 			},
 			{
 				name: 'constant.language.variables.rfc.wikitext',
@@ -423,7 +423,7 @@ const signature = {
 	},
 	list = {
 		name: indent,
-		match: '^[#*;:]+',
+		match: '^[#*:;]+',
 	},
 	convert = {
 		begin: String.raw`(-\{)(?!\{)(?:([^]\[{|}]*)(\|))?`,

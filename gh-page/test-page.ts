@@ -73,5 +73,5 @@ declare interface Test {
 			select.dispatchEvent(new Event('change'));
 		}
 	});
-	dispatchEvent(new Event('hashchange'));
+	dispatchEvent(new HashChangeEvent('hashchange'));
 })();

@@ -4948,6 +4948,149 @@
 		"parsed": "<meta.tag.block.table><keyword.operator>{|\\n</><meta.tag.block.td><keyword.operator>|</><markup.style>%\\n</><keyword.operator>|</><markup.style><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></>%\\n</><keyword.operator>|</><markup.style>%\\n</><keyword.operator>|</><markup.style><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></>%\\n</><keyword.operator>|</><markup.style><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></> %\\n</><keyword.operator>|</><markup.style>%\\n</><keyword.operator>|</><markup.style>%\\n</></><keyword.operator>|}\\n\\n</></><punctuation.definition.list.begin.markdown>*</>%\\n<punctuation.definition.list.begin.markdown>*</><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></>%\\n<punctuation.definition.list.begin.markdown>*</>%\\n<punctuation.definition.list.begin.markdown>*</><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></>%\\n<punctuation.definition.list.begin.markdown>*</><constant.character.entity.named.nbsp.html><punctuation.definition.entity.html>&amp;</>nbsp<punctuation.definition.entity.html>;</></> %\\n<punctuation.definition.list.begin.markdown>*</>%\\n<punctuation.definition.list.begin.markdown>*</>%\\n\\n   % pre 1\\n\\n<markup.bold>'''</> % BOLD <markup.bold>'''</>"
 	},
 	{
+		"desc": "DynamicPageList"
+	},
+	{
+		"desc": "basic, single category list, ordered by cat add, desc.",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "basic, single category list, but ascending",
+		"wikitext": "<DynamicPageList>\norder =   ascending\ncategory=DPLtest\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>order =   ascending\\ncategory=DPLtest\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "nofollow",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nnofollow=true\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nnofollow=true\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "supresserrors",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\ncategory=DPLtest1\ncategory=DPLtest2\ncategory=DPLtest3\ncategory=DPLtest4\ncategory=DPLtest5\ncategory=DPLtest7\ncategory=DPLtest6\ncategory=DPLtest8\ncategory=DPLtest9\ncategory=DPLtest10\nsuppresserrors=true\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\ncategory=DPLtest1\\ncategory=DPLtest2\\ncategory=DPLtest3\\ncategory=DPLtest4\\ncategory=DPLtest5\\ncategory=DPLtest7\\ncategory=DPLtest6\\ncategory=DPLtest8\\ncategory=DPLtest9\\ncategory=DPLtest10\\nsuppresserrors=true\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Negation with namespace.",
+		"wikitext": "<DynamicPageList>\nnamespace=talk\nnotcategory=DPLtest3\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>namespace=talk\\nnotcategory=DPLtest3\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Namespace limited to category.",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nnamespace=talk\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nnamespace=talk\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Namespace no category.",
+		"wikitext": "<DynamicPageList>\nnamespace=help\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>namespace=help\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Don't show namespace name. (shownamespace=false)",
+		"wikitext": "<DynamicPageList>\nnamespace=help\nshownamespace=false\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>namespace=help\\nshownamespace=false\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Invalid ns treated as main namespace",
+		"wikitext": "<DynamicPageList>\nnamespace=Look mummy, this totally isn't a namespace\ncount=2\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>namespace=Look mummy, this totally isn't a namespace\\ncount=2\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "count and offset combined.",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\ncount=1\noffset=1\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\ncount=1\\noffset=1\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "include redirects",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nredirects=include\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nredirects=include\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "only redirect",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nredirects=only\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nredirects=only\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "addfirstcategorydate=INVALID",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\naddfirstcategorydate=INVALID\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\naddfirstcategorydate=INVALID\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "addfirstcategorydate=false",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\naddfirstcategorydate=false\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\naddfirstcategorydate=false\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=unordered (default)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=unordered\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=unordered\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=INVALID",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=INVALID\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=INVALID\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=ordered",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=ordered\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=ordered\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=none (line breaks)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=none\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=none\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=inline (comma list)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=inline\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=inline\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=gallery (complex, no image)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=Look at my pretty gallery. {{SERVER}}\nmode=gallery\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nimagewidth=70\\ngalleryshowfilesize=yes\\ngalleryshowfilename=yes\\nimagesperrow=7\\ngallerycaption=Look at my pretty gallery. <constant.language.variables.query>{{SERVER}}\\n</>mode=gallery\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=gallery (simple, no image)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=gallery\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=gallery\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=gallery (complex, with image + bad image)",
+		"wikitext": "<DynamicPageList>\nmode=gallery\nnamespace=file\naddfirstcategorydate=ymd\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=I love Captions\nordermethod=sortkey\norder=descending\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>mode=gallery\\nnamespace=file\\naddfirstcategorydate=ymd\\nimagewidth=70\\ngalleryshowfilesize=yes\\ngalleryshowfilename=yes\\nimagesperrow=7\\ngallerycaption=I love Captions\\nordermethod=sortkey\\norder=descending\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "mode=gallery (simple showfilesize, no image)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=gallery\ngalleryshowfilesize=yes\ngalleryshowfilename=no\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nmode=gallery\\ngalleryshowfilesize=yes\\ngalleryshowfilename=no\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "ordermethod=created (by article id)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=created\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nordermethod=created\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "ordermethod=length",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=length\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nordermethod=length\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "ordermethod=sortkey",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=sortkey\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nordermethod=sortkey\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "ordermethod=categorysortkey",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=categorysortkey\norder=ascending\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=DPLtest\\nordermethod=categorysortkey\\norder=ascending\\n<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Magic word in category clause",
+		"wikitext": "<DynamicPageList>\ncategory={{PAGENAME:DPLtest}}\n</DynamicPageList>",
+		"parsed": "<meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt\\n</></>category=<punctuation.definition.tag.function>{{</><constant.language.variables.query>PAGENAME</><keyword.operator.function>:</>DPLtest<punctuation.definition.tag.function>}}\\n</><meta.tag.other.DynamicPageList.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>DynamicPageList</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
 		"desc": "additionalTests"
 	},
 	{
@@ -5211,6 +5354,21 @@
 		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#explode</><keyword.operator.function>:</>And if you tolerate this<keyword.operator>|</> <keyword.operator>|</>2<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>#explode</><keyword.operator.function>:</>String/Functions/Code<keyword.operator>|</>/<keyword.operator>|</>-1<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>#explode</><keyword.operator.function>:</>Split%By%Percentage%Signs<keyword.operator>|</>%<keyword.operator>|</>2<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>#explode</><keyword.operator.function>:</>And if you tolerate this thing and expect no more<keyword.operator>|</> <keyword.operator>|</>2<keyword.operator>|</>3<punctuation.definition.tag.function>}}\\n{{</><constant.language.variables.query>#explode</><keyword.operator.function>:</>Žmržlina<keyword.operator>|</>ž<keyword.operator>|</>1<punctuation.definition.tag.function>}}</>"
 	},
 	{
+		"desc": "Basic {{PLURAL:}} test",
+		"wikitext": "{{PLURAL:2|is}} → is\n{{PLURAL:0|is|are}} → are\n{{PLURAL:1*1|is|are}} → is\n{{PLURAL:21 mod 10|is|are}} → are\n{{PLURAL:{{#expr:21 mod 10}}|is|are}} → is\n{{PLURAL:1|is|are}} → is\n{{PLURAL:2|is|are}} → are\n{{PLURAL:-1|is|are}} → is\n{{PLURAL:-2|is|are}} → are\n{{PLURAL:0.5|is|are}} → are\n{{PLURAL:1.5|is|are}} → are\n{{PLURAL:-0.5|is|are}} → are\n{{PLURAL:-1.5|is|are}} → are",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>2<keyword.operator>|</>is<punctuation.definition.tag.function>}}</> → is\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>0<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>1*1<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → is\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>21 mod 10<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</><punctuation.definition.tag.function>{{</><constant.language.variables.query>#expr</><keyword.operator.function>:</>21 mod 10<punctuation.definition.tag.function>}}</><keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → is\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>1<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → is\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>2<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>-1<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → is\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>-2<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>0.5<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>1.5<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>-0.5<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are\\n<punctuation.definition.tag.function>{{</><constant.language.variables.query>PLURAL</><keyword.operator.function>:</>-1.5<keyword.operator>|</>is<keyword.operator>|</>are<punctuation.definition.tag.function>}}</> → are"
+	},
+	{
+		"desc": "Basic {{filepath:}} test",
+		"wikitext": "{{filepath:Wiki.png}}\n\n{{filepath:Wiki.png|nowiki}}\n\n{{filepath:Example.svg|300}}\n\n{{filepath:Example.svg|nowiki|300}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>filepath</><keyword.operator.function>:</>Wiki.png<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>filepath</><keyword.operator.function>:</>Wiki.png<keyword.operator>|</>nowiki<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>filepath</><keyword.operator.function>:</>Example.svg<keyword.operator>|</>300<punctuation.definition.tag.function>}}\\n\\n{{</><constant.language.variables.query>filepath</><keyword.operator.function>:</>Example.svg<keyword.operator>|</>nowiki<keyword.operator>|</>300<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Attributes of a closing tag",
+		"wikitext": "<div>a</div id=a>",
+		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>a<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.unquoted.html>a</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -5247,6 +5405,64 @@
 		"desc": "Stray carriage return in text",
 		"wikitext": "hiho",
 		"parsed": "hiho"
+	},
+	{
+		"desc": "categorytree"
+	},
+	{
+		"desc": "Self-closing tag: <categorytree />",
+		"wikitext": "<categorytree />",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>categorytree</> <punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "Empty tag: <categorytree></categorytree>",
+		"wikitext": "<categorytree></categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Empty function: {{#categorytree:}}",
+		"wikitext": "{{#categorytree:}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#categorytree</><keyword.operator.function>:</><punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Tag with Unknown category: <categorytree>Unknown category</categorytree>",
+		"wikitext": "<categorytree>Unknown category</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>Unknown category<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Function with Unknown category: {{#categorytree:Unknown category}}",
+		"wikitext": "{{#categorytree:Unknown category}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#categorytree</><keyword.operator.function>:</>Unknown category<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Tag with Unknown category and parameters: <categorytree mode=all depth=2 showcount=1>Unknown category</categorytree>",
+		"wikitext": "<categorytree mode=all depth=2 showcount=1>Unknown category</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></> <meta.attribute.unrecognized.mode.html><entity.other.attribute-name.html>mode</><punctuation.separator.key-value.html>=</><string.unquoted.html>all</></> <meta.attribute.depth.html><entity.other.attribute-name.html>depth</><punctuation.separator.key-value.html>=</><string.unquoted.html>2</></> <meta.attribute.unrecognized.showcount.html><entity.other.attribute-name.html>showcount</><punctuation.separator.key-value.html>=</><string.unquoted.html>1</></><punctuation.definition.tag.end.html>&gt</></>Unknown category<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Tag with Category:CategoryTree test category",
+		"wikitext": "<categorytree>CategoryTree test category</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>CategoryTree test category<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Tag with Category:CategoryTree test category 2 and hideroot=1",
+		"wikitext": "<categorytree hideroot=1>CategoryTree test category 2</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></> <meta.attribute.unrecognized.hideroot.html><entity.other.attribute-name.html>hideroot</><punctuation.separator.key-value.html>=</><string.unquoted.html>1</></><punctuation.definition.tag.end.html>&gt</></>CategoryTree test category 2<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Tag with CategoryTree root and two subcategories",
+		"wikitext": "<categorytree>CategoryTree root</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>CategoryTree root<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Tag with CategoryTree root and two subcategories and showcount=on",
+		"wikitext": "<categorytree showcount=on>CategoryTree root</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></> <meta.attribute.unrecognized.showcount.html><entity.other.attribute-name.html>showcount</><punctuation.separator.key-value.html>=</><string.unquoted.html>on</></><punctuation.definition.tag.end.html>&gt</></>CategoryTree root<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Tag with CategoryTree root and two subcategories and depth=0",
+		"wikitext": "<categorytree depth=0>CategoryTree root</categorytree>",
+		"parsed": "<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></> <meta.attribute.depth.html><entity.other.attribute-name.html>depth</><punctuation.separator.key-value.html>=</><string.unquoted.html>0</></><punctuation.definition.tag.end.html>&gt</></>CategoryTree root<meta.tag.other.categorytree.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>categorytree</></><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
 		"desc": "citeParserTests"
@@ -7713,6 +7929,109 @@
 		"parsed": "<markup.heading>==<string.quoted.other.heading> </>==</>"
 	},
 	{
+		"desc": "imageMapParserTests"
+	},
+	{
+		"desc": "imagemap test 1",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>Image:Foobar.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "imagemap test 2",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\n\npoly 10.1 10.9 10 30 -30 15 [[Main Page]]\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg\\n\\npoly 10.1 10.9 10 30 -30 15 [[Main Page]]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "imagemap test 3",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|150px|alt=Alt text\ndefault [[Main Page|Go to main page]]\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg|150px|alt=Alt text\\ndefault [[Main Page|Go to main page]]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Empty imagemap",
+		"wikitext": "<imagemap>\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Invalid image title",
+		"wikitext": "<imagemap>\n[[x|xx]]]]\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>[[x|xx]]]]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Image does not exist",
+		"wikitext": "<imagemap>\nFile:Nopenopenope.jpg\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Nopenopenope.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Invalid description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc nopenopenope\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>Image:Foobar.jpg\\ndesc nopenopenope\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Empty description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>Image:Foobar.jpg\\ndesc\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Non-default description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc top-left\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>Image:Foobar.jpg\\ndesc top-left\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "None description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc none\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>Image:Foobar.jpg\\ndesc none\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "No link title",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\n123\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg\\n123\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Invalid link title",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\n[[<]]\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg\\n[[&lt;]]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Link with wikitext syntax in content",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|150px|alt=Alt text\ndefault [[Main Page|Go to ''main page'']]\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg|150px|alt=Alt text\\ndefault [[Main Page|Go to ''main page'']]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "File with link= option",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|link=|Hi ho\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg|link=|Hi ho\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "File with <br> in caption (T113791)",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|thumb|a<br>b\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg|thumb|a&lt;br&gtb\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "File with <br /> in caption (T113791)",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|thumb|a<br />b\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg|thumb|a&lt;br /&gtb\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Imagemap without file namespace",
+		"wikitext": "<imagemap>\nFoobar.jpg\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>Foobar.jpg\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Imagemap with external link",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\ndefault [http://google.com]\n</imagemap>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg\\ndefault [http://google.com]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Imagemap with interlanguage link",
+		"wikitext": "[[es:Lalala]]\n\n<imagemap>\nFile:Foobar.jpg\ndefault [[es:Lalala]]\n</imagemap>",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.other.attribute-name>es:Lalala</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg\\ndefault [[es:Lalala]]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Imagemap with category link",
+		"wikitext": "[[category:Lalala]]\n\n<imagemap>\nFile:Foobar.jpg\ndefault [[category:Lalala]]\n</imagemap>",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>category:</><entity.other.attribute-name>Lalala</><punctuation.definition.tag.link.internal>]]\\n\\n</></><punctuation.definition.tag.begin>&lt;</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.plaintext>File:Foobar.jpg\\ndefault [[category:Lalala]]\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>imagemap</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
 		"desc": "indentPre"
 	},
 	{
@@ -8012,6 +8331,139 @@
 		"desc": "Indicator shouldn't prevent addition of link classes",
 		"wikitext": "<indicator name=\"link\">[http://www.example.com Example]</indicator>",
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>indicator</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>link<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref><punctuation.definition.tag.link.external>[</><entity.name.tag.url>http://www.example.com</><string.other.link.external.title> Example</><punctuation.definition.tag.link.external>]</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>indicator</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "inputBoxParserTests"
+	},
+	{
+		"desc": "InputBox type=search",
+		"wikitext": "<inputbox>\ntype=search\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create",
+		"wikitext": "<inputbox>\ntype=create\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with minor",
+		"wikitext": "<inputbox>\ntype=create\nminor=1\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nminor=1\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with minor=0",
+		"wikitext": "<inputbox>\ntype=create\nminor=0\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nminor=0\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with preloadparams",
+		"wikitext": "<inputbox>\ntype=create\npreloadparams[]=param1\npreloadparams[]=param2\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\npreloadparams[]=param1\\npreloadparams[]=param2\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty preloadparams",
+		"wikitext": "<inputbox>\ntype=create\npreloadparams[]=\npreloadparams[]=\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\npreloadparams[]=\\npreloadparams[]=\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with editintro",
+		"wikitext": "<inputbox>\ntype=create\neditintro=MediaWiki:Test\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\neditintro=MediaWiki:Test\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty editintro",
+		"wikitext": "<inputbox>\ntype=create\neditintro=\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\neditintro=\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with summary",
+		"wikitext": "<inputbox>\ntype=create\nsummary=Summary test\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nsummary=Summary test\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty summary",
+		"wikitext": "<inputbox>\ntype=create\nsummary=\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nsummary=\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with nosummary",
+		"wikitext": "<inputbox>\ntype=create\nnosummary=true\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nnosummary=true\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty nosummary",
+		"wikitext": "<inputbox>\ntype=create\nnosummary=\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nnosummary=\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with prefix",
+		"wikitext": "<inputbox>\ntype=create\nprefix=Test/\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nprefix=Test/\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty prefix",
+		"wikitext": "<inputbox>\ntype=create\nprefix=\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\nprefix=\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with preload",
+		"wikitext": "<inputbox>\ntype=create\npreload=test\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\npreload=test\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty preload",
+		"wikitext": "<inputbox>\ntype=create\npreload=\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=create\\npreload=\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=comment",
+		"wikitext": "<inputbox>\ntype=comment\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=comment\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=comment with preloadtitle",
+		"wikitext": "<inputbox>\ntype=comment\npreloadtitle=My title\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=comment\\npreloadtitle=My title\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=commenttitle",
+		"wikitext": "<inputbox>\ntype=commenttitle\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=commenttitle\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=commenttitle with preloadtitle",
+		"wikitext": "<inputbox>\ntype=commenttitle\npreloadtitle=This should be ignored\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=commenttitle\\npreloadtitle=This should be ignored\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=fulltext",
+		"wikitext": "<inputbox>\ntype=fulltext\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=fulltext\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=move",
+		"wikitext": "<inputbox>\ntype=move\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=move\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=search with tour",
+		"wikitext": "<inputbox>\ntype=search\ntour=test\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\ntour=test\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox type=search with aria label",
+		"wikitext": "<inputbox>\ntype=search\narialabel=Search this wiki\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\narialabel=Search this wiki\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox with different search-special-page preference value",
+		"wikitext": "<inputbox>\ntype=search\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "InputBox searchengine",
+		"wikitext": "<inputbox>\ntype=search\nsearchengine=MediaSearch\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\nsearchengine=MediaSearch\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
 		"desc": "interlanguageLinks"
@@ -11851,6 +12303,94 @@
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>ref</> <meta.attribute.unrecognized.details.html><entity.other.attribute-name.html>details</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>page 1<punctuation.definition.string.end.html>\"</></></> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>miller<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref>Miller</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>ref</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>smith<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt\\n\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>references</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref><punctuation.definition.tag.begin>&lt;</><entity.name.tag>ref</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>smith<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref>Smith</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt\\n</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>references</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
+		"desc": "syntaxhighlight"
+	},
+	{
+		"desc": "Non-existent language",
+		"wikitext": "<source lang=\"doesnotexist\">\nfoobar\n</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>doesnotexist<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt\\n</></>foobar\\n<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "No language specified",
+		"wikitext": "<source>\nfoo\n</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</><punctuation.definition.tag.end.html>&gt\\n</></>foo\\n<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "No language specified (no wellformed xml)",
+		"wikitext": "<source>\nbar\n</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</><punctuation.definition.tag.end.html>&gt\\n</></>bar\\n<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "XSS is escaped",
+		"wikitext": "<source lang=\"doesnotexist\">\n<script>alert(\"pwnd\")</script>\n<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>\n<IMG\nSRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;\n&#39;&#88;&#83;&#83;&#39;&#41;\n\\\";alert('XSS');//\n</script><script>alert('XSS');</script>\n%253cscript%253ealert(document.cookie)%253c/script%253e\n</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>doesnotexist<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt\\n</></><meta.embedded.block.html><meta.tag.metadata.script.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt</></><source.js><meta.function-call.js><entity.name.function.js>alert</></><meta.brace.round.js>(</><string.quoted.double.js><punctuation.definition.string.begin.js>\"</>pwnd<punctuation.definition.string.end.js>\"</></><meta.brace.round.js>)</></><meta.tag.metadata.script.end.html><punctuation.definition.tag.begin.html><source.js-ignored-vscode>&lt;</>/</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt\\n</></></><meta.tag.object.IMG.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>IMG</> <meta.attribute.unrecognized.SRC.html><entity.other.attribute-name.html>SRC</><punctuation.separator.key-value.html>=</>`</><meta.attribute.unrecognized.javascript:alert(.html><entity.other.attribute-name.html>javascript:alert(</></><invalid.illegal.character-not-allowed-here.html>\"RSnake</> <meta.attribute.unrecognized.says,.html><entity.other.attribute-name.html>says,</></> <invalid.illegal.character-not-allowed-here.html>'XSS'\")`</><punctuation.definition.tag.end.html>&gt\\n</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>IMG\\n</><meta.attribute.unrecognized.SRC.html><entity.other.attribute-name.html>SRC</><punctuation.separator.key-value.html>=</><string.unquoted.html>&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;\\n</></><meta.attribute.unrecognized.&#39;&#88;&#83;&#83;&#39;&#41;.html><entity.other.attribute-name.html>&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;\\n</></><meta.attribute.unrecognized.\\.html><entity.other.attribute-name.html>\\</></><invalid.illegal.character-not-allowed-here.html>\";alert('XSS');//\\n&lt;/script</><punctuation.definition.tag.end.html>&gt</></><meta.embedded.block.html><meta.tag.metadata.script.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt</></><source.js><meta.function-call.js><entity.name.function.js>alert</></><meta.brace.round.js>(</><string.quoted.single.js><punctuation.definition.string.begin.js>'</>XSS<punctuation.definition.string.end.js>'</></><meta.brace.round.js>)</><punctuation.terminator.statement.js>;</></><meta.tag.metadata.script.end.html><punctuation.definition.tag.begin.html><source.js-ignored-vscode>&lt;</>/</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt\\n</></></>%253cscript%253ealert(document.cookie)%253c/script%253e\\n<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "XSS is escaped (inline)",
+		"wikitext": "<source lang=\"doesnotexist\" inline=\"\">\n<script>alert(\"pwnd\")</script>\n<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>\n<IMG\nSRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;\n&#39;&#88;&#83;&#83;&#39;&#41;\n\\\";alert('XSS');//\n</script><script>alert('XSS');</script>\n%253cscript%253ealert(document.cookie)%253c/script%253e\n</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>doesnotexist<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.inline.html><entity.other.attribute-name.html>inline</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt\\n</></><meta.embedded.block.html><meta.tag.metadata.script.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt</></><source.js><meta.function-call.js><entity.name.function.js>alert</></><meta.brace.round.js>(</><string.quoted.double.js><punctuation.definition.string.begin.js>\"</>pwnd<punctuation.definition.string.end.js>\"</></><meta.brace.round.js>)</></><meta.tag.metadata.script.end.html><punctuation.definition.tag.begin.html><source.js-ignored-vscode>&lt;</>/</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt\\n</></></><meta.tag.object.IMG.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>IMG</> <meta.attribute.unrecognized.SRC.html><entity.other.attribute-name.html>SRC</><punctuation.separator.key-value.html>=</>`</><meta.attribute.unrecognized.javascript:alert(.html><entity.other.attribute-name.html>javascript:alert(</></><invalid.illegal.character-not-allowed-here.html>\"RSnake</> <meta.attribute.unrecognized.says,.html><entity.other.attribute-name.html>says,</></> <invalid.illegal.character-not-allowed-here.html>'XSS'\")`</><punctuation.definition.tag.end.html>&gt\\n</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>IMG\\n</><meta.attribute.unrecognized.SRC.html><entity.other.attribute-name.html>SRC</><punctuation.separator.key-value.html>=</><string.unquoted.html>&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;\\n</></><meta.attribute.unrecognized.&#39;&#88;&#83;&#83;&#39;&#41;.html><entity.other.attribute-name.html>&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;\\n</></><meta.attribute.unrecognized.\\.html><entity.other.attribute-name.html>\\</></><invalid.illegal.character-not-allowed-here.html>\";alert('XSS');//\\n&lt;/script</><punctuation.definition.tag.end.html>&gt</></><meta.embedded.block.html><meta.tag.metadata.script.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt</></><source.js><meta.function-call.js><entity.name.function.js>alert</></><meta.brace.round.js>(</><string.quoted.single.js><punctuation.definition.string.begin.js>'</>XSS<punctuation.definition.string.end.js>'</></><meta.brace.round.js>)</><punctuation.terminator.statement.js>;</></><meta.tag.metadata.script.end.html><punctuation.definition.tag.begin.html><source.js-ignored-vscode>&lt;</>/</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt\\n</></></>%253cscript%253ealert(document.cookie)%253c/script%253e\\n<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Default behaviour (inner is pre)",
+		"wikitext": "<source lang=\"javascript\">\nvar a;\n</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>javascript<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt\\n</></>var a;\\n<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Multiline <source/> in lists",
+		"wikitext": "*<source>a\nb</source>\n\n*foo <source>a\nb</source>",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</><meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</><punctuation.definition.tag.end.html>&gt</></>a\\nb<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt\\n\\n</></><punctuation.definition.list.begin.markdown>*</>foo <meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</><punctuation.definition.tag.end.html>&gt</></>a\\nb<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Custom attributes",
+		"wikitext": "<source lang=\"javascript\" id=\"foo\" class=\"bar\" dir=\"rtl\" style=\"font-size: larger;\">var a;</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>javascript<punctuation.definition.string.end.html>\"</></></> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>foo<punctuation.definition.string.end.html>\"</></></> <meta.attribute.class.html><entity.other.attribute-name.html>class</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>bar<punctuation.definition.string.end.html>\"</></></> <meta.attribute.dir.html><entity.other.attribute-name.html>dir</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>rtl<punctuation.definition.string.end.html>\"</></></> <meta.attribute.style.html><entity.other.attribute-name.html>style</><punctuation.separator.key-value.html>=</><meta.embedded.line.css><string.quoted.double.html><punctuation.definition.string.begin.html>\"</><source.css>font-size: larger;</><punctuation.definition.string.end.html><source.css>\"</></></></></><punctuation.definition.tag.end.html>&gt</></>var a;<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Inline attribute (inline code)",
+		"wikitext": "Text <source lang=\"javascript\" inline>var a;</source>.",
+		"parsed": "Text <meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>javascript<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.inline.html><entity.other.attribute-name.html>inline</></><punctuation.definition.tag.end.html>&gt</></>var a;<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>."
+	},
+	{
+		"desc": "Enclose none (inline code)",
+		"wikitext": "Text <source lang=\"javascript\" enclose=\"none\">var a;</source>.",
+		"parsed": "Text <meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>javascript<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.enclose.html><entity.other.attribute-name.html>enclose</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>none<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>var a;<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>."
+	},
+	{
+		"desc": "Enclose with nowiki\nparsoid={ \"modes\": [\"wt2html\",\"wt2wt\"], \"normalizePhp\": true }",
+		"wikitext": "{{#tag:syntaxhighlight|<nowiki>foo</nowiki>|lang=\"text\"|inline=none}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#tag</><keyword.operator.function>:</>syntaxhighlight<keyword.operator>|</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>foo</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt</><keyword.operator>|</>lang=\"text\"<keyword.operator>|</>inline=none<punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Self-closing tag",
+		"wikitext": "<syntaxhighlight lang=\"CSharp\" />",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>syntaxhighlight</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>CSharp<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "No code",
+		"wikitext": "<source lang=\"CSharp\"></source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>CSharp<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "Just whitespace",
+		"wikitext": "<source lang=\"CSharp\"> </source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>CSharp<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></> <meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "tabs plus tidy (T32930, T59826)",
+		"wikitext": "<syntaxhighlight lang=\"javascript\" enclose=\"pre\" highlight=\"2-3\">\nfunction doSomething() {\n\tvar\tfoo,\n\t\tbar;\n\tif (baz) {\n</syntaxhighlight>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>syntaxhighlight</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>javascript<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.enclose.html><entity.other.attribute-name.html>enclose</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>pre<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.highlight.html><entity.other.attribute-name.html>highlight</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>2-3<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt\\n</><meta.embedded.block.js><meta.function.js><storage.type.function.js>function</> <meta.definition.function.js><entity.name.function.js>doSomething</></><meta.parameters.js><punctuation.definition.parameters.begin.js>(</><punctuation.definition.parameters.end.js>)</></> <meta.block.js><punctuation.definition.block.js>{\\n</>\t<meta.var.expr.js><storage.type.js>var</>\t<meta.var-single-variable.expr.js><meta.definition.variable.js><variable.other.readwrite.js>foo</></></><punctuation.separator.comma.js>,\\n</>\t\t<meta.var-single-variable.expr.js><meta.definition.variable.js><variable.other.readwrite.js>bar</></></></><punctuation.terminator.statement.js>;\\n</>\t<keyword.control.conditional.js>if</> <meta.brace.round.js>(</><variable.other.readwrite.js>baz</><meta.brace.round.js>)</> <meta.block.js><punctuation.definition.block.js>{\\n</><keyword.operator.relational.js>&lt;</><keyword.operator.arithmetic.js>/</><variable.other.readwrite.js>syntaxhighlight</><keyword.operator.relational.js>&gt</></></></></>"
+	},
+	{
+		"desc": "deprecated source tag adds tracking category",
+		"wikitext": "<source lang=\"python\">print('Hi')</source>",
+		"parsed": "<meta.tag.object.source.void.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>source</> <meta.attribute.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>python<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>print('Hi')<meta.tag.other.source.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>source</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "deprecated enclose option adds tracking category",
+		"wikitext": "<syntaxhighlight enclose=\"none\" lang=\"python\">print('Hi')</syntaxhighlight>",
+		"parsed": "<meta.tag.other.syntaxhighlight.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>syntaxhighlight</></> <meta.attribute.unrecognized.enclose.html><entity.other.attribute-name.html>enclose</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>none<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.lang.html><entity.other.attribute-name.html>lang</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>python<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>print('Hi')<meta.tag.other.syntaxhighlight.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>syntaxhighlight</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
 		"desc": "tables"
 	},
 	{
@@ -12343,6 +12883,59 @@
 		"desc": "Multiple, partly encoded spaces in HTML5 mode",
 		"wikitext": "<ref name=\"a_ %20a\" group=\"b_ %20b\">A</ref>\n<references group=\"b_ %20b\" />",
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>ref</> <meta.attribute.name.html><entity.other.attribute-name.html>name</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>a_ %20a<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.group.html><entity.other.attribute-name.html>group</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>b_ %20b<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref>A</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>ref</><punctuation.definition.tag.end>&gt\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>references</> <meta.attribute.unrecognized.group.html><entity.other.attribute-name.html>group</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>b_ %20b<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "wikihiero"
+	},
+	{
+		"desc": "WikiHiero - basics",
+		"wikitext": "<hiero>A1 - B2 D3</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>A1 - B2 D3<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - XSS protection",
+		"wikitext": "<hiero><script>alert(\"FAIL\")</script></hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></><meta.embedded.block.html><meta.tag.metadata.script.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt</></><source.js><meta.function-call.js><entity.name.function.js>alert</></><meta.brace.round.js>(</><string.quoted.double.js><punctuation.definition.string.begin.js>\"</>FAIL<punctuation.definition.string.end.js>\"</></><meta.brace.round.js>)</></><meta.tag.metadata.script.end.html><punctuation.definition.tag.begin.html><source.js-ignored-vscode>&lt;</>/</><entity.name.tag.html>script</><punctuation.definition.tag.end.html>&gt</></></><meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - prefabs",
+		"wikitext": "<hiero>a:A1</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>a:A1<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - Horus name",
+		"wikitext": "<hiero><h1 A h1></hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.structure.h1.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>h1</> <meta.attribute.unrecognized.A.html><entity.other.attribute-name.html>A</></> <meta.attribute.unrecognized.h1.html><entity.other.attribute-name.html>h1</></><punctuation.definition.tag.end.html>&gt</></><meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - cartouche",
+		"wikitext": "<hiero>< A ></hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>&lt; A &gt<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - EOL",
+		"wikitext": "<hiero>A1!B1 ! C1</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>A1!B1 ! C1<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - complex text with EOL",
+		"wikitext": "<hiero>M23-X1:R4-X8-Q2:D4-W17-R14-G4-R8-O29:V30-U23 !\nN26-D58-O49:Z1-F13:N31-V30:N16:N21*Z1-D45:N25</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>M23-X1:R4-X8-Q2:D4-W17-R14-G4-R8-O29:V30-U23 !\\nN26-D58-O49:Z1-F13:N31-V30:N16:N21*Z1-D45:N25<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - image mirroring",
+		"wikitext": "<hiero>A1\\-A1</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>A1\\-A1<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - void blocks",
+		"wikitext": "<hiero>A1..B1.C1</hiero>\n<hiero>A1 .. B1 . C1</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>A1..B1.C1<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt\\n</><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>A1 .. B1 . C1<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "WikiHiero - HTML comments",
+		"wikitext": "<hiero>A1<!-- B1 --> C1 D<!--\nfooooo -->1</hiero>",
+		"parsed": "<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>A1<comment.block.html><punctuation.definition.comment.html>&lt;!--</> B1 <punctuation.definition.comment.html>--&gt</></> C1 D<comment.block.html><punctuation.definition.comment.html>&lt;!--\\n</>fooooo <punctuation.definition.comment.html>--&gt</></>1<meta.tag.other.hiero.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html><invalid.illegal.unrecognized-tag.html>hiero</></><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
 		"desc": "wtEscaping"

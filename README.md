@@ -137,6 +137,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 1. HTML tags break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20name%20in%20template)).
 1. External links break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
 1. Parameter names of `#invoke` are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20getAllArgs)).
+1. Conflict between transclusion and language conversion syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Parser%20function%20inside%20dl-dt%20list%20should%20be%20tokenized%20correctly)).
 
 ### Heading
 
@@ -145,7 +146,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 ### HTML tag
 
 1. Disallowed HTML tags should not be highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T255007%3A%20French%20spacing%20in%20raw%20text%20elements)).
-1. Complex HTML tag attributes are not supported ([`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](http://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
+1. Complex HTML tag attributes are not supported ([comments](https://bhsd-harry.github.io/monaco-wiki/tests.html#Comment%20in%20attribute), [`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](http://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
 
 ### Table
 
