@@ -21,6 +21,7 @@ import {
 	codeActionProvider,
 	codeActionProviderForWiki,
 } from './lsp.ts';
+import type {ConfigGetter} from '@bhsd/browser';
 import type {ConfigData} from 'wikiparser-node';
 import type {} from 'wikiparser-node/extensions/typings.ts';
 import type * as Monaco from 'monaco-editor';
@@ -56,7 +57,7 @@ export default async (
 ): Promise<void> => {
 	// 加载 WikiParser-Node
 	const loaded = typeof wikiparse === 'object';
-	const getConfig = async (): Promise<ConfigData> => {
+	const getConfig: ConfigGetter = async () => {
 		if (typeof parserConfig === 'object') {
 			return parserConfig;
 		} else if (parserConfig && typeof parserConfig !== 'string') { // MW网站

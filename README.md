@@ -95,9 +95,10 @@ await registerVue(
 or simply load the pre-bundled version from a CDN:
 
 ```js
+// Optionally specify the jsDelivr CDN, defaulting to https://testingcf.jsdelivr.net
+window.monaco = {CDN: 'https://cdn.jsdelivr.net'};
 // Automatically loads the Monaco Editor's core and relevant workers
-import 'https://cdn.jsdelivr.net/npm/monaco-wiki/dist/all.min.js';
-
+await import('https://cdn.jsdelivr.net/npm/monaco-wiki/dist/all.min.js');
 await monaco; // The global `monaco` is a promise that resolves to the Monaco editor
 ```
 
@@ -125,6 +126,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 1. [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) is not supported.
 1. `<gallery>` tags are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
+1. Nested language in `<syntaxhighlight>` ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
 
 ### Transclusion
 

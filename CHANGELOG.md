@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 1.17.0
+
+*2025-12-29*
+
+**Added**
+
+- Allow users to specify the [jsDelivr CDN](https://www.jsdelivr.com/network) when using the pre-bundled version
+
 ## v1.16.1
 
 *2025-11-03*

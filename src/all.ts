@@ -18,9 +18,7 @@ declare interface Require {
 	(modules: string[], ready: () => unknown): void;
 }
 
-declare const monaco: typeof Monaco;
-
-const vs = `${baseCDN}/npm/monaco-editor/min/vs`;
+declare const monaco: typeof Monaco & {CDN?: string};
 
 const style = document.createElement('style');
 style.textContent =
@@ -30,7 +28,8 @@ style.textContent =
 document.head.append(style);
 
 const i18n = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'];
-const load = async (): Promise<typeof Monaco> => {
+const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
+	const vs = `${cdn}/npm/monaco-editor/min/vs`;
 	await new Promise(resolve => {
 		const script = document.createElement('script');
 		script.src = `${vs}/loader.js`;
@@ -55,19 +54,19 @@ const load = async (): Promise<typeof Monaco> => {
 				monaco,
 				isMW,
 				isMW ? mw.language.getFallbackLanguageChain() : undefined,
-				undefined,
+				`${cdn}/npm/wikiparser-node`,
 				[monokai, nord],
 				() => ({
 					...getCmObject('wikilint'),
 					css: getCmObject('Stylelint'),
 				}),
 			);
-			registerJavaScript(monaco, undefined, () => getCmObject('ESLint'));
-			registerCSS(monaco, undefined, () => getCmObject('Stylelint'));
-			registerLua(monaco);
+			registerJavaScript(monaco, `${cdn}/npm/@bhsd/eslint-browserify`, () => getCmObject('ESLint'));
+			registerCSS(monaco, `${cdn}/npm/@bhsd/stylelint-browserify`, () => getCmObject('Stylelint'));
+			registerLua(monaco, `${cdn}/npm/luacheck-browserify`);
 			await registerVue(monaco, [monokai, nord]);
 			resolve(monaco);
 		});
 	});
 };
-Object.assign(globalThis, {monaco: load()});
+Object.assign(globalThis, {monaco: load(typeof monaco === 'object' ? monaco.CDN : undefined)});
