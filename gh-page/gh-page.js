@@ -57,6 +57,6 @@
             element.dispatchEvent(new Event('change'));
         }
     });
-    dispatchEvent(new Event('hashchange'));
+    dispatchEvent(new HashChangeEvent('hashchange'));
     Object.assign(globalThis, { editor });
 })();

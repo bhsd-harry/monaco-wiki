@@ -5,7 +5,7 @@
 	],
 	"exclude": [],
 	"compilerOptions": {
-		"module": "CommonJS",
+		"module": "es6",
 		"moduleResolution": "Node",
 		"declaration": false,
 		"emitDeclarationOnly": false,
