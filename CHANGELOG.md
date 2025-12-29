@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.17.1
+
+*2025-12-30*
+
+**Fixed**
+
+- Correctly load [@bhsd/stylelint-browserify](https://www.npmjs.com/package/@bhsd/stylelint-browserify) from the specified [jsDelivr CDN](https://www.jsdelivr.com/network) in the pre-bundled version
+
 ## v1.17.0
 
 *2025-12-29*

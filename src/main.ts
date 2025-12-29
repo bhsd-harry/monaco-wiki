@@ -107,7 +107,7 @@ export default async (
 	monaco.languages.registerCodeActionProvider('wikitext', codeActionProviderForWiki);
 	addKeybindings(monaco);
 	registerLinterBase(monaco);
-	registerWikiLint(opt);
+	registerWikiLint(cdn, opt);
 	monaco.editor.onWillDisposeModel(m => {
 		getLSP(m)?.destroy();
 	});

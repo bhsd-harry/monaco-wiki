@@ -55,9 +55,13 @@ const getData = (
 
 const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt === 'function' ? opt(true) : opt;
 
-export const registerWikiLint = (opt?: LiveOption): void => {
+export const registerWikiLint = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('wikitext', async m => {
-		const wikiLint = await getWikiLinter(undefined, m);
+		const wikiLint = await getWikiLinter(
+			// 忽略非通用CDN URL
+			cdn && !cdn.endsWith('wikiparser-node') ? {cdn} : undefined,
+			m,
+		);
 		const linter: ILinter = {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
 				return (await wikiLint(text, await getOption(option))).map(({

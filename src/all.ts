@@ -54,7 +54,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 				monaco,
 				isMW,
 				isMW ? mw.language.getFallbackLanguageChain() : undefined,
-				`${cdn}/npm/wikiparser-node`,
+				cdn,
 				[monokai, nord],
 				() => ({
 					...getCmObject('wikilint'),
