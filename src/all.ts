@@ -39,11 +39,13 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 	const requirejs = globalThis.require as unknown as Require,
 		config: RequireConfig = {paths: {vs}},
 		isMW = typeof mw === 'object';
+	let langs: string[] | undefined;
 	if (isMW) {
 		await mw.loader.using('mediawiki.language');
+		langs = mw.language.getFallbackLanguageChain();
 		config['vs/nls'] = {
 			availableLanguages: {
-				'*': mw.language.getFallbackLanguageChain().find(l => i18n.includes(l)) ?? 'en',
+				'*': langs.find(l => i18n.includes(l)) ?? 'en',
 			},
 		};
 	}
@@ -53,7 +55,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 			await registerWiki(
 				monaco,
 				isMW,
-				isMW ? mw.language.getFallbackLanguageChain() : undefined,
+				langs,
 				cdn,
 				[monokai, nord],
 				() => ({
