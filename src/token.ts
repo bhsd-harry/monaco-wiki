@@ -27,7 +27,7 @@ export default async (
 	parserConfig: ConfigData,
 	themes: ThemeRegistrationRaw[] = [],
 ): Promise<HighlighterCore> => {
-	const {repository} = wikitext,
+	const {repository, patterns} = wikitext,
 		magicWords = repository['magic-words']!.repository!,
 		variables = magicWords['variables']!.patterns!,
 		parserFunctions = magicWords['parser-function']!.patterns!,
@@ -104,7 +104,11 @@ export default async (
 	defineGrammar(plainLink, protocols, 'begin');
 	defineGrammar(plainLink, namespaces, 'begin');
 	defineGrammar(repository['external-link']!, protocols);
-	defineGrammar(repository['convert']!.patterns![0]!, variants);
+	if (variants.length === 0) {
+		Object.assign(wikitext, {patterns: patterns.filter(({include}) => include !== '#convert')});
+	} else {
+		defineGrammar(repository['convert']!.patterns![0]!, variants);
+	}
 	return createHighlighterCore({
 		langs: [
 			wikitext,

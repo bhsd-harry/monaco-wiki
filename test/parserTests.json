@@ -9020,6 +9020,249 @@
 		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><punctuation.definition.tag.convert>}-</>"
 	},
 	{
+		"desc": "langParserTests2"
+	},
+	{
+		"desc": "Verify that the built-in transliteration rules contain our test\ncharacters (traditional to simplified)",
+		"wikitext": "* air (qì): 氣\n* horse (mǎ): 馬\n* electricity (diàn): 電",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</> air (qì): 氣\\n<punctuation.definition.list.begin.markdown>*</> horse (mǎ): 馬\\n<punctuation.definition.list.begin.markdown>*</> electricity (diàn): 電"
+	},
+	{
+		"desc": "Verify that the built-in transliteration rules contain our test\ncharacters (simplified to traditional)",
+		"wikitext": "* air (qì): 气\n* horse (mǎ): 马\n* electricity (diàn): 电",
+		"parsed": "<punctuation.definition.list.begin.markdown>*</> air (qì): 气\\n<punctuation.definition.list.begin.markdown>*</> horse (mǎ): 马\\n<punctuation.definition.list.begin.markdown>*</> electricity (diàn): 电"
+	},
+	{
+		"desc": "Bidirectional conversion (hans)",
+		"wikitext": "-{zh-cn:气气气;zh-tw:電電電}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Bidirectional conversion (hant)",
+		"wikitext": "-{zh-cn:气气气;zh-tw:電電電}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Unidirectional conversion (zh)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion (zh-hans)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion (zh-cn)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion (zh-hant)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh-cn)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh-hans)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh-hant)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Disable language conversion",
+		"wikitext": "-{氣气}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</>氣气<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Disable language conversion (alternate form)",
+		"wikitext": "-{R|氣气}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>R</><keyword.operator>|</>氣气<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Semi-disabled conversion (zh)",
+		"wikitext": "-{H|zh-hant:電電電;zh-hans:气气气}-\n電電電 气气气\n\n電-{}-電電 气-{}-气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-hant</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>電電電 气气气\\n\\n電<punctuation.definition.tag.convert>-{}-</>電電 气<punctuation.definition.tag.convert>-{}-</>气气"
+	},
+	{
+		"desc": "Semi-disabled conversion (zh-hans)",
+		"wikitext": "-{H|zh-hant:電電電;zh-hans:气气气}-\n電電電 气气气\n\n電-{}-電電 气-{}-气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-hant</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>電電電 气气气\\n\\n電<punctuation.definition.tag.convert>-{}-</>電電 气<punctuation.definition.tag.convert>-{}-</>气气"
+	},
+	{
+		"desc": "Semi-disabled conversion (zh-hant)",
+		"wikitext": "-{H|zh-hant:電電電;zh-hans:气气气}-\n電電電 气气气\n\n電-{}-電電 气-{}-气气",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-hant</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hans</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-\\n</>電電電 气气气\\n\\n電<punctuation.definition.tag.convert>-{}-</>電電 气<punctuation.definition.tag.convert>-{}-</>气气"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-hans)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-cn)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-hant)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-hk)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-tw)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n\\n</>气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-hans)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n\\n</>气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-cn)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n\\n</>气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-hant)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n\\n</>气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-hk)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n\\n</>气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-tw)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>A</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n\\n</>气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Add a rule <punctuation.definition.comment.html>--&gt\\n</></>+ 气气气, 馬馬馬, 電電電\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Remove a rule <punctuation.definition.comment.html>--&gt\\n</></>- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-hans)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Add a rule <punctuation.definition.comment.html>--&gt\\n</></>+ 气气气, 馬馬馬, 電電電\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Remove a rule <punctuation.definition.comment.html>--&gt\\n</></>- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-cn)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Add a rule <punctuation.definition.comment.html>--&gt\\n</></>+ 气气气, 馬馬馬, 電電電\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Remove a rule <punctuation.definition.comment.html>--&gt\\n</></>- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-hant)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Add a rule <punctuation.definition.comment.html>--&gt\\n</></>+ 气气气, 馬馬馬, 電電電\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Remove a rule <punctuation.definition.comment.html>--&gt\\n</></>- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-hk)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Add a rule <punctuation.definition.comment.html>--&gt\\n</></>+ 气气气, 馬馬馬, 電電電\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Remove a rule <punctuation.definition.comment.html>--&gt\\n</></>- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-tw)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Add a rule <punctuation.definition.comment.html>--&gt\\n</></>+ 气气气, 馬馬馬, 電電電\\n\\n<punctuation.definition.tag.convert>-{</><entity.name.function.type>-</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</> <comment.block.html><punctuation.definition.comment.html>&lt;!--</> Remove a rule <punctuation.definition.comment.html>--&gt\\n</></>- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Override page title (zh)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>T</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Override page title (zh-hans)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>T</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Override page title (zh-hk)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>T</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Override page title (zh-tw)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>T</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Describe bidirectional conversion rule",
+		"wikitext": "-{D|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>D</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Describe unidirectional conversion rule",
+		"wikitext": "-{D;H|電電電=>zh-cn:气气气}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>D<punctuation.terminator.flag>;</>H</><keyword.operator>|</>電電電=&gt<entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Localized language names",
+		"wikitext": "-{N|zh-cn}-\n\n-{N|zh-tw}-\n\n-{N|sr-ec}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>N</><keyword.operator>|</>zh-cn<punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>N</><keyword.operator>|</>zh-tw<punctuation.definition.tag.convert>}-\\n\\n-{</><entity.name.function.type>N</><keyword.operator>|</>sr-ec<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Only consider certain variants for conversion (zh)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马 1: -{zh;zh-hans;zh-hant|气气气, 馬馬馬, 電電電}-\n\n馬马 2: -{zh;zh-cn;zh-hk|气气气, 馬馬馬, 電電電}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马 1: <punctuation.definition.tag.convert>-{</><entity.name.function.type>zh<punctuation.terminator.flag>;</>zh-hans<punctuation.terminator.flag>;</>zh-hant</><keyword.operator>|</>气气气, 馬馬馬, 電電電<punctuation.definition.tag.convert>}-\\n\\n</>馬马 2: <punctuation.definition.tag.convert>-{</><entity.name.function.type>zh<punctuation.terminator.flag>;</>zh-cn<punctuation.terminator.flag>;</>zh-hk</><keyword.operator>|</>气气气, 馬馬馬, 電電電<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Only consider certain variants for conversion (zh-hans)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马 1: -{zh;zh-hans;zh-hant|气气气, 馬馬馬, 電電電}-\n\n馬马 2: -{zh;zh-cn;zh-hk|气气气, 馬馬馬, 電電電}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马 1: <punctuation.definition.tag.convert>-{</><entity.name.function.type>zh<punctuation.terminator.flag>;</>zh-hans<punctuation.terminator.flag>;</>zh-hant</><keyword.operator>|</>气气气, 馬馬馬, 電電電<punctuation.definition.tag.convert>}-\\n\\n</>馬马 2: <punctuation.definition.tag.convert>-{</><entity.name.function.type>zh<punctuation.terminator.flag>;</>zh-cn<punctuation.terminator.flag>;</>zh-hk</><keyword.operator>|</>气气气, 馬馬馬, 電電電<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Only consider certain variants for conversion (zh-hant)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马 1: -{zh;zh-hans;zh-hant|气气气, 馬馬馬, 電電電}-\n\n馬马 2: -{zh;zh-cn;zh-hk|气气气, 馬馬馬, 電電電}-",
+		"parsed": "<punctuation.definition.tag.convert>-{</><entity.name.function.type>H</><keyword.operator>|</><entity.name.tag.language>zh-cn</><punctuation.separator.key-value>:</>气气气<punctuation.terminator.rule>;</><entity.name.tag.language>zh-hk</><punctuation.separator.key-value>:</>馬馬馬<punctuation.terminator.rule>;</><entity.name.tag.language>zh-tw</><punctuation.separator.key-value>:</>電電電<punctuation.terminator.rule>;</><punctuation.definition.tag.convert>}-\\n</>馬马 1: <punctuation.definition.tag.convert>-{</><entity.name.function.type>zh<punctuation.terminator.flag>;</>zh-hans<punctuation.terminator.flag>;</>zh-hant</><keyword.operator>|</>气气气, 馬馬馬, 電電電<punctuation.definition.tag.convert>}-\\n\\n</>馬马 2: <punctuation.definition.tag.convert>-{</><entity.name.function.type>zh<punctuation.terminator.flag>;</>zh-cn<punctuation.terminator.flag>;</>zh-hk</><keyword.operator>|</>气气气, 馬馬馬, 電電電<punctuation.definition.tag.convert>}-</>"
+	},
+	{
+		"desc": "Conversion skips <pre> and <code>",
+		"wikitext": "<pre>氣气</pre>\n<code>氣气</code>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>氣气</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt\\n</><meta.tag.inline.code.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>code</><punctuation.definition.tag.end.html>&gt</></>氣气<meta.tag.inline.code.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>code</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
+		"desc": "\"Force convert\" of <pre>",
+		"wikitext": "<pre>氣-{}-气</pre>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</><meta.embedded.block.plaintext>氣-{}-气</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>pre</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "\"Force convert\" of <code>",
+		"wikitext": "<code>氣-{}-气</code>",
+		"parsed": "<meta.tag.inline.code.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>code</><punctuation.definition.tag.end.html>&gt</></>氣<punctuation.definition.tag.convert>-{}-</>气<meta.tag.inline.code.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>code</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
 		"desc": "luaParserTests"
 	},
 	{
@@ -10240,6 +10483,11 @@
 		"desc": "Thumbnail image caption with a free URL and explicit alt",
 		"wikitext": "[[File:Foobar.jpg|thumb|http://example.com|alt=Alteration]]",
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.jpg</><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><keyword.operator>|</>http://example.com<keyword.operator>|</><entity.other.attribute-name.localname>alt=</>Alteration<punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
+		"desc": "SVG thumbnails with native SVG rendering",
+		"wikitext": "[[File:Foobar.svg|thumb|caption]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>Foobar.svg</><keyword.operator>|</><entity.other.attribute-name.localname>thumb</><keyword.operator>|</>caption<punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
 		"desc": "SVG thumbnails with no language set",

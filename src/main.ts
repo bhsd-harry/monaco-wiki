@@ -90,6 +90,10 @@ export default async (
 		...[wikiConfig.ext, wikiConfig.html.slice(0, 2)].flat(2)
 			.map((tag): languages.IAutoClosingPairConditional => ({open: `<${tag}>`, close: `</${tag}>`})),
 	);
+	if (wikiConfig.variants.length === 0) {
+		config.brackets = config.brackets!.filter(([op]) => op !== '-{');
+		config.autoClosingPairs = config.autoClosingPairs!.filter(({open: op}) => op !== '-{');
+	}
 	monaco.languages.setLanguageConfiguration('wikitext', config);
 
 	// 注册语言服务

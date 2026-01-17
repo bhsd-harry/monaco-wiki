@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.17.2
+
+*2026-01-17*
+
+**Fixed**
+
+- Do not highlight language conversion-like syntax (i.e., `-{}-`) on a MediaWiki site where language conversion is disabled
+
 ## v1.17.1
 
 *2025-12-30*
