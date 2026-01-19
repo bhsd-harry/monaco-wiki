@@ -97,9 +97,14 @@ export default async (
 		fileLink.patterns![0]!,
 		imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)),
 	);
+	const imgVars = imgKeys.filter(s => s.startsWith('$1'));
 	defineGrammar(
 		fileLink.patterns![1]!,
-		imgKeys.filter(s => s.startsWith('$1')).map(s => s.slice(2)),
+		imgVars.filter(s => img[s] === 'width').map(s => s.slice(2)),
+	);
+	defineGrammar(
+		fileLink.patterns![2]!,
+		imgVars.filter(s => img[s] !== 'width').map(s => s.slice(2)),
 	);
 	defineGrammar(plainLink, protocols, 'begin');
 	defineGrammar(plainLink, namespaces, 'begin');

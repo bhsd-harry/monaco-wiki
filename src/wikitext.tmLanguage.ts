@@ -345,6 +345,10 @@ const signature = {
 				match: String.raw`(\|)\s*[\dx]+(?:px)?($1)\s*(?=\||]])`,
 				captures: imgKey,
 			},
+			{
+				match: String.raw`(\|)\s*\d+($1)\s*(?=\||]])`,
+				captures: imgKey,
+			},
 			pipePattern,
 			$self,
 		],

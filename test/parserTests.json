@@ -5389,6 +5389,11 @@
 		"parsed": "<meta.tag.structure.div.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>div</><punctuation.definition.tag.end.html>&gt</></>a<meta.tag.structure.div.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>div</> <meta.attribute.id.html><entity.other.attribute-name.html>id</><punctuation.separator.key-value.html>=</><string.unquoted.html>a</></><punctuation.definition.tag.end.html>&gt</></>"
 	},
 	{
+		"desc": "Chinese image keywords",
+		"wikitext": "[[File:LoremIpsum.djvu|2页]]\n\n[[File:foobar.jpg|50像素]]",
+		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>LoremIpsum.djvu</><keyword.operator>|</>2<entity.other.attribute-name.localname>页</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>foobar.jpg</><keyword.operator>|</>50<entity.other.attribute-name.localname>像素</><punctuation.definition.tag.link.internal>]]</></>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
