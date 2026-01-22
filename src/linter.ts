@@ -23,7 +23,7 @@ declare interface ITextModelLinter extends Partial<ILinter> {
 export interface IWikitextModel extends editor.ITextModel {
 	linter?: ITextModelLinter;
 	// eslint-disable-next-line @typescript-eslint/method-signature-style
-	lint?: (this: IWikitextModel, on?: boolean) => void;
+	lint?: (this: IWikitextModel, on?: boolean) => Promise<void>;
 }
 
 export type LiveOption = LinterOption | ((_?: true) => LinterOption | Promise<LinterOption>);
@@ -88,7 +88,7 @@ export default (monaco: typeof Monaco): void => {
 	 * @param this ITextModel 实例
 	 * @param on 是否启用代码检查
 	 */
-	function lint(this: IWikitextModel, on = true): void {
+	async function lint(this: IWikitextModel, on = true): Promise<void> {
 		if (this.linter) {
 			this.linter.disabled = !on;
 			if (this.linter.lint) {
@@ -99,21 +99,19 @@ export default (monaco: typeof Monaco): void => {
 			return;
 		}
 		this.linter = {glyphs: []};
-		(async () => {
-			const lang = this.getLanguageId();
-			if (linterGetters.has(lang)) {
-				Object.assign(this.linter!, await linterGetters.get(lang)!(this));
-				this.onDidChangeContent(() => {
-					update(this);
-				});
+		const lang = this.getLanguageId();
+		if (linterGetters.has(lang)) {
+			Object.assign(this.linter, await linterGetters.get(lang)!(this));
+			this.onDidChangeContent(() => {
 				update(this);
-			}
-		})();
+			});
+			update(this);
+		}
 	}
 
 	registered = true;
 	monaco.editor.onDidCreateModel((m: IWikitextModel) => {
 		m.lint = lint;
-		m.lint((getCmObject('addons') as string[] | null)?.includes('lint'));
+		void m.lint((getCmObject('addons') as string[] | null)?.includes('lint'));
 	});
 };

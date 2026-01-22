@@ -12,6 +12,7 @@ import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
 import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
 import type {Range as NRange} from 'vscode-languageserver-types';
+import type {Warning} from 'stylelint';
 import type {LiveOption, ILinter} from './linter.ts';
 
 declare interface ITextModel extends editor.ITextModel {
@@ -134,7 +135,7 @@ export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
 		const styleLint = await getCssLinter(cdn);
 		return {
 			async lint(code, option = opt): Promise<editor.IMarkerData[]> {
-				return (await styleLint(code, await getOption(option) ?? {rules: {}})).map(({
+				return (await styleLint(code, await getOption(option) ?? {rules: {}}) as Warning[]).map(({
 					text,
 					severity,
 					line,
