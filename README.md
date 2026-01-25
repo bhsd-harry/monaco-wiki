@@ -1,16 +1,18 @@
+# Monaco-Wiki
+
 [![npm version](https://badge.fury.io/js/monaco-wiki.svg)](https://www.npmjs.com/package/monaco-wiki)
 [![CodeQL](https://github.com/bhsd-harry/monaco-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/monaco-wiki/actions/workflows/github-code-scanning/codeql)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/18f690b061a64d40ad0d8bec1f5489e3)](https://app.codacy.com/gh/bhsd-harry/monaco-wiki/dashboard)
 
 **Monaco-Wiki** registers the [Wikitext](https://www.mediawiki.org/wiki/Wikitext) language in the [Monaco Editor](https://microsoft.github.io/monaco-editor/). It is a web version of the Visual Studio Code extensions developed by [Rowe Wilson Frederisk Holme](https://marketplace.visualstudio.com/items?itemName=RoweWilsonFrederiskHolme.wikitext) and [Bhsd](https://marketplace.visualstudio.com/items?itemName=Bhsd.vscode-extension-wikiparser). The TextMate grammar is substantially revised to be site-specific and more accurate.
 
-# Installation
+## Installation
 
 ```bash
 npm install monaco-wiki
 ```
 
-# Usage
+## Usage
 
 You may load the Monaco Editor and prepare the bundle on your own:
 
@@ -102,33 +104,33 @@ await import('https://cdn.jsdelivr.net/npm/monaco-wiki/dist/all.min.js');
 await monaco; // The global `monaco` is a promise that resolves to the Monaco editor
 ```
 
-# Language Aliases
+## Language Aliases
 
 - wikitext
 - wiki
 - mediawiki
 
-# Bundled Themes
+## Bundled Themes
 
 |Name|ID|
 |:-:|:-:|
 |Monokai|`monokai`|
 |Nord|`nord`|
 
-# Known Issues
+## Known Issues
 
-## Syntax Highlighting
+### Syntax Highlighting
 
 <details>
     <summary>Expand</summary>
 
-### Extension
+#### Extension
 
 1. [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) is not supported.
 1. `<gallery>` tags are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
 1. Nested language in `<syntaxhighlight>` ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
 
-### Transclusion
+#### Transclusion
 
 1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is problematic ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces ([left](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%20with%20templated%20name) or [right braces](http://bhsd-harry.github.io/monaco-wiki/tests.html#Template%20with%20just%20whitespace%20in%20it%2C%20T70421)).
 1. Substitution is not correctly highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20isSubsting%20during%20PST)).
@@ -141,38 +143,38 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 1. Parameter names of `#invoke` are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20getAllArgs)).
 1. Conflict between transclusion and language conversion syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Parser%20function%20inside%20dl-dt%20list%20should%20be%20tokenized%20correctly)).
 
-### Heading
+#### Heading
 
 1. Multi-line trailing comments break section headings ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Single-line%20or%20multiline-comments%20can%20follow%20headings)).
 
-### HTML tag
+#### HTML tag
 
 1. Disallowed HTML tags should not be highlighted (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#T255007%3A%20French%20spacing%20in%20raw%20text%20elements), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#T406391%3A%20HTML%20entities%20in%20raw%20text%20elements)).
 1. Complex HTML tag attributes are not supported ([comments](https://bhsd-harry.github.io/monaco-wiki/tests.html#Comment%20in%20attribute), [`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](http://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
 
-### Table
+#### Table
 
 1. Interaction between table cells and `<nowiki>` is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
 1. Complex table attributes are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Table%20cell%20with%20attribute%20before%20expanded%20attribute)).
 1. Comments at the SOL break table syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#3c.%20Table%20cells%20without%20escapable%20prefixes%20after%20edits)).
 
-### Link
+#### Link
 
 1. Multiline link targets should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilinks%20with%20embedded%20newlines%20are%20not%20broken)).
 1. A bracket pair inside link text is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
 1. Link targets with templates may be highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Links%3A%203.%20Generation%20of%20part%20of%20a%20link%20href)).
 1. Lonely `[[` breaks highlighting ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Non-wikilinks%20with%20html%20tags%20in%20target%20position)).
 
-### Apostrophe
+#### Apostrophe
 
 1. Mixing bold and italic apostrophes ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Another%20italics%20%2F%20bold%20test)).
 
-### External link
+#### External link
 
 1. External links are not XML tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Pseudo-tag%20with%20URL%20'name'%20renders%20as%20url%20link)).
 1. External links cannot be nested in links ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T4095%3A%20link%20with%20pipe%20and%20three%20closing%20brackets%2C%20version%202)).
 
-### Block element
+#### Block element
 
 1. Preformatted text with a leading space is not supported.
 1. One-line definition lists are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Definition%20list%20code%20coverage)).
