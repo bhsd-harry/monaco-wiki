@@ -122,7 +122,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 ### Syntax Highlighting
 
 <details>
-    <summary>Expand</summary>
+	<summary>Expand</summary>
 
 #### Extension
 
