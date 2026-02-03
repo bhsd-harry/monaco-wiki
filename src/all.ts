@@ -1,4 +1,5 @@
 import {CDN as baseCDN} from '@bhsd/browser';
+import light from 'shiki/themes/light-plus.mjs';
 import monokai from 'shiki/themes/monokai.mjs';
 import nord from 'shiki/themes/nord.mjs';
 import registerWiki, {registerJavaScript, registerCSS, registerLua, registerVue} from './main.ts';
@@ -57,7 +58,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 				isMW,
 				langs,
 				cdn,
-				[monokai, nord],
+				[light, monokai, nord],
 				() => ({
 					...getCmObject('wikilint'),
 					css: getCmObject('Stylelint'),
@@ -66,7 +67,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 			registerJavaScript(monaco, `${cdn}/npm/@bhsd/eslint-browserify`, () => getCmObject('ESLint'));
 			registerCSS(monaco, `${cdn}/npm/@bhsd/stylelint-browserify`, () => getCmObject('Stylelint'));
 			registerLua(monaco, `${cdn}/npm/luacheck-browserify`);
-			await registerVue(monaco, [monokai, nord]);
+			await registerVue(monaco, [light, monokai, nord]);
 			resolve(monaco);
 		});
 	});

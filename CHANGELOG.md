@@ -1,4 +1,13 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.18.0
+
+*2026-02-05*
+
+**Changed**
+
+- The default CDN for loading the [Monaco Editor](https://www.npmjs.com/package/monaco-editor) library is now https://fastly.jsdelivr.net
+- Improved light theme in the pre-bundled version
+
 ## v1.17.2
 
 *2026-01-22*

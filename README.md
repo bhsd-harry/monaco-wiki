@@ -97,7 +97,7 @@ await registerVue(
 or simply load the pre-bundled version from a CDN:
 
 ```js
-// Optionally specify the jsDelivr CDN, defaulting to https://testingcf.jsdelivr.net
+// Optionally specify the jsDelivr CDN, defaulting to https://fastly.jsdelivr.net
 window.monaco = {CDN: 'https://cdn.jsdelivr.net'};
 // Automatically loads the Monaco Editor's core and relevant workers
 await import('https://cdn.jsdelivr.net/npm/monaco-wiki/dist/all.min.js');
@@ -114,6 +114,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 |Name|ID|
 |:-:|:-:|
+|Light+|`light-plus`|
 |Monokai|`monokai`|
 |Nord|`nord`|
 
