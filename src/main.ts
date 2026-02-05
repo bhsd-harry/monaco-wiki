@@ -43,7 +43,7 @@ const getThemes = (themes: ThemeRegistrationRaw[]): ThemeRegistrationRaw[] => {
  * @param parserConfig Configuration for [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node).
  * Please set this to `true` if used in a MediaWiki site.
  * @param langs i18n language codes with a preferred order
- * @param cdn CDN URL for downloading WikiParser-Node, default to https://testingcf.jsdelivr.net/npm/wikiparser-node
+ * @param cdn CDN URL for downloading WikiParser-Node, default to https://fastly.jsdelivr.net/npm/wikiparser-node
  * @param themes Additional Shiki themes
  * @param opt WikiLint options.
  */
@@ -120,7 +120,7 @@ export default async (
 /**
  * Register ESLint for JavaScript
  * @param monaco Monaco Editor global
- * @param cdn CDN URL for downloading ESLint, default to https://testingcf.jsdelivr.net/npm/@bhsd/eslint-browserify
+ * @param cdn CDN URL for downloading ESLint, default to https://fastly.jsdelivr.net/npm/@bhsd/eslint-browserify
  * @param opt ESLint options
  */
 export const registerJavaScript = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
@@ -133,7 +133,7 @@ export const registerJavaScript = (monaco: typeof Monaco, cdn?: string, opt?: Li
  * Register Stylelint for CSS
  * @param monaco Monaco Editor global
  * @param cdn CDN URL for downloading Stylelint,
- * default to https://testingcf.jsdelivr.net/npm/@bhsd/stylelint-browserify
+ * default to https://fastly.jsdelivr.net/npm/@bhsd/stylelint-browserify
  * @param opt Stylelint options
  */
 export const registerCSS = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
@@ -145,7 +145,7 @@ export const registerCSS = (monaco: typeof Monaco, cdn?: string, opt?: LiveOptio
 /**
  * Register the Luacheck for Lua
  * @param monaco Monaco Editor global
- * @param cdn CDN URL for downloading Luacheck, default to https://testingcf.jsdelivr.net/npm/luacheck-browserify
+ * @param cdn CDN URL for downloading Luacheck, default to https://fastly.jsdelivr.net/npm/luacheck-browserify
  */
 export const registerLua = (monaco: typeof Monaco, cdn?: string): void => {
 	registerLinterBase(monaco);

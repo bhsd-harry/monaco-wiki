@@ -5,7 +5,6 @@ import type {IRawRule} from '../src/wikitext.tmLanguage.js';
 
 const validateRule = (rule: IRawRule): void => {
 	if ('match' in rule) {
-		// eslint-disable-next-line es-x/no-regexp-lookbehind-assertions
 		const re = (rule.match as string).replace(/(?<=\((?:\?:)?)\$\d+(?=\))/gu, 'ab|cd');
 		assert.strictEqual(optimize(re).pattern, re, `${rule.name}\n${rule.match}`);
 	}
