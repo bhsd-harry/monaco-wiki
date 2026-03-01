@@ -56,7 +56,7 @@
 		"@bhsd/code-standard": "^2.0.0",
 		"@bhsd/codemirror-mediawiki": "^3.10.2",
 		"@bhsd/test-util": "^0.3.0",
-		"@shikijs/monaco": "^3.22.0",
+		"@shikijs/monaco": "^4.0.0",
 		"@stylistic/eslint-plugin": "^5.7.1",
 		"@stylistic/stylelint-plugin": "^5.0.1",
 		"@types/eslint": "^8.56.12",
