@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.18.1
+
+*2026-03-07*
+
+**Fixed**
+
+- Missing recommended ESLint rules for JavaScript
+
 ## v1.18.0
 
 *2026-02-05*

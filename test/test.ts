@@ -1,11 +1,11 @@
-import util from '@bhsd/test-util';
+import testUtil from '@bhsd/test-util';
 // @ts-expect-error JSON module
 import results from '../../parserTests.json' with {type: 'json'};
 import parse, {getGrammar} from './parser.js';
 import type {Grammar} from 'shiki/core';
 
 let grammar: Grammar;
-util.mochaTest(
+testUtil.mochaTest(
 	results,
 	wikitext => parse(wikitext, grammar),
 	async () => {

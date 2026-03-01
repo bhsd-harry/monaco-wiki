@@ -1,7 +1,7 @@
-import test from '@bhsd/test-util';
+import testUtil from '@bhsd/test-util';
 import parse, {getGrammar} from './parser.js';
 
 (async () => {
 	const grammar = await getGrammar();
-	await test.execute(content => parse(content, grammar));
+	await testUtil.execute(content => parse(content, grammar));
 })();
