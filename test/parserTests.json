@@ -5419,6 +5419,11 @@
 		"parsed": "<string.quoted.internal-link><punctuation.definition.tag.link.internal>[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>LoremIpsum.djvu</><keyword.operator>|</>2<entity.other.attribute-name.localname>页</><punctuation.definition.tag.link.internal>]]\\n\\n[[</><entity.name.tag.namespace>File:</><entity.other.attribute-name>foobar.jpg</><keyword.operator>|</>50<entity.other.attribute-name.localname>像素</><punctuation.definition.tag.link.internal>]]</></>"
 	},
 	{
+		"desc": "Template inside <inputbox>",
+		"wikitext": "<inputbox>\ntype=search\nprefix={{FULLPAGENAME}}/Archive\n</inputbox>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\nprefix=<constant.language.variables.metadata>{{FULLPAGENAME}}</>/Archive\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
