@@ -4,8 +4,12 @@
 		"*.ts"
 	],
 	"compilerOptions": {
+		"types": [
+			"node"
+		],
 		"module": "NodeNext",
 		"moduleResolution": "nodenext",
+		"rootDir": "..",
 		"outDir": "dist"
 	}
 }

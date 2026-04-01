@@ -6,10 +6,11 @@
 	"exclude": [],
 	"compilerOptions": {
 		"module": "es6",
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"declaration": false,
 		"emitDeclarationOnly": false,
 		"allowImportingTsExtensions": false,
+		"rootDir": ".",
 		"outDir": "./",
 		"removeComments": true
 	}
