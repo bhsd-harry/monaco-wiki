@@ -7,7 +7,7 @@
 		"types": [
 			"node"
 		],
-		"module": "NodeNext",
+		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"rootDir": "..",
 		"outDir": "dist"

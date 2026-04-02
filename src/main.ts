@@ -113,14 +113,14 @@ export default async (
 	registerLinterBase(monaco);
 	registerWikiLint(cdn, opt);
 	monaco.editor.onWillDisposeModel(m => {
-		getLSP(m)?.destroy();
+		void getLSP(m)?.destroy();
 	});
 };
 
 /**
  * Register ESLint for JavaScript
  * @param monaco Monaco Editor global
- * @param cdn CDN URL for downloading ESLint, default to https://fastly.jsdelivr.net/npm/@bhsd/eslint-browserify
+ * @param cdn CDN URL for downloading ESLint, default to https://fastly.jsdelivr.net/npm/@bhsd/eslint-browserify@10
  * @param opt ESLint options
  */
 export const registerJavaScript = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {

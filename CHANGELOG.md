@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.18.2
+
+*2026-04-08*
+
+**Changed**
+
+- The default ESLint linter is upgraded to [v10](https://eslint.org/blog/2026/02/eslint-v10.0.0-released/), but the [legacy ESLint configuration](https://eslint.org/docs/v9.x/use/configure/configuration-files-deprecated) is still supported for compatibility
+
 ## v1.18.1
 
 *2026-03-07*

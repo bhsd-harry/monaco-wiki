@@ -1,11 +1,11 @@
-import testUtil from '@bhsd/test-util';
-// @ts-expect-error JSON module
+import {mochaTest} from '@bhsd/test-util';
+// @ts-expect-error directory change during build
 import results from '../../parserTests.json' with {type: 'json'};
 import parse, {getGrammar} from './parser.js';
 import type {Grammar} from 'shiki/core';
 
 let grammar: Grammar;
-testUtil.mochaTest(
+mochaTest(
 	results,
 	wikitext => parse(wikitext, grammar),
 	async () => {

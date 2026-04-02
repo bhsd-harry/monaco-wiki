@@ -3,6 +3,10 @@
 		"src/*.ts"
 	],
 	"compilerOptions": {
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
 		"target": "ES2019",
 		"module": "Node16",
 		"moduleResolution": "Node16",
