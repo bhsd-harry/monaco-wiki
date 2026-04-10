@@ -48,7 +48,7 @@ export default async (
 			variants,
 		} = parserConfig,
 		namespaces = Object.keys(nsid).filter(ns => ns !== '')
-			.map(ns => ns.replace(/ /gu, '[_ ]')),
+			.map(ns => ns.replaceAll(' ', '[_ ]')),
 		[p0, p1, ...p2] = parserFunction,
 		isLatestSchema = 'functionHook' in parserConfig,
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
@@ -56,7 +56,7 @@ export default async (
 		imgKeys = Object.keys(img),
 		protocols = [protocol, '//'];
 	for (let i = 0; i < 2; i++) {
-		if (doubleUnderscore.length > i + 2 && doubleUnderscore[i]!.length === 0) {
+		if (doubleUnderscore[i]!.length === 0) {
 			doubleUnderscore[i] = Object.keys(doubleUnderscore[i + 2]!);
 		}
 	}
@@ -89,7 +89,7 @@ export default async (
 	defineGrammar(
 		fileLink,
 		Object.entries(nsid).filter(([, v]) => v === 6)
-			.map(([k]) => k.replace(/ /gu, '[_ ]')),
+			.map(([k]) => k.replaceAll(' ', '[_ ]')),
 		'begin',
 	);
 	defineGrammar(fileLink.patterns![0]!, imgKeys.filter(s => !s.includes('$1')));

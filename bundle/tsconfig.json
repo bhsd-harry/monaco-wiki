@@ -4,6 +4,7 @@
 		"*.ts"
 	],
 	"compilerOptions": {
-		"noEmit": true
+		"noEmit": true,
+		"rootDir": ".."
 	}
 }
