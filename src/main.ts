@@ -147,10 +147,11 @@ export const registerCSS = (monaco: typeof Monaco, cdn?: string, opt?: LiveOptio
  * Register the Luacheck for Lua
  * @param monaco Monaco Editor global
  * @param cdn CDN URL for downloading Luacheck, default to https://fastly.jsdelivr.net/npm/luacheck-browserify
+ * @param opt Luacheck options
  */
-export const registerLua = (monaco: typeof Monaco, cdn?: string): void => {
+export const registerLua = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
 	registerLinterBase(monaco);
-	registerLuacheck(cdn);
+	registerLuacheck(cdn, opt);
 };
 
 /**

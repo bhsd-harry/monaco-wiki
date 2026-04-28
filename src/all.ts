@@ -66,7 +66,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 			);
 			registerJavaScript(monaco, `${cdn}/npm/@bhsd/eslint-browserify@10`, () => getCmObject('ESLint'));
 			registerCSS(monaco, `${cdn}/npm/@bhsd/stylelint-browserify`, () => getCmObject('Stylelint'));
-			registerLua(monaco, `${cdn}/npm/luacheck-browserify`);
+			registerLua(monaco, `${cdn}/npm/luacheck-browserify`, () => getCmObject('Luacheck'));
 			await registerVue(monaco, [light, monokai, nord]);
 			resolve(monaco);
 		});

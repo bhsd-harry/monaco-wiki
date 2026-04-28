@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.19.0
+
+*2026-04-29*
+
+**Added**
+
+- The Lua linter is now [configurable](https://luacheck.readthedocs.io/en/stable/config.html#config-options)
+
 ## v1.18.2
 
 *2026-04-08*

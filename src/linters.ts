@@ -159,12 +159,12 @@ export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
 	});
 };
 
-export const registerLuacheck = (cdn?: string): void => {
+export const registerLuacheck = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('lua', async () => {
 		const luaLint = await getLuaLinter(cdn);
 		return {
-			async lint(text): Promise<editor.IMarkerData[]> {
-				return (await luaLint(text))
+			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
+				return (await luaLint(text, await getOption(option)))
 					.map(({line, column, end_column: endColumn, msg, severity}): editor.IMarkerData => ({
 						source: 'Luacheck',
 						severity: severity * 4,
