@@ -5,18 +5,14 @@ import {
 	getCssLinter,
 	getLuaLinter,
 } from '@bhsd/codemirror-mediawiki/dist/linter.js';
+import {getOpt} from '@bhsd/cm-util';
 import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.ts';
 import {linterGetters} from './linter.ts';
 import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';
-import type {Option as LinterOption} from '@bhsd/codemirror-mediawiki/dist/linter.js';
+import type {LiveOption, ILinter, IWikitextModel} from '@bhsd/cm-util';
 import type {Range as NRange} from 'vscode-languageserver-types';
-import type {LiveOption, ILinter} from './linter.ts';
-
-declare interface ITextModel extends editor.ITextModel {
-	getRangeAt(start: number, end: number): IRange;
-}
 
 const fromPositions = (start: Position, end = start): IRange => ({
 	startLineNumber: start.lineNumber,
@@ -26,7 +22,7 @@ const fromPositions = (start: Position, end = start): IRange => ({
 });
 
 const toNRange = (m: editor.ITextModel, range: AST.Range): NRange => iRangeToNRange(
-	(m as ITextModel).getRangeAt(...range),
+	(m as IWikitextModel).getRangeAt!(...range),
 );
 
 const getData = (
@@ -53,8 +49,6 @@ const getData = (
 	})),
 ];
 
-const getOption = async (opt?: LiveOption): Promise<LinterOption> => typeof opt === 'function' ? opt(true) : opt;
-
 export const registerWikiLint = (cdn?: string, opt?: LiveOption): void => {
 	linterGetters.set('wikitext', async m => {
 		const wikiLint = await getWikiLinter(
@@ -64,7 +58,7 @@ export const registerWikiLint = (cdn?: string, opt?: LiveOption): void => {
 		);
 		const linter: ILinter = {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
-				return (await wikiLint(text, await getOption(option))).map(({
+				return (await wikiLint(text, await getOpt(option))).map(({
 					code,
 					severity,
 					message,
@@ -103,7 +97,7 @@ export const registerESLint = (cdn?: string, opt?: LiveOption): void => {
 		const esLint = await getJsLinter(cdn);
 		return {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
-				return esLint(text, {...jsConfig, ...await getOption(option)}).map(({
+				return esLint(text, {...jsConfig, ...await getOpt(option)}).map(({
 					ruleId,
 					message,
 					severity,
@@ -134,7 +128,7 @@ export const registerStylelint = (cdn?: string, opt?: LiveOption): void => {
 		const styleLint = await getCssLinter(cdn);
 		return {
 			async lint(code, option = opt): Promise<editor.IMarkerData[]> {
-				return (await styleLint(code, await getOption(option) ?? {rules: {}})).map(({
+				return (await styleLint(code, await getOpt(option) ?? {rules: {}})).map(({
 					text,
 					severity,
 					line,
@@ -164,7 +158,7 @@ export const registerLuacheck = (cdn?: string, opt?: LiveOption): void => {
 		const luaLint = await getLuaLinter(cdn);
 		return {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
-				return (await luaLint(text, await getOption(option)))
+				return (await luaLint(text, await getOpt(option)))
 					.map(({line, column, end_column: endColumn, msg, severity}): editor.IMarkerData => ({
 						source: 'Luacheck',
 						severity: severity * 4,

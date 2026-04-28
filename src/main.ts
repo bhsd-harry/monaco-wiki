@@ -22,13 +22,13 @@ import {
 	codeActionProviderForWiki,
 } from './lsp.ts';
 import type {ConfigGetter} from '@bhsd/browser';
+import type {LiveOption} from '@bhsd/cm-util';
 import type {ConfigData} from 'wikiparser-node';
 import type {} from 'wikiparser-node/dist/extensions/typings.d.ts';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';
 import type {} from 'types-mediawiki';
-import type {LiveOption} from './linter.ts';
 
 const themeSet = new Set<ThemeRegistrationRaw>();
 const getThemes = (themes: ThemeRegistrationRaw[]): ThemeRegistrationRaw[] => {
