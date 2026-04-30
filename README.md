@@ -58,6 +58,7 @@ registerJavaScript(
 	'https://cdn.jsdelivr.net/npm/@bhsd/eslint-browserify',
 
 	// (optional) ESLint options
+	// See https://eslint.org/docs/v8.x/use/configure/
 	{
 		parserOptions: {
 			sourceType: 'module',
@@ -72,6 +73,7 @@ registerCSS(
 	'https://cdn.jsdelivr.net/npm/@bhsd/stylelint-browserify',
 
 	// (optional) Stylelint options
+	// See https://stylelint.io/user-guide/configure/
 	{
 		rules: {
 			'length-zero-no-unit': true,
@@ -84,6 +86,12 @@ registerLua(
 
 	// (optional) custom download URL for the `luacheck` object`
 	'https://cdn.jsdelivr.net/npm/luacheck-browserify',
+
+	// (optional) Luacheck options
+	// See https://luacheck.readthedocs.io/en/stable/config.html#config-options
+	{
+		std: 'mediawiki',
+	},
 );
 
 await registerVue(

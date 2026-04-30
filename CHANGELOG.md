@@ -13,7 +13,7 @@
 
 **Changed**
 
-- The default ESLint linter is upgraded to [v10](https://eslint.org/blog/2026/02/eslint-v10.0.0-released/), but the [legacy ESLint configuration](https://eslint.org/docs/v9.x/use/configure/configuration-files-deprecated) is still supported for compatibility
+- The default ESLint linter is upgraded to [v10](https://eslint.org/blog/2026/02/eslint-v10.0.0-released/), but the [legacy ESLint configuration](https://eslint.org/docs/v8.x/use/configure/) is still supported for compatibility
 
 ## v1.18.1
 
