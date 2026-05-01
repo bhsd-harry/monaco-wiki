@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.19.1
+
+*2026-05-02*
+
+**Fixed**
+
+- Fix-all actions for ESLint
+
 ## v1.19.0
 
 *2026-04-30*

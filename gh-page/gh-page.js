@@ -20,8 +20,9 @@
                 Object.assign(config, { articlePath: 'https://mediawiki.org/wiki/$1' });
                 wikiparse.setConfig(config);
             }
+            const value = editor.getValue();
             (_b = editor.getModel()) === null || _b === void 0 ? void 0 : _b.dispose();
-            editor.setModel(monaco.editor.createModel(editor.getValue(), lang));
+            editor.setModel(monaco.editor.createModel(value, lang));
             editor.updateOptions({
                 wordWrap: isMediaWiki ? 'on' : 'off',
                 unicodeHighlight: {

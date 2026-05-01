@@ -26,8 +26,9 @@
 				Object.assign(config, {articlePath: 'https://mediawiki.org/wiki/$1'});
 				wikiparse.setConfig(config);
 			}
+			const value = editor.getValue();
 			editor.getModel()?.dispose();
-			editor.setModel((monaco as unknown as Awaited<typeof monaco>).editor.createModel(editor.getValue(), lang));
+			editor.setModel((monaco as unknown as Awaited<typeof monaco>).editor.createModel(value, lang));
 			editor.updateOptions({
 				wordWrap: isMediaWiki ? 'on' : 'off',
 				unicodeHighlight: {
