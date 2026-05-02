@@ -17,30 +17,6 @@ export default [
 		},
 	},
 	{
-		files: ['gh-page/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				project: 'gh-page/tsconfig.json',
-			},
-		},
-	},
-	{
-		files: ['test/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				project: 'test/tsconfig.json',
-			},
-		},
-	},
-	{
-		files: ['bundle/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				project: 'bundle/tsconfig.json',
-			},
-		},
-	},
-	{
 		files: ['test/parserTests.json'],
 		rules: {
 			'no-irregular-whitespace': 0,

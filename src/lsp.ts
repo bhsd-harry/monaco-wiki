@@ -259,7 +259,8 @@ const provideQuickFix = (
 	if (!fixable?.length) {
 		return [];
 	}
-	const autofixable = fixable.filter(({source, data}) => source !== 'Stylelint' && data!.some(({fix}) => fix)),
+	const autofixable = fixable.filter(({source, data}) => !(source === 'Stylelint' && m.getLanguageId() === 'wikitext')
+		&& data!.some(({fix}) => fix)),
 		versionId = m.getVersionId();
 	return [
 		...fixable.flatMap(

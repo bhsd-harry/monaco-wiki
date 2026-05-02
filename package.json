@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.19.0",
+	"version": "1.19.1",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -54,7 +54,7 @@
 	"devDependencies": {
 		"@bhsd/browser": "^0.3.0",
 		"@bhsd/cm-util": "^1.1.0",
-		"@bhsd/code-standard": "^2.3.0",
+		"@bhsd/code-standard": "^2.4.0",
 		"@bhsd/codemirror-mediawiki": "^3.15.0",
 		"@bhsd/test-util": "^1.1.0",
 		"@eslint-community/eslint-plugin-eslint-comments": "^4.7.1",

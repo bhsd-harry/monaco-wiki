@@ -6,6 +6,7 @@
 **Fixed**
 
 - Fix-all actions for ESLint
+- Fix-all actions for Stylelint in CSS, since [v1.15.1](#v1151)
 
 ## v1.19.0
 
