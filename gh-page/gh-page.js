@@ -16,8 +16,7 @@
         if (((_a = editor.getModel()) === null || _a === void 0 ? void 0 : _a.getLanguageId()) !== lang) {
             const isMediaWiki = lang === 'wikitext';
             if (isMediaWiki) {
-                const config = await wikiparse.getConfig();
-                Object.assign(config, { articlePath: 'https://mediawiki.org/wiki/$1' });
+                const config = { ...await wikiparse.getConfig(), articlePath: 'https://mediawiki.org/wiki/$1' };
                 wikiparse.setConfig(config);
             }
             const value = editor.getValue();

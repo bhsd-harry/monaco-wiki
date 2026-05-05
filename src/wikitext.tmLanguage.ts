@@ -6,26 +6,23 @@ declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
 const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 	pipe = String.raw`\|`,
-	constants = String.raw`\{\{\s*(?:$1)\s*}}`,
 	tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
 	tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
 	tagName = {name: 'entity.name.tag.wikitext'},
 	attribute = {include: 'text.html.basic#attribute'},
 	templateEnd = '(}})',
 	argEnd = '(?=}}})',
-	linkBracket = {name: 'punctuation.definition.tag.link.internal.wikitext'},
+	linkBracket = {name: 'punctuation.definition.tag.link.wikitext'},
 	invalid = 'invalid.deprecated.ineffective.wikitext',
 	invalidRule = {name: invalid},
 	$self = {include: '$self'},
 	pipeOp = 'keyword.operator.wikitext',
 	pipeRule = {name: pipeOp},
-	variable = 'constant.language.variables.query.wikitext',
 	namespace = {name: 'entity.name.tag.namespace.wikitext'},
 	indent = 'punctuation.definition.list.begin.markdown.wikitext',
 	delimiter = String.raw`\||\{\{\s*!\s*}}`,
 	link = 'string.quoted.internal-link.wikitext',
 	linkEnd = '(]])',
-	externalBracket = {name: 'punctuation.definition.tag.link.external.wikitext'},
 	tagWithoutAttribute = {
 		1: tagBegin,
 		2: tagName,
@@ -69,11 +66,15 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		3: {patterns: [attribute]},
 		[pos]: tagEnd,
 	}),
-	extBegin = (exts: string[], suffix = '>'): string =>
-		String.raw`(?i)(<)(${exts.join('|')})(\s[^>]*)?(${suffix})`,
+
+	/**
+	 * @ignore
+	 * @todo 不会匹配包含换行符的标签
+	 */
+	extBegin = (suffix = '>'): string => String.raw`(?i)(<)($1)(\s[^>]*)?(${suffix})`,
 	hl = (contentName: string, include: string, lang = contentName): IRawRule => ({
 		contentName: `meta.embedded.block.${contentName}`,
-		begin: String.raw`(?i)(<)(syntaxhighlight|pre)((?:\s[^>]*)?\slang\s*=\s*(['"]?)${lang}\4(?:\s[^>]*)?)(>)`,
+		begin: String.raw`(?i)(<)($1)((?:\s[^>]*)?\slang\s*=\s*(['"]?)${lang}\4(?:\s[^>]*)?)(>)`,
 		beginCaptures: tagWithAttribute(5),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -86,7 +87,7 @@ const tagWithAttribute = (pos = 4): IRawCaptures => ({
 		end: templateEnd,
 		captures: {
 			1: {name: 'punctuation.definition.tag.function.wikitext'},
-			2: {name: variable},
+			2: {name: 'constant.language.variables.query.wikitext'},
 			3: {name: 'keyword.operator.function.wikitext'},
 		},
 		patterns: [
@@ -159,12 +160,12 @@ const signature = {
 		],
 	},
 	wikiSelfClosedTags = {
-		match: extBegin(['$1'], '/>'),
+		match: extBegin('/>'),
 		captures: tagWithAttribute(),
 	},
 	ref = {
 		contentName: 'meta.block.ref.wikitext',
-		begin: extBegin(['ref', 'references', 'inputbox', 'indicator', 'poem', 'gallery']),
+		begin: extBegin(),
 		beginCaptures: tagWithAttribute(),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -186,7 +187,7 @@ const signature = {
 	},
 	json = {
 		contentName: 'meta.embedded.block.json',
-		begin: extBegin(['graph', 'templatedata', 'mapframe', 'maplink']),
+		begin: extBegin(),
 		beginCaptures: tagWithAttribute(),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -194,7 +195,7 @@ const signature = {
 	},
 	nowiki = {
 		contentName: 'meta.embedded.block.plaintext',
-		begin: extBegin(['nowiki', 'pre', 'charinsert', 'imagemap', 'score', 'math', 'chem', 'ce', 'timeline']),
+		begin: extBegin(),
 		beginCaptures: tagWithAttribute(),
 		end: extEnd,
 		endCaptures: tagWithoutAttribute,
@@ -225,16 +226,8 @@ const signature = {
 		],
 	},
 	variables = {
-		patterns: [
-			{
-				name: variable,
-				match: `(?i)${constants}`,
-			},
-			{
-				name: 'constant.language.variables.metadata.wikitext',
-				match: constants,
-			},
-		],
+		name: 'constant.language.variables.metadata.wikitext',
+		match: String.raw`(?i)\{\{\s*(?:$1)\s*}}|\{\{\s*(?:$2)\s*}}`,
 	},
 	parserFunction = {
 		patterns: [
@@ -275,16 +268,24 @@ const signature = {
 			$self,
 		],
 	},
+	comment = {
+		name: 'comment.block.html',
+		begin: '<!--',
+		end: '-->',
+		captures: {
+			0: {name: 'punctuation.definition.comment.html'},
+		},
+	},
 	heading = {
 		name: 'markup.heading.wikitext',
 		match: String.raw`^((?:<!--(?:(?!-->).)*-->)*)(={1,6})(.+)(\2)((?:\s|<!--(?:(?!-->).)*-->)*)$`,
 		captures: {
-			1: {patterns: [{include: 'text.html.basic'}]},
+			1: {patterns: [{include: '#comment'}]},
 			3: {
 				name: 'string.quoted.other.heading.wikitext',
 				patterns: [$self],
 			},
-			5: {patterns: [{include: 'text.html.basic'}]},
+			5: {patterns: [{include: '#comment'}]},
 		},
 	},
 	table = {
@@ -374,7 +375,7 @@ const signature = {
 				match: String.raw`[]>\[}]`,
 				name: invalid,
 			},
-			{include: 'text.html.basic#comment'},
+			{include: '#comment'},
 			{include: '#wikixml'},
 			{include: '#argument'},
 			{include: '#magic-words'},
@@ -400,13 +401,13 @@ const signature = {
 	externalLink = {
 		match: String.raw`(?i)(\[)((?:$1)[^]"<>\[\s]+?)(?=[]"<>\[\s]|'')([^]\n]*)(])`,
 		captures: {
-			1: externalBracket,
+			1: linkBracket,
 			2: {name: 'entity.name.tag.url.wikitext'},
 			3: {
 				name: 'string.other.link.external.title.wikitext',
 				patterns: [$self],
 			},
-			4: externalBracket,
+			4: linkBracket,
 		},
 	},
 	magicLink = {
@@ -473,7 +474,8 @@ export default {
 		{include: '#redirect'},
 		...replaced,
 		{include: '#heading'},
-		{include: 'text.html.basic'},
+		{include: '#comment'},
+		{include: 'text.html.basic#tags-valid'},
 		{include: '#table'},
 		{include: '#behavior-switches'},
 		{include: '#break'},
@@ -483,10 +485,12 @@ export default {
 		{include: '#magic-link'},
 		{include: '#list'},
 		{include: '#convert'},
+		{include: 'text.html.basic#entities'},
 	],
 	repository: {
 		signature,
 		redirect,
+		comment,
 		wikixml: {
 			patterns: [
 				{include: '#onlyinclude'},

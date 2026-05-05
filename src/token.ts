@@ -11,6 +11,26 @@ import type {ConfigData} from 'wikiparser-node';
 import type {HighlighterCore, ThemeRegistrationRaw, LanguageRegistration} from 'shiki/core';
 import type {IRawRule} from './wikitext.tmLanguage.ts';
 
+const refTags = new Set([
+		'indicator',
+		'poem',
+		'ref',
+		'tab',
+		'tabs',
+		'poll',
+		'seo',
+		'langconvert',
+		'phonos',
+		'inputbox',
+		'references',
+		'choose',
+		'gallery',
+		'translate',
+		'tvar',
+	]),
+	jsonTags = new Set(['templatedata', 'mapframe', 'maplink']),
+	syntaxHighlightTags = new Set(['syntaxhighlight', 'source', 'pre']);
+
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	for (let i = 1; i < 10; i++) {
 		if ((rule[key] as string).includes(`$${i}`)) {
@@ -29,12 +49,13 @@ export default async (
 ): Promise<HighlighterCore> => {
 	const {repository, patterns} = wikitext,
 		magicWords = repository['magic-words']!.repository!,
-		variables = magicWords['variables']!.patterns!,
+		variables = magicWords['variables']!,
 		parserFunctions = magicWords['parser-function']!.patterns!,
 		behaviorSwitches = repository['behavior-switches']!.patterns!,
 		link = repository['wiki-link']!.repository!,
 		plainLink = link['internal-link']!,
 		fileLink = link['file-link']!,
+		syntaxHighlightRules = repository['wikixml']!.repository!['syntax-highlight']!.repository!,
 		{
 			doubleUnderscore,
 			redirection,
@@ -54,6 +75,7 @@ export default async (
 		insensitive = Object.keys(p0).filter(s => !s.startsWith('#')),
 		sensitive = Object.keys(p1).filter(s => !s.startsWith('#')),
 		imgKeys = Object.keys(img),
+		imgVars = imgKeys.filter(s => s.startsWith('$1')),
 		protocols = [protocol, '//'];
 	for (let i = 0; i < 2; i++) {
 		if (doubleUnderscore[i]!.length === 0) {
@@ -63,13 +85,20 @@ export default async (
 	defineGrammar(repository['redirect']!, redirection);
 	defineGrammar(repository['redirect']!, namespaces);
 	defineGrammar(repository['wikixml']!.repository!['wiki-self-closed-tags']!, ext);
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	defineGrammar(variables[0]!, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
+	defineGrammar(repository['wikixml']!.repository!['ref']!, ext.filter(tag => refTags.has(tag)), 'begin');
+	defineGrammar(repository['wikixml']!.repository!['json']!, ext.filter(tag => jsonTags.has(tag)), 'begin');
 	defineGrammar(
-		variables[1]!,
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		variable ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive,
+		repository['wikixml']!.repository!['nowiki']!,
+		ext.filter(tag => !refTags.has(tag) && !jsonTags.has(tag)),
+		'begin',
 	);
+	for (const key in syntaxHighlightRules) {
+		defineGrammar(syntaxHighlightRules[key]!, ext.filter(tag => syntaxHighlightTags.has(tag)), 'begin');
+	}
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	defineGrammar(variables, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	defineGrammar(variables, variable ? sensitive.filter(s => variable.includes(p1[s]!)) : sensitive);
 	defineGrammar(
 		parserFunctions[0]!,
 		[
@@ -97,7 +126,6 @@ export default async (
 		fileLink.patterns![0]!,
 		imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)),
 	);
-	const imgVars = imgKeys.filter(s => s.startsWith('$1'));
 	defineGrammar(
 		fileLink.patterns![1]!,
 		imgVars.filter(s => img[s] === 'width').map(s => s.slice(2)),

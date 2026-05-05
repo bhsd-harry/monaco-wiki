@@ -135,9 +135,10 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 #### Extension
 
-1. [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) is not supported.
+1. Legacy syntax of `<tvar>` tags is not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Old%20tvar%20syntax%20should%20not%20break%20too%20hard.)).
 1. `<gallery>` tags are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
 1. Nested language in `<syntaxhighlight>` ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
+1. Multiline extension tags ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Check%20Cite%20handing%20of%20linefeed%20whitespace%20in%20reference%20names)).
 
 #### Transclusion
 

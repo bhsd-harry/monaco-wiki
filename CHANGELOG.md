@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v1.20.0
+
+*2026-05-06*
+
+**Fixed**
+
+- Most unsupported HTML syntax will no longer be highlighted in Wikitext
+
 ## v1.19.1
 
 *2026-05-02*
