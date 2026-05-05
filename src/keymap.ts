@@ -9,7 +9,7 @@ const keyCodeMap: Record<string, Key> = {'.': 'Period', ',': 'Comma', '/': 'Slas
 export default (monaco: typeof Monaco): void => {
 	for (const {desc, key, pre = '', post = '', splitlines} of keybindings) {
 		const keys = key.split('-'),
-			main = keys[keys.length - 1]!,
+			main = keys.at(-1)!,
 			id = `encapsulate.wikitext.${desc}`;
 		let keyCode: Key;
 		if (Number.isInteger(Number(main))) {

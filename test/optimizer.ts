@@ -5,7 +5,8 @@ import type {IRawRule} from '../src/wikitext.tmLanguage.js';
 
 const validateRule = (rule: IRawRule): void => {
 	if ('match' in rule) {
-		const re = (rule.match as string).replace(/(?<=\((?:\?:)?)\$\d+(?=\))/gu, 'ab|cd');
+		const re = (rule.match as string)
+			.replaceAll(/(?<=\((?:\?:)?)\$\d+(?=\))/gu, 'ab|cd');
 		assert.strictEqual(optimize(re).pattern, re, `${rule.name}\n${rule.match}`);
 	}
 	if ('patterns' in rule) {

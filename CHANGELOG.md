@@ -7,6 +7,10 @@
 
 - Most unsupported HTML syntax will no longer be highlighted in Wikitext
 
+**Removed**
+
+- The pre-bundled version no longer includes the `nord` theme
+
 ## v1.19.1
 
 *2026-05-02*

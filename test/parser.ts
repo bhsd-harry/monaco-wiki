@@ -32,7 +32,7 @@ export default (wikitext: string, grammar: Grammar): string => {
 			return '</>'.repeat(l - j)
 				+ scopes.slice(j).map(s => `<${s.replace('.wikitext', '')}>`)
 					.join('')
-					+ part.replace(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
+					+ part.replaceAll(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
 		}).join('');
 	}).join(String.raw`\n`) + '</>'.repeat(last.length);
 };

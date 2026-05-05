@@ -124,7 +124,6 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 |:-:|:-:|
 |Light+|`light-plus`|
 |Monokai|`monokai`|
-|Nord|`nord`|
 
 ## Known Issues
 
