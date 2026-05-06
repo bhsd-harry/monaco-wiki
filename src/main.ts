@@ -1,6 +1,6 @@
 import {shikiToMonaco} from '@shikijs/monaco';
 import {getWikiparse, getLSP} from '@bhsd/browser';
-import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig';
 import getHighlighter, {getVueHighlighter} from './token.ts';
 import wikitext from './wikitext.tmLanguage.ts';
 import registerLinterBase from './linter.ts';

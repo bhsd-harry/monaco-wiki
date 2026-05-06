@@ -1,4 +1,4 @@
-import {keybindings, encapsulateLines} from '@bhsd/codemirror-mediawiki/dist/keybindings.js';
+import {keybindings, encapsulateLines} from '@bhsd/codemirror-mediawiki/keybindings';
 import type * as Monaco from 'monaco-editor';
 import type {KeyCode} from 'monaco-editor';
 

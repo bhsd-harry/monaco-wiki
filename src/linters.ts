@@ -4,7 +4,7 @@ import {
 	getJsLinter,
 	getCssLinter,
 	getLuaLinter,
-} from '@bhsd/codemirror-mediawiki/dist/linter.js';
+} from '@bhsd/codemirror-mediawiki/linter';
 import {getOpt} from '@bhsd/cm-util';
 import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.ts';
 import {linterGetters} from './linter.ts';
