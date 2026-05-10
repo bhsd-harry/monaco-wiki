@@ -1,11 +1,12 @@
 import {shikiToMonaco} from '@shikijs/monaco';
 import {getWikiparse, getLSP} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig';
-import getHighlighter, {getVueHighlighter} from './token.ts';
-import wikitext from './wikitext.tmLanguage.ts';
-import registerLinterBase from './linter.ts';
-import {registerWikiLint, registerESLint, registerStylelint, registerLuacheck} from './linters.ts';
-import addKeybindings from './keymap.ts';
+import langConfig from '../vendor/language-configuration.json' with {type: 'json'};
+import getHighlighter, {getVueHighlighter} from './token.js';
+import wikitext from './wikitext.tmLanguage.js';
+import registerLinterBase from './linter.js';
+import {registerWikiLint, registerESLint, registerStylelint, registerLuacheck} from './linters.js';
+import addKeybindings from './keymap.js';
 import {
 	documentColorProvider,
 	completionItemProvider,
@@ -20,11 +21,11 @@ import {
 	inlayHintsProvider,
 	codeActionProvider,
 	codeActionProviderForWiki,
-} from './lsp.ts';
+} from './lsp.js';
 import type {ConfigGetter} from '@bhsd/browser';
 import type {LiveOption} from '@bhsd/cm-util';
 import type {ConfigData} from 'wikiparser-node';
-import type {} from 'wikiparser-node/dist/extensions/typings.d.ts';
+import type {} from 'wikiparser-node/dist/extensions/typings.d.js';
 import type * as Monaco from 'monaco-editor';
 import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';
@@ -85,8 +86,12 @@ export default async (
 	monaco.languages.register({id: 'json', aliases: ['JSON']});
 	shikiToMonaco(await getHighlighter(wikitext, wikiConfig, getThemes(themes)), monaco);
 
-	const config: languages.LanguageConfiguration = require('../vendor/language-configuration.json');
 	// 语言设置
+	const config = {
+		...langConfig,
+		autoClosingPairs: [...langConfig.autoClosingPairs],
+		brackets: [...langConfig.brackets],
+	} as unknown as languages.LanguageConfiguration;
 	config.autoClosingPairs!.push(
 		...[wikiConfig.ext, wikiConfig.html.slice(0, 2)].flat(2)
 			.map((tag): languages.IAutoClosingPairConditional => ({open: `<${tag}>`, close: `</${tag}>`})),

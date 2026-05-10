@@ -1,13 +1,17 @@
 <!-- markdownlint-disable first-line-h1 -->
-## v1.20.0
+## v2.0.0
 
 This release is not ready to be published.
 
-*2026-05-06*
+*2026-05-10*
 
 **Fixed**
 
 - Most unsupported HTML syntax will no longer be highlighted in Wikitext
+
+**Changed**
+
+- When importing this package in a Node.js environment, the user may need to transpile later JavaScript syntax on their own to ensure compatibility
 
 **Removed**
 

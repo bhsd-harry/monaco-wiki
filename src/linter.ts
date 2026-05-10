@@ -1,5 +1,5 @@
 import {getObject} from '@bhsd/browser';
-import {toIRange} from './lsp.ts';
+import {toIRange} from './lsp.js';
 import type * as Monaco from 'monaco-editor';
 import type {editor, MarkerSeverity} from 'monaco-editor';
 import type {QuickFixData} from 'wikiparser-node';

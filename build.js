@@ -34,6 +34,12 @@ const /** @type {esbuild.BuildOptions} */ config = {
 (async () => {
 	await esbuild.build({
 		...config,
+		entryPoints: ['src/main.ts'],
+		outfile: 'dist/main.js',
+		external: ['@shikijs', '@bhsd', 'shiki'],
+	});
+	await esbuild.build({
+		...config,
 		entryPoints: fs.globSync('bundle/*.ts'),
 		outdir: 'build',
 	});
@@ -41,13 +47,6 @@ const /** @type {esbuild.BuildOptions} */ config = {
 		...config,
 		entryPoints: ['src/main.ts', 'src/all.ts'],
 		outdir: 'build',
-	});
-	await esbuild.build({
-		...config,
-		minify: true,
-		target: 'es2019',
-		entryPoints: ['src/main.ts'],
-		outfile: 'dist/main.min.js',
 	});
 	await esbuild.build({
 		...config,

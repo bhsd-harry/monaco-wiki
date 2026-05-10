@@ -1,6 +1,6 @@
-import {registerVue} from '../src/main.ts';
+import {registerVue} from '../dist/main.js';
 import type * as Monaco from 'monaco-editor';
 
 declare const monaco: typeof Monaco;
 
-await registerVue(monaco);
+void registerVue(monaco);

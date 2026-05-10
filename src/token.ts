@@ -9,7 +9,7 @@ import loadWasm from 'shiki/wasm';
 import {isUnderscore} from '@bhsd/cm-util';
 import type {ConfigData} from 'wikiparser-node';
 import type {HighlighterCore, ThemeRegistrationRaw, LanguageRegistration} from 'shiki/core';
-import type {IRawRule} from './wikitext.tmLanguage.ts';
+import type {IRawRule} from './wikitext.tmLanguage.js';
 
 const refTags = new Set([
 		'indicator',

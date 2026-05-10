@@ -6,8 +6,8 @@ import {
 	getLuaLinter,
 } from '@bhsd/codemirror-mediawiki/linter';
 import {getOpt} from '@bhsd/cm-util';
-import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.ts';
-import {linterGetters} from './linter.ts';
+import {nRangeToIRange, iRangeToNRange, toIRange} from './lsp.js';
+import {linterGetters} from './linter.js';
 import type {editor, Position, IRange} from 'monaco-editor';
 import type {Linter, Rule, AST} from 'eslint';
 import type {QuickFixData} from 'wikiparser-node';

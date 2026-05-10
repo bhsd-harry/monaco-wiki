@@ -1,8 +1,8 @@
 import {CDN as baseCDN} from '@bhsd/browser';
 import light from 'shiki/themes/light-plus.mjs';
 import monokai from 'shiki/themes/monokai.mjs';
-import registerWiki, {registerJavaScript, registerCSS, registerLua, registerVue} from './main.ts';
-import {getCmObject} from './linter.ts';
+import registerWiki, {registerJavaScript, registerCSS, registerLua, registerVue} from './main.js';
+import {getCmObject} from './linter.js';
 import type * as Monaco from 'monaco-editor';
 import type {} from 'types-mediawiki';
 
