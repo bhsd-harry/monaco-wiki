@@ -147,8 +147,13 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 		noinclude = {
 			patterns: [
 				{
-					match: String.raw`(?i)(<)(includeonly|noinclude)(\s[^>]*)?(/?>)`,
-					captures: tagWithAttribute,
+					match: String.raw`(?i)(<)(includeonly|noinclude)(\s[^>]*?)?(/?>)`,
+					captures: {
+						1: tagBegin,
+						2: tagName,
+						3: {name: 'invalid.illegal.unexpected-attributes.wikitext'},
+						4: tagEnd,
+					},
 				},
 				{
 					match: String.raw`(?i)(</)(includeonly|noinclude)\s*(>)`,

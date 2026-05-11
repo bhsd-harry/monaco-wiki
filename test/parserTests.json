@@ -1455,7 +1455,7 @@
 	{
 		"desc": "Self-closed noinclude, includeonly, onlyinclude tags",
 		"wikitext": "<noinclude />\n<includeonly />\n<onlyinclude />",
-		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</> <invalid.illegal.character-not-allowed-here.html>/</><punctuation.definition.tag.end>&gt\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>includeonly</> <invalid.illegal.character-not-allowed-here.html>/</><punctuation.definition.tag.end>&gt\\n</>&lt;onlyinclude /&gt"
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>noinclude</><invalid.illegal.unexpected-attributes> </><punctuation.definition.tag.end>/&gt\\n</><punctuation.definition.tag.begin>&lt;</><entity.name.tag>includeonly</><invalid.illegal.unexpected-attributes> </><punctuation.definition.tag.end>/&gt\\n</>&lt;onlyinclude /&gt"
 	},
 	{
 		"desc": "Unbalanced includeonly and noinclude tags",
