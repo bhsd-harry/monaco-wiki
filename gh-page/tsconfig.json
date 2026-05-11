@@ -5,6 +5,7 @@
 	],
 	"exclude": [],
 	"compilerOptions": {
+		"target": "ES2019",
 		"module": "es6",
 		"moduleResolution": "bundler",
 		"declaration": false,

@@ -18,6 +18,7 @@ You may load the Monaco Editor and prepare the bundle on your own:
 
 ```js
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor/+esm';
+import light from 'shiki/themes/github-light.mjs';
 import registerWiki, {
 	registerJavaScript,
 	registerCSS,
@@ -40,7 +41,7 @@ await registerWiki(
 	'https://cdn.jsdelivr.net/npm/wikiparser-node',
 
 	// (optional) Shiki themes
-	[await import('shiki/themes/github-light.mjs')],
+	[light],
 
 	// (optional) WikiLint options
 	{
@@ -98,7 +99,7 @@ await registerVue(
 	monaco,
 
 	// (optional) Shiki themes
-	[await import('shiki/themes/github-light.mjs')],
+	[light],
 );
 ```
 

@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "1.19.1",
+	"version": "2.0.0",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -19,6 +19,7 @@
 		"!/dist/*.map"
 	],
 	"sideEffects": false,
+	"browser": "dist/main.min.js",
 	"main": "./dist/main.js",
 	"types": "./dist/main.d.ts",
 	"repository": {
@@ -35,7 +36,7 @@
 		"build:core": "tsc && rm dist/all.d.ts",
 		"build:gh-page": "tsc --project gh-page/tsconfig.json",
 		"build:test": "rm -rf test/dist/; tsc --project test/tsconfig.json && npm test",
-		"build": "rm -rf dist/; npm run build:core && node build.js && gsed -i '/^\\/\\/ /d' dist/main.js && eslint --no-config-lookup -c eslint.dist.mjs dist/all.min.js",
+		"build": "rm -rf dist/; npm run build:core && node build.js && gsed -i '/^\\/\\/ /d' dist/main.js && eslint --no-config-lookup -c eslint.dist.mjs dist/*.min.js",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
 		"test": "mocha",
 		"test:regex": "node test/dist/test/optimizer.js",
