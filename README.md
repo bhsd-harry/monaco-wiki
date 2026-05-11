@@ -158,7 +158,6 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 #### HTML tag
 
-1. Disallowed HTML tags should not be highlighted (Examples [1](http://bhsd-harry.github.io/monaco-wiki/tests.html#T255007%3A%20French%20spacing%20in%20raw%20text%20elements), [2](http://bhsd-harry.github.io/monaco-wiki/tests.html#T406391%3A%20HTML%20entities%20in%20raw%20text%20elements)).
 1. Complex HTML tag attributes are not supported ([comments](https://bhsd-harry.github.io/monaco-wiki/tests.html#Comment%20in%20attribute), [`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](http://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
 
 #### Table

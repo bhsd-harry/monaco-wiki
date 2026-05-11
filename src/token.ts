@@ -54,6 +54,8 @@ export default async (
 		link = repository['wiki-link']!.repository!,
 		plainLink = link['internal-link']!,
 		fileLink = link['file-link']!,
+		wikixml = repository['wikixml']!.repository!,
+		htmlTag = repository['html']!.patterns!,
 		{
 			doubleUnderscore,
 			redirection,
@@ -63,6 +65,7 @@ export default async (
 			nsid,
 			protocol,
 			ext,
+			html,
 			img,
 			variants,
 		} = parserConfig,
@@ -82,14 +85,12 @@ export default async (
 	}
 	defineGrammar(repository['redirect']!, redirection);
 	defineGrammar(repository['redirect']!, namespaces);
-	defineGrammar(repository['wikixml']!.repository!['self-closed-tags']!, ext);
-	defineGrammar(repository['wikixml']!.repository!['ref']!, ext.filter(tag => refTags.has(tag)), 'begin');
-	defineGrammar(repository['wikixml']!.repository!['json']!, ext.filter(tag => jsonTags.has(tag)), 'begin');
-	defineGrammar(
-		repository['wikixml']!.repository!['nowiki']!,
-		ext.filter(tag => !refTags.has(tag) && !jsonTags.has(tag)),
-		'begin',
-	);
+	defineGrammar(wikixml['self-closed-tags']!, ext);
+	defineGrammar(wikixml['ref']!, ext.filter(tag => refTags.has(tag)), 'begin');
+	defineGrammar(wikixml['json']!, ext.filter(tag => jsonTags.has(tag)), 'begin');
+	defineGrammar(wikixml['nowiki']!, ext.filter(tag => !refTags.has(tag) && !jsonTags.has(tag)), 'begin');
+	defineGrammar(htmlTag[0]!, html.flat(), 'begin');
+	defineGrammar(htmlTag[1]!, html.flat(), 'begin');
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	defineGrammar(variables, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

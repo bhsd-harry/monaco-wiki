@@ -1,9 +1,7 @@
 <!-- markdownlint-disable first-line-h1 -->
 ## v2.0.0
 
-This release is not ready to be published.
-
-*2026-05-10*
+*2026-05-11*
 
 **Fixed**
 

@@ -15,6 +15,13 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 		tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
 		tagEnd = {name: 'punctuation.definition.tag.end.wikitext'},
 		tagName = {name: 'entity.name.tag.wikitext'},
+		htmlBegin = {
+			1: {name: 'punctuation.definition.tag.begin.html'},
+			2: {name: 'entity.name.tag.html'},
+		},
+		htmlEnd = {
+			0: {name: 'punctuation.definition.tag.end.html'},
+		},
 		attribute = {include: 'text.html.basic#attribute'},
 		templateEnd = '(}})',
 		argEnd = '(?=}}})',
@@ -188,6 +195,26 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			end: extEnd,
 			endCaptures: tagWithoutAttribute,
 			patterns: [{include: 'text.html.basic#entities'}],
+		},
+		html = {
+			patterns: [
+				{
+					name: 'meta.tag.start.html',
+					begin: String.raw`(?i)(<)($1)(?=\s|/?>)`,
+					beginCaptures: htmlBegin,
+					end: '/?>',
+					endCaptures: htmlEnd,
+					patterns: [attribute],
+				},
+				{
+					name: 'meta.tag.end.html',
+					contentName: 'invalid.illegal.unexpected-attributes.html',
+					begin: String.raw`(?i)(</)($1)(?=\s|>)`,
+					beginCaptures: htmlBegin,
+					end: '>',
+					endCaptures: htmlEnd,
+				},
+			],
 		},
 		argument = {
 			contentName: 'variable.parameter.wikitext',
@@ -457,7 +484,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			...replaced,
 			{include: '#heading'},
 			{include: '#comment'},
-			{include: 'text.html.basic#tags-valid'},
+			{include: '#html'},
 			{include: '#table'},
 			{include: '#behavior-switches'},
 			{include: '#break'},
@@ -491,6 +518,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 					nowiki,
 				},
 			},
+			html,
 			argument,
 			'magic-words': {
 				patterns: [
