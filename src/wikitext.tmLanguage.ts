@@ -2,7 +2,6 @@ import type {IRawGrammar} from '@shikijs/vscode-textmate';
 import type {LanguageRegistration} from 'shiki/core';
 
 export type IRawRule = IRawGrammar['patterns'][0];
-declare type IRawCaptures = Exclude<IRawRule['captures'], undefined>;
 
 /**
  * @author Rowe Wilson Frederisk Holme
@@ -30,6 +29,12 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 		delimiter = String.raw`\||\{\{\s*!\s*}}`,
 		link = 'string.quoted.internal-link.wikitext',
 		linkEnd = '(]])',
+		tagWithAttribute = {
+			1: tagBegin,
+			2: tagName,
+			3: {patterns: [attribute]},
+			4: tagEnd,
+		},
 		tagWithoutAttribute = {
 			1: tagBegin,
 			2: tagName,
@@ -67,26 +72,11 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			2: {name: 'entity.other.attribute-name.localname.wikitext'},
 		};
 
-	const tagWithAttribute = (pos = 4): IRawCaptures => ({
-			1: tagBegin,
-			2: tagName,
-			3: {patterns: [attribute]},
-			[pos]: tagEnd,
-		}),
-
-		/**
-		 * @ignore
-		 * @todo 不会匹配包含换行符的标签
-		 */
-		extBegin = (suffix = '>'): string => String.raw`(?i)(<)($1)(\s[^>]*)?(${suffix})`,
-		hl = (contentName: string, include: string, lang = contentName): IRawRule => ({
-			contentName: `meta.embedded.block.${contentName}`,
-			begin: String.raw`(?i)(<)($1)((?:\s[^>]*)?\slang\s*=\s*(['"]?)${lang}\4(?:\s[^>]*)?)(>)`,
-			beginCaptures: tagWithAttribute(5),
-			end: extEnd,
-			endCaptures: tagWithoutAttribute,
-			patterns: [{include}],
-		}),
+	/**
+	 * @ignore
+	 * @todo 不会匹配包含换行符的标签
+	 */
+	const extBegin = (suffix = '>'): string => String.raw`(?i)(<)($1)(\s[^>]*)?(${suffix})`,
 		parserFunctions = (caseSensitive?: boolean): IRawRule => ({
 			begin: String.raw`${caseSensitive ? '' : '(?i)'}(\{\{)\s*(${
 				caseSensitive ? String.raw`#[^]#:\[{|}]*[^]#:\[{|}\s]|` : ''
@@ -154,11 +144,11 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			captures: tagWithoutAttribute,
 			patterns: [$self],
 		},
-		normalWikiTags = {
+		noinclude = {
 			patterns: [
 				{
 					match: String.raw`(?i)(<)(includeonly|noinclude)(\s[^>]*)?(/?>)`,
-					captures: tagWithAttribute(),
+					captures: tagWithAttribute,
 				},
 				{
 					match: String.raw`(?i)(</)(includeonly|noinclude)\s*(>)`,
@@ -166,36 +156,22 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 				},
 			],
 		},
-		wikiSelfClosedTags = {
+		selfClosedTags = {
 			match: extBegin('/>'),
-			captures: tagWithAttribute(),
+			captures: tagWithAttribute,
 		},
 		ref = {
 			contentName: 'meta.block.ref.wikitext',
 			begin: extBegin(),
-			beginCaptures: tagWithAttribute(),
+			beginCaptures: tagWithAttribute,
 			end: extEnd,
 			endCaptures: tagWithoutAttribute,
 			patterns: [$self],
 		},
-		syntaxHighlight = {
-			patterns: [
-				{include: '#hl-css'},
-				{include: '#hl-html'},
-				{include: '#hl-js'},
-				{include: '#hl-json'},
-			],
-			repository: {
-				'hl-css': hl('css', 'source.css'),
-				'hl-html': hl('html', 'text.html.basic'),
-				'hl-js': hl('js', 'source.js', '(?:javascript|js)'),
-				'hl-json': hl('json', 'source.json'),
-			},
-		},
 		json = {
 			contentName: 'meta.embedded.block.json',
 			begin: extBegin(),
-			beginCaptures: tagWithAttribute(),
+			beginCaptures: tagWithAttribute,
 			end: extEnd,
 			endCaptures: tagWithoutAttribute,
 			patterns: [{include: 'source.json'}],
@@ -203,7 +179,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 		nowiki = {
 			contentName: 'meta.embedded.block.plaintext',
 			begin: extBegin(),
-			beginCaptures: tagWithAttribute(),
+			beginCaptures: tagWithAttribute,
 			end: extEnd,
 			endCaptures: tagWithoutAttribute,
 			patterns: [{include: 'text.html.basic#entities'}],
@@ -495,19 +471,17 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			wikixml: {
 				patterns: [
 					{include: '#onlyinclude'},
-					{include: '#normal-wiki-tags'},
-					{include: '#wiki-self-closed-tags'},
+					{include: '#noinclude'},
+					{include: '#self-closed-tags'},
 					{include: '#ref'},
-					{include: '#syntax-highlight'},
 					{include: '#json'},
 					{include: '#nowiki'},
 				],
 				repository: {
 					onlyinclude,
-					'normal-wiki-tags': normalWikiTags,
-					'wiki-self-closed-tags': wikiSelfClosedTags,
+					noinclude,
+					'self-closed-tags': selfClosedTags,
 					ref,
-					'syntax-highlight': syntaxHighlight,
 					json,
 					nowiki,
 				},

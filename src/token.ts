@@ -28,8 +28,7 @@ const refTags = new Set([
 		'translate',
 		'tvar',
 	]),
-	jsonTags = new Set(['templatedata', 'mapframe', 'maplink']),
-	syntaxHighlightTags = new Set(['syntaxhighlight', 'source', 'pre']);
+	jsonTags = new Set(['templatedata', 'mapframe', 'maplink']);
 
 const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin' = 'match'): void => {
 	for (let i = 1; i < 10; i++) {
@@ -55,7 +54,6 @@ export default async (
 		link = repository['wiki-link']!.repository!,
 		plainLink = link['internal-link']!,
 		fileLink = link['file-link']!,
-		syntaxHighlightRules = repository['wikixml']!.repository!['syntax-highlight']!.repository!,
 		{
 			doubleUnderscore,
 			redirection,
@@ -84,7 +82,7 @@ export default async (
 	}
 	defineGrammar(repository['redirect']!, redirection);
 	defineGrammar(repository['redirect']!, namespaces);
-	defineGrammar(repository['wikixml']!.repository!['wiki-self-closed-tags']!, ext);
+	defineGrammar(repository['wikixml']!.repository!['self-closed-tags']!, ext);
 	defineGrammar(repository['wikixml']!.repository!['ref']!, ext.filter(tag => refTags.has(tag)), 'begin');
 	defineGrammar(repository['wikixml']!.repository!['json']!, ext.filter(tag => jsonTags.has(tag)), 'begin');
 	defineGrammar(
@@ -92,9 +90,6 @@ export default async (
 		ext.filter(tag => !refTags.has(tag) && !jsonTags.has(tag)),
 		'begin',
 	);
-	for (const key in syntaxHighlightRules) {
-		defineGrammar(syntaxHighlightRules[key]!, ext.filter(tag => syntaxHighlightTags.has(tag)), 'begin');
-	}
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	defineGrammar(variables, variable ? insensitive.filter(s => variable.includes(p0[s]!)) : insensitive);
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

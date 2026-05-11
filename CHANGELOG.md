@@ -16,6 +16,7 @@ This release is not ready to be published.
 **Removed**
 
 - The pre-bundled version no longer includes the `nord` theme
+- Highlighting of embedded code blocks in `<syntaxhighlight>` tags in Wikitext
 
 ## v1.19.1
 
