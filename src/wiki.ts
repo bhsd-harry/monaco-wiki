@@ -38,7 +38,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 	});
 	const requirejs = globalThis.require as unknown as Require,
 		config: RequireConfig = {paths: {vs}},
-		isMW = typeof mw === 'object';
+		isMW = typeof mediaWiki === 'object';
 	let langs: string[] | undefined;
 	if (isMW) {
 		await mw.loader.using('mediawiki.language');
