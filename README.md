@@ -138,6 +138,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 1. Legacy syntax of `<tvar>` tags is not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Old%20tvar%20syntax%20should%20not%20break%20too%20hard.)).
 1. `<gallery>` tags are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
 1. Nested language in `<syntaxhighlight>` ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
+1. `<nowiki>` tags inside `<pre>` are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#%3Cpre%3E%20with%20%3Cnowiki%3E%20inside%20(compatibility%20with%201.6%20and%20earlier))).
 1. Multiline extension tags ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Check%20Cite%20handing%20of%20linefeed%20whitespace%20in%20reference%20names)).
 
 #### Transclusion
@@ -155,11 +156,13 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 #### Heading
 
-1. Multi-line trailing comments break section headings ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Single-line%20or%20multiline-comments%20can%20follow%20headings)).
+1. Multiline trailing comments break section headings ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Single-line%20or%20multiline-comments%20can%20follow%20headings)).
+1. Section headings containing multiline extension tags are not highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Heading%20with%20line%20break%20in%20nowiki)).
 
 #### HTML tag
 
 1. Complex HTML tag attributes are not supported ([comments](https://bhsd-harry.github.io/monaco-wiki/tests.html#Comment%20in%20attribute), [`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](http://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
+1. HTML tag attributes cannot contain `>` ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Tags%20with%20parameters%20in%20TOC)).
 
 #### Table
 
@@ -182,11 +185,16 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 1. External links are not XML tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Pseudo-tag%20with%20URL%20'name'%20renders%20as%20url%20link)).
 1. External links cannot be nested in links ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T4095%3A%20link%20with%20pipe%20and%20three%20closing%20brackets%2C%20version%202)).
+1. Magic links not at word boundaries should not be highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Magic%20links%3A%20RFC%20(T67278))).
 
 #### Block element
 
 1. Preformatted text with a leading space is not supported.
 1. One-line definition lists are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Definition%20list%20code%20coverage)).
 1. Comments at the SOL break the highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#1.%20Lists%20with%20start-of-line-transparent%20tokens%20before%20bullets%3A%20Comments)).
+
+#### Language conversion
+
+1. BCP 47 language codes are not supported in language conversion ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Explicit%20definition%20of%20language%20variant%20alternatives%20(BCP%2047%20codes))).
 
 </details>

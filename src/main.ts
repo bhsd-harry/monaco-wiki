@@ -119,7 +119,9 @@ export default async (
 	registerLinterBase(monaco);
 	registerWikiLint(cdn, opt);
 	monaco.editor.onWillDisposeModel(m => {
-		void getLSP(m)?.destroy();
+		if (m.getLanguageId() === 'wikitext') {
+			void getLSP(m)?.destroy();
+		}
 	});
 };
 

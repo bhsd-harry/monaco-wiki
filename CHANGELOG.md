@@ -89,7 +89,7 @@
 
 **Fixed**
 
-- Stylelint quick fixes for the MediaWiki mode
+- Stylelint quick fixes for Wikitext
 
 ## v1.16.0
 
