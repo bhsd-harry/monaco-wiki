@@ -185,7 +185,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 1. External links are not XML tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Pseudo-tag%20with%20URL%20'name'%20renders%20as%20url%20link)).
 1. External links cannot be nested in links ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T4095%3A%20link%20with%20pipe%20and%20three%20closing%20brackets%2C%20version%202)).
-1. Magic links not at word boundaries should not be highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Magic%20links%3A%20RFC%20(T67278))).
+1. Magic links cannot be nested in links ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#WTS%20of%20magic%20word%20text%20(T109371))).
 
 #### Block element
 

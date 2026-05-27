@@ -429,15 +429,15 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			patterns: [
 				{
 					name: 'constant.language.variables.isbn.wikitext',
-					match: String.raw`ISBN\s+(?:97[89][-\s]?)?(?:\d[-\s]?){9}[Xx\d]`,
+					match: String.raw`\bISBN\s+(?:97[89][-\s]?)?(?:\d[-\s]?){9}[Xx\d]\b`,
 				},
 				{
 					name: 'constant.language.variables.rfc.wikitext',
-					match: String.raw`RFC\s+\d+`,
+					match: String.raw`\bRFC\s+\d+\b`,
 				},
 				{
 					name: 'constant.language.variables.pmid.wikitext',
-					match: String.raw`PMID\s+\d+`,
+					match: String.raw`\bPMID\s+\d+\b`,
 				},
 			],
 		},

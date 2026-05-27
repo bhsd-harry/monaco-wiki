@@ -9581,7 +9581,7 @@
 	{
 		"desc": "Magic links: RFC (T67278)",
 		"wikitext": "This is RFC 822 but thisRFC 822 is not RFC 822linked.",
-		"parsed": "This is <constant.language.variables.rfc>RFC 822</> but this<constant.language.variables.rfc>RFC 822</> is not <constant.language.variables.rfc>RFC 822</>linked."
+		"parsed": "This is <constant.language.variables.rfc>RFC 822</> but thisRFC 822 is not RFC 822linked."
 	},
 	{
 		"desc": "Magic links: RFC (w/ non-newline whitespace, T30950/T31025)",
@@ -9601,7 +9601,7 @@
 	{
 		"desc": "Magic links: ISBN (T67278)",
 		"wikitext": "This is ISBN 978-0-316-09811-3 but thisISBN 978-0-316-09811-3 is not ISBN 978-0-316-09811-3linked.",
-		"parsed": "This is <constant.language.variables.isbn>ISBN 978-0-316-09811-3</> but this<constant.language.variables.isbn>ISBN 978-0-316-09811-3</> is not <constant.language.variables.isbn>ISBN 978-0-316-09811-3</>linked."
+		"parsed": "This is <constant.language.variables.isbn>ISBN 978-0-316-09811-3</> but thisISBN 978-0-316-09811-3 is not ISBN 978-0-316-09811-3linked."
 	},
 	{
 		"desc": "Magic links: ISBN (w/ non-newline whitespace, T30950/T31025)",
@@ -9616,7 +9616,7 @@
 	{
 		"desc": "Magic links: PMID (T67278)",
 		"wikitext": "This is PMID 1234 but thisPMID 1234 is not PMID 1234linked.",
-		"parsed": "This is <constant.language.variables.pmid>PMID 1234</> but this<constant.language.variables.pmid>PMID 1234</> is not <constant.language.variables.pmid>PMID 1234</>linked."
+		"parsed": "This is <constant.language.variables.pmid>PMID 1234</> but thisPMID 1234 is not PMID 1234linked."
 	},
 	{
 		"desc": "Magic links: PMID (w/ non-newline whitespace, T30950/T31025)",
@@ -9751,7 +9751,7 @@
 	{
 		"desc": "ISBN length",
 		"wikitext": "ISBN 123456789\n\nISBN 1234567890\n\nISBN 12345678901",
-		"parsed": "ISBN 123456789\\n\\n<constant.language.variables.isbn>ISBN 1234567890\\n\\nISBN 1234567890</>1"
+		"parsed": "ISBN 123456789\\n\\n<constant.language.variables.isbn>ISBN 1234567890\\n\\n</>ISBN 12345678901"
 	},
 	{
 		"desc": "ISBN with trailing year (T9110)",
