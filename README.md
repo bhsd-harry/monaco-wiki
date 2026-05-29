@@ -133,26 +133,32 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 <details>
 	<summary>Expand</summary>
 
+#### Redirect
+
+1. Redirect is only allowed at the beginning of a page ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Redirect%20syntax%20under%20text%20isn't%20considered%20a%20redirect)).
+
 #### Extension
 
-1. Legacy syntax of `<tvar>` tags is not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Old%20tvar%20syntax%20should%20not%20break%20too%20hard.)).
-1. `<gallery>` tags are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
-1. Nested language in `<syntaxhighlight>` ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
-1. `<nowiki>` tags inside `<pre>` are not supported ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#%3Cpre%3E%20with%20%3Cnowiki%3E%20inside%20(compatibility%20with%201.6%20and%20earlier))).
-1. Multiline extension tags ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Check%20Cite%20handing%20of%20linefeed%20whitespace%20in%20reference%20names)).
+1. Legacy syntax of `<tvar>` tags is not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Old%20tvar%20syntax%20should%20not%20break%20too%20hard.)).
+1. `<gallery>` tags are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
+1. Nested language in `<syntaxhighlight>` ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
+1. `<nowiki>` tags inside `<pre>` are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#%3Cpre%3E%20with%20%3Cnowiki%3E%20inside%20(compatibility%20with%201.6%20and%20earlier))).
+1. Multiline extension tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Check%20Cite%20handing%20of%20linefeed%20whitespace%20in%20reference%20names)).
+1. Extension tags containing unclosed comments ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Ref%3A%209.%20unclosed%20comments%20should%20not%20leak%20out%20of%20ref-body)).
+1. Extension tags cannot be nested in same tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Ref%3A%2014.%20A%20nested%20ref-tag%20should%20be%20emitted%20as%20plain%20text)).
 
 #### Transclusion
 
-1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is problematic ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces ([left](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%20with%20templated%20name) or [right braces](http://bhsd-harry.github.io/monaco-wiki/tests.html#Template%20with%20just%20whitespace%20in%20it%2C%20T70421)).
-1. Substitution is not correctly highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20isSubsting%20during%20PST)).
-1. Non-existing parser functions starting with `#` are highlighted as parser functions ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%3A%20unknown%20parser%20function%20(T314524))).
-1. Multiline template names should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Don't%20recognize%20targets%20split%20by%20newlines)).
-1. Template names containing comments are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20the%20target)).
-1. Template parameter names containing newlines or comments are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20parameter%20names%20(T69657))).
-1. HTML tags break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20name%20in%20template)).
-1. External links break the template syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
-1. Parameter names of `#invoke` are not highlighted ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20getAllArgs)).
-1. Conflict between transclusion and language conversion syntax ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Parser%20function%20inside%20dl-dt%20list%20should%20be%20tokenized%20correctly)).
+1. [Bracket pair colorization](https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IEditorOptions.html#bracketPairColorization) is problematic ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#T53961%3A%20Output%20correct%20nowikis%20in%20template%20arguments)), especially for 4 consecutive braces ([left](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%20with%20templated%20name) or [right braces](https://bhsd-harry.github.io/monaco-wiki/tests.html#Template%20with%20just%20whitespace%20in%20it%2C%20T70421)).
+1. Substitution is not correctly highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20isSubsting%20during%20PST)).
+1. Non-existing parser functions starting with `#` are highlighted as parser functions ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Parsoid%3A%20unknown%20parser%20function%20(T314524))).
+1. Multiline template names should be invalid ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Don't%20recognize%20targets%20split%20by%20newlines)).
+1. Template names containing comments are not highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20the%20target)).
+1. Template parameter names containing newlines or comments are not highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Handle%20comments%20in%20parameter%20names%20(T69657))).
+1. HTML tags break the template syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Break%20on%20%7C%20in%20element%20attribute%20name%20in%20template)).
+1. External links break the template syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Plain%20link%20in%20template%20argument)).
+1. Parameter names of `#invoke` are not highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Scribunto%3A%20getAllArgs)).
+1. Conflict between transclusion and language conversion syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Parser%20function%20inside%20dl-dt%20list%20should%20be%20tokenized%20correctly)).
 
 #### Heading
 
@@ -161,21 +167,22 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 #### HTML tag
 
-1. Complex HTML tag attributes are not supported ([comments](https://bhsd-harry.github.io/monaco-wiki/tests.html#Comment%20in%20attribute), [`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](http://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
+1. Complex HTML tag attributes are not supported ([comments](https://bhsd-harry.github.io/monaco-wiki/tests.html#Comment%20in%20attribute), [`<noinclude>`/`<includeonly>`](https://bhsd-harry.github.io/monaco-wiki/tests.html#3.%20includeonly%20in%20part%20of%20an%20attr%20value), [templates](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20HTML%20Tag%3A%202.%20Generation%20of%20HTML%20attr.%20value) or [HTML tags](https://bhsd-harry.github.io/monaco-wiki/tests.html#Extension%20tag%20in%20attribute%20value)).
 1. HTML tag attributes cannot contain `>` ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Tags%20with%20parameters%20in%20TOC)).
+1. Disallowed HTML attributes should not be highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#%3Cpre%3E%20with%20forbidden%20attribute%20(T5202))).
 
 #### Table
 
-1. Interaction between table cells and `<nowiki>` is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
+1. Interaction between table cells and `<nowiki>` is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
 1. Complex table attributes are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Table%20cell%20with%20attribute%20before%20expanded%20attribute)).
 1. Comments at the SOL break table syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#3c.%20Table%20cells%20without%20escapable%20prefixes%20after%20edits)).
 
 #### Link
 
-1. Multiline link targets should be invalid ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilinks%20with%20embedded%20newlines%20are%20not%20broken)).
-1. A bracket pair inside link text is highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
-1. Link targets with templates may be highlighted incorrectly ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Links%3A%203.%20Generation%20of%20part%20of%20a%20link%20href)).
-1. Lonely `[[` breaks highlighting ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#Non-wikilinks%20with%20html%20tags%20in%20target%20position)).
+1. Multiline link targets should be invalid ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Wikilinks%20with%20embedded%20newlines%20are%20not%20broken)).
+1. A bracket pair inside link text is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
+1. Link targets with templates may be highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Links%3A%203.%20Generation%20of%20part%20of%20a%20link%20href)).
+1. Lonely `[[` breaks highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Non-wikilinks%20with%20html%20tags%20in%20target%20position)).
 
 #### Apostrophe
 
@@ -184,7 +191,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 #### External link
 
 1. External links are not XML tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Pseudo-tag%20with%20URL%20'name'%20renders%20as%20url%20link)).
-1. External links cannot be nested in links ([Example](http://bhsd-harry.github.io/monaco-wiki/tests.html#T4095%3A%20link%20with%20pipe%20and%20three%20closing%20brackets%2C%20version%202)).
+1. External links cannot be nested in links ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#T4095%3A%20link%20with%20pipe%20and%20three%20closing%20brackets%2C%20version%202)).
 1. Magic links cannot be nested in links ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#WTS%20of%20magic%20word%20text%20(T109371))).
 
 #### Block element
