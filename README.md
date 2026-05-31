@@ -174,8 +174,12 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 #### Table
 
 1. Interaction between table cells and `<nowiki>` is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Cases%20where%20%22!!%22%20needs%20nowiki%20protection)).
+1. Interaction between table cells and templates is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Accept%20%22!!%22%20in%20templates)).
+1. Interaction between table cells and HTML tags is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Element%20attributes%20with%20double%20!%20should%20not%20be%20broken%20up%20by%20%3Cth%3E)).
+1. Interaction between table cells and comments is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Wikitext%20table%20with%20a%20lot%20of%20comments)).
 1. Complex table attributes are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Table%20cell%20with%20attribute%20before%20expanded%20attribute)).
 1. Comments at the SOL break table syntax ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#3c.%20Table%20cells%20without%20escapable%20prefixes%20after%20edits)).
+1. `||`/`!!` after templates are not highlighted ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Multi-line%20transclusions%20should%20not%20interrupt%20table-cell%20parsing%20in%20the%20same%20row)).
 
 #### Link
 

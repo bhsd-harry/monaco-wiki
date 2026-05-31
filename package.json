@@ -43,32 +43,32 @@
 		"test:real": "node test/dist/test/real.js",
 		"test:end": "pkill -x http-server"
 	},
+	"peerDependencies": {
+		"@shikijs/monaco": ">=1.25.0",
+		"monaco-editor": ">=0.34.0",
+		"shiki": ">=1.25.0",
+		"wikiparser-node": ">=1.39.0"
+	},
 	"dependencies": {
 		"@bhsd/browser": "^0.4.0",
-		"@bhsd/cm-util": "^2.0.1",
-		"@bhsd/codemirror-mediawiki": "^3.18.1",
-		"@shikijs/monaco": "^4.0.2",
-		"monaco-editor": "~0.53.0",
-		"shiki": "^4.0.2",
-		"wikiparser-node": "^1.42.0"
+		"@bhsd/cm-util": "^2.1.0",
+		"@bhsd/codemirror-mediawiki": "^3.19.0"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^2.5.1",
-		"@bhsd/test-util": "^1.3.1",
-		"@stylistic/stylelint-plugin": "^5.2.0",
-		"@types/mocha": "^10.0.10",
-		"@types/node": "^25.9.0",
-		"@typescript-eslint/parser": "^8.59.4",
+		"@bhsd/code-standard": "^2.6.2",
+		"@bhsd/test-util": "^1.5.0",
+		"@shikijs/monaco": "^4.0.2",
 		"esbuild": "^0.28.0",
 		"eslint": "^10.4.1",
 		"http-server": "^14.1.1",
 		"markdownlint-cli2": "^0.22.1",
 		"mocha": "^11.7.6",
+		"monaco-editor": "~0.53.0",
 		"oniguruma-parser": "^0.12.2",
+		"shiki": "^4.0.2",
 		"stylelint": "^17.12.0",
-		"stylelint-config-recommended": "^18.0.0",
-		"stylelint-plugin-use-baseline": "^1.4.2",
 		"typescript": "^6.0.3",
-		"types-mediawiki": "^2.0.0"
+		"types-mediawiki": "^2.0.0",
+		"wikiparser-node": "^1.43.0"
 	}
 }

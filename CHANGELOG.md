@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.1.0
+
+*2026-06-01*
+
+**Changed**
+
+- Packages [shiki](https://www.npmjs.com/package/shiki) and [wikiparser-node](https://www.npmjs.com/package/wikiparser-node) are now peer dependencies
+
 ## v2.0.1
 
 *2026-05-28*

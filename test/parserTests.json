@@ -5439,6 +5439,11 @@
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>type=search\\nprefix=<constant.language.variables.metadata>{{FULLPAGENAME}}</>/Archive\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>inputbox</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
+		"desc": "HTML attribute XSS",
+		"wikitext": "<p itemscope itemtype=\"javascript:alert('XSS')\">XSS</p>",
+		"parsed": "<meta.tag.start.html><punctuation.definition.tag.begin.html>&lt;</><entity.name.tag.html>p</> <meta.attribute.itemscope.html><entity.other.attribute-name.html>itemscope</></> <meta.attribute.itemtype.html><entity.other.attribute-name.html>itemtype</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>javascript:alert('XSS')<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end.html>&gt</></>XSS<meta.tag.end.html><punctuation.definition.tag.begin.html>&lt;/</><entity.name.tag.html>p</><punctuation.definition.tag.end.html>&gt</></>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

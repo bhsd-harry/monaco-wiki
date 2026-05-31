@@ -1,4 +1,4 @@
-import { prepareDoneBtn, addOption, changeHandler, hashChangeHandler, inputHandler, } from '/wikiparser-node/extensions/dist/test-page-common.js';
+import { prepareDoneBtn, hideOptGroup, addOption, changeHandler, hashChangeHandler, inputHandler, } from '/wikiparser-node/extensions/dist/test-page-common.js';
 (async () => {
     const tests = await (await fetch('/wikiparser-node/test/parserTests.json')).json(), key = 'monaco-wiki-done', dones = new Set(JSON.parse(localStorage.getItem(key))), input = document.getElementById('search'), select = document.querySelector('select'), btn = document.querySelector('button'), container = document.querySelector('#container'), pre = document.querySelector('pre');
     localStorage.setItem('codemirror-mediawiki-addons', '[]');
@@ -22,6 +22,7 @@ import { prepareDoneBtn, addOption, changeHandler, hashChangeHandler, inputHandl
     for (let i = 0; i < tests.length; i++) {
         optgroup = addOption(optgroup, select, tests, dones, i);
     }
+    hideOptGroup(optgroup);
     select.addEventListener('change', () => {
         m.setValue(tests[Number(select.value)].wikitext);
         changeHandler(pre, btn, select, tests);

@@ -1,5 +1,6 @@
 import {
 	prepareDoneBtn,
+	hideOptGroup,
 	addOption,
 	changeHandler,
 	hashChangeHandler,
@@ -42,6 +43,7 @@ declare interface Test {
 	for (let i = 0; i < tests.length; i++) {
 		optgroup = addOption(optgroup, select, tests, dones, i);
 	}
+	hideOptGroup(optgroup);
 	select.addEventListener('change', () => {
 		m.setValue(tests[Number(select.value)]!.wikitext!);
 		changeHandler(pre, btn, select, tests);
