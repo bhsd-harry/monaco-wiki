@@ -49,10 +49,18 @@
 		"shiki": ">=1.25.0",
 		"wikiparser-node": ">=1.39.0"
 	},
+	"peerDependenciesMeta": {
+		"monaco-editor": {
+			"optional": true
+		},
+		"wikiparser-node": {
+			"optional": true
+		}
+	},
 	"dependencies": {
 		"@bhsd/browser": "^0.4.0",
 		"@bhsd/cm-util": "^2.1.0",
-		"@bhsd/codemirror-mediawiki": "^3.19.0"
+		"@bhsd/codemirror-mediawiki": "^3.19.1"
 	},
 	"devDependencies": {
 		"@bhsd/code-standard": "^2.6.2",

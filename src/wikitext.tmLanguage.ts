@@ -77,14 +77,15 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 		imgKey = {
 			1: pipeRule,
 			2: {name: 'entity.other.attribute-name.localname.wikitext'},
+		},
+		extBase = {
+			begin: String.raw`(?i)(<)($1)(\s[^>]*)?(>)`,
+			beginCaptures: tagWithAttribute,
+			end: extEnd,
+			endCaptures: tagWithoutAttribute,
 		};
 
-	/**
-	 * @ignore
-	 * @todo 不会匹配包含换行符的标签
-	 */
-	const extBegin = (suffix = '>'): string => String.raw`(?i)(<)($1)(\s[^>]*)?(${suffix})`,
-		parserFunctions = (caseSensitive?: boolean): IRawRule => ({
+	const parserFunctions = (caseSensitive?: boolean): IRawRule => ({
 			begin: String.raw`${caseSensitive ? '' : '(?i)'}(\{\{)\s*(${
 				caseSensitive ? String.raw`#[^]#:\[{|}]*[^]#:\[{|}\s]|` : ''
 			}$1)(:)`,
@@ -169,32 +170,39 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			],
 		},
 		selfClosedTags = {
-			match: extBegin('/>'),
+			match: String.raw`(?i)(<)($1)(\s[^>]*)?(/>)`,
 			captures: tagWithAttribute,
 		},
 		ref = {
+			...extBase,
 			contentName: 'meta.block.ref.wikitext',
-			begin: extBegin(),
-			beginCaptures: tagWithAttribute,
-			end: extEnd,
-			endCaptures: tagWithoutAttribute,
 			patterns: [$self],
 		},
 		json = {
+			...extBase,
 			contentName: 'meta.embedded.block.json',
-			begin: extBegin(),
-			beginCaptures: tagWithAttribute,
-			end: extEnd,
-			endCaptures: tagWithoutAttribute,
 			patterns: [{include: 'source.json'}],
 		},
 		nowiki = {
+			...extBase,
 			contentName: 'meta.embedded.block.plaintext',
-			begin: extBegin(),
-			beginCaptures: tagWithAttribute,
-			end: extEnd,
-			endCaptures: tagWithoutAttribute,
 			patterns: [{include: 'text.html.basic#entities'}],
+		},
+		gallery = {
+			...extBase,
+			contentName: 'meta.block.gallery.wikitext',
+			patterns: [
+				{
+					name: link,
+					begin: String.raw`(?:^|\G)([^]\n#<>\[{|}]+)(#[^]\n\[{|}]*)?`,
+					end: String.raw`$|(?=</gallery\s*>)`,
+					captures: {
+						1: pageName,
+						2: invalidRule,
+					},
+					patterns: [{include: '#image-parameter'}],
+				},
+			],
 		},
 		html = {
 			patterns: [
@@ -342,6 +350,24 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			match: '^-{4,}',
 			name: 'markup.changed.wikitext',
 		},
+		imageParameter = {
+			patterns: [
+				{
+					match: String.raw`(\|)\s*((?:$1)\s*(?=$|\||]])|$2)`,
+					captures: imgKey,
+				},
+				{
+					match: String.raw`(\|)\s*[x\d]+(?:px)?($1)\s*(?=$|\||]])`,
+					captures: imgKey,
+				},
+				{
+					match: String.raw`(\|)\s*\d+($1)\s*(?=$|\||]])`,
+					captures: imgKey,
+				},
+				pipePattern,
+				$self,
+			],
+		},
 		fileLink = {
 			name: link,
 			begin: String.raw`(?i)(\[\[)(?!\[)[^\S\n]*((?:$1)[^\S\n]*:)([^]\n#<>\[{|}]+)(#[^]\n\[{|}]*)?`,
@@ -352,22 +378,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 				3: pageName,
 				4: invalidRule,
 			},
-			patterns: [
-				{
-					match: String.raw`(\|)\s*((?:$1)\s*(?=\||]])|$2)`,
-					captures: imgKey,
-				},
-				{
-					match: String.raw`(\|)\s*[\dx]+(?:px)?($1)\s*(?=\||]])`,
-					captures: imgKey,
-				},
-				{
-					match: String.raw`(\|)\s*\d+($1)\s*(?=\||]])`,
-					captures: imgKey,
-				},
-				pipePattern,
-				$self,
-			],
+			patterns: [{include: '#image-parameter'}],
 		},
 		internalLink = {
 			name: link,
@@ -507,6 +518,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 					{include: '#self-closed-tags'},
 					{include: '#ref'},
 					{include: '#json'},
+					{include: '#gallery'},
 					{include: '#nowiki'},
 				],
 				repository: {
@@ -516,6 +528,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 					ref,
 					json,
 					nowiki,
+					gallery,
 				},
 			},
 			html,
@@ -535,6 +548,7 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 			table,
 			'behavior-switches': behaviorSwitches,
 			break: hr,
+			'image-parameter': imageParameter,
 			'wiki-link': {
 				patterns: [
 					{include: '#file-link'},

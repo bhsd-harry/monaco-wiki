@@ -140,10 +140,9 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 #### Extension
 
 1. Legacy syntax of `<tvar>` tags is not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Old%20tvar%20syntax%20should%20not%20break%20too%20hard.)).
-1. `<gallery>` tags are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20(with%20options%2C%20html))).
 1. Nested language in `<syntaxhighlight>` ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#tabs%20plus%20tidy%20(T32930%2C%20T59826))).
 1. `<nowiki>` tags inside `<pre>` are not supported ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#%3Cpre%3E%20with%20%3Cnowiki%3E%20inside%20(compatibility%20with%201.6%20and%20earlier))).
-1. Multiline extension tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Check%20Cite%20handing%20of%20linefeed%20whitespace%20in%20reference%20names)).
+1. Multiline extension tags (Examples [1](https://bhsd-harry.github.io/monaco-wiki/tests.html#Check%20Cite%20handing%20of%20linefeed%20whitespace%20in%20reference%20names), [2](https://bhsd-harry.github.io/monaco-wiki/tests.html#Gallery%20with%20wikitext%20inside%20gallery%20caption)).
 1. Extension tags containing unclosed comments ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Ref%3A%209.%20unclosed%20comments%20should%20not%20leak%20out%20of%20ref-body)).
 1. Extension tags cannot be nested in same tags ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Ref%3A%2014.%20A%20nested%20ref-tag%20should%20be%20emitted%20as%20plain%20text)).
 
@@ -187,6 +186,7 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 1. A bracket pair inside link text is highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Piped%20link%20with%20extlink-like%20text)).
 1. Link targets with templates may be highlighted incorrectly ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Templates%3A%20Links%3A%203.%20Generation%20of%20part%20of%20a%20link%20href)).
 1. Lonely `[[` breaks highlighting ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Non-wikilinks%20with%20html%20tags%20in%20target%20position)).
+1. Lists cannot be nested in file links ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Image%3A%20caption%20containing%20a%20newline)).
 
 #### Apostrophe
 
@@ -207,5 +207,6 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 #### Language conversion
 
 1. BCP 47 language codes are not supported in language conversion ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Explicit%20definition%20of%20language%20variant%20alternatives%20(BCP%2047%20codes))).
+1. Interaction with `<nowiki>` ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Language%20converter%20tricky%20html2wt%20cases%20(5))).
 
 </details>

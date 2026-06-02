@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.1.1
+
+*2026-06-05*
+
+**Added**
+
+- Syntax highlighting for `<gallery>` extension tags in Wikitext
+
 ## v2.1.0
 
 *2026-06-01*

@@ -7,7 +7,7 @@ import json from 'shiki/langs/json.mjs';
 import vue from 'shiki/langs/vue.mjs';
 import loadWasm from 'shiki/wasm';
 import {isUnderscore} from '@bhsd/cm-util';
-import type {ConfigData} from 'wikiparser-node';
+import type {Config} from 'wikiparser-node';
 import type {HighlighterCore, ThemeRegistrationRaw, LanguageRegistration} from 'shiki/core';
 import type {IRawRule} from './wikitext.tmLanguage.js';
 
@@ -24,7 +24,6 @@ const refTags = new Set([
 		'inputbox',
 		'references',
 		'choose',
-		'gallery',
 		'translate',
 		'tvar',
 	]),
@@ -41,9 +40,17 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 	}
 };
 
+const defineExtGrammar = (wikixml: IRawRule, rule: string, options: string[]): void => {
+	if (options.length === 0) {
+		Object.assign(wikixml, {patterns: wikixml.patterns!.filter(({include}) => include !== `#${rule}`)});
+	} else {
+		defineGrammar(wikixml.repository![rule]!, options, 'begin');
+	}
+};
+
 export default async (
 	wikitext: LanguageRegistration,
-	parserConfig: ConfigData,
+	parserConfig: Config,
 	themes: ThemeRegistrationRaw[] = [],
 ): Promise<HighlighterCore> => {
 	const {repository, patterns} = wikitext,
@@ -53,8 +60,8 @@ export default async (
 		behaviorSwitches = repository['behavior-switches']!.patterns!,
 		link = repository['wiki-link']!.repository!,
 		plainLink = link['internal-link']!,
-		fileLink = link['file-link']!,
-		wikixml = repository['wikixml']!.repository!,
+		imageParameter = repository['image-parameter']!.patterns!,
+		wikixml = repository['wikixml']!,
 		htmlTag = repository['html']!.patterns!,
 		{
 			doubleUnderscore,
@@ -85,10 +92,15 @@ export default async (
 	}
 	defineGrammar(repository['redirect']!, redirection);
 	defineGrammar(repository['redirect']!, namespaces);
-	defineGrammar(wikixml['self-closed-tags']!, ext);
-	defineGrammar(wikixml['ref']!, ext.filter(tag => refTags.has(tag)), 'begin');
-	defineGrammar(wikixml['json']!, ext.filter(tag => jsonTags.has(tag)), 'begin');
-	defineGrammar(wikixml['nowiki']!, ext.filter(tag => !refTags.has(tag) && !jsonTags.has(tag)), 'begin');
+	defineGrammar(wikixml.repository!['self-closed-tags']!, ext);
+	defineExtGrammar(wikixml, 'ref', ext.filter(tag => refTags.has(tag)));
+	defineExtGrammar(wikixml, 'json', ext.filter(tag => jsonTags.has(tag)));
+	defineExtGrammar(wikixml, 'gallery', ext.filter(tag => tag === 'gallery'));
+	defineExtGrammar(
+		wikixml,
+		'nowiki',
+		ext.filter(tag => !refTags.has(tag) && !jsonTags.has(tag) && tag !== 'gallery'),
+	);
 	defineGrammar(htmlTag[0]!, html.flat(), 'begin');
 	defineGrammar(htmlTag[1]!, html.flat(), 'begin');
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -112,22 +124,22 @@ export default async (
 	defineGrammar(behaviorSwitches[0]!, doubleUnderscore[0].filter(isUnderscore));
 	defineGrammar(behaviorSwitches[1]!, doubleUnderscore[1].filter(isUnderscore));
 	defineGrammar(
-		fileLink,
+		link['file-link']!,
 		Object.entries(nsid).filter(([, v]) => v === 6)
 			.map(([k]) => k.replaceAll(' ', '[_ ]')),
 		'begin',
 	);
-	defineGrammar(fileLink.patterns![0]!, imgKeys.filter(s => !s.includes('$1')));
+	defineGrammar(imageParameter[0]!, imgKeys.filter(s => !s.includes('$1')));
 	defineGrammar(
-		fileLink.patterns![0]!,
+		imageParameter[0]!,
 		imgKeys.filter(s => s.endsWith('$1')).map(s => s.slice(0, -2)),
 	);
 	defineGrammar(
-		fileLink.patterns![1]!,
+		imageParameter[1]!,
 		imgVars.filter(s => img[s] === 'width').map(s => s.slice(2)),
 	);
 	defineGrammar(
-		fileLink.patterns![2]!,
+		imageParameter[2]!,
 		imgVars.filter(s => img[s] !== 'width').map(s => s.slice(2)),
 	);
 	defineGrammar(plainLink, protocols, 'begin');
