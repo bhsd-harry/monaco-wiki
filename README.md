@@ -206,7 +206,6 @@ await monaco; // The global `monaco` is a promise that resolves to the Monaco ed
 
 #### Language conversion
 
-1. BCP 47 language codes are not supported in language conversion ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Explicit%20definition%20of%20language%20variant%20alternatives%20(BCP%2047%20codes))).
 1. Interaction with `<nowiki>` ([Example](https://bhsd-harry.github.io/monaco-wiki/tests.html#Language%20converter%20tricky%20html2wt%20cases%20(5))).
 
 </details>

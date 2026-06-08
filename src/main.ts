@@ -1,5 +1,5 @@
 import {shikiToMonaco} from '@shikijs/monaco';
-import {getWikiparse, getLSP} from '@bhsd/browser';
+import {getWikiparse, getLSP, isGlobal} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig';
 import langConfig from '../vendor/language-configuration.json' with {type: 'json'};
 import getHighlighter, {getVueHighlighter} from './token.js';
@@ -58,7 +58,7 @@ export default async (
 	opt?: LiveOption,
 ): Promise<void> => {
 	// 加载 WikiParser-Node
-	const loaded = typeof wikiparse === 'object';
+	const loaded = typeof wikiparse === 'object' && isGlobal('wikiparse');
 	const getConfig: ConfigGetter = async () => {
 		if (typeof parserConfig === 'object') {
 			return parserConfig;

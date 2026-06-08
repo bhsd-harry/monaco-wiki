@@ -1,4 +1,4 @@
-import {CDN as baseCDN} from '@bhsd/browser';
+import {CDN as baseCDN, isGlobal} from '@bhsd/browser';
 import light from 'shiki/themes/light-plus.mjs';
 import monokai from 'shiki/themes/monokai.mjs';
 import registerWiki, {registerJavaScript, registerCSS, registerLua} from './main.js';
@@ -38,7 +38,7 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 	});
 	const requirejs = globalThis.require as unknown as Require,
 		config: RequireConfig = {paths: {vs}},
-		isMW = typeof mediaWiki === 'object';
+		isMW = typeof mediaWiki === 'object' && isGlobal('mediaWiki');
 	let langs: string[] | undefined;
 	if (isMW) {
 		await mw.loader.using('mediawiki.language');
@@ -70,4 +70,4 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 		});
 	});
 };
-export default load(typeof monaco === 'object' ? monaco.CDN : undefined);
+export default load(typeof monaco === 'object' && isGlobal('monaco') ? monaco.CDN : undefined);
