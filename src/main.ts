@@ -75,7 +75,7 @@ export default async (
 		}
 		return (await fetch(`${wikiparse.CDN}/config/${parserConfig || 'default'}.json`)).json();
 	};
-	await getWikiparse(getConfig, langs, cdn);
+	await getWikiparse({getConfig, langs, cdn});
 
 	const wikiConfig = await wikiparse.getConfig();
 	// 注册语言

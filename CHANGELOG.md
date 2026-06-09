@@ -13,7 +13,7 @@
 
 **Changed**
 
-- Packages [shiki](https://www.npmjs.com/package/shiki) and [wikiparser-node](https://www.npmjs.com/package/wikiparser-node) are now peer dependencies
+- Packages [shiki](https://shiki.style/) and [wikiparser-node](https://www.npmjs.com/package/wikiparser-node) are now peer dependencies
 
 ## v2.0.1
 
@@ -79,7 +79,7 @@
 
 **Changed**
 
-- The default CDN for loading the [Monaco Editor](https://www.npmjs.com/package/monaco-editor) library is now https://fastly.jsdelivr.net
+- The default CDN for loading the [Monaco Editor](https://microsoft.github.io/monaco-editor/) library is now https://fastly.jsdelivr.net
 - Improved light theme in the pre-bundled version
 
 ## v1.17.2
@@ -399,7 +399,7 @@
 
 **Fixed**
 
-- Always specify compatible versions of [monaco-editor](https://www.npmjs.com/package/monaco-editor) and [@bhsd/monaco-editor-es](https://www.npmjs.com/package/@bhsd/monaco-editor-es)
+- Always specify compatible versions of [monaco-editor](https://microsoft.github.io/monaco-editor/) and [@bhsd/monaco-editor-es](https://www.npmjs.com/package/@bhsd/monaco-editor-es)
 - Improve TextMate syntax for Wikitext
 
 ## v1.1.0
@@ -455,7 +455,7 @@
 **Added**
 
 - Glyphs for the linter
-- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://www.npmjs.com/package/luaparse)
+- Support for [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/), and [luaparse](https://fstirlitz.github.io/luaparse/)
 
 **Fixed**
 
