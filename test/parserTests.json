@@ -5156,6 +5156,77 @@
 		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>DynamicPageList</> <punctuation.definition.tag.end>/&gt</>"
 	},
 	{
+		"desc": "PhonosParserTests"
+	},
+	{
+		"desc": "Empty parser function",
+		"wikitext": "Phonos<phonos />END",
+		"parsed": "Phonos<punctuation.definition.tag.begin>&lt;</><entity.name.tag>phonos</> <punctuation.definition.tag.end>/&gt</>END"
+	},
+	{
+		"desc": "Given the ipa, file and text parameters",
+		"wikitext": "Phonos<phonos ipa=\"hɛˈloʊ\" text=\"Hello\" file=\"does-not-exist.ogg\" />END",
+		"parsed": "Phonos<punctuation.definition.tag.begin>&lt;</><entity.name.tag>phonos</> <meta.attribute.unrecognized.ipa.html><entity.other.attribute-name.html>ipa</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>hɛˈloʊ<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.text.html><entity.other.attribute-name.html>text</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>Hello<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.file.html><entity.other.attribute-name.html>file</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>does-not-exist.ogg<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt</>END"
+	},
+	{
+		"desc": "Given the ipa, file, text and label parameters, with label having a leading space",
+		"wikitext": "Phonos<phonos ipa=\"hɛˈloʊ\" text=\"Hello\" file=\"does-not-exist.ogg\"> Foo'''bar'''</phonos>END",
+		"parsed": "Phonos<punctuation.definition.tag.begin>&lt;</><entity.name.tag>phonos</> <meta.attribute.unrecognized.ipa.html><entity.other.attribute-name.html>ipa</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>hɛˈloʊ<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.text.html><entity.other.attribute-name.html>text</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>Hello<punctuation.definition.string.end.html>\"</></></> <meta.attribute.unrecognized.file.html><entity.other.attribute-name.html>file</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>does-not-exist.ogg<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><meta.block.ref> Foo<markup.bold>'''</>bar<markup.bold>'''</></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>phonos</><punctuation.definition.tag.end>&gt</>END"
+	},
+	{
+		"desc": "Given a file and a blank label",
+		"wikitext": "Phonos<phonos file=\"does-not-exist.ogg\"></phonos>END",
+		"parsed": "Phonos<punctuation.definition.tag.begin>&lt;</><entity.name.tag>phonos</> <meta.attribute.unrecognized.file.html><entity.other.attribute-name.html>file</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>does-not-exist.ogg<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>phonos</><punctuation.definition.tag.end>&gt</>END"
+	},
+	{
+		"desc": "WikiSEOParserTests"
+	},
+	{
+		"desc": "Tag only title",
+		"wikitext": "<seo>\n|title=SeoWiki\n</seo>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>|title=SeoWiki\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Tag only title internal",
+		"wikitext": "<seo title=\"SeoWiki\"></seo>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>seo</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>SeoWiki<punctuation.definition.string.end.html>\"</></></><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Tag only title internal self-closing",
+		"wikitext": "<seo title=\"SeoWiki\" />",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>seo</> <meta.attribute.title.html><entity.other.attribute-name.html>title</><punctuation.separator.key-value.html>=</><string.quoted.double.html><punctuation.definition.string.begin.html>\"</>SeoWiki<punctuation.definition.string.end.html>\"</></> </><punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "Tag empty",
+		"wikitext": "<seo></seo>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Tag empty self-closing",
+		"wikitext": "<seo />",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>seo</> <punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "Parser empty",
+		"wikitext": "{{#seo:}}",
+		"parsed": "<punctuation.definition.tag.function>{{</><constant.language.variables.query>#seo</><keyword.operator.function>:</><punctuation.definition.tag.function>}}</>"
+	},
+	{
+		"desc": "Tag internal a lot of args",
+		"wikitext": "<seo>\n|title=SeoWiki\n|title_mode=append\n|keywords=SEO, Wiki, MediaWiki, Extension\n|description=Allows per page meta settings (keywords, description), changing the title and various site verifications.\n|image_alt=SeoWiki Logo\n|site_name=SeoWiki\n|type=WebPage\n|locale=en_EN\n|published_time=2012-01-01\n</seo>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt\\n</><meta.block.ref>|title=SeoWiki\\n|title_mode=append\\n|keywords=SEO, Wiki, MediaWiki, Extension\\n|description=Allows per page meta settings (keywords, description), changing the title and various site verifications.\\n|image_alt=SeoWiki Logo\\n|site_name=SeoWiki\\n|type=WebPage\\n|locale=en_EN\\n|published_time=2012-01-01\\n</><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>seo</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Tag attributes a lot of args",
+		"wikitext": "<seo\ntitle=\"SeoWiki\"\ntitle_mode=\"append\"\nkeywords=\"SEO, Wiki, MediaWiki, Extension\"\ndescription=\"Allows per page meta settings (keywords, description), changing the title and various site verifications.\"\nimage_alt=\"SeoWiki Logo\"\nsite_name=\"SeoWiki\"\ntype=\"WebPage\"\nlocale=\"en_EN\"\npublished_time=\"2012-01-01\">\n</seo>",
+		"parsed": "&lt;seo\\ntitle=\"SeoWiki\"\\ntitle_mode=\"append\"\\nkeywords=\"SEO, Wiki, MediaWiki, Extension\"\\ndescription=\"Allows per page meta settings (keywords, description), changing the title and various site verifications.\"\\nimage_alt=\"SeoWiki Logo\"\\nsite_name=\"SeoWiki\"\\ntype=\"WebPage\"\\nlocale=\"en_EN\"\\npublished_time=\"2012-01-01\"&gt\\n&lt;/seo&gt"
+	},
+	{
+		"desc": "Tag attributes a lot of args self-closing",
+		"wikitext": "<seo\ntitle=\"SeoWiki\"\ntitle_mode=\"append\"\nkeywords=\"SEO, Wiki, MediaWiki, Extension\"\ndescription=\"Allows per page meta settings (keywords, description), changing the title and various site verifications.\"\nimage_alt=\"SeoWiki Logo\"\nsite_name=\"SeoWiki\"\ntype=\"WebPage \"\nlocale=\"en_EN\"\npublished_time=\"2012-01-01\"\n/>",
+		"parsed": "&lt;seo\\ntitle=\"SeoWiki\"\\ntitle_mode=\"append\"\\nkeywords=\"SEO, Wiki, MediaWiki, Extension\"\\ndescription=\"Allows per page meta settings (keywords, description), changing the title and various site verifications.\"\\nimage_alt=\"SeoWiki Logo\"\\nsite_name=\"SeoWiki\"\\ntype=\"WebPage \"\\nlocale=\"en_EN\"\\npublished_time=\"2012-01-01\"\\n/&gt"
+	},
+	{
 		"desc": "additionalTests"
 	},
 	{
@@ -13630,6 +13701,19 @@
 		"desc": "Asciiart template should display the right number of spaces",
 		"wikitext": "{{Asciiart}}",
 		"parsed": "<punctuation.definition.tag.template>{{</><entity.name.tag.local-name>Asciiart</><punctuation.definition.tag.template>}}</>"
+	},
+	{
+		"desc": "templatedata"
+	},
+	{
+		"desc": "Empty",
+		"wikitext": "<templatedata />",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>templatedata</> <punctuation.definition.tag.end>/&gt</>"
+	},
+	{
+		"desc": "Minimal JSON",
+		"wikitext": "<templatedata>{\"params\":{}}</templatedata>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>templatedata</><punctuation.definition.tag.end>&gt</><meta.embedded.block.json><meta.structure.dictionary.json><punctuation.definition.dictionary.begin.json>{</><string.json><support.type.property-name.json><punctuation.support.type.property-name.begin.json>\"</>params<punctuation.support.type.property-name.end.json>\"</></></><meta.structure.dictionary.value.json><punctuation.separator.dictionary.key-value.json>:</><meta.structure.dictionary.json><punctuation.definition.dictionary.begin.json>{</><punctuation.definition.dictionary.end.json>}</></></><punctuation.definition.dictionary.end.json>}</></></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>templatedata</><punctuation.definition.tag.end>&gt</>"
 	},
 	{
 		"desc": "translateParserTests"

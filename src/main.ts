@@ -31,6 +31,35 @@ import type {languages} from 'monaco-editor';
 import type {ThemeRegistrationRaw} from 'shiki';
 import type {} from 'types-mediawiki';
 
+declare interface Options {
+
+	/**
+	 * CDN URL for downloading the linter
+	 * WikiParser-Node defaults to https://fastly.jsdelivr.net/npm/wikiparser-node
+	 * ESLint defaults to https://fastly.jsdelivr.net/npm/@bhsd/eslint-browserify@10
+	 * Stylelint defaults to https://fastly.jsdelivr.net/npm/@bhsd/stylelint-browserify
+	 * Luacheck defaults to https://fastly.jsdelivr.net/npm/luacheck-browserify
+	 */
+	cdn?: string | undefined;
+
+	/** linter options */
+	lintConfig?: LiveOption;
+
+	/** Additional Shiki themes */
+	themes?: ThemeRegistrationRaw[];
+}
+declare interface WikitextOptions extends Options {
+
+	/**
+	 * Configuration for [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node).
+	 * Please set this to `true` if used in a MediaWiki site.
+	 */
+	parserConfig?: ConfigData | string | boolean | undefined;
+
+	/** i18n language codes with a preferred order */
+	langs?: string | string[] | undefined;
+}
+
 const themeSet = new Set<ThemeRegistrationRaw>();
 const getThemes = (themes: ThemeRegistrationRaw[]): ThemeRegistrationRaw[] => {
 	for (const theme of themes) {
@@ -42,20 +71,17 @@ const getThemes = (themes: ThemeRegistrationRaw[]): ThemeRegistrationRaw[] => {
 /**
  * Register the language service for Wikitext
  * @param monaco Monaco Editor global
- * @param parserConfig Configuration for [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node).
+ * @param opt Options
+ * @param opt.parserConfig Configuration for [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node).
  * Please set this to `true` if used in a MediaWiki site.
- * @param langs i18n language codes with a preferred order
- * @param cdn CDN URL for downloading WikiParser-Node, default to https://fastly.jsdelivr.net/npm/wikiparser-node
- * @param themes Additional Shiki themes
- * @param opt WikiLint options.
+ * @param opt.langs i18n language codes with a preferred order
+ * @param opt.cdn CDN URL for downloading WikiParser-Node, default to https://fastly.jsdelivr.net/npm/wikiparser-node
+ * @param opt.themes Additional Shiki themes
+ * @param opt.lintConfig WikiLint options.
  */
 export default async (
 	monaco: typeof Monaco,
-	parserConfig?: ConfigData | string | boolean,
-	langs?: string | string[],
-	cdn?: string,
-	themes: ThemeRegistrationRaw[] = [],
-	opt?: LiveOption,
+	{parserConfig, langs, cdn, themes = [], lintConfig}: WikitextOptions = {},
 ): Promise<void> => {
 	// 加载 WikiParser-Node
 	const loaded = typeof wikiparse === 'object' && isGlobal('wikiparse');
@@ -117,7 +143,7 @@ export default async (
 	monaco.languages.registerCodeActionProvider('wikitext', codeActionProviderForWiki);
 	addKeybindings(monaco);
 	registerLinterBase(monaco);
-	registerWikiLint(cdn, opt);
+	registerWikiLint(cdn, lintConfig);
 	monaco.editor.onWillDisposeModel(m => {
 		if (m.getLanguageId() === 'wikitext') {
 			void getLSP(m)?.destroy();
@@ -128,45 +154,51 @@ export default async (
 /**
  * Register ESLint for JavaScript
  * @param monaco Monaco Editor global
- * @param cdn CDN URL for downloading ESLint, default to https://fastly.jsdelivr.net/npm/@bhsd/eslint-browserify@10
- * @param opt ESLint options
+ * @param opt Options
+ * @param opt.cdn CDN URL for downloading ESLint,
+ * default to https://fastly.jsdelivr.net/npm/@bhsd/eslint-browserify@10
+ * @param opt.lintConfig ESLint options
  */
-export const registerJavaScript = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
+export const registerJavaScript = (monaco: typeof Monaco, {cdn, lintConfig: lintOpt}: Options = {}): void => {
 	monaco.languages.registerCodeActionProvider('javascript', codeActionProvider);
 	registerLinterBase(monaco);
-	registerESLint(cdn, opt);
+	registerESLint(cdn, lintOpt);
 };
 
 /**
  * Register Stylelint for CSS
  * @param monaco Monaco Editor global
- * @param cdn CDN URL for downloading Stylelint,
+ * @param opt Options
+ * @param opt.cdn CDN URL for downloading Stylelint,
  * default to https://fastly.jsdelivr.net/npm/@bhsd/stylelint-browserify
- * @param opt Stylelint options
+ * @param opt.lintConfig Stylelint options
  */
-export const registerCSS = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
+export const registerCSS = (monaco: typeof Monaco, {cdn, lintConfig}: Options = {}): void => {
 	monaco.languages.registerCodeActionProvider('css', codeActionProvider);
 	registerLinterBase(monaco);
-	registerStylelint(cdn, opt);
+	registerStylelint(cdn, lintConfig);
 };
 
 /**
  * Register the Luacheck for Lua
  * @param monaco Monaco Editor global
- * @param cdn CDN URL for downloading Luacheck, default to https://fastly.jsdelivr.net/npm/luacheck-browserify
- * @param opt Luacheck options
+ * @param opt Options
+ * @param opt.cdn CDN URL for downloading Luacheck,
+ * default to https://fastly.jsdelivr.net/npm/luacheck-browserify
+ * @param opt.lintConfig Luacheck options
  */
-export const registerLua = (monaco: typeof Monaco, cdn?: string, opt?: LiveOption): void => {
+export const registerLua = (monaco: typeof Monaco, {cdn, lintConfig}: Options = {}): void => {
 	registerLinterBase(monaco);
-	registerLuacheck(cdn, opt);
+	registerLuacheck(cdn, lintConfig);
 };
 
 /**
  * Register the Vue syntax
  * @param monaco Monaco Editor global
- * @param themes Additional Shiki themes
+ * @param opt Options
+ * @param opt.themes Additional Shiki themes
  */
-export const registerVue = async (monaco: typeof Monaco, themes: ThemeRegistrationRaw[] = []): Promise<void> => {
+export const registerVue = async (monaco: typeof Monaco, {themes = []}: Options = {}): Promise<void> => {
 	monaco.languages.register({id: 'vue', aliases: ['Vue']});
 	shikiToMonaco(await getVueHighlighter(getThemes(themes)), monaco);
 };

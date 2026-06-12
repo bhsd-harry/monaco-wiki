@@ -29,40 +29,44 @@ import registerWiki, {
 await registerWiki(
 	monaco,
 
-	// Set to `true` if used in a MediaWiki site,
-	// or a string to specify a preset configuration (https://github.com/bhsd-harry/wikiparser-node/tree/main/config)
-	false,
-
-	// (optional) i18n language codes with a preferred order,
-	// e.g. `['zh-hans', 'zh-hant', 'en']
-	['en'],
-
-	// (optional) custom download URL for the `wikiparse` object`
-	'https://cdn.jsdelivr.net/npm/wikiparser-node',
-
-	// (optional) Shiki themes
-	[light],
-
-	// (optional) WikiLint options
 	{
-		// `0` ignores all, `1` ignores warnings, `2` reports all (default)
-		defaultSeverity: 1,
-		// Rules are listed at https://github.com/bhsd-harry/wikiparser-node/wiki/Rules
-		'no-arg': 0,
+		// (optional) Set to `true` if used in a MediaWiki site,
+		// or a string to specify a preset configuration (https://github.com/bhsd-harry/wikiparser-node/tree/main/config)
+		parserConfig: false,
+
+		// (optional) i18n language codes with a preferred order,
+		// e.g. `['zh-hans', 'zh-hant', 'en']
+		langs: ['en'],
+
+		// (optional) custom download URL for the `wikiparse` object`
+		cdn: 'https://cdn.jsdelivr.net/npm/wikiparser-node',
+
+		// (optional) Shiki themes
+		themes: [light],
+
+		// (optional) WikiLint options
+		lintConfig: {
+			// `0` ignores all, `1` ignores warnings, `2` reports all (default)
+			defaultSeverity: 1,
+			// Rules are listed at https://github.com/bhsd-harry/wikiparser-node/wiki/Rules
+			'no-arg': 0,
+		},
 	},
 );
 
 registerJavaScript(
 	monaco,
 
-	// (optional) custom download URL for the `eslint` object`
-	'https://cdn.jsdelivr.net/npm/@bhsd/eslint-browserify',
-
-	// (optional) ESLint options
-	// See https://eslint.org/docs/v8.x/use/configure/
 	{
-		parserOptions: {
-			sourceType: 'module',
+		// (optional) custom download URL for the `eslint` object`
+		cdn: 'https://cdn.jsdelivr.net/npm/@bhsd/eslint-browserify',
+
+		// (optional) ESLint options
+		// See https://eslint.org/docs/v8.x/use/configure/
+		lintConfig: {
+			parserOptions: {
+				sourceType: 'module',
+			},
 		},
 	},
 );
@@ -70,14 +74,16 @@ registerJavaScript(
 registerCSS(
 	monaco,
 
-	// (optional) custom download URL for the `stylelint` object`
-	'https://cdn.jsdelivr.net/npm/@bhsd/stylelint-browserify',
-
-	// (optional) Stylelint options
-	// See https://stylelint.io/user-guide/configure/
 	{
-		rules: {
-			'length-zero-no-unit': true,
+		// (optional) custom download URL for the `stylelint` object`
+		cdn: 'https://cdn.jsdelivr.net/npm/@bhsd/stylelint-browserify',
+
+		// (optional) Stylelint options
+		// See https://stylelint.io/user-guide/configure/
+		lintConfig: {
+			rules: {
+				'length-zero-no-unit': true,
+			},
 		},
 	},
 );
@@ -85,21 +91,25 @@ registerCSS(
 registerLua(
 	monaco,
 
-	// (optional) custom download URL for the `luacheck` object`
-	'https://cdn.jsdelivr.net/npm/luacheck-browserify',
-
-	// (optional) Luacheck options
-	// See https://luacheck.readthedocs.io/en/stable/config.html#config-options
 	{
-		std: 'mediawiki',
+		// (optional) custom download URL for the `luacheck` object`
+		cdn: 'https://cdn.jsdelivr.net/npm/luacheck-browserify',
+
+		// (optional) Luacheck options
+		// See https://luacheck.readthedocs.io/en/stable/config.html#config-options
+		lintConfig: {
+			std: 'mediawiki',
+		},
 	},
 );
 
 await registerVue(
 	monaco,
 
-	// (optional) Shiki themes
-	[light],
+	{
+		// (optional) Shiki themes
+		themes: [light],
+	},
 );
 ```
 

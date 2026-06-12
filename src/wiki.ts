@@ -54,18 +54,29 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 		requirejs(['vs/editor/editor.main'], async () => {
 			await registerWiki(
 				monaco,
-				isMW,
-				langs,
-				cdn,
-				[light, monokai],
-				() => ({
-					...getCmObject('wikilint'),
-					css: getCmObject('Stylelint'),
-				}),
+				{
+					parserConfig: isMW,
+					langs,
+					cdn,
+					themes: [light, monokai],
+					lintConfig: () => ({
+						...getCmObject('wikilint'),
+						css: getCmObject('Stylelint'),
+					}),
+				},
 			);
-			registerJavaScript(monaco, `${cdn}/npm/@bhsd/eslint-browserify@10`, () => getCmObject('ESLint'));
-			registerCSS(monaco, `${cdn}/npm/@bhsd/stylelint-browserify`, () => getCmObject('Stylelint'));
-			registerLua(monaco, `${cdn}/npm/luacheck-browserify`, () => getCmObject('Luacheck'));
+			registerJavaScript(monaco, {
+				cdn: `${cdn}/npm/@bhsd/eslint-browserify@10`,
+				lintConfig: () => getCmObject('ESLint'),
+			});
+			registerCSS(monaco, {
+				cdn: `${cdn}/npm/@bhsd/stylelint-browserify`,
+				lintConfig: () => getCmObject('Stylelint'),
+			});
+			registerLua(monaco, {
+				cdn: `${cdn}/npm/luacheck-browserify`,
+				lintConfig: () => getCmObject('Luacheck'),
+			});
 			resolve(monaco);
 		});
 	});

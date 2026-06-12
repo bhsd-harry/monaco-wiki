@@ -246,10 +246,7 @@ const resolveCodeAction = async (
 	return action;
 };
 
-const provideQuickFix = (
-	m: IWikitextModel,
-	{markers, only}: languages.CodeActionContext,
-): languages.CodeAction[] => {
+const provideQuickFix = (m: IWikitextModel, {markers, only}: languages.CodeActionContext): languages.CodeAction[] => {
 	if (only && !/^quickfix(?:$|\.)/u.test(only)) {
 		return [];
 	}

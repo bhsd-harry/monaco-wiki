@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v3.0.0
+
+*2026-06-21*
+
+**Changed**
+
+- The register functions now accept a second object argument for options instead of multiple parameters
+
 ## v2.2.0
 
 *2026-06-09*

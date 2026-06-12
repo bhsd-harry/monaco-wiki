@@ -28,6 +28,6 @@ import { prepareDoneBtn, hideOptGroup, addOption, changeHandler, hashChangeHandl
         changeHandler(pre, btn, select, tests);
     });
     prepareDoneBtn(btn, select, tests, dones, key);
-    inputHandler(input, select, dones);
+    inputHandler(input, select);
     hashChangeHandler(select, tests);
 })();
