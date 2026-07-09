@@ -38,7 +38,7 @@
 		"build:test": "rm -rf test/dist/; tsc --project test/tsconfig.json && npm test",
 		"build": "rm -rf dist/; npm run build:core && node build.js && gsed -i '/^\\/\\/ /d' dist/main.js && eslint --no-config-lookup -c eslint.dist.js dist/*.min.js",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
-		"test": "mocha",
+		"test": "npx testUtil test/dist/test/test.js",
 		"test:regex": "node test/dist/test/optimizer.js",
 		"test:real": "node test/dist/test/real.js",
 		"test:end": "pkill -x http-server"
@@ -58,25 +58,24 @@
 		}
 	},
 	"dependencies": {
-		"@bhsd/browser": "^1.0.0",
-		"@bhsd/cm-util": "^2.2.0",
-		"@bhsd/codemirror-mediawiki": "^4.0.0"
+		"@bhsd/browser": "^1.1.0",
+		"@bhsd/cm-util": "^2.3.0",
+		"@bhsd/codemirror-mediawiki": "^4.2.0"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^3.0.0",
-		"@bhsd/test-util": "^2.0.0",
-		"@shikijs/monaco": "^4.0.2",
+		"@bhsd/code-standard": "^3.1.0",
+		"@bhsd/test-util": "^3.1.0",
+		"@shikijs/monaco": "^4.3.1",
 		"esbuild": "^0.28.1",
-		"eslint": "^10.5.0",
+		"eslint": "^10.6.0",
 		"http-server": "^14.1.1",
-		"markdownlint-cli2": "^0.22.1",
-		"mocha": "^11.7.6",
+		"markdownlint-cli2": "^0.23.0",
 		"monaco-editor": "~0.53.0",
 		"oniguruma-parser": "^0.12.2",
-		"shiki": "^4.0.2",
-		"stylelint": "^17.13.0",
+		"shiki": "^4.3.1",
+		"stylelint": "^17.14.0",
 		"typescript": "^6.0.3",
-		"types-mediawiki": "^2.0.0",
-		"wikiparser-node": "^1.44.0"
+		"types-mediawiki": "^2.1.0",
+		"wikiparser-node": "^1.45.0"
 	}
 }

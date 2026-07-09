@@ -1,4 +1,4 @@
-import {mochaTest} from '@bhsd/test-util';
+import {mochaTest} from '@bhsd/test-util/parser';
 // @ts-expect-error directory change during build
 import results from '../../parserTests.json' with {type: 'json'};
 import parse, {getGrammar} from './parser.js';
