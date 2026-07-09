@@ -139,8 +139,13 @@ export const referenceProvider: languages.ReferenceProvider = {
 
 export const documentHighlightProvider: languages.DocumentHighlightProvider = {
 	async provideDocumentHighlights(m, pos): Promise<languages.DocumentHighlight[] | undefined> {
-		return (await getLSP(m)?.provideReferences(m.getValue(), iPositionToNPosition(pos)))
-			?.map(({range}): languages.DocumentHighlight => ({range: nRangeToIRange(range)}));
+		const lsp = getLSP(m),
+			text = m.getValue(),
+			position = iPositionToNPosition(pos),
+			highlights = lsp?.provideDocumentHighlights
+				? await lsp.provideDocumentHighlights(text, position)
+				: await lsp?.provideReferences(text, position);
+		return highlights?.map(({range}): languages.DocumentHighlight => ({range: nRangeToIRange(range)}));
 	},
 };
 

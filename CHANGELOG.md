@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v3.0.1
+
+*2026-07-07*
+
+**Changed**
+
+- The document highlight provider now returns narrower ranges for extension tags, HTML tags and parameter keys in Wikitext
+
 ## v3.0.0
 
 *2026-06-21*
