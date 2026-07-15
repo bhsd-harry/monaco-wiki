@@ -261,7 +261,7 @@ const provideQuickFix = (m: IWikitextModel, {markers, only}: languages.CodeActio
 	if (!fixable?.length) {
 		return [];
 	}
-	const autofixable = fixable.filter(({source, data}) => !(source === 'Stylelint' && m.getLanguageId() === 'wikitext')
+	const autofixable = fixable.filter(({source, data}) => (source !== 'Stylelint' || m.getLanguageId() !== 'wikitext')
 		&& data!.some(({fix}) => fix)),
 		versionId = m.getVersionId();
 	return [

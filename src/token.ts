@@ -33,7 +33,7 @@ const defineGrammar = (rule: IRawRule, options: string[], key: 'match' | 'begin'
 	for (let i = 1; i < 10; i++) {
 		if ((rule[key] as string).includes(`$${i}`)) {
 			Object.assign(rule, {
-				[key]: (rule[key] as string).replace(`$${i}`, options.join('|')),
+				[key]: (rule[key] as string).replace(`$${i}`, () => options.join('|')),
 			});
 			break;
 		}

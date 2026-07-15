@@ -12,7 +12,7 @@ export default (monaco: typeof Monaco): void => {
 			main = keys.at(-1)!,
 			id = `encapsulate.wikitext.${desc}`;
 		let keyCode: Key;
-		if (Number.isInteger(Number(main))) {
+		if (Number.isSafeInteger(Number(main))) {
 			keyCode = `Digit${main}` as 'Digit0';
 		} else if (/[a-z]/u.test(main)) {
 			keyCode = `Key${main.toUpperCase()}` as 'KeyA';
