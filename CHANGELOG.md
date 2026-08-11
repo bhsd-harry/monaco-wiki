@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v3.1.0
+
+*2026-08-11*
+
+**Changed**
+
+- The pre-bundled version now locks the version of [Monaco Editor](https://microsoft.github.io/monaco-editor/) to v0.55.0
+
 ## v3.0.1
 
 *2026-07-14*

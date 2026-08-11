@@ -9,9 +9,6 @@ import type {} from 'types-mediawiki';
 
 declare interface RequireConfig {
 	paths: Record<string, string>;
-	'vs/nls'?: {
-		availableLanguages: Record<string, string>;
-	};
 }
 declare interface Require {
 	config(config: RequireConfig): void;
@@ -28,9 +25,8 @@ style.textContent =
 	+ '.monaco-hover-content code{color:inherit}';
 document.head.append(style);
 
-const i18n = ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'];
 const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
-	const vs = `${cdn}/npm/monaco-editor/min/vs`;
+	const vs = `${cdn}/npm/monaco-editor@0.55.0/min/vs`;
 	await new Promise(resolve => {
 		const script = document.createElement('script');
 		script.src = `${vs}/loader.js`;
@@ -44,11 +40,6 @@ const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
 	if (isMW) {
 		await mw.loader.using('mediawiki.language');
 		langs = mw.language.getFallbackLanguageChain();
-		config['vs/nls'] = {
-			availableLanguages: {
-				'*': langs.find(l => i18n.includes(l)) ?? 'en',
-			},
-		};
 	}
 	requirejs.config(config);
 	return new Promise(resolve => {
