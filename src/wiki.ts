@@ -26,7 +26,7 @@ style.textContent =
 document.head.append(style);
 
 const load = async (cdn = baseCDN): Promise<typeof Monaco> => {
-	const vs = `${cdn}/npm/monaco-editor@0.55.0/min/vs`;
+	const vs = `${cdn}/npm/monaco-editor@0.55.1/min/vs`;
 	await new Promise(resolve => {
 		const script = document.createElement('script');
 		script.src = `${vs}/loader.js`;

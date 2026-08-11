@@ -58,13 +58,13 @@
 		}
 	},
 	"dependencies": {
-		"@bhsd/browser": "^2.0.0",
-		"@bhsd/cm-util": "^2.4.0",
-		"@bhsd/codemirror-mediawiki": "^4.2.3"
+		"@bhsd/browser": "^2.1.1",
+		"@bhsd/cm-util": "^2.4.1",
+		"@bhsd/codemirror-mediawiki": "^4.4.0"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^4.0.0",
-		"@bhsd/test-util": "^3.1.0",
+		"@bhsd/code-standard": "^4.1.0",
+		"@bhsd/test-util": "^3.1.2",
 		"@shikijs/monaco": "^4.4.3",
 		"esbuild": "^0.28.2",
 		"eslint": "^10.8.1",
@@ -76,6 +76,6 @@
 		"stylelint": "^17.14.1",
 		"typescript": "^6.0.3",
 		"types-mediawiki": "^2.1.0",
-		"wikiparser-node": "^1.46.2"
+		"wikiparser-node": "^1.46.3"
 	}
 }
