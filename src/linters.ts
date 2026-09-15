@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-enum-assignment */
 import {
 	getWikiLinter,
 	jsConfig,
@@ -56,7 +57,7 @@ export const registerWikiLint = (cdn?: string, opt?: LiveOption): void => {
 			cdn && !cdn.endsWith('wikiparser-node') ? {cdn} : undefined,
 			m,
 		);
-		const linter: ILinter = {
+		return {
 			async lint(text, option = opt): Promise<editor.IMarkerData[]> {
 				return (await wikiLint(text, await getOpt(option))).map(({
 					code,
@@ -83,12 +84,8 @@ export const registerWikiLint = (cdn?: string, opt?: LiveOption): void => {
 					};
 				});
 			},
-		};
-		if (wikiLint.fixer) {
-			linter.fixer = (text, rule): Promise<string> =>
-				wikiLint.fixer!(text, rule) as Promise<string>;
-		}
-		return linter;
+			...wikiLint.fixer && {fixer: wikiLint.fixer},
+		} satisfies ILinter;
 	});
 };
 

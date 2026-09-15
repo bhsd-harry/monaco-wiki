@@ -6,11 +6,7 @@ import {
 	hashChangeHandler,
 	inputHandler,
 } from '/wikiparser-node/extensions/dist/test-page-common.js';
-
-declare interface Test {
-	desc: string;
-	wikitext?: string;
-}
+import type {Test} from '@bhsd/test-util/parser';
 
 (async () => {
 	const tests: Test[] = await (await fetch('/wikiparser-node/test/parserTests.json')).json(),

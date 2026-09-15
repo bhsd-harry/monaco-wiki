@@ -56,6 +56,7 @@ export default (monaco: typeof Monaco): void => {
 							range: toIRange(startLineNumber, 1, startLineNumber, 1),
 							options: {
 								glyphMarginClassName: `codicon codicon-${
+									// eslint-disable-next-line @typescript-eslint/no-unsafe-enum-assignment
 									severity === 8 as MarkerSeverity ? 'error' : 'warning'
 								}`,
 								glyphMarginHoverMessage: {value: message},

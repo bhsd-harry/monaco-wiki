@@ -29,16 +29,16 @@
 	"scripts": {
 		"ls": "npm i --package-lock-only && npm ls --package-lock-only --all --omit=dev",
 		"prepublishOnly": "npm run build",
-		"lint:ts": "tsc --noEmit && tsc --project gh-page/tsconfig.json --noEmit && tsc --project test/tsconfig.json --noEmit && tsc --project bundle/tsconfig.json && eslint --cache .",
+		"lint:ts": "tsc --noEmit && tsc -p gh-page/tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit && tsc -p bundle/tsconfig.json && eslint --cache .",
 		"lint:css": "stylelint --cache gh-page/*.css",
 		"lint:md": "markdownlint-cli2 '**/*.md'",
+		"lint:bundle": "eslint --no-config-lookup --no-inline-config --rule 'no-unused-vars: [2, {args: none, varsIgnorePattern: ^_+$}]' build/*.js",
 		"lint": "npm run lint:ts && npm run lint:css && npm run lint:md",
 		"build:core": "tsc && rm dist/all.d.ts",
-		"build:gh-page": "tsc --project gh-page/tsconfig.json",
-		"build:test": "rm -rf test/dist/; tsc --project test/tsconfig.json && npm test",
+		"build:gh-page": "tsc -p gh-page/tsconfig.json",
 		"build": "rm -rf dist/; npm run build:core && node build.js && gsed -i '/^\\/\\/ /d' dist/main.js && eslint --no-config-lookup -c eslint.dist.js dist/*.min.js",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
-		"test": "testUtil test/dist/test/test.js",
+		"test": "rm -rf test/dist/; tsc -p test/tsconfig.json && testUtil test/dist/test/test.js",
 		"test:regex": "node test/dist/test/optimizer.js",
 		"test:real": "node test/dist/test/real.js",
 		"test:end": "pkill -x http-server"
@@ -60,22 +60,22 @@
 	"dependencies": {
 		"@bhsd/browser": "^2.1.1",
 		"@bhsd/cm-util": "^2.4.1",
-		"@bhsd/codemirror-mediawiki": "^4.5.1"
+		"@bhsd/codemirror-mediawiki": "^4.6.1"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^4.2.0",
-		"@bhsd/test-util": "^3.2.0",
+		"@bhsd/code-standard": "^4.3.0",
+		"@bhsd/test-util": "^3.2.1",
 		"@shikijs/monaco": "^4.4.3",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.10.0",
+		"eslint": "^10.12.0",
 		"http-server": "^14.1.1",
-		"markdownlint-cli2": "^0.23.2",
-		"monaco-editor": "~0.53.0",
+		"markdownlint-cli2": "^0.23.3",
+		"monaco-editor": "^0.57.0",
 		"oniguruma-parser": "^0.12.2",
 		"shiki": "^4.4.3",
-		"stylelint": "^17.15.0",
+		"stylelint": "^17.16.0",
 		"typescript": "^6.0.3",
 		"types-mediawiki": "^2.1.0",
-		"wikiparser-node": "^1.47.0"
+		"wikiparser-node": "^1.48.0"
 	}
 }

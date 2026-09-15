@@ -17,12 +17,18 @@ const getPlugin = (lang, sublangs) => ({
 			() => ({path: path.resolve('shim.js')}),
 		);
 		build.onLoad(
-			// eslint-disable-next-line require-unicode-regexp
-			{filter: new RegExp(String.raw`\/@shikijs\/langs\/dist\/${lang}\.mjs$`)},
+			{
+				filter: new RegExp( // eslint-disable-line require-unicode-regexp
+					String.raw`\/@shikijs\/(?:langs\/dist\/${lang}\.mjs|vscode-textmate\/dist\/index\.js)$`,
+				),
+			},
 			({path: p}) => {
 				const contents = fs.readFileSync(p, 'utf8');
 				return {
-					contents: contents.replace(/,\\"embeddedLangs\\":\[.+?\](?=[,}])/u, ''),
+					contents: contents.replaceAll(
+						/,\\"embeddedLangs\\":\[.+?\](?=[,}])|var DebugFlags = \{$[\s\S]+?^\};$/gmu,
+						'',
+					),
 				};
 			},
 		);
