@@ -2,39 +2,6 @@ import path from 'path';
 import fs from 'fs';
 import esbuild from 'esbuild';
 
-/**
- * @ignore
- * @param {string} lang 主要语言
- * @param {string[]} sublangs 依赖的子语言
- * @returns {esbuild.Plugin}
- */
-const getPlugin = (lang, sublangs) => ({
-	name: 'alias',
-	setup(build) {
-		build.onResolve(
-			// eslint-disable-next-line require-unicode-regexp
-			{filter: new RegExp(String.raw`\/(?:${sublangs.join('|')})\.mjs$`)},
-			() => ({path: path.resolve('shim.js')}),
-		);
-		build.onLoad(
-			{
-				filter: new RegExp( // eslint-disable-line require-unicode-regexp
-					String.raw`\/@shikijs\/(?:langs\/dist\/${lang}\.mjs|vscode-textmate\/dist\/index\.js)$`,
-				),
-			},
-			({path: p}) => {
-				const contents = fs.readFileSync(p, 'utf8');
-				return {
-					contents: contents.replaceAll(
-						/,\\"embeddedLangs\\":\[.+?\](?=[,}])|var DebugFlags = \{$[\s\S]+?^\};$/gmu,
-						'',
-					),
-				};
-			},
-		);
-	},
-});
-
 const /** @type {esbuild.BuildOptions} */ config = {
 		charset: 'utf8',
 		bundle: true,
@@ -47,7 +14,31 @@ const /** @type {esbuild.BuildOptions} */ config = {
 		target: 'es2019',
 		sourcemap: true,
 	},
-	vuePlugin = getPlugin('vue', ['typescript', 'markdown-vue']);
+	vuePlugin = {
+		name: 'alias',
+		setup(build) {
+			build.onResolve(
+				// eslint-disable-next-line require-unicode-regexp
+				{filter: /\/(?:typescript|markdown-vue)\.mjs$/},
+				() => ({path: path.resolve('shim.js')}),
+			);
+			build.onLoad(
+				{
+					// eslint-disable-next-line require-unicode-regexp
+					filter: /\/@shikijs\/(?:langs\/dist\/vue\.mjs|vscode-textmate\/dist\/index\.js)$/,
+				},
+				({path: p}) => {
+					const contents = fs.readFileSync(p, 'utf8');
+					return {
+						contents: contents.replaceAll(
+							/,\\"embeddedLangs\\":\[.+?\](?=[,}])|var DebugFlags = \{$[\s\S]+?^\};$/gmu,
+							'',
+						),
+					};
+				},
+			);
+		},
+	};
 
 (async () => {
 	await esbuild.build({

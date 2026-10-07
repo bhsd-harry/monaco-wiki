@@ -9,7 +9,7 @@ export type IRawRule = IRawGrammar['patterns'][0];
  * @license MIT
  * @see https://github.com/Frederisk/Wikitext-VSCode-Extension/blob/master/syntaxes/wikitext.tmLanguage.yaml
  */
-export default /* #__PURE__ */((): LanguageRegistration => {
+const wikitext = /* #__PURE__ */((): LanguageRegistration => {
 	const extEnd = String.raw`(?i)(</)(\2)\s*(>)`,
 		pipe = String.raw`\|`,
 		tagBegin = {name: 'punctuation.definition.tag.begin.wikitext'},
@@ -567,3 +567,5 @@ export default /* #__PURE__ */((): LanguageRegistration => {
 		},
 	};
 })();
+
+export default wikitext;

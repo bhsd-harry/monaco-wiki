@@ -31,7 +31,7 @@
 		"prepublishOnly": "npm run build",
 		"lint:ts": "tsc --noEmit && tsc -p gh-page/tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit && tsc -p bundle/tsconfig.json && eslint --cache .",
 		"lint:css": "stylelint --cache gh-page/*.css",
-		"lint:md": "markdownlint-cli2 '**/*.md'",
+		"lint:md": "myMarkdownlint",
 		"lint:bundle": "eslint --no-config-lookup --no-inline-config --rule 'no-unused-vars: [2, {args: none, varsIgnorePattern: ^_+$}]' build/*.js",
 		"lint": "npm run lint:ts && npm run lint:css && npm run lint:md",
 		"build:core": "tsc && rm dist/all.d.ts",
@@ -60,19 +60,18 @@
 	"dependencies": {
 		"@bhsd/browser": "^2.1.1",
 		"@bhsd/cm-util": "^2.4.1",
-		"@bhsd/codemirror-mediawiki": "^4.6.1"
+		"@bhsd/codemirror-mediawiki": "^4.7.1"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^4.3.0",
+		"@bhsd/code-standard": "^5.0.0",
 		"@bhsd/test-util": "^3.2.1",
-		"@shikijs/monaco": "^4.4.3",
+		"@shikijs/monaco": "^4.5.0",
 		"esbuild": "^0.28.2",
 		"eslint": "^10.12.0",
 		"http-server": "^14.1.1",
-		"markdownlint-cli2": "^0.23.3",
 		"monaco-editor": "^0.57.0",
 		"oniguruma-parser": "^0.12.2",
-		"shiki": "^4.4.3",
+		"shiki": "^4.5.0",
 		"stylelint": "^17.16.0",
 		"typescript": "^6.0.3",
 		"types-mediawiki": "^2.1.0",
