@@ -27,7 +27,7 @@
 		"url": "git+https://github.com/bhsd-harry/monaco-wiki.git"
 	},
 	"scripts": {
-		"ls": "npm i --package-lock-only && npm ls --package-lock-only --all --omit=dev",
+		"ls": "npm i --package-lock-only && npm ls --package-lock-only -a --omit=dev",
 		"prepublishOnly": "npm run build",
 		"lint:ts": "tsc --noEmit && tsc -p gh-page/tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit && tsc -p bundle/tsconfig.json && eslint --cache .",
 		"lint:css": "stylelint --cache gh-page/*.css",
@@ -59,15 +59,15 @@
 	},
 	"dependencies": {
 		"@bhsd/browser": "^2.1.1",
-		"@bhsd/cm-util": "^2.4.1",
-		"@bhsd/codemirror-mediawiki": "^4.7.1"
+		"@bhsd/cm-util": "^2.4.2",
+		"@bhsd/codemirror-mediawiki": "^4.8.0"
 	},
 	"devDependencies": {
 		"@bhsd/code-standard": "^5.0.0",
-		"@bhsd/test-util": "^3.2.1",
+		"@bhsd/test-util": "^3.3.0",
 		"@shikijs/monaco": "^4.5.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.12.0",
+		"eslint": "^10.13.0",
 		"http-server": "^14.1.1",
 		"monaco-editor": "^0.57.0",
 		"oniguruma-parser": "^0.12.2",
@@ -75,6 +75,6 @@
 		"stylelint": "^17.16.0",
 		"typescript": "^6.0.3",
 		"types-mediawiki": "^2.1.0",
-		"wikiparser-node": "^1.48.0"
+		"wikiparser-node": "^1.48.1"
 	}
 }
