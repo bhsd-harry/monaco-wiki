@@ -17,7 +17,7 @@ export const linterGetters = new Map<string, (m: editor.ITextModel) => Promise<I
  * 获取CM6存储
  * @param key 键名
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line @typescript-eslint/no-explicit-any
 export const getCmObject = (key: string): any => getObject(`codemirror-mediawiki-${key}`);
 
 let registered = false;
@@ -42,7 +42,7 @@ export default (monaco: typeof Monaco): void => {
 			return;
 		}
 		clearTimeout(linter.timer);
-		linter.timer = window.setTimeout(() => { // eslint-disable-line unicorn/prefer-global-this
+		linter.timer = window.setTimeout(() => { // oxlint-disable-line unicorn/prefer-global-this
 			if (m.isDisposed()) {
 				return;
 			}

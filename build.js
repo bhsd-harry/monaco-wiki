@@ -14,31 +14,33 @@ const /** @type {esbuild.BuildOptions} */ config = {
 		target: 'es2019',
 		sourcemap: true,
 	},
-	vuePlugin = {
-		name: 'alias',
-		setup(build) {
-			build.onResolve(
-				// eslint-disable-next-line require-unicode-regexp
-				{filter: /\/(?:typescript|markdown-vue)\.mjs$/},
-				() => ({path: path.resolve('shim.js')}),
-			);
-			build.onLoad(
-				{
-					// eslint-disable-next-line require-unicode-regexp
-					filter: /\/@shikijs\/(?:langs\/dist\/vue\.mjs|vscode-textmate\/dist\/index\.js)$/,
-				},
-				({path: p}) => {
-					const contents = fs.readFileSync(p, 'utf8');
-					return {
-						contents: contents.replaceAll(
-							/,\\"embeddedLangs\\":\[.+?\](?=[,}])|var DebugFlags = \{$[\s\S]+?^\};$/gmu,
-							'',
-						),
-					};
-				},
-			);
+	plugins = [
+		{
+			name: 'alias',
+			setup(build) {
+				build.onResolve(
+					// oxlint-disable-next-line require-unicode-regexp
+					{filter: /\/(?:typescript|markdown-vue)\.mjs$/},
+					() => ({path: path.resolve('shim.js')}),
+				);
+				build.onLoad(
+					{
+						// oxlint-disable-next-line require-unicode-regexp
+						filter: /\/@shikijs\/(?:langs\/dist\/vue\.mjs|vscode-textmate\/dist\/index\.js)$/,
+					},
+					({path: p}) => {
+						const contents = fs.readFileSync(p, 'utf8');
+						return {
+							contents: contents.replaceAll(
+								/,\\"embeddedLangs\\":\[.+?\](?=[,}])|var DebugFlags = \{$[\s\S]+?^\};$/gmu,
+								'',
+							),
+						};
+					},
+				);
+			},
 		},
-	};
+	];
 
 (async () => {
 	await esbuild.build({
@@ -51,19 +53,19 @@ const /** @type {esbuild.BuildOptions} */ config = {
 		...config,
 		entryPoints: fs.globSync('bundle/*.ts'),
 		outdir: 'build',
-		plugins: [vuePlugin],
+		plugins,
 	});
 	await esbuild.build({
 		...config,
 		entryPoints: ['src/main.ts', 'src/wiki.ts', 'src/all.ts'],
 		outdir: 'build',
-		plugins: [vuePlugin],
+		plugins,
 	});
 	await esbuild.build({
 		...minConfig,
 		entryPoints: ['src/main.ts'],
 		outfile: 'dist/main.min.js',
-		plugins: [vuePlugin],
+		plugins,
 	});
 	await esbuild.build({
 		...minConfig,
@@ -75,6 +77,6 @@ const /** @type {esbuild.BuildOptions} */ config = {
 		format: 'iife',
 		entryPoints: ['src/all.ts'],
 		outfile: 'dist/all.min.js',
-		plugins: [vuePlugin],
+		plugins,
 	});
 })();

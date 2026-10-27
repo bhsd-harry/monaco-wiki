@@ -83,7 +83,7 @@ export const documentColorProvider: languages.DocumentColorProvider = {
 
 export const completionItemProvider = (monaco: typeof Monaco): languages.CompletionItemProvider => {
 	monaco.editor.addKeybindingRule({
-		keybinding: monaco.KeyMod.Shift | monaco.KeyCode.Enter, // eslint-disable-line no-bitwise
+		keybinding: monaco.KeyMod.Shift | monaco.KeyCode.Enter, // oxlint-disable-line no-bitwise
 		command: 'editor.action.triggerSuggest',
 	});
 

@@ -24,12 +24,12 @@ export default (monaco: typeof Monaco): void => {
 			label: desc,
 			precondition: 'editorLangId == wikitext',
 			keybindings: [
-				/* eslint-disable no-bitwise */
+				/* oxlint-disable no-bitwise */
 				(keys.includes('Ctrl') ? monaco.KeyMod.WinCtrl : 0)
 				| (keys.includes('Mod') ? monaco.KeyMod.CtrlCmd : 0)
 				| (keys.includes('Shift') ? monaco.KeyMod.Shift : 0)
 				| monaco.KeyCode[keyCode],
-				/* eslint-enable no-bitwise */
+				/* oxlint-enable no-bitwise */
 			],
 			run(editor) {
 				const m = editor.getModel()!;

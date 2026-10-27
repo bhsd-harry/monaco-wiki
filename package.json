@@ -29,11 +29,12 @@
 	"scripts": {
 		"ls": "npm i --package-lock-only && npm ls --package-lock-only -a --omit=dev",
 		"prepublishOnly": "npm run build",
-		"lint:ts": "tsc --noEmit && tsc -p gh-page/tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit && tsc -p bundle/tsconfig.json && eslint --cache .",
+		"lint:ts": "tsc --noEmit && tsc -p gh-page/tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit && tsc -p bundle/tsconfig.json && oxlint && eslint --cache .",
 		"lint:css": "stylelint --cache gh-page/*.css",
 		"lint:md": "myMarkdownlint",
 		"lint:bundle": "eslint --no-config-lookup --no-inline-config --rule 'no-unused-vars: [2, {args: none, varsIgnorePattern: ^_+$}]' build/*.js",
 		"lint": "npm run lint:ts && npm run lint:css && npm run lint:md",
+		"migrate": "oxlint-migrate",
 		"build:core": "tsc && rm dist/all.d.ts",
 		"build:gh-page": "tsc -p gh-page/tsconfig.json",
 		"build": "rm -rf dist/; npm run build:core && node build.js && gsed -i '/^\\/\\/ /d' dist/main.js && eslint --no-config-lookup -c eslint.dist.js dist/*.min.js",
@@ -58,19 +59,21 @@
 		}
 	},
 	"dependencies": {
-		"@bhsd/browser": "^2.1.1",
+		"@bhsd/browser": "^2.2.0",
 		"@bhsd/cm-util": "^2.4.2",
 		"@bhsd/codemirror-mediawiki": "^4.8.0"
 	},
 	"devDependencies": {
-		"@bhsd/code-standard": "^5.0.0",
+		"@bhsd/code-standard": "^5.1.0",
 		"@bhsd/test-util": "^3.3.0",
+		"@oxlint/migrate": "^1.89.0",
 		"@shikijs/monaco": "^4.5.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.13.0",
+		"eslint": "^10.14.0",
 		"http-server": "^14.1.1",
 		"monaco-editor": "^0.57.0",
 		"oniguruma-parser": "^0.12.2",
+		"oxlint": "^1.89.0",
 		"shiki": "^4.5.0",
 		"stylelint": "^17.16.0",
 		"typescript": "^6.0.3",
