@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 line-length -->
+## v3.1.2
+
+*2026-11-08*
+
+**Fixed**
+
+- Console warning due to missing source map
+
 ## v3.1.1
 
 *2026-09-10*

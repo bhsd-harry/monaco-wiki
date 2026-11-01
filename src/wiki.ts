@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-top-level-side-effects */
 import {CDN as baseCDN, isGlobal} from '@bhsd/browser';
 import light from 'shiki/themes/light-plus.mjs';
 import monokai from 'shiki/themes/monokai.mjs';

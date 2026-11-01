@@ -1,6 +1,6 @@
 {
 	"name": "monaco-wiki",
-	"version": "3.1.1",
+	"version": "3.1.2",
 	"description": "Monaco editor for MediaWiki sites",
 	"keywords": [
 		"monaco",
@@ -28,7 +28,7 @@
 	},
 	"scripts": {
 		"ls": "npm i --package-lock-only && npm ls --package-lock-only -a --omit=dev",
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "npm run build && gsed -i '/\\/\\/# sourceMappingURL=/d' dist/*.min.js",
 		"lint:ts": "tsc --noEmit && tsc -p gh-page/tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit && tsc -p bundle/tsconfig.json && oxlint && eslint --cache .",
 		"lint:css": "stylelint --cache gh-page/*.css",
 		"lint:md": "myMarkdownlint",
@@ -59,25 +59,25 @@
 		}
 	},
 	"dependencies": {
-		"@bhsd/browser": "^2.2.0",
+		"@bhsd/browser": "^2.3.0",
 		"@bhsd/cm-util": "^2.4.2",
-		"@bhsd/codemirror-mediawiki": "^4.8.0"
+		"@bhsd/codemirror-mediawiki": "^4.8.1"
 	},
 	"devDependencies": {
 		"@bhsd/code-standard": "^5.1.0",
 		"@bhsd/test-util": "^3.3.0",
-		"@oxlint/migrate": "^1.89.0",
+		"@oxlint/migrate": "^1.90.0",
 		"@shikijs/monaco": "^4.5.0",
 		"esbuild": "^0.28.2",
 		"eslint": "^10.14.0",
 		"http-server": "^14.1.1",
 		"monaco-editor": "^0.57.0",
 		"oniguruma-parser": "^0.12.2",
-		"oxlint": "^1.89.0",
+		"oxlint": "^1.90.0",
 		"shiki": "^4.5.0",
 		"stylelint": "^17.16.0",
 		"typescript": "^6.0.3",
 		"types-mediawiki": "^2.1.0",
-		"wikiparser-node": "^1.48.1"
+		"wikiparser-node": "^2.1.0"
 	}
 }

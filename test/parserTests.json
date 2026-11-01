@@ -3670,6 +3670,16 @@
 		"parsed": "<punctuation.definition.tag.link>[</><entity.name.tag.url>//example</><string.other.link.external.title><comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>.com</><punctuation.definition.tag.link>]\\n\\n</>http://example<comment.block.html><punctuation.definition.comment.html>&lt;!--</> <punctuation.definition.comment.html>--&gt</></>.com"
 	},
 	{
+		"desc": "Comment in gallery line target (not supported in legacy)",
+		"wikitext": "<gallery>\nFile:Foobar.jpg|<!--test-->123\nFile:Foobar.jpg<!--test-->\nFile:Foobar.jpg<!--te|st-->\nFile:Foobar.jpg<!--test\n123-->\n</gallery>",
+		"parsed": "<punctuation.definition.tag.begin>&lt;</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt\\n</><meta.block.gallery><string.quoted.internal-link><entity.other.attribute-name>File:Foobar.jpg</><keyword.operator>|</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>test<punctuation.definition.comment.html>--&gt</></>123\\n<entity.other.attribute-name>File:Foobar.jpg</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>test<punctuation.definition.comment.html>--&gt\\n</></><entity.other.attribute-name>File:Foobar.jpg</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>te|st<punctuation.definition.comment.html>--&gt\\n</></><entity.other.attribute-name>File:Foobar.jpg</><comment.block.html><punctuation.definition.comment.html>&lt;!--</>test\\n123<punctuation.definition.comment.html>--&gt\\n</></></></><punctuation.definition.tag.begin>&lt;/</><entity.name.tag>gallery</><punctuation.definition.tag.end>&gt</>"
+	},
+	{
+		"desc": "Half-complete syntax",
+		"wikitext": "[//example.com\n\n<nowiki>\n\n<translate>\n\n<pre><nowiki></pre>\n\n<includeonly>",
+		"parsed": "[//example.com\\n\\n<punctuation.definition.tag.begin>&lt;</><entity.name.tag>nowiki</><punctuation.definition.tag.end>&gt\\n\\n</><meta.embedded.block.plaintext>&lt;translate&gt\\n\\n&lt;pre&gt&lt;nowiki&gt&lt;/pre&gt\\n\\n&lt;includeonly&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
